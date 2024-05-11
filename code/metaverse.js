@@ -7,6 +7,9 @@ import {OrbitControls} from "../jsm/controls/OrbitControls.js"
 import { onMouseMove } from './event.js';
 
 
+
+// THREE.GLTFLoader
+
 export var game_name = ""
 
 class App {
