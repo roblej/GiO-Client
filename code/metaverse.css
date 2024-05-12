@@ -88,9 +88,9 @@ input[type="range"]::-moz-range-thumb {
   width: 80%; /* Could be more or less, depending on screen size */
 }
 #game-content{
-  height:90%;
-  width: 95%;
-  right: 2%;
+  width: 80%;
+  height:70%;
+  /* right: 2%; */
   bottom: -20%;
   border: none;
   /* background-color: none; */

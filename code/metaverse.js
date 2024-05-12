@@ -659,9 +659,12 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         // 마우스 위치를 정규화된 장치 좌표로 변환
         this._mouse.x = ( event.clientX / this._divContainer.clientWidth ) * 2 - 1;
         this._mouse.y = - ( event.clientY / this._divContainer.clientHeight ) * 2 + 1;
-    
+        const maxDistance = 50000; // 예를 들어 50 유닛
         // Raycaster 업데이트
         this._raycaster.setFromCamera(this._mouse, this._camera);
+        this._raycaster.ray.origin.copy(this._model.position); // 플레이어 위치로 광선 시작점 설정
+        this._raycaster.near = 0;
+        this._raycaster.far = maxDistance;
     
         // 클릭된 객체 확인
         const intersects = this._raycaster.intersectObjects(this._scene.children, true);
@@ -1002,7 +1005,9 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
                 var modal = document.getElementById("myModal");
                 var span = document.getElementsByClassName("close")[0];
                 modal.style.display = "block";
-        
+                var gameAButton = document.getElementById("Game");
+                gameAButton.setAttribute('data-path', 'WebGLTest1/index.html'); // data-path 속성 설정
+
                 // 닫기 버튼 클릭 시 모달 닫기
                 span.onclick = function() {
                     modal.style.display = "none";
@@ -1034,7 +1039,11 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
             var modal = document.getElementById("myModal");
             var span = document.getElementsByClassName("close")[0];
             modal.style.display = "block";
-    
+            
+            var gameAButton = document.getElementById("Game");
+            if (gameAButton) {
+                gameAButton.setAttribute('data-path', 'JonnaZiralBall/index.html'); // data-path 속성 설정
+            }
             // 닫기 버튼 클릭 시 모달 닫기
             span.onclick = function() {
                 modal.style.display = "none";
