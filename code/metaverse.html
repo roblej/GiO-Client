@@ -125,10 +125,23 @@
                 btn.onclick = function() {
                     modal.style.display = "block";
                 }
-                var span = document.getElementsByClassName("close")[0];
+                var span = document.getElementsByClassName("close")[7];
                 span.onclick = function() {
                     modal.style.display = "none";
                 }
+
+                // 닫기 버튼 클릭 시 모달 닫기
+                span.onclick = function() {
+                    modal.style.display = "none"; 
+                }
+
+                // 모달 창 바깥 영역 클릭 시 모달 닫기
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+
                 
                 function openTab(evt, tabName) {
                     var i, tabcontent, tablinks;
