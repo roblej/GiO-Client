@@ -1002,7 +1002,9 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
                 var modal = document.getElementById("myModal");
                 var span = document.getElementsByClassName("close")[0];
                 modal.style.display = "block";
-        
+                var gameAButton = document.getElementById("GameA");
+                gameAButton.setAttribute('data-path', 'WebGLTest1/index.html'); // data-path 속성 설정
+
                 // 닫기 버튼 클릭 시 모달 닫기
                 span.onclick = function() {
                     modal.style.display = "none";
@@ -1034,7 +1036,11 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
             var modal = document.getElementById("myModal");
             var span = document.getElementsByClassName("close")[0];
             modal.style.display = "block";
-    
+            
+            var gameAButton = document.getElementById("GameA");
+            if (gameAButton) {
+                gameAButton.setAttribute('data-path', 'JonnaZiralBall/index.html'); // data-path 속성 설정
+            }
             // 닫기 버튼 클릭 시 모달 닫기
             span.onclick = function() {
                 modal.style.display = "none";

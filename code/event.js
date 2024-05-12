@@ -198,7 +198,8 @@ document.addEventListener('DOMContentLoaded', () => {
 document.getElementById('GameA').addEventListener('click', function() {
     var gameModal = document.getElementById('gameModal');
     var unityGame = document.getElementById('unityGame');
-    unityGame.src = 'http://localhost:8080/'; // 유니티 게임의 경로
+    var gamePath = this.getAttribute('data-path');
+    unityGame.src = `http://localhost:8080/${gamePath}`;
     gameModal.style.display = 'block'; // 게임 모달을 표시
 });
 
