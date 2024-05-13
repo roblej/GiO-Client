@@ -83,19 +83,26 @@
 
             <button id="openModal">마이페이지</button>
             <div id="pageModal" class="mypagemodal">
+                <div class="tab">
+                    <button class="tablinks" onclick="openTab(event, 'Mypage')">마이페이지</button>
+                    <button class="tablinks" onclick="openTab(event, 'MemberInfo')">회원정보 수정</button>
+                    <button class="tablinks" onclick="openTab(event, 'Mydata')">나의 활동(데이터 표)</button>
+                    <button class="tablinks" onclick="openTab(event, 'Notion')">공지사항</button>
+                    <button class="tablinks" onclick="openTab(event, 'FAQ')">FAQ</button>
+                </div>
                 <div class="page-modal-content">
                     <span class="close">&times;</span>
-                    <div class="tab">
-                        <button class="tablinks" onclick="openTab(event, 'Mypage')">마이페이지</button>
-                        <button class="tablinks" onclick="openTab(event, 'MemberInfo')">회원정보 수정</button>
-                        <button class="tablinks" onclick="openTab(event, 'Mydata')">나의 활동(데이터 표)</button>
-                        <button class="tablinks" onclick="openTab(event, 'Notion')">공지사항</button>
-                        <button class="tablinks" onclick="openTab(event, 'FAQ')">FAQ</button>
-                    </div>
+                   
                 
                     <div id="Mypage" class="tabcontent">
-                        <h3>마이페이지</h3>
-                        <p>뭐라도 떠라 제바라아아라랄</p>
+                        <div class="profilebox"></div>
+                        <div class="userid">ID: 8000104</div>
+                        <div class="username">이름: 삼칠이</div>
+                        <div class="useremail">이메일: 0000@gmail.com</div>
+                        <div class="conting">현재 진행 상황</div>
+                        <img class="ques" src="/code/data/mypageimage/mypage_info_icon.png" alt=""/>
+                        <img class="npcborder" src="/code/data/mypageimage/mypage_NPC_border.png" alt=""/>
+                        <img class="stickerborder" src="/code/data/mypageimage/mypage_sticker_border.png" alt=""/>
                     </div>
 
                     <div id="MemberInfo" class="tabcontent">
@@ -132,13 +139,13 @@
 
                 // 닫기 버튼 클릭 시 모달 닫기
                 span.onclick = function() {
-                    modal.style.display = "none"; 
+                    mypagemodal.style.display = "none"; 
                 }
 
                 // 모달 창 바깥 영역 클릭 시 모달 닫기
                 window.onclick = function(event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
+                    if (event.target == mypagemodal) {
+                        mypagemodal.style.display = "none";
                     }
                 }
 

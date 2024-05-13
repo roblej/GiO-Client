@@ -142,23 +142,24 @@ input[type="range"]::-moz-range-thumb {
   background-color: rgba(0,0,0,0.4);
 }
 .page-modal-content {
-  background-color: #fefefe;
+  background-color: rgb(222, 232, 244);
   margin: 15% auto;
   padding: 20px;
   border: 1px solid#888;
   width: 1280px;
-  height: 500px;
+  height: 800px;
+  border-radius: 30px 0px 0px 30px ;
 }
 .tab {
   float: right;
   width: 200px; /* 탭의 너비를 설정합니다 */
   height: 100%; /* 전체 높이 */
-  border-left: 1px solid #ccc; /* 왼쪽에 경계선을 추가합니다 */
+
 }
 
 .tab button {
   display: block; /* 버튼을 블록 요소로 만들어 세로로 배치합니다 */
-  background-color: inherit;
+  background-color: rgb(222, 232, 244);
   color: black;
   padding: 40px 16px;
   width: 100%;
@@ -168,6 +169,10 @@ input[type="range"]::-moz-range-thumb {
   cursor: pointer;
   transition: 0.3s;
   font-size: 18px;
+  right: 93px;
+  top: 286px;
+  position: relative;
+  border-radius: 0px x 0px 0px;
 }
 
 .tab button:hover {
@@ -182,8 +187,69 @@ input[type="range"]::-moz-range-thumb {
   display: none;
   float: left;
   padding: 0 12px;
-  width: 70%; /* 탭 내용의 너비 */
+  width: 100%; /* 탭 내용의 너비 */
   border-right: none;
-  height: 300px; /* 콘텐츠 높이 */
-  overflow-y: auto; /* 내용이 많을 경우 스크롤바가 나타납니다 */
+  height: 800px; /* 콘텐츠 높이 */
+  /* overflow-y: auto; /* 내용이 많을 경우 스크롤바가 나타납니다 */
+  
+}
+
+/* 마이페이지 꾸미기 */
+
+.profilebox{
+  width: 200px;
+  height: 200px;
+  position: relative;
+  border-color: black;
+  left: 60px;
+  z-index: 1;
+  top: 15px;
+  /* border: 0.5px solid black; */
+  border-radius: 50px;
+  background-color: white;
+}
+.userid {
+  left: 300px;
+  top: -130px;
+  position: relative;
+  font-size: 18px;
+}
+
+.username {
+  position: relative;
+  font-size: 18px;
+  left: 300px;
+  top: -120px;
+}
+
+.useremail {
+  position: relative;
+  font-size: 18px;
+  left: 300px;
+  top: -110px;
+}
+
+.conting{
+  top: 0px;
+  left: 60px;
+  position: relative;
+  font-size: 18px;
+}
+
+.ques {
+  left: 190px;
+  top: -703px;
+  position: relative;
+}
+.npcborder {
+  position: relative;
+  top: -275px;
+  left: 30px;
+}
+.stickerborder {
+  position: relative;
+  left: 130px;
+  top: -280px;
+  height: 700px;
+  width: 600px;
 }
