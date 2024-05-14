@@ -190,66 +190,135 @@ input[type="range"]::-moz-range-thumb {
   width: 100%; /* 탭 내용의 너비 */
   border-right: none;
   height: 800px; /* 콘텐츠 높이 */
-  /* overflow-y: auto; /* 내용이 많을 경우 스크롤바가 나타납니다 */
   
 }
 
 /* 마이페이지 꾸미기 */
-
 .profilebox{
-  width: 200px;
-  height: 200px;
-  position: relative;
-  border-color: black;
-  left: 60px;
-  z-index: 1;
-  top: 15px;
-  /* border: 0.5px solid black; */
-  border-radius: 50px;
-  background-color: white;
+  width: 360px;
+  background-color: rgb(222, 232, 244);
+  display: flex;
+  justify-content: space-between;
+  
 }
-.userid {
-  left: 300px;
-  top: -130px;
+.profile-image{
   position: relative;
-  font-size: 18px;
+  left: 35px;
 }
-
-.username {
+.profile-info p {
+  margin-bottom: 10px;
+  left: 20px;
   position: relative;
-  font-size: 18px;
-  left: 300px;
-  top: -120px;
+  top: 30px;
 }
 
-.useremail {
+.progress {
+  width: 30%;
   position: relative;
-  font-size: 18px;
-  left: 300px;
-  top: -110px;
+  background-color: rgb(222, 232, 244);
+  padding: 20px;
 }
 
-.conting{
-  top: 0px;
-  left: 60px;
+.progress h2 {
+  margin-bottom: 20px;
   position: relative;
-  font-size: 18px;
+  left: 20px;
+  top: 45px;
 }
 
-.ques {
-  left: 190px;
-  top: -703px;
+.info-icon {
+  position: absolute;
+  left: 220px;
+}
+
+.progress-bg {
+  width: 120%;
+  height: auto;
+  border-radius: 10px;
+  position: relative;
+  top: 75px;
+  left: 15px;
+}
+
+.progress-content {
+  width: 105%;
+  position: absolute;
+  top: 110px;
+  left: 0px;
+  right: 20px;
+  bottom: 20px;
+  padding: 25px;
+}
+
+.progress-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.location {
+  color: #ffffff;
+  padding: 20px;
+  border-radius: 5px;
+  margin-right: 10px;
+  text-align: left;
+  color: black;
+  font-size: 25px;
+  left: 15px;
+  top: 20px;
   position: relative;
 }
-.npcborder {
+
+.status img {
+  width: 30px;
+  height: 30px;
+  margin-right: 15px;
   position: relative;
-  top: -275px;
-  left: 30px;
+  right: 10px;
+  top: 20px;
 }
-.stickerborder {
-  position: relative;
-  left: 130px;
-  top: -280px;
-  height: 700px;
+
+.sticker-book {
   width: 600px;
+  height: 680px;
+  position: relative;
+  background-color: rgb(222, 232, 244);
+  border-radius: 10px;
+  padding: 20px;
+  left: 600px;
+  bottom: 650px;
 }
+
+.sticker-book h2 {
+  position: absolute;
+  bottom: 630px;
+  left: 35px;
+}
+
+.sticker-bg {
+  width: 100%;
+  height: 680px;
+}
+
+.stickers {
+  display: grid;
+  grid-template-columns: repeat(4, 0.4fr);
+  grid-gap: 10px;
+  position: absolute;
+  top: 60px;
+  left: 30px;
+  right: 20px;
+  bottom: 20px;
+  padding: 0px;
+  margin: 10px 0px 0px 150px;
+}
+
+.stickers img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+
+
