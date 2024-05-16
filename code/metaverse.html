@@ -16,6 +16,7 @@
         
     <script type="module" src="metaverse.js" defer></script>
     <title>Document</title>
+    <script type="module" src="record.js"></script>
 </head>
 <body>
     <!-- 볼륨 조절 슬라이더 -->
@@ -32,9 +33,8 @@
                     <p>선택하세요:</p>
                     <button id="option1">점수확인</button>
                     <button id="option2">점수기입</button>
-                    <button id="recordButton">녹음 시작</button>
-    <script src="record.js"></script>
-                    <button id="GameA">게임 시작!</button>
+                    <!-- <button id="recordButton">녹음 시작</button> -->
+                    <button id="Game" data-path="">게임 시작!</button>
                 </div>
             </div>    
             <!-- 유니티 게임 모달 -->
@@ -53,6 +53,7 @@
                         <button id ="select1">이렇게 할까?</button>
                         <button id ="select2">저렇게 할까?</button>
                         <button id ="select3">요렇게 할까?</button>
+                        <button id="recordButton">녹음 시작</button>
                     </div>
                 </div>
             </div>
@@ -256,5 +257,6 @@
 
   
             
+
 </body>
 </html>
