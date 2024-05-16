@@ -54,7 +54,7 @@ function sendAudioToServer(audioBlob) {
     formData.append("file", audioBlob);
 
     // fetch('http://localhost:5000/recognize', {
-    fetch('http://ec2-54-206-36-61.ap-southeast-2.compute.amazonaws.com:5000/recognize', {
+    fetch('http://3.106.251.131:5000/recognize', {
         method: 'POST',
         body: formData
     })
