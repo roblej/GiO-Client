@@ -81,7 +81,7 @@ loginForm.addEventListener('submit', function(event) {
 
     // Fetch API를 사용하여 서버에 로그인 요청을 보냅니다.
     // fetch('http://127.0.0.1:3000/login', {
-    fetch('http://ec2-54-206-36-61.ap-southeast-2.compute.amazonaws.com:3000/login', {
+    fetch('http://3.106.251.131:3000/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -123,7 +123,7 @@ signupForm.addEventListener('submit', function(event) {
 
     // Fetch API를 사용하여 서버에 회원가입 요청 전송
     // fetch('http://127.0.0.1:3000/register', {
-    fetch('http://ec2-54-206-36-61.ap-southeast-2.compute.amazonaws.com:3000/register', {
+    fetch('http://3.106.251.131:3000/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const eventHandler = () => {
         console.log(globalId)
         console.log(game_name)
-        fetch(`http://ec2-54-206-36-61.ap-southeast-2.compute.amazonaws.com:3000/api/gamescore?id=${globalId}&game_name=${game_name}`)
+        fetch(`http://3.106.251.131:3000/api/gamescore?id=${globalId}&game_name=${game_name}`)
         // fetch(`http://127.0.0.1:3000/api/gamescore?id=${globalId}&game_name=${game_name}`)
             .then(response => response.json())
             .then(data => console.log(data))
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // fetch 함수를 사용하여 POST 요청 보내기
         // fetch('http://127.0.0.1:3000/api/gamescore', requestOptions)
-        fetch('http://ec2-54-206-36-61.ap-southeast-2.compute.amazonaws.com:3000/api/gamescore', requestOptions)
+        fetch('http://3.106.251.131:3000/api/gamescore', requestOptions)
             .then(response => response.json())
             .then(data => console.log(data)) // 응답 데이터 처리
             .catch(error => console.error('Error:', error)); // 에러 처리
@@ -203,7 +203,7 @@ document.getElementById('Game').addEventListener('click', function() {
     var gameModal = document.getElementById('gameModal');
     var unityGame = document.getElementById('unityGame');
     var gamePath = this.getAttribute('data-path');
-    unityGame.src = `http://ec2-54-206-36-61.ap-southeast-2.compute.amazonaws.com:8080/${gamePath}`;
+    unityGame.src = `http://3.106.251.131:8080/${gamePath}`;
     // unityGame.src = `http://localhost:8080/${gamePath}`;
     gameModal.style.display = 'block'; // 게임 모달을 표시
 });
