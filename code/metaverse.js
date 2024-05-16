@@ -655,6 +655,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
             this._worldOctree.fromGraphNode(boxT);
     }
 
+
     _onMouseClick(event) {
         // 마우스 위치를 정규화된 장치 좌표로 변환
         this._mouse.x = ( event.clientX / this._divContainer.clientWidth ) * 2 - 1;
@@ -1172,6 +1173,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
 
         return directionoffset;
 }
+    
 
     _speed = 0;
     _maxSpeed = 0;
@@ -1301,7 +1303,36 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         this._renderer.setSize(width, height);
     }
 
+
 }
+var modal = document.getElementById("pageModal");
+var btn = document.getElementById("openModal");
+btn.onclick = function(){
+    modal.style.display = "block";
+}
+var span = document.getElementsByClassName("close")[0];
+span.onclick = function(){
+    modal.style.display = "none";
+}
+
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";  // 모든 탭 컨텐츠를 숨깁니다.
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");  // 모든 탭 링크의 'active' 클래스를 제거합니다.
+    }
+    document.getElementById(tabName).style.display = "block";  // 클릭된 탭의 컨텐츠를 보여줍니다.
+    evt.currentTarget.className += " active";  // 클릭된 탭에 'active' 클래스를 추가합니다.
+  }
+  
+  // 페이지 로딩 완료 후 첫 번째 탭을 기본적으로 열기
+  document.addEventListener("DOMContentLoaded", function() {
+    document.getElementsByClassName("tablinks")[0].click();  // 첫 번째 탭을 자동으로 클릭합니다.
+  });
 
 
 window.onload = function() {

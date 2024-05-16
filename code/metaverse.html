@@ -81,5 +81,182 @@
             <div id="speechBubble" style="display: none; position: absolute; padding: 10px; background: white; border: 1px solid black; border-radius: 5px;">
                 Hello, I'm an NPC!
             </div>
+
+            <button id="openModal">마이페이지</button>
+            <div id="pageModal" class="mypagemodal">
+                <div class="tab">
+                    <button class="tablinks" onclick="openTab(event, 'Mypage')">마이페이지</button>
+                    <button class="tablinks" onclick="openTab(event, 'MemberInfo')">회원정보 수정</button>
+                    <button class="tablinks" onclick="openTab(event, 'Mydata')">나의 활동(데이터 표)</button>
+                    <button class="tablinks" onclick="openTab(event, 'Notion')">공지사항</button>
+                    <button class="tablinks" onclick="openTab(event, 'FAQ')">FAQ</button>
+                </div>
+                <div class="page-modal-content">
+                    <span class="close">&times;</span>
+                   
+                
+                    <div id="Mypage" class="tabcontent">
+                        <div class="profilebox">
+                            <img class="profile-image" src="/code/data/mypageimage/mypage_profile_image.png" alt="">
+                            <div class="profile-info">
+                                <p>ID: 8000104</p>
+                                <p>살결이</p>
+                                <p>이메일: 0000@gmail.com</p>
+                            </div>
+                        </div>
+
+                        <div class="progress">
+                            <h2>현재 진행 상황</h2>
+                            <img class="info-icon" src="/code/data/mypageimage/mypage_info_icon.png" alt="Question Mark Ikon">
+                            <img class="progress-bg" src="/code/data/mypageimage/mypage_NPC_border.png" alt="Progress Background" class="progress-bg">
+                            <div class="progress-content">
+                                <div class="progress-item">
+                                    <div class="location">학교</div>
+                                    <div class="status">
+                                        <img src="/code/data/mypageimage/mypage_NPC_game.png" alt="Pink Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_on.png" alt="Sky Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_on.png" alt="Sky Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_on.png" alt="Sky Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_on.png" alt="Sky Person">
+                                    </div>
+                                </div>
+                                <div class="progress-item">
+                                    <div class="location">도서관</div>
+                                    <div class="status">
+                                        <img src="/code/data/mypageimage/mypage_NPC_game.png" alt="Pink Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_on.png" alt="Sky Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_on.png" alt="Sky Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
+                                    </div>
+                                </div>
+                                <div class="progress-item">
+                                    <div class="location">마을회관</div>
+                                    <div class="status">
+                                        <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
+                                    </div>
+                                </div>
+                                <div class="progress-item">
+                                    <div class="location">마트</div>
+                                    <div class="status">
+                                        <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_on.png" alt="Sky Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
+                                    </div>
+                                </div>
+                                <div class="progress-item">
+                                    <div class="location">공원</div>
+                                    <div class="status">
+                                        <img src="/code/data/mypageimage/mypage_NPC_game.png" alt="Pink Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_on.png" alt="Sky Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_on.png" alt="Sky Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
+                                        <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="sticker-book">
+                            <img src="/code/data/mypageimage/mypage_sticker_border.png" alt="Sticker Book" class="sticker-bg">
+                            <h2>스티커북</h2>
+                            <div class="stickers">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                                <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="MemberInfo" class="tabcontent">
+                        <h3>회원정보 수정</h3>
+                        <p>회원정보 수정 내용이 여기에 표시됩니다.</p>
+                    </div>
+                  
+                    <div id="Mydata" class="tabcontent">
+                        <h3>나의 활동 (데이터 표)</h3>
+                        <p>데이터 표가 여기에 표시됩니다.</p>
+                    </div>
+                  
+                    <div id="Notion" class="tabcontent">
+                        <h3>공지사항</h3>
+                        <p>공지사항이 여기에 표시됩니다.</p>
+                    </div>
+                  
+                    <div id="FAQ" class="tabcontent">
+                        <h3>FAQ</h3>
+                        <p>FAQ 내용이 여기에 표시됩니다.</p>
+                    </div>
+                </div>
+            </div>
+            <script>
+                var modal = document.getElementById("pageModal");
+                var btn = document.getElementById("openModal");
+                btn.onclick = function() {
+                    modal.style.display = "block";
+                }
+                var span = document.getElementsByClassName("close")[7];
+                span.onclick = function() {
+                    modal.style.display = "none";
+                }
+
+                // 닫기 버튼 클릭 시 모달 닫기
+                span.onclick = function() {
+                    mypagemodal.style.display = "none"; 
+                }
+
+                // 모달 창 바깥 영역 클릭 시 모달 닫기
+                window.onclick = function(event) {
+                    if (event.target == mypagemodal) {
+                        mypagemodal.style.display = "none";
+                    }
+                }
+
+                
+                function openTab(evt, tabName) {
+                    var i, tabcontent, tablinks;
+                    tabcontent = document.getElementsByClassName("tabcontent");
+                    for (i = 0; i < tabcontent.length; i++) {
+                      tabcontent[i].style.display = "none";
+                    }
+                    tablinks = document.getElementsByClassName("tablinks");
+                    for (i = 0; i < tablinks.length; i++) {
+                      tablinks[i].className = tablinks[i].className.replace(" active", "");
+                    }
+                    document.getElementById(tabName).style.display = "block";
+                    evt.currentTarget.className += " active";
+                }
+                document.addEventListener("DOMContentLoaded", function() {
+                    document.getElementsByClassName("tablinks")[0].click();  // 첫 번째 탭을 자동으로 클릭합니다.
+                });
+                </script>
+
+  
+            
+
 </body>
 </html>

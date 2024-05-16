@@ -89,8 +89,7 @@ input[type="range"]::-moz-range-thumb {
 }
 #game-content{
   width: 80%;
-  height:70%;
-  /* right: 2%; */
+  height: 70%;
   bottom: -20%;
   border: none;
   /* background-color: none; */
@@ -120,3 +119,206 @@ input[type="range"]::-moz-range-thumb {
   text-decoration: none;
   cursor: pointer;
 }
+
+#openModal {
+  position: absolute;
+  right: 18%;
+  top: 10px;
+  transform: translateX(-50%);
+  padding: 5px 15px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.mypagemodal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0,0,0,0.4);
+}
+.page-modal-content {
+  background-color: rgb(222, 232, 244);
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid#888;
+  width: 1280px;
+  height: 800px;
+  border-radius: 30px 0px 0px 30px ;
+}
+.tab {
+  float: right;
+  width: 200px; /* 탭의 너비를 설정합니다 */
+  height: 100%; /* 전체 높이 */
+
+}
+
+.tab button {
+  display: block; /* 버튼을 블록 요소로 만들어 세로로 배치합니다 */
+  background-color: rgb(222, 232, 244);
+  color: black;
+  padding: 40px 16px;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 18px;
+  right: 93px;
+  top: 286px;
+  position: relative;
+  border-radius: 0px x 0px 0px;
+}
+
+.tab button:hover {
+  background-color: #ddd;
+}
+
+.tab button.active {
+  background-color: #ccc;
+}
+
+.tabcontent {
+  display: none;
+  float: left;
+  padding: 0 12px;
+  width: 100%; /* 탭 내용의 너비 */
+  border-right: none;
+  height: 800px; /* 콘텐츠 높이 */
+  
+}
+
+/* 마이페이지 꾸미기 */
+.profilebox{
+  width: 360px;
+  background-color: rgb(222, 232, 244);
+  display: flex;
+  justify-content: space-between;
+  
+}
+.profile-image{
+  position: relative;
+  left: 35px;
+}
+.profile-info p {
+  margin-bottom: 10px;
+  left: 20px;
+  position: relative;
+  top: 30px;
+}
+
+.progress {
+  width: 30%;
+  position: relative;
+  background-color: rgb(222, 232, 244);
+  padding: 20px;
+}
+
+.progress h2 {
+  margin-bottom: 20px;
+  position: relative;
+  left: 20px;
+  top: 45px;
+}
+
+.info-icon {
+  position: absolute;
+  left: 220px;
+}
+
+.progress-bg {
+  width: 120%;
+  height: auto;
+  border-radius: 10px;
+  position: relative;
+  top: 75px;
+  left: 15px;
+}
+
+.progress-content {
+  width: 105%;
+  position: absolute;
+  top: 110px;
+  left: 0px;
+  right: 20px;
+  bottom: 20px;
+  padding: 25px;
+}
+
+.progress-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.location {
+  color: #ffffff;
+  padding: 20px;
+  border-radius: 5px;
+  margin-right: 10px;
+  text-align: left;
+  color: black;
+  font-size: 25px;
+  left: 15px;
+  top: 20px;
+  position: relative;
+}
+
+.status img {
+  width: 30px;
+  height: 30px;
+  margin-right: 15px;
+  position: relative;
+  right: 10px;
+  top: 20px;
+}
+
+.sticker-book {
+  width: 600px;
+  height: 680px;
+  position: relative;
+  background-color: rgb(222, 232, 244);
+  border-radius: 10px;
+  padding: 20px;
+  left: 600px;
+  bottom: 650px;
+}
+
+.sticker-book h2 {
+  position: absolute;
+  bottom: 630px;
+  left: 35px;
+}
+
+.sticker-bg {
+  width: 100%;
+  height: 680px;
+}
+
+.stickers {
+  display: grid;
+  grid-template-columns: repeat(4, 0.4fr);
+  grid-gap: 10px;
+  position: absolute;
+  top: 60px;
+  left: 30px;
+  right: 20px;
+  bottom: 20px;
+  padding: 0px;
+  margin: 10px 0px 0px 150px;
+}
+
+.stickers img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+
+
