@@ -512,7 +512,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         const idleAction = animationsMap['idle'];
         idleAction.play();
     }
-    npc.position.set(-2222,0,1297);
+    npc.position.set(-882,0,1097);
     npc.scale.set(70,70,70);
     const box = (new THREE.Box3).setFromObject(npc);
     // npc.position.y = (box.max.y - box.min.y) /2;
@@ -670,9 +670,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         const intersects = this._raycaster.intersectObjects(this._scene.children, true);
         for (let i = 0; i < intersects.length; i++) {
             const selectedObject = intersects[0].object;
-            if (selectedObject.userData.type == 'teacher') {
-                console.log(selectedObject.userData.type)
-            }
+
             if (selectedObject.userData.type === 'casher') {
             //   this._model.lookAt(selectedObject.position)
                 // console.log(selectedObject.userData.type);
@@ -771,13 +769,13 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
 
             
                 // 대화 내용 업데이트
-                dialogText.innerHTML = "안녕? 나는 선생님이야.";
+                dialogText.innerHTML = "안녕? 새로 온 학생이니?";
             
                 // 각 선택지 업데이트
                 function resetModal() {
-                    option1.innerHTML = "안녕하세요";
-                    option2.innerHTML = "그런데요?";
-                    option3.innerHTML = "아저씨 저 아세요?";
+                    option1.innerHTML = "네, 맞아요. 안녕하세요?";
+                    option2.innerHTML = "(무시하고 갈 길을 간다.)";
+                    option3.innerHTML = "누구세요?";
                     dialogText.style.display = "block";  // 텍스트를 보이게 함
                     buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
                 }
