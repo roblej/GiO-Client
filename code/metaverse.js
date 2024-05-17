@@ -441,49 +441,7 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
         // npc.rotation.y = Math.PI;
         this._npc = npc;
 }); 
-new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
-    const npc = gltf.scene;
-    this._scene.add(npc);
-    
-
-    npc.traverse(child =>{
-        if(child instanceof THREE.Mesh) {
-            child.castShadow = true;
-        }
-        if (child.isMesh) {
-            child.userData.type = 'npc3';
-        }
-    });
-    // 애니메이션 믹서 설정
-    const mixer = new THREE.AnimationMixer(npc);
-    this._mixers.push(mixer);
-    const animationsMap = {};
-    gltf.animations.forEach((clip) => {
-        // console.log(clip.name);
-        animationsMap[clip.name] = mixer.clipAction(clip);
-    });
-    npc.userData.animationsMap = animationsMap;
-    npc.userData.mixer = mixer;
-    // 'idle' 애니메이션 재생
-    if (animationsMap['idle']) {
-        const idleAction = animationsMap['idle'];
-        idleAction.play();
-    }
-    npc.position.set(360,1,2341);
-    npc.scale.set(70,70,70);
-    const box = (new THREE.Box3).setFromObject(npc);
-    // npc.position.y = (box.max.y - box.min.y) /2;
-    const height = box.max.y - box.min.y;
-    const diameter = box.max.z - box.min.z
-    
-    npc._capsule = new Capsule(
-        new THREE.Vector3(0, diameter/2, 0),
-        new THREE.Vector3(0, height - diameter/2, 0),
-        diameter/2
-    );
-    npc.rotation.y = Math.PI/2;
-    this._npc = npc;
-}); 
+ 
 
 new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
     const npc = gltf.scene;
@@ -515,6 +473,50 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
     }
     npc.position.set(-2137,1,1117);
     npc.scale.set(70,70,70);
+    const box = (new THREE.Box3).setFromObject(npc);
+    // npc.position.y = (box.max.y - box.min.y) /2;
+    const height = box.max.y - box.min.y;
+    const diameter = box.max.z - box.min.z
+    
+    npc._capsule = new Capsule(
+        new THREE.Vector3(0, diameter/2, 0),
+        new THREE.Vector3(0, height - diameter/2, 0),
+        diameter/2
+    );
+    npc.rotation.y = Math.PI/2;
+    this._npc = npc;
+});
+
+new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
+    const npc = gltf.scene;
+    this._scene.add(npc);
+    
+
+    npc.traverse(child =>{
+        if(child instanceof THREE.Mesh) {
+            child.castShadow = true;
+        }
+        if (child.isMesh) {
+            child.userData.type = 'game_friend';
+        }
+    });
+    // 애니메이션 믹서 설정
+    const mixer = new THREE.AnimationMixer(npc);
+    this._mixers.push(mixer);
+    const animationsMap = {};
+    gltf.animations.forEach((clip) => {
+        // console.log(clip.name);
+        animationsMap[clip.name] = mixer.clipAction(clip);
+    });
+    npc.userData.animationsMap = animationsMap;
+    npc.userData.mixer = mixer;
+    // 'idle' 애니메이션 재생
+    if (animationsMap['idle']) {
+        const idleAction = animationsMap['idle'];
+        idleAction.play();
+    }
+    npc.position.set(-1274,1,2307);
+    npc.scale.set(50,50,50);
     const box = (new THREE.Box3).setFromObject(npc);
     // npc.position.y = (box.max.y - box.min.y) /2;
     const height = box.max.y - box.min.y;
@@ -885,6 +887,40 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
                     }
                 };
                 
+            }
+            else if (selectedObject.userData.type == 'game_friend') {
+                game_name = "GameA"
+                var modal = document.getElementById("myModal");
+                var span = document.getElementsByClassName("close")[0];
+                modal.style.display = "block";
+                var gameAButton = document.getElementById("Game");
+                gameAButton.setAttribute('data-path', 'WebGLTest1/index.html'); // data-path 속성 설정
+
+                // 닫기 버튼 클릭 시 모달 닫기
+                span.onclick = function() {
+                    modal.style.display = "none";
+                }
+        
+                // 선택지 1 클릭 시 동작
+                document.getElementById("option1").onclick = function() {
+                    console.log("선택지 1 선택됨");
+                    modal.style.display = "none";
+                }
+        
+                // 선택지 2 클릭 시 동작
+                document.getElementById("option2").onclick = function() {
+                    console.log("선택지 2 선택됨");
+                    modal.style.display = "none";
+                }
+        
+                // 모달 창 바깥 영역 클릭 시 모달 닫기
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+    
+            break; // 첫 번째 교차 객체만 처리하고 루프 종료
             }
             else if (selectedObject.userData.type == 'friend_crash') {
                 var casher = document.getElementById("thiscasher");
