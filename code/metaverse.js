@@ -5,6 +5,7 @@ import { Octree } from "../jsm/math/Octree.js"
 import { Capsule } from "../jsm/math/Capsule.js"
 import {OrbitControls} from "../jsm/controls/OrbitControls.js"
 import { onMouseMove } from './event.js';
+import { FBXLoader } from '../jsm/loaders/FBXLoader.js';
 
 
 
@@ -21,7 +22,7 @@ class App {
     divContainer.appendChild(renderer.domElement);
     this._renderer = renderer;
     this._canvas = renderer.domElement; // canvas를 클래스 변수로 저장
-
+    
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.VSMShadowMap;
 
@@ -176,94 +177,19 @@ class App {
             map.position.set(0,-3,0);
             this._worldOctree.fromGraphNode(map);
         })
-        new GLTFLoader().load("./data/drone01.glb",(gltf) =>{
-            const npc = gltf.scene;
-            this._scene.add(npc);
-            
-    
-            npc.traverse(child =>{
-                if(child instanceof THREE.Mesh) {
-                    child.castShadow = true;
-                }
-                if (child.isMesh) {
-                    child.userData.type = 'maru';
-                }
-            });
-            // 애니메이션 믹서 설정
-            const mixer = new THREE.AnimationMixer(npc);
-            this._mixers.push(mixer);
-            const animationsMap = {};
-            gltf.animations.forEach((clip) => {
-                // console.log(clip.name)
-                animationsMap[clip.name] = mixer.clipAction(clip);
-            });
-            npc.userData.animationsMap = animationsMap;
-            npc.userData.mixer = mixer;
-            // 'idle' 애니메이션 재생
-            if (animationsMap['Body1|Unreal Take|Base Layer']) {
-                const idleAction = animationsMap['Body1.002|Unreal Take|Base Layer'];
-                idleAction.play();
-            }
-            // npc.position.set(100,0,-230);
-            npc.scale.set(50,50,50);
-            npc.position.x = 50
-            const box = (new THREE.Box3).setFromObject(npc);
-            // npc.position.y = (box.max.y - box.min.y) /2;
-            const height = box.max.y - box.min.y;
-            const diameter = box.max.z - box.min.z
-            
-            npc._capsule = new Capsule(
-                new THREE.Vector3(0, diameter/2, 0),
-                new THREE.Vector3(0, height - diameter/2, 0),
-                diameter/2
-            );
-            npc.rotation.y = Math.PI;
-            this._npc = npc;
-    }); 
-    new GLTFLoader().load("./data/frswhl.glb",(gltf) =>{
-        const npc = gltf.scene;
-        this._scene.add(npc);
-        
+        // new FBXLoader().load("./data/field_school2.fbx", (object) => {
+        //     const map = object;
+        //     this._scene.add(map);
+        //     this.map = map;
+        //     map.scale.set(1, 1, 1);
+        //     map.rotation.y = Math.PI / 2; // Z축을 중심으로 90도 회전
+        //     map.rotation.x = Math.PI / 2; // Z축을 중심으로 90도 회전
+        //     map.rotation.z = Math.PI / -2; // Z축을 중심으로 90도 회전
 
-        npc.traverse(child =>{
-            if(child instanceof THREE.Mesh) {
-                child.castShadow = true;
-            }
-            if (child.isMesh) {
-                child.userData.type = 'frswhl';
-            }
-        });
-        // 애니메이션 믹서 설정
-        const mixer = new THREE.AnimationMixer(npc);
-        this._mixers.push(mixer);
-        const animationsMap = {};
-        gltf.animations.forEach((clip) => {
-            // console.log(clip.name)
-            animationsMap[clip.name] = mixer.clipAction(clip);
-        });
-        npc.userData.animationsMap = animationsMap;
-        npc.userData.mixer = mixer;
-        // 'idle' 애니메이션 재생
-        if (animationsMap['Take 001']) {
-            const idleAction = animationsMap['Take 001'];
-            idleAction.play();
-        }
-        npc.position.set(1000,0,-230);
-        npc.scale.set(50,50,50);
-        const box = (new THREE.Box3).setFromObject(npc);
-        // npc.position.y = (box.max.y - box.min.y) /2;
-        // const height = box.max.y - box.min.y;
-        // const diameter = box.max.z - box.min.z
-        
-        // npc._capsule = new Capsule(
-        //     new THREE.Vector3(0, diameter/2, 0),
-        //     new THREE.Vector3(0, height - diameter/2, 0),
-        //     diameter/2
-        // );
-        npc.rotation.y = Math.PI;
-        this._npc = npc;
-        this._worldOctree.fromGraphNode(npc);
-});
+        //     map.position.set(0, -3, 0);
+        //     this._worldOctree.fromGraphNode(map);
+        //   });
+
 
 new GLTFLoader().load("./data/maru.glb",(gltf) =>{
     const support = gltf.scene;
@@ -275,7 +201,7 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
             child.castShadow = true;
         }
         if (child.isMesh) {
-            child.userData.type = 'drone';
+            child.userData.type = 'maru';
         }
     });
     // 애니메이션 믹서 설정
