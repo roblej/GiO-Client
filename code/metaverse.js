@@ -835,7 +835,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
                 
             }
             else if (selectedObject.userData.type == 'game_friend') {
-                game_name = "GameA"
+                game_name = "GameB"
                 var modal = document.getElementById("myModal");
                 var span = document.getElementsByClassName("close")[0];
                 modal.style.display = "block";
