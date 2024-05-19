@@ -168,7 +168,7 @@ class App {
         plane.receiveShadow = true;
 
         this._worldOctree.fromGraphNode(plane);
-        new GLTFLoader().load("./data/schooln.glb", (gltf) => {
+        new GLTFLoader().load("./data/sc.glb", (gltf) => {
             const map = gltf.scene;
             this._scene.add(map);
             this.map = map;
@@ -187,18 +187,6 @@ class App {
             this._worldOctree.fromGraphNode(map);
         });
         
-        // new FBXLoader().load("./data/field_school2.fbx", (object) => {
-        //     const map = object;
-        //     this._scene.add(map);
-        //     this.map = map;
-        //     map.scale.set(1, 1, 1);
-        //     map.rotation.y = Math.PI / 2; // Z축을 중심으로 90도 회전
-        //     map.rotation.x = Math.PI / 2; // Z축을 중심으로 90도 회전
-        //     map.rotation.z = Math.PI / -2; // Z축을 중심으로 90도 회전
-
-        //     map.position.set(0, -3, 0);
-        //     this._worldOctree.fromGraphNode(map);
-        //   });
 
 
 new GLTFLoader().load("./data/maru.glb",(gltf) =>{
@@ -603,7 +591,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         );
         
         model.scale.set(50, 50, 50);
-        // model.position.set(2389,10,2690)
+        model.position.set(-0.5,10,-9)
             const axisHelper = new THREE.AxesHelper(1000);
             // this._scene.add(axisHelper)
             const boxHelper = new THREE.BoxHelper(model);
@@ -643,7 +631,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
             boxT.castShadow = true;
             boxT.position.set(-150, 0, 0);
             boxT.name = "tp";
-            this._scene.add(boxT);
+            // this._scene.add(boxT);
             this._boxT= boxT;
             this._worldOctree.fromGraphNode(boxT);
     }
@@ -840,7 +828,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
                 var span = document.getElementsByClassName("close")[0];
                 modal.style.display = "block";
                 var gameAButton = document.getElementById("Game");
-                gameAButton.setAttribute('data-path', 'WebGLTest1/index.html'); // data-path 속성 설정
+                gameAButton.setAttribute('data-path', 'JonnaZiralBall/index.html'); // data-path 속성 설정
 
                 // 닫기 버튼 클릭 시 모달 닫기
                 span.onclick = function() {
@@ -1309,7 +1297,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
             1,
             20000
         );
-        camera.position.set(0, 100, 500);
+        camera.position.set(0, 100, 400);
         this._camera = camera;
     }
 
@@ -1338,7 +1326,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         shadowLight.position.set(-1000, 1200, -2350);
         shadowLight.target.position.set(50, 0, -1000);
         const directionalLightHelper = new THREE.DirectionalLightHelper(shadowLight, 10);
-        this._scene.add(directionalLightHelper);
+        // this._scene.add(directionalLightHelper);
         
         this._scene.add(shadowLight);
         this._scene.add(shadowLight.target);
@@ -1353,7 +1341,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         shadowLight.shadow.camera.far = 5000;
         shadowLight.shadow.radius = 2;
         const shadowCameraHelper = new THREE.CameraHelper(shadowLight.shadow.camera);
-        this._scene.add(shadowCameraHelper);
+        // this._scene.add(shadowCameraHelper);
     }
     
     _previousDirectionOffset = 0;
