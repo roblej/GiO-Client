@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
 * {
     outline : none;
     margin: 0;
@@ -156,22 +163,19 @@ input[type="range"]::-moz-range-thumb {
   background-color: rgba(0,0,0,0.4);
 }
 .mypagemodal{
-  width: 1280px;
-  height: 720px;
+  width: 66.7%;
+  height: 68%;
   position: absolute;
 
 }
 .page-modal-content {
   background-color: rgb(222, 232, 244);
-  /* margin: 15%; */
-  /* padding: 20px; */
-  border: 1px solid#888;
-  width: 1152px;
+  width: 80%;
   height: 100%;
-  border-radius: 30px 0px 30px 30px ;
+  border-radius: 20px 0px 20px 20px ;
 }
 .tab {
-  width: 10%; /* 탭의 너비를 설정합니다 */
+  width: 20%; /* 탭의 너비를 설정합니다 */
   height: 50%; /* 전체 높이 */
   position: absolute;
   right:0;
@@ -183,14 +187,15 @@ input[type="range"]::-moz-range-thumb {
   display: block; /* 버튼을 블록 요소로 만들어 세로로 배치합니다 */
   background-color: rgb(222, 232, 244);
   color: black;
-  padding: 40px 16px;
-  width: 100%;
-  border: none;
+  border: 10px;
+  width: 90%;
+  height: 20%;
   outline: none;
-  text-align: left;
+  text-align: center;
   cursor: pointer;
   transition: 0.3s;
-  font-size: 12px;
+  font-family: 'Pretendard-Regular';
+  /* font-size: 16px; */
   border-radius: 0px 20px 20px 0px;
 }
 
@@ -204,9 +209,73 @@ input[type="range"]::-moz-range-thumb {
 
 .tabcontent {
   display: none;
-  float: left;
-  padding: 0 12px;
+  /* float: left;
+  padding: 0 12px; */
   width: 100%; /* 탭 내용의 너비 */
+  height: 100%;
   border-right: none;
   
+}
+
+.page-inner {
+  width: 80%;
+  height: 75%;
+  padding: 8% 10%;
+  position: relative;
+}
+
+.profile{
+  width: 25%;
+  height: 50%;
+}
+.profile-box{
+  width: 80%;
+  height: 67%;
+  border-color: black;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.profile h2{
+  font-family: 'Pretendard-Regular';
+}
+
+.sticker-box {
+  background-color: #e0f0ff;
+  padding: 10px;
+  border-radius: 10px;
+  width: 60%;
+  /* height: 40%; */
+  position: absolute;
+  right: 7%;
+  top: 10%;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+thead th {
+  padding: 3.5%;
+  text-align: left;
+}
+
+thead th.header-cell {
+  background-color: #add8e6;
+  width: 100%;
+  height: 30%;
+  border-radius: 10px 10px 0px 0px;
+}
+
+thead th.corner-cell {
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+}
+
+tbody td {
+  width: 50px;
+  height: 50px;
+  border: 1px dotted #ccc;
 }
