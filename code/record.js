@@ -7,6 +7,8 @@
 //     let audioChunks = [];
 //     let recognition;
 
+import { WebGLLights } from "three";
+
 //     // 레벤슈타인 거리 함수
 //     function levenshtein(a, b) {
 //         const matrix = Array.from({ length: a.length + 1 }, (_, i) => Array.from({ length: b.length + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0)));

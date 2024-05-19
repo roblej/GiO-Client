@@ -5,6 +5,7 @@ import { Octree } from "../jsm/math/Octree.js"
 import { Capsule } from "../jsm/math/Capsule.js"
 import {OrbitControls} from "../jsm/controls/OrbitControls.js"
 import { onMouseMove } from './event.js';
+import { FBXLoader } from '../jsm/loaders/FBXLoader.js';
 
 
 
@@ -21,7 +22,7 @@ class App {
     divContainer.appendChild(renderer.domElement);
     this._renderer = renderer;
     this._canvas = renderer.domElement; // canvas를 클래스 변수로 저장
-
+    
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.VSMShadowMap;
 
@@ -162,108 +163,43 @@ class App {
         const plane = new THREE.Mesh(planeGeometry,planeMaterial);
         plane.name = "plane";
         plane.rotation.x = -Math.PI/2;
-        plane.position.y= -10;
+        plane.position.y= -0;
         this._scene.add(plane);
         plane.receiveShadow = true;
 
         this._worldOctree.fromGraphNode(plane);
-        new GLTFLoader().load("./data/town_protonew.glb",(gltf) =>{
+        new GLTFLoader().load("./data/schooln.glb", (gltf) => {
             const map = gltf.scene;
             this._scene.add(map);
             this.map = map;
-            map.scale.set(50,50,50);
-            map.rotation.y = Math.PI / 2; // Z축을 중심으로 90도 회전
-            map.position.set(0,-3,0);
-            this._worldOctree.fromGraphNode(map);
-        })
-        new GLTFLoader().load("./data/drone01.glb",(gltf) =>{
-            const npc = gltf.scene;
-            this._scene.add(npc);
-            
-    
-            npc.traverse(child =>{
-                if(child instanceof THREE.Mesh) {
+            map.scale.set(500, 500, 500);
+            // map.rotation.y = Math.PI/-1; // Z축을 중심으로 180도 회전
+            map.position.set(0, 1, -2100);
+        
+            // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
+            map.traverse((child) => {
+                if (child instanceof THREE.Mesh) {
                     child.castShadow = true;
-                }
-                if (child.isMesh) {
-                    child.userData.type = 'maru';
+                    child.receiveShadow = true;
                 }
             });
-            // 애니메이션 믹서 설정
-            const mixer = new THREE.AnimationMixer(npc);
-            this._mixers.push(mixer);
-            const animationsMap = {};
-            gltf.animations.forEach((clip) => {
-                // console.log(clip.name)
-                animationsMap[clip.name] = mixer.clipAction(clip);
-            });
-            npc.userData.animationsMap = animationsMap;
-            npc.userData.mixer = mixer;
-            // 'idle' 애니메이션 재생
-            if (animationsMap['Body1|Unreal Take|Base Layer']) {
-                const idleAction = animationsMap['Body1.002|Unreal Take|Base Layer'];
-                idleAction.play();
-            }
-            // npc.position.set(100,0,-230);
-            npc.scale.set(50,50,50);
-            npc.position.x = 50
-            const box = (new THREE.Box3).setFromObject(npc);
-            // npc.position.y = (box.max.y - box.min.y) /2;
-            const height = box.max.y - box.min.y;
-            const diameter = box.max.z - box.min.z
-            
-            npc._capsule = new Capsule(
-                new THREE.Vector3(0, diameter/2, 0),
-                new THREE.Vector3(0, height - diameter/2, 0),
-                diameter/2
-            );
-            npc.rotation.y = Math.PI;
-            this._npc = npc;
-    }); 
-    new GLTFLoader().load("./data/frswhl.glb",(gltf) =>{
-        const npc = gltf.scene;
-        this._scene.add(npc);
         
+            this._worldOctree.fromGraphNode(map);
+        });
+        
+        // new FBXLoader().load("./data/field_school2.fbx", (object) => {
+        //     const map = object;
+        //     this._scene.add(map);
+        //     this.map = map;
+        //     map.scale.set(1, 1, 1);
+        //     map.rotation.y = Math.PI / 2; // Z축을 중심으로 90도 회전
+        //     map.rotation.x = Math.PI / 2; // Z축을 중심으로 90도 회전
+        //     map.rotation.z = Math.PI / -2; // Z축을 중심으로 90도 회전
 
-        npc.traverse(child =>{
-            if(child instanceof THREE.Mesh) {
-                child.castShadow = true;
-            }
-            if (child.isMesh) {
-                child.userData.type = 'frswhl';
-            }
-        });
-        // 애니메이션 믹서 설정
-        const mixer = new THREE.AnimationMixer(npc);
-        this._mixers.push(mixer);
-        const animationsMap = {};
-        gltf.animations.forEach((clip) => {
-            // console.log(clip.name)
-            animationsMap[clip.name] = mixer.clipAction(clip);
-        });
-        npc.userData.animationsMap = animationsMap;
-        npc.userData.mixer = mixer;
-        // 'idle' 애니메이션 재생
-        if (animationsMap['Take 001']) {
-            const idleAction = animationsMap['Take 001'];
-            idleAction.play();
-        }
-        npc.position.set(1000,0,-230);
-        npc.scale.set(50,50,50);
-        const box = (new THREE.Box3).setFromObject(npc);
-        // npc.position.y = (box.max.y - box.min.y) /2;
-        // const height = box.max.y - box.min.y;
-        // const diameter = box.max.z - box.min.z
-        
-        // npc._capsule = new Capsule(
-        //     new THREE.Vector3(0, diameter/2, 0),
-        //     new THREE.Vector3(0, height - diameter/2, 0),
-        //     diameter/2
-        // );
-        npc.rotation.y = Math.PI;
-        this._npc = npc;
-        this._worldOctree.fromGraphNode(npc);
-});
+        //     map.position.set(0, -3, 0);
+        //     this._worldOctree.fromGraphNode(map);
+        //   });
+
 
 new GLTFLoader().load("./data/maru.glb",(gltf) =>{
     const support = gltf.scene;
@@ -273,9 +209,10 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
     support.traverse(child =>{
         if(child instanceof THREE.Mesh) {
             child.castShadow = true;
+            child.receiveShadow = true;
         }
         if (child.isMesh) {
-            child.userData.type = 'drone';
+            child.userData.type = 'maru';
         }
     });
     // 애니메이션 믹서 설정
@@ -318,6 +255,7 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
             npc.traverse(child =>{
                 if(child instanceof THREE.Mesh) {
                     child.castShadow = true;
+                    child.receiveShadow = true;
                 }
                 if (child.isMesh) {
                     child.userData.type = 'friend_crash';
@@ -338,7 +276,7 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
                 const idleAction = animationsMap['idle'];
                 idleAction.play();
             }
-            npc.position.set(-1419,0,1488);
+            npc.position.set(-91,0,-775);
             npc.scale.set(50,50,50);
             const box = (new THREE.Box3).setFromObject(npc);
             // npc.position.y = (box.max.y - box.min.y) /2;
@@ -361,6 +299,7 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
         npc.traverse(child =>{
             if(child instanceof THREE.Mesh) {
                 child.castShadow = true;
+                child.receiveShadow = true;
             }
             if (child.isMesh) {
                 child.userData.type = 'friend_hurt';
@@ -381,7 +320,7 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
             const idleAction = animationsMap['idle'];
             idleAction.play();
         }
-        npc.position.set(-1861,1,1400);
+        npc.position.set(-209,1,-1350);
         npc.scale.set(50,50,50);
         npc.rotation.z = Math.PI/2
         npc.rotation.x = Math.PI/2
@@ -406,6 +345,7 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
         npc.traverse(child =>{
             if(child instanceof THREE.Mesh) {
                 child.castShadow = true;
+                child.receiveShadow = true;
             }
             if (child.isMesh) {
                 child.userData.type = 'teacher';
@@ -451,6 +391,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
     npc.traverse(child =>{
         if(child instanceof THREE.Mesh) {
             child.castShadow = true;
+            child.receiveShadow = true;
         }
         if (child.isMesh) {
             child.userData.type = 'rector';
@@ -471,7 +412,8 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         const idleAction = animationsMap['idle'];
         idleAction.play();
     }
-    npc.position.set(-2137,1,1117);
+    npc.position.set(225,1,-1682);
+    // npc.rotation.y = Math.PI /2;
     npc.scale.set(70,70,70);
     const box = (new THREE.Box3).setFromObject(npc);
     // npc.position.y = (box.max.y - box.min.y) /2;
@@ -483,7 +425,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         new THREE.Vector3(0, height - diameter/2, 0),
         diameter/2
     );
-    npc.rotation.y = Math.PI/2;
+    // npc.rotation.y = Math.PI/2;
     this._npc = npc;
 });
 
@@ -495,6 +437,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
     npc.traverse(child =>{
         if(child instanceof THREE.Mesh) {
             child.castShadow = true;
+            child.receiveShadow = true;
         }
         if (child.isMesh) {
             child.userData.type = 'game_friend';
@@ -515,7 +458,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         const idleAction = animationsMap['idle'];
         idleAction.play();
     }
-    npc.position.set(-1274,1,2307);
+    npc.position.set(-705,1,-690);
     npc.scale.set(50,50,50);
     const box = (new THREE.Box3).setFromObject(npc);
     // npc.position.y = (box.max.y - box.min.y) /2;
@@ -539,6 +482,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
     npc.traverse(child =>{
         if(child instanceof THREE.Mesh) {
             child.castShadow = true;
+            child.receiveShadow = true;
         }
         if (child.isMesh) {
             child.userData.type = 'teacher';
@@ -559,7 +503,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         const idleAction = animationsMap['idle'];
         idleAction.play();
     }
-    npc.position.set(-882,0,1097);
+    npc.position.set(-104,0,-160);
     npc.scale.set(70,70,70);
     const box = (new THREE.Box3).setFromObject(npc);
     // npc.position.y = (box.max.y - box.min.y) /2;
@@ -571,7 +515,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         new THREE.Vector3(0, height - diameter/2, 0),
         diameter/2
     );
-    npc.rotation.y = Math.PI/2;
+    npc.rotation.y = Math.PI/4;
     this._npc = npc;
 }); 
     new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
@@ -583,6 +527,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         npc.traverse(child =>{
             if(child instanceof THREE.Mesh) {
                 child.castShadow = true;
+                child.receiveShadow = true;
             }
             if (child.isMesh) {
                 child.userData.type = 'casher';
@@ -628,6 +573,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         model.traverse(child => {
             if (child instanceof THREE.Mesh) {
                 child.castShadow = true;
+                child.receiveShadow = true;
             }
         });
 
@@ -889,7 +835,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
                 
             }
             else if (selectedObject.userData.type == 'game_friend') {
-                game_name = "GameA"
+                game_name = "GameB"
                 var modal = document.getElementById("myModal");
                 var span = document.getElementsByClassName("close")[0];
                 modal.style.display = "block";
@@ -1381,32 +1327,33 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
     }
 
     _setupLight() {
-        const ambientLight = new THREE.AmbientLight(0xffffff, 5);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 2);
         this._scene.add(ambientLight);
         // this._addPointLight(500, 150, 500, 0xff0000);
         // this._addPointLight(-500, 150, 500, 0xffff00);
         // this._addPointLight(-500, 150, -500, 0x00ff00);
         // this._addPointLight(500, 150, -500, 0x0000ff);
 
-        const shadowLight = new THREE.DirectionalLight(0xffffff, 0.2);
-        shadowLight.position.set(200, 500, 200);
-        shadowLight.target.position.set(0, 0, 0);
+        const shadowLight = new THREE.DirectionalLight(0xffffff, 2);
+        shadowLight.position.set(-1000, 1200, -2350);
+        shadowLight.target.position.set(50, 0, -1000);
         const directionalLightHelper = new THREE.DirectionalLightHelper(shadowLight, 10);
-        // this._scene.add(directionalLightHelper);
+        this._scene.add(directionalLightHelper);
         
         this._scene.add(shadowLight);
         this._scene.add(shadowLight.target);
 
         shadowLight.castShadow = true;
+        // shadowLight.receiveShadow = true;
         shadowLight.shadow.mapSize.width = 1024;
         shadowLight.shadow.mapSize.height = 1024;
-        shadowLight.shadow.camera.top = shadowLight.shadow.camera.right = 700;
-        shadowLight.shadow.camera.bottom = shadowLight.shadow.camera.left = -700;
+        shadowLight.shadow.camera.top = shadowLight.shadow.camera.right = 5000;
+        shadowLight.shadow.camera.bottom = shadowLight.shadow.camera.left = -5000;
         shadowLight.shadow.camera.near = 100;
-        shadowLight.shadow.camera.far = 900;
-        shadowLight.shadow.radius = 5;
+        shadowLight.shadow.camera.far = 5000;
+        shadowLight.shadow.radius = 2;
         const shadowCameraHelper = new THREE.CameraHelper(shadowLight.shadow.camera);
-        // this._scene.add(shadowCameraHelper);
+        this._scene.add(shadowCameraHelper);
     }
     
     _previousDirectionOffset = 0;
