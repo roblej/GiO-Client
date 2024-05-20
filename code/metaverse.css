@@ -125,8 +125,10 @@ input[type="range"]::-moz-range-thumb {
   font-size: 28px;
   font-weight: bold;
   position: absolute;
-  left: 300px;
+  /* left: 300px; */
   z-index: 1;
+  top: 0;
+  right: 21%;
 }
 
 .close-mypage:hover,
@@ -271,7 +273,7 @@ thead th.header-cell {
 }
 
 tbody td {
-  /* width: 50px; */
+  width: 14%;
   height: 45px;
   border: 1px dotted #ccc;
 }
@@ -295,3 +297,8 @@ thead th.first-cell {
   font-family: 'Pretendard-Regular';
 }
 
+.sticker-box img {
+  scale: 80%;
+  
+
+}
