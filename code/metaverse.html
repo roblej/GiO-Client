@@ -101,7 +101,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><img src="/code/data/mypageimage/mypage_sticker_02.png" alt="dog"></td>
+                                                <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
@@ -293,10 +293,20 @@
                 btn.onclick = function() {
                     modal.style.display = "block";
                 }
-                var span = document.getElementsByClassName("close")[7];
+                var span = document.getElementsByClassName("close-mypage")[7];
                 span.onclick = function() {
                     modal.style.display = "none";
                 }
+
+                document.getElementById('openModal').addEventListener('click', function() {
+                    document.getElementById('pageModal').style.display = 'flex'; // 모달을 표시
+                });
+
+                document.getElementById('pageModal').addEventListener('click', function(event) {
+                    if (event.target === document.getElementById('pageModal')) {
+                        document.getElementById('pageModal').style.display = 'none'; // 모달을 숨김
+                    }
+                });
 
                 // 닫기 버튼 클릭 시 모달 닫기
                 span.onclick = function() {
