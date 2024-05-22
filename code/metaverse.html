@@ -82,62 +82,197 @@
                 Hello, I'm an NPC!
             </div>
 
-<button id="openModal">마이페이지</button>
-<div id="pageModal" class="mypagemodal">
-    <div class="tab">
-        <button class="tablinks" onclick="openTab(event, 'Mypage')">마이페이지</button>
-        <button class="tablinks" onclick="openTab(event, 'MemberInfo')">회원정보 수정</button>
-        <button class="tablinks" onclick="openTab(event, 'Mydata')">나의 활동(데이터 표)</button>
-        <button class="tablinks" onclick="openTab(event, 'Notion')">공지사항</button>
-        <button class="tablinks" onclick="openTab(event, 'FAQ')">FAQ</button>
-    </div>
-    <div class="page-modal-content">
-        <span class="close">&times;</span>
-        
-        <div id="Mypage" class="tabcontent">
-            <div class="profilebox">
-                <img class="profile-image" src="/code/data/mypageimage/mypage_profile_image.png" alt="">
-                <div class="profile-info">
-                    <p>ID: 8000104</p>
-                    <p>살결이</p>
-                    <p>이메일: 0000@gmail.com</p>
-                </div>
-            </div>
+            <button id="openModal">마이페이지</button>
+            <div id="pageModal" class="mypagemodal-bg">
+                <div class="mypagemodal">
+                    <div class="page-modal-content">
+                        <div id="Mypage" class="tabcontent">
+                            <div class="page-inner">
+                                <div class="profile">
+                                    <div class="profile-box"></div>
+                                    <h2>삼칠이</h2>
+                                </div>
+                                <div class="sticker-box">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th colspan="7" class="header-cell">스티커북</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div> 
+                                <div class="npc-box">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th colspan="6" class="first-cell">만남</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td></td>
+                                                <td colspan="2"></td>
+                                                <td></td>
+                                                <td colspan="2"></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td colspan="2"></td>
+                                                <td></td>
+                                                <td colspan="2"></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="MemberInfo" class="tabcontent">
+                            <h2>회원정보 수정</h2>
+                            <div class="info">
+                                <!-- <img src="/code/data/mypageimage/mypage_profile_border.png" class="info-box" > -->
+                                <div class="info-row">
+                                    <div class="info-label">아이디</div>
+                                    <div class="info-value">8000104</div>
+                                </div>
+                                    <div class="info-row">
+                                    <div class="info-label">현재 비밀번호</div>
+                                    <div class="info-value">(비밀번호 창)</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">변경할 비밀번호</div>
+                                    <div class="info-value">(변경할 비밀번호 입력 창)</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">변경 비밀번호 확인</div>
+                                    <div class="info-value">(변경 비밀번호 확인 창)</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">닉네임</div>
+                                    <div class="info-value">삼칠이</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">이메일</div>
+                                    <div class="info-value">0000@gmail.com</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">생년월일</div>
+                                    <div class="info-value">15.05.02</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="Mydata" class="tabcontent">
+                            <h3>나의 활동(데이터 표)</h3>
+                            <p>데이터 표가 여기에 표시됩니다.</p>
+                        </div>
+                      
+                        <div id="Notion" class="tabcontent">
+                            <h3>공지사항</h3>
+                            <p>공지사항이 여기에 표시됩니다.</p>
+                        </div>
+                      
+                        <div id="FAQ" class="tabcontent">
+                            <h3>FAQ</h3>
+                            <!--  -->
+                            <p>FAQ 내용이 여기에 표시됩니다.</p>
+                        </div>
+                    </div>
+                    <div class="close-mypage">&times;</div>
+                    <div class="tab">
+                        <button class="tablinks" onclick="openTab(event, 'Mypage')">마이페이지</button>
+                        <button class="tablinks" onclick="openTab(event, 'MemberInfo')">회원정보 수정</button>
+                        <button class="tablinks" onclick="openTab(event, 'Mydata')">나의 활동<br>(데이터 표)</button>
+                        <button class="tablinks" onclick="openTab(event, 'Notion')">공지사항</button>
+                        <button class="tablinks" onclick="openTab(event, 'FAQ')">FAQ</button>
+                    </div>
+                    
 
-            <div class="progress">
-                <h2>현재 진행 상황</h2>
-                <img class="info-icon" src="/code/data/mypageimage/mypage_info_icon.png" alt="Question Mark Ikon">
-                <img class="progress-bg" src="/code/data/mypageimage/mypage_NPC_border.png" alt="Progress Background" class="progress-bg">
-                <div class="progress-content">
-                    <div class="progress-item">
-                        <div class="location">학교</div>
-                        <div class="status">
-                            <img src="/code/data/mypageimage/mypage_NPC_game.png" alt="Pink Person">
-                            <img src="/code/data/mypageimage/mypage_NPC_on.png" alt="Sky Person">
-                            <img src="/code/data/mypageimage/mypage_NPC_on.png" alt="Sky Person">
-                            <img src="/code/data/mypageimage/mypage_NPC_on.png" alt="Sky Person">
-                            <img src="/code/data/mypageimage/mypage_NPC_on.png" alt="Sky Person">
+                        <div id="Mypage" class="tabcontent"></div>
+
+                        <div id="MemberInfo" class="tabcontent">
+                            <h2>회원정보 수정</h2>
+                            <div class="info">
+                                <!-- <img src="/code/data/mypageimage/mypage_profile_border.png" class="info-box" > -->
+                                <div class="info-row">
+                                    <div class="info-label">아이디</div>
+                                    <div class="info-value">8000104</div>
+                                </div>
+                                    <div class="info-row">
+                                    <div class="info-label">현재 비밀번호</div>
+                                    <div class="info-value">(비밀번호 창)</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">변경할 비밀번호</div>
+                                    <div class="info-value">(변경할 비밀번호 입력 창)</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">변경 비밀번호 확인</div>
+                                    <div class="info-value">(변경 비밀번호 확인 창)</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">닉네임</div>
+                                    <div class="info-value">삼칠이</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">이메일</div>
+                                    <div class="info-value">0000@gmail.com</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">생년월일</div>
+                                    <div class="info-value">15.05.02</div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="progress-item">
-                        <div class="location">도서관</div>
-                        <div class="status">
-                            <img src="/code/data/mypageimage/mypage_NPC_game.png" alt="Pink Person">
-                            <img src="/code/data/mypageimage/mypage_NPC_on.png" alt="Sky Person">
-                            <img src="/code/data/mypageimage/mypage_NPC_on.png" alt="Sky Person">
-                            <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
-                            <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
-                        </div>
-                    </div>
-                    <div class="progress-item">
-                        <div class="location">마을회관</div>
-                        <div class="status">
-                            <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
-                            <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
-                            <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
-                            <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
-                            <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
-                        </div>
+                  
+                    <div id="Mydata" class="tabcontent">
+                        <h3>나의 활동\n(데이터 표)</h3>
+                        <p>데이터 표가 여기에 표시됩니다.</p>
+
                     </div>
                     <div class="progress-item">
                         <div class="location">마트</div>
@@ -149,77 +284,41 @@
                             <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
                         </div>
                     </div>
-                    <div class="progress-item">
-                        <div class="location">공원</div>
-                        <div class="status">
-                            <img src="/code/data/mypageimage/mypage_NPC_game.png" alt="Pink Person">
-                            <img src="/code/data/mypageimage/mypage_NPC_on.png" alt="Sky Person">
-                            <img src="/code/data/mypageimage/mypage_NPC_on.png" alt="Sky Person">
-                            <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
-                            <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
-                        </div>
+                  
+                    <div id="FAQ" class="tabcontent">
+                        <h3>FAQ</h3>
+                        <!--  -->
+                        <p>FAQ 내용이 여기에 표시됩니다.</p>
                     </div>
                 </div>
-            </div>
-
-            <div class="sticker-book">
-                <img src="/code/data/mypageimage/mypage_sticker_border.png" alt="Sticker Book" class="sticker-bg">
-                <h2>스티커북</h2>
-                <div class="stickers">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
-                    <img src="/code/data/mypageimage/mypage_sticker_01.png" alt="Flower">
                 </div>
             </div>
-        </div>
+            <script>
+                var modal = document.getElementById("pageModal");
+                var btn = document.getElementById("openModal");
+                btn.onclick = function() {
+                    modal.style.display = "block";
+                }
+                var span = document.getElementsByClassName("close-mypage")[7];
+                span.onclick = function() {
+                    modal.style.display = "none";
+                }
 
-        <div id="MemberInfo" class="tabcontent">
-            <h3>회원정보 수정</h3>
-            <p>회원정보 수정 내용이 여기에 표시됩니다.</p>
-        </div>
-      
-        <div id="Mydata" class="tabcontent">
-            <h3>나의 활동 (데이터 표)</h3>
-            <p>데이터 표가 여기에 표시됩니다.</p>
-        </div>
-      
-        <div id="Notion" class="tabcontent">
-            <h3>공지사항</h3>
-            <p>공지사항이 여기에 표시됩니다.</p>
-        </div>
-      
-        <div id="FAQ" class="tabcontent">
-            <h3>FAQ</h3>
-            <p>FAQ 내용이 여기에 표시됩니다.</p>
-        </div>
-    </div>
-</div>
+                document.getElementById('openModal').addEventListener('click', function() {
+                    document.getElementById('pageModal').style.display = 'flex'; // 모달을 표시
+                });
 
-<script>
-    var modal = document.getElementById("pageModal");
-    var btn = document.getElementById("openModal");
-    var span = document.querySelector("#pageModal .close");
+                document.getElementById('pageModal').addEventListener('click', function(event) {
+                    if (event.target === document.getElementById('pageModal')) {
+                        document.getElementById('pageModal').style.display = 'none'; // 모달을 숨김
+                    }
+                });
 
-    btn.onclick = function() {
-        modal.style.display = "block";
-    }
+                // 닫기 버튼 클릭 시 모달 닫기
+                span.onclick = function() {
+                    mypagemodal.style.display = "none"; 
+                }
+
 
     span.onclick = function() {
         modal.style.display = "none";
