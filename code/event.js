@@ -200,12 +200,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 게임 시작 버튼 이벤트 리스너 추가
 document.getElementById('Game').addEventListener('click', function() {
+    var textmodal = document.getElementById("myModal");
     var gameModal = document.getElementById('gameModal');
     var unityGame = document.getElementById('unityGame');
     var gamePath = this.getAttribute('data-path');
     unityGame.src = `http://3.106.251.131:8080/${gamePath}`;
     // unityGame.src = `http://localhost:8080/${gamePath}`;
     gameModal.style.display = 'block'; // 게임 모달을 표시
+    textmodal.style.display = "none";
 });
 
 // 모달 닫기 버튼 이벤트 리스너 추가

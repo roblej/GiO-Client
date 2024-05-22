@@ -28,24 +28,24 @@
             <!-- 모달 창 -->
             <div id="myModal" class="modal">
                 <!-- 모달 콘텐츠 -->
-                <div class="modal-content">
+                <div class="modal-content textModal">
                     <span class="close">&times;</span>
-                    <p>선택하세요:</p>
+                    <p>거기 너! 나랑 공놀이 하지 않을래?</p>
+                    <button id="Game" data-path="">게임 시작!</button>
                     <button id="option1">점수확인</button>
                     <button id="option2">점수기입</button>
                     <!-- <button id="recordButton">녹음 시작</button> -->
-                    <button id="Game" data-path="">게임 시작!</button>
                 </div>
             </div>    
             <!-- 유니티 게임 모달 -->
-            <div id="gameModal" class="modal">
+            <div id="gameModal" class="modal textModal">
                 <div class="modal-content" id="game-content">
                     <span class="close" id="closeGameModal">&times;</span>
                     <iframe id="unityGame" src="" style="width:100%; height:100%;" frameborder="0"></iframe>
                 </div>
             </div>
 
-            <div id="thiscasher" class="casher"> 
+            <div id="thiscasher" class="casher textModal"> 
                 <div class="Speech1">
                     <span class="close" id="casher_close">&times;</span>
                     <p id="speechText">이것은 우리의 대화에 들어가는 것을 테스트 하는 것이에요.</p>
@@ -57,7 +57,7 @@
                     </div>
                 </div>
             </div>
-            <div id="loginModal" class="modal">
+            <div id="loginModal" class="modal textModal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
                     <form id="loginForm">
@@ -272,11 +272,17 @@
                     <div id="Mydata" class="tabcontent">
                         <h3>나의 활동\n(데이터 표)</h3>
                         <p>데이터 표가 여기에 표시됩니다.</p>
+
                     </div>
-                  
-                    <div id="Notion" class="tabcontent">
-                        <h3>공지사항</h3>
-                        <p>공지사항이 여기에 표시됩니다.</p>
+                    <div class="progress-item">
+                        <div class="location">마트</div>
+                        <div class="status">
+                            <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
+                            <img src="/code/data/mypageimage/mypage_NPC_on.png" alt="Sky Person">
+                            <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
+                            <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
+                            <img src="/code/data/mypageimage/mypage_NPC_off.png" alt="Gray Person">
+                        </div>
                     </div>
                   
                     <div id="FAQ" class="tabcontent">
@@ -313,31 +319,45 @@
                     mypagemodal.style.display = "none"; 
                 }
 
-                // 모달 창 바깥 영역 클릭 시 모달 닫기
-                window.onclick = function(event) {
-                    if (event.target == mypagemodal) {
-                        mypagemodal.style.display = "none";
-                    }
-                }
 
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape" || event.key === "Esc") {
+            if (modal.style.display === "block") {
+                modal.style.display = "none";
+            } else {
+                modal.style.display = "block";
+            }
+        }
+    });
                 
-                function openTab(evt, tabName) {
-                    var i, tabcontent, tablinks;
-                    tabcontent = document.getElementsByClassName("tabcontent");
-                    for (i = 0; i < tabcontent.length; i++) {
-                      tabcontent[i].style.display = "none";
-                    }
-                    tablinks = document.getElementsByClassName("tablinks");
-                    for (i = 0; i < tablinks.length; i++) {
-                      tablinks[i].className = tablinks[i].className.replace(" active", "");
-                    }
-                    document.getElementById(tabName).style.display = "block";
-                    evt.currentTarget.className += " active";
-                }
-                document.addEventListener("DOMContentLoaded", function() {
-                    document.getElementsByClassName("tablinks")[0].click();  // 첫 번째 탭을 자동으로 클릭합니다.
-                });
-                </script>
+    // 탭 기능
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // 초기화
+    document.getElementById("Mypage").style.display = "block";
+</script>
+
 
   
             

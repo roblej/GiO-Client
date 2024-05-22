@@ -5,6 +5,7 @@ import { Octree } from "../jsm/math/Octree.js"
 import { Capsule } from "../jsm/math/Capsule.js"
 import {OrbitControls} from "../jsm/controls/OrbitControls.js"
 import { onMouseMove } from './event.js';
+import { FBXLoader } from '../jsm/loaders/FBXLoader.js';
 
 
 
@@ -21,7 +22,7 @@ class App {
     divContainer.appendChild(renderer.domElement);
     this._renderer = renderer;
     this._canvas = renderer.domElement; // canvas를 클래스 변수로 저장
-
+    
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.VSMShadowMap;
 
@@ -162,108 +163,43 @@ class App {
         const plane = new THREE.Mesh(planeGeometry,planeMaterial);
         plane.name = "plane";
         plane.rotation.x = -Math.PI/2;
-        plane.position.y= -10;
+        plane.position.y= -0;
         this._scene.add(plane);
         plane.receiveShadow = true;
 
         this._worldOctree.fromGraphNode(plane);
-        new GLTFLoader().load("./data/town_protonew.glb",(gltf) =>{
+        new GLTFLoader().load("./data/schooln.glb", (gltf) => {
             const map = gltf.scene;
             this._scene.add(map);
             this.map = map;
-            map.scale.set(50,50,50);
-            map.rotation.y = Math.PI / 2; // Z축을 중심으로 90도 회전
-            map.position.set(0,-3,0);
-            this._worldOctree.fromGraphNode(map);
-        })
-        new GLTFLoader().load("./data/drone01.glb",(gltf) =>{
-            const npc = gltf.scene;
-            this._scene.add(npc);
-            
-    
-            npc.traverse(child =>{
-                if(child instanceof THREE.Mesh) {
+            map.scale.set(500, 500, 500);
+            // map.rotation.y = Math.PI/-1; // Z축을 중심으로 180도 회전
+            map.position.set(0, 1, -2100);
+        
+            // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
+            map.traverse((child) => {
+                if (child instanceof THREE.Mesh) {
                     child.castShadow = true;
-                }
-                if (child.isMesh) {
-                    child.userData.type = 'maru';
+                    child.receiveShadow = true;
                 }
             });
-            // 애니메이션 믹서 설정
-            const mixer = new THREE.AnimationMixer(npc);
-            this._mixers.push(mixer);
-            const animationsMap = {};
-            gltf.animations.forEach((clip) => {
-                // console.log(clip.name)
-                animationsMap[clip.name] = mixer.clipAction(clip);
-            });
-            npc.userData.animationsMap = animationsMap;
-            npc.userData.mixer = mixer;
-            // 'idle' 애니메이션 재생
-            if (animationsMap['Body1|Unreal Take|Base Layer']) {
-                const idleAction = animationsMap['Body1.002|Unreal Take|Base Layer'];
-                idleAction.play();
-            }
-            // npc.position.set(100,0,-230);
-            npc.scale.set(50,50,50);
-            npc.position.x = 50
-            const box = (new THREE.Box3).setFromObject(npc);
-            // npc.position.y = (box.max.y - box.min.y) /2;
-            const height = box.max.y - box.min.y;
-            const diameter = box.max.z - box.min.z
-            
-            npc._capsule = new Capsule(
-                new THREE.Vector3(0, diameter/2, 0),
-                new THREE.Vector3(0, height - diameter/2, 0),
-                diameter/2
-            );
-            npc.rotation.y = Math.PI;
-            this._npc = npc;
-    }); 
-    new GLTFLoader().load("./data/frswhl.glb",(gltf) =>{
-        const npc = gltf.scene;
-        this._scene.add(npc);
         
+            this._worldOctree.fromGraphNode(map);
+        });
+        
+        // new FBXLoader().load("./data/field_school2.fbx", (object) => {
+        //     const map = object;
+        //     this._scene.add(map);
+        //     this.map = map;
+        //     map.scale.set(1, 1, 1);
+        //     map.rotation.y = Math.PI / 2; // Z축을 중심으로 90도 회전
+        //     map.rotation.x = Math.PI / 2; // Z축을 중심으로 90도 회전
+        //     map.rotation.z = Math.PI / -2; // Z축을 중심으로 90도 회전
 
-        npc.traverse(child =>{
-            if(child instanceof THREE.Mesh) {
-                child.castShadow = true;
-            }
-            if (child.isMesh) {
-                child.userData.type = 'frswhl';
-            }
-        });
-        // 애니메이션 믹서 설정
-        const mixer = new THREE.AnimationMixer(npc);
-        this._mixers.push(mixer);
-        const animationsMap = {};
-        gltf.animations.forEach((clip) => {
-            // console.log(clip.name)
-            animationsMap[clip.name] = mixer.clipAction(clip);
-        });
-        npc.userData.animationsMap = animationsMap;
-        npc.userData.mixer = mixer;
-        // 'idle' 애니메이션 재생
-        if (animationsMap['Take 001']) {
-            const idleAction = animationsMap['Take 001'];
-            idleAction.play();
-        }
-        npc.position.set(1000,0,-230);
-        npc.scale.set(50,50,50);
-        const box = (new THREE.Box3).setFromObject(npc);
-        // npc.position.y = (box.max.y - box.min.y) /2;
-        // const height = box.max.y - box.min.y;
-        // const diameter = box.max.z - box.min.z
-        
-        // npc._capsule = new Capsule(
-        //     new THREE.Vector3(0, diameter/2, 0),
-        //     new THREE.Vector3(0, height - diameter/2, 0),
-        //     diameter/2
-        // );
-        npc.rotation.y = Math.PI;
-        this._npc = npc;
-        this._worldOctree.fromGraphNode(npc);
-});
+        //     map.position.set(0, -3, 0);
+        //     this._worldOctree.fromGraphNode(map);
+        //   });
+
 
 new GLTFLoader().load("./data/maru.glb",(gltf) =>{
     const support = gltf.scene;
@@ -273,9 +209,10 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
     support.traverse(child =>{
         if(child instanceof THREE.Mesh) {
             child.castShadow = true;
+            child.receiveShadow = true;
         }
         if (child.isMesh) {
-            child.userData.type = 'drone';
+            child.userData.type = 'maru';
         }
     });
     // 애니메이션 믹서 설정
@@ -318,9 +255,10 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
             npc.traverse(child =>{
                 if(child instanceof THREE.Mesh) {
                     child.castShadow = true;
+                    child.receiveShadow = true;
                 }
                 if (child.isMesh) {
-                    child.userData.type = 'teacher';
+                    child.userData.type = 'friend_crash';
                 }
             });
             // 애니메이션 믹서 설정
@@ -338,7 +276,7 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
                 const idleAction = animationsMap['idle'];
                 idleAction.play();
             }
-            npc.position.set(400,0,400);
+            npc.position.set(-91,0,-775);
             npc.scale.set(50,50,50);
             const box = (new THREE.Box3).setFromObject(npc);
             // npc.position.y = (box.max.y - box.min.y) /2;
@@ -361,6 +299,7 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
         npc.traverse(child =>{
             if(child instanceof THREE.Mesh) {
                 child.castShadow = true;
+                child.receiveShadow = true;
             }
             if (child.isMesh) {
                 child.userData.type = 'friend_hurt';
@@ -381,7 +320,7 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
             const idleAction = animationsMap['idle'];
             idleAction.play();
         }
-        npc.position.set(-1861,1,1400);
+        npc.position.set(-209,1,-1350);
         npc.scale.set(50,50,50);
         npc.rotation.z = Math.PI/2
         npc.rotation.x = Math.PI/2
@@ -406,6 +345,7 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
         npc.traverse(child =>{
             if(child instanceof THREE.Mesh) {
                 child.castShadow = true;
+                child.receiveShadow = true;
             }
             if (child.isMesh) {
                 child.userData.type = 'teacher';
@@ -441,6 +381,8 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
         // npc.rotation.y = Math.PI;
         this._npc = npc;
 }); 
+ 
+
 new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
     const npc = gltf.scene;
     this._scene.add(npc);
@@ -449,9 +391,10 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
     npc.traverse(child =>{
         if(child instanceof THREE.Mesh) {
             child.castShadow = true;
+            child.receiveShadow = true;
         }
         if (child.isMesh) {
-            child.userData.type = 'npc3';
+            child.userData.type = 'rector';
         }
     });
     // 애니메이션 믹서 설정
@@ -469,8 +412,54 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         const idleAction = animationsMap['idle'];
         idleAction.play();
     }
-    npc.position.set(360,1,2341);
+    npc.position.set(225,1,-1682);
+    // npc.rotation.y = Math.PI /2;
     npc.scale.set(70,70,70);
+    const box = (new THREE.Box3).setFromObject(npc);
+    // npc.position.y = (box.max.y - box.min.y) /2;
+    const height = box.max.y - box.min.y;
+    const diameter = box.max.z - box.min.z
+    
+    npc._capsule = new Capsule(
+        new THREE.Vector3(0, diameter/2, 0),
+        new THREE.Vector3(0, height - diameter/2, 0),
+        diameter/2
+    );
+    // npc.rotation.y = Math.PI/2;
+    this._npc = npc;
+});
+
+new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
+    const npc = gltf.scene;
+    this._scene.add(npc);
+    
+
+    npc.traverse(child =>{
+        if(child instanceof THREE.Mesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+        }
+        if (child.isMesh) {
+            child.userData.type = 'game_friend';
+        }
+    });
+    // 애니메이션 믹서 설정
+    const mixer = new THREE.AnimationMixer(npc);
+    this._mixers.push(mixer);
+    const animationsMap = {};
+    gltf.animations.forEach((clip) => {
+        // console.log(clip.name);
+        animationsMap[clip.name] = mixer.clipAction(clip);
+    });
+    npc.userData.animationsMap = animationsMap;
+    npc.userData.mixer = mixer;
+    // 'idle' 애니메이션 재생
+    if (animationsMap['idle']) {
+        const idleAction = animationsMap['idle'];
+        idleAction.play();
+    }
+    npc.position.set(-705,1,-690);
+    npc.scale.set(50,50,50);
     const box = (new THREE.Box3).setFromObject(npc);
     // npc.position.y = (box.max.y - box.min.y) /2;
     const height = box.max.y - box.min.y;
@@ -483,7 +472,8 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
     );
     npc.rotation.y = Math.PI/2;
     this._npc = npc;
-}); 
+});
+
 new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
     const npc = gltf.scene;
     this._scene.add(npc);
@@ -492,6 +482,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
     npc.traverse(child =>{
         if(child instanceof THREE.Mesh) {
             child.castShadow = true;
+            child.receiveShadow = true;
         }
         if (child.isMesh) {
             child.userData.type = 'teacher';
@@ -512,7 +503,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         const idleAction = animationsMap['idle'];
         idleAction.play();
     }
-    npc.position.set(-2222,0,1297);
+    npc.position.set(-104,0,-160);
     npc.scale.set(70,70,70);
     const box = (new THREE.Box3).setFromObject(npc);
     // npc.position.y = (box.max.y - box.min.y) /2;
@@ -524,7 +515,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         new THREE.Vector3(0, height - diameter/2, 0),
         diameter/2
     );
-    npc.rotation.y = Math.PI/2;
+    npc.rotation.y = Math.PI/4;
     this._npc = npc;
 }); 
     new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
@@ -536,6 +527,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         npc.traverse(child =>{
             if(child instanceof THREE.Mesh) {
                 child.castShadow = true;
+                child.receiveShadow = true;
             }
             if (child.isMesh) {
                 child.userData.type = 'casher';
@@ -581,6 +573,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         model.traverse(child => {
             if (child instanceof THREE.Mesh) {
                 child.castShadow = true;
+                child.receiveShadow = true;
             }
         });
 
@@ -671,9 +664,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         const intersects = this._raycaster.intersectObjects(this._scene.children, true);
         for (let i = 0; i < intersects.length; i++) {
             const selectedObject = intersects[0].object;
-            if (selectedObject.userData.type == 'teacher') {
-                console.log(selectedObject.userData.type)
-            }
+
             if (selectedObject.userData.type === 'casher') {
             //   this._model.lookAt(selectedObject.position)
                 // console.log(selectedObject.userData.type);
@@ -772,13 +763,13 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
 
             
                 // 대화 내용 업데이트
-                dialogText.innerHTML = "안녕? 나는 선생님이야.";
+                dialogText.innerHTML = "안녕? 새로 온 학생이니?";
             
                 // 각 선택지 업데이트
                 function resetModal() {
-                    option1.innerHTML = "안녕하세요";
-                    option2.innerHTML = "그런데요?";
-                    option3.innerHTML = "아저씨 저 아세요?";
+                    option1.innerHTML = "네, 맞아요. 안녕하세요?";
+                    option2.innerHTML = "(무시하고 갈 길을 간다.)";
+                    option3.innerHTML = "누구세요?";
                     dialogText.style.display = "block";  // 텍스트를 보이게 함
                     buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
                 }
@@ -801,24 +792,154 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
                     resetModal();
                 };
             
-                // 각 선택지 클릭 시 동작
                 option1.onclick = function() {
                     console.log("첫 번째 선택지 선택됨");
-                    casher.style.display = "none";
-                    resetModal();
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "안녕? 나는 선생님이란다. 학교에 온걸 환영해!";
+                    dialogText.onclick = function() {
+                        casher.style.display = "none";
+                        resetModal();
+                    };
                 };
             
                 option2.onclick = function() {
                     console.log("두 번째 선택지 선택됨");
-                    casher.style.display = "none";
-                    resetModal();
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "어머..낯을가리는 아이인가?";
+                    dialogText.onclick = function() {
+                        casher.style.display = "none";
+                        resetModal();
+                    };
                 };
             
                 option3.onclick = function() {
                     console.log("세 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "나는 선생님이란다.";
+                    dialogText.onclick = function() {
+                        casher.style.display = "none";
+                        resetModal();
+                    };
+                };  
+            
+                // 모달 창 바깥 영역 클릭 시 모달 닫기
+                window.onclick = function(event) {
+                    if (event.target == casher) {
+                        casher.style.display = "none";
+                        resetModal();
+                    }
+                };
+                
+            }
+            else if (selectedObject.userData.type == 'game_friend') {
+                game_name = "GameB"
+                var modal = document.getElementById("myModal");
+                var span = document.getElementsByClassName("close")[0];
+                modal.style.display = "block";
+                var gameAButton = document.getElementById("Game");
+                gameAButton.setAttribute('data-path', 'WebGLTest1/index.html'); // data-path 속성 설정
+
+                // 닫기 버튼 클릭 시 모달 닫기
+                span.onclick = function() {
+                    modal.style.display = "none";
+                }
+        
+                // 선택지 1 클릭 시 동작
+                document.getElementById("option1").onclick = function() {
+                    console.log("선택지 1 선택됨");
+                    modal.style.display = "none";
+                }
+        
+                // 선택지 2 클릭 시 동작
+                document.getElementById("option2").onclick = function() {
+                    console.log("선택지 2 선택됨");
+                    modal.style.display = "none";
+                }
+        
+                // 모달 창 바깥 영역 클릭 시 모달 닫기
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+    
+            break; // 첫 번째 교차 객체만 처리하고 루프 종료
+            }
+            else if (selectedObject.userData.type == 'friend_crash') {
+                var casher = document.getElementById("thiscasher");
+                var span = document.getElementsByClassName("close")[1];
+                var dialogText = document.querySelector("#thiscasher .Speech1 p");
+                var option1 = document.getElementById("select1");
+                var option2 = document.getElementById("select2");
+                var option3 = document.getElementById("select3");
+                var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
+
+            
+                // 대화 내용 업데이트
+                dialogText.innerHTML = "운동장을 걷다가 어깨를 부딪쳤다. 사과를 안하고 지나갔다.";
+            
+                // 각 선택지 업데이트
+                function resetModal() {
+                    option1.innerHTML = "야! 너 왜 부딪혔는데 사과 안해?";
+                    option2.innerHTML = "(기분 나쁜데... 그래도 이번엔 그냥 지나가자.)";
+                    option3.innerHTML = "(쫓아가서 어깨를 다시 부딪힌다.)";
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                }
+
+                // 초기 상태로 모달 재설정
+                resetModal();
+
+                casher.style.display = "block";
+
+                // 텍스트 클릭 시 텍스트 숨기기 및 버튼 그룹 보이기
+                dialogText.onclick = function() {
+                    this.style.display = "none"; // 텍스트 숨김
+                    buttonGroup.style.display = "block"; // 버튼 그룹 표시
+                    recordButton.onclick()
+                };
+            
+                // 닫기 버튼 클릭 시 모달 닫기
+                span.onclick = function() {
                     casher.style.display = "none";
                     resetModal();
                 };
+            
+                option1.onclick = function() {
+                    console.log("첫 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "어? 아...미안";
+                    dialogText.onclick = function() {
+                        casher.style.display = "none";
+                        resetModal();
+                    };
+                };
+            
+                option2.onclick = function() {
+                    console.log("두 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "...";
+                    dialogText.onclick = function() {
+                        casher.style.display = "none";
+                        resetModal();
+                    };
+                };
+            
+                option3.onclick = function() {
+                    console.log("세 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "아야! 너 뭐야?";
+                    dialogText.onclick = function() {
+                        casher.style.display = "none";
+                        resetModal();
+                    };
+                };  
             
                 // 모달 창 바깥 영역 클릭 시 모달 닫기
                 window.onclick = function(event) {
@@ -828,6 +949,88 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
                     }
                 };
             }
+            else if (selectedObject.userData.type == 'rector') {
+                var casher = document.getElementById("thiscasher");
+                var span = document.getElementsByClassName("close")[1];
+                var dialogText = document.querySelector("#thiscasher .Speech1 p");
+                var option1 = document.getElementById("select1");
+                var option2 = document.getElementById("select2");
+                var option3 = document.getElementById("select3");
+                var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
+
+            
+                // 대화 내용 업데이트
+                dialogText.innerHTML = "교장선생님이다.";
+            
+                // 각 선택지 업데이트
+                function resetModal() {
+                    option1.innerHTML = "교장선생님은 왜 머리가 없으세요?";
+                    option2.innerHTML = "안녕하세요!";
+                    option3.innerHTML = "(무시하고 지나간다)";
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                }
+
+                // 초기 상태로 모달 재설정
+                resetModal();
+
+                casher.style.display = "block";
+
+                // 텍스트 클릭 시 텍스트 숨기기 및 버튼 그룹 보이기
+                dialogText.onclick = function() {
+                    this.style.display = "none"; // 텍스트 숨김
+                    buttonGroup.style.display = "block"; // 버튼 그룹 표시
+                    recordButton.onclick()
+                };
+            
+                // 닫기 버튼 클릭 시 모달 닫기
+                span.onclick = function() {
+                    casher.style.display = "none";
+                    resetModal();
+                };
+            
+                option1.onclick = function() {
+                    console.log("첫 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "머리가 없는게 아니다. 내가 나아갈 뿐";
+                    dialogText.onclick = function() {
+                        casher.style.display = "none";
+                        resetModal();
+                    };
+                };
+            
+                option2.onclick = function() {
+                    console.log("두 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "안녕, 오늘도 좋은 하루 보내렴";
+                    dialogText.onclick = function() {
+                        casher.style.display = "none";
+                        resetModal();
+                    };
+                };
+            
+                option3.onclick = function() {
+                    console.log("세 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "...";
+                    dialogText.onclick = function() {
+                        casher.style.display = "none";
+                        resetModal();
+                    };
+                };  
+            
+                // 모달 창 바깥 영역 클릭 시 모달 닫기
+                window.onclick = function(event) {
+                    if (event.target == casher) {
+                        casher.style.display = "none";
+                        resetModal();
+                    }
+                };
+            }
+
             else if (selectedObject.userData.type == 'npc3') {
                 var casher = document.getElementById("thiscasher");
                 var span = document.getElementsByClassName("close")[1];
@@ -901,9 +1104,9 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
                 var option1 = document.getElementById("select1");
                 var option2 = document.getElementById("select2");
                 var option3 = document.getElementById("select3");
-
+            
                 var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
-
+            
                 // 대화 내용 업데이트
                 dialogText.innerHTML = "넘어져서 주져 앉아있다. 무릎에 상처가 났다..";
             
@@ -915,12 +1118,12 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
                     dialogText.style.display = "block";  // 텍스트를 보이게 함
                     buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
                 }
-
+            
                 // 초기 상태로 모달 재설정
                 resetModal();
-
+            
                 casher.style.display = "block";
-
+            
                 // 텍스트 클릭 시 텍스트 숨기기 및 버튼 그룹 보이기
                 dialogText.onclick = function() {
                     this.style.display = "none"; // 텍스트 숨김
@@ -937,8 +1140,13 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
                 // 각 선택지 클릭 시 동작
                 option1.onclick = function() {
                     console.log("첫 번째 선택지 선택됨");
-                    casher.style.display = "none";
-                    resetModal();
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "뭐야? 구경났어?";
+                    dialogText.onclick = function() {
+                        casher.style.display = "none";
+                        resetModal();
+                    };
                 };
             
                 option2.onclick = function() {
@@ -946,18 +1154,22 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "괜찮아. 혼자 양호실에 갈게. 걱정해줘서 고마워.";
-                    // span.onclick = function(){
-                    //     casher.style.display = "none";
-                    //     resetModal();
-                    // }
-                    
+                    dialogText.onclick = function() {
+                        casher.style.display = "none";
+                        resetModal();
+                    };
                 };
             
                 option3.onclick = function() {
                     console.log("세 번째 선택지 선택됨");
-                    casher.style.display = "none";
-                    resetModal();
-                };
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = ".....";
+                    dialogText.onclick = function() {
+                        casher.style.display = "none";
+                        resetModal();
+                    };
+                };           
             
                 // 모달 창 바깥 영역 클릭 시 모달 닫기
                 window.onclick = function(event) {
@@ -1115,32 +1327,33 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
     }
 
     _setupLight() {
-        const ambientLight = new THREE.AmbientLight(0xffffff, 5);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 2);
         this._scene.add(ambientLight);
         // this._addPointLight(500, 150, 500, 0xff0000);
         // this._addPointLight(-500, 150, 500, 0xffff00);
         // this._addPointLight(-500, 150, -500, 0x00ff00);
         // this._addPointLight(500, 150, -500, 0x0000ff);
 
-        const shadowLight = new THREE.DirectionalLight(0xffffff, 0.2);
-        shadowLight.position.set(200, 500, 200);
-        shadowLight.target.position.set(0, 0, 0);
+        const shadowLight = new THREE.DirectionalLight(0xffffff, 2);
+        shadowLight.position.set(-1000, 1200, -2350);
+        shadowLight.target.position.set(50, 0, -1000);
         const directionalLightHelper = new THREE.DirectionalLightHelper(shadowLight, 10);
-        // this._scene.add(directionalLightHelper);
+        this._scene.add(directionalLightHelper);
         
         this._scene.add(shadowLight);
         this._scene.add(shadowLight.target);
 
         shadowLight.castShadow = true;
+        // shadowLight.receiveShadow = true;
         shadowLight.shadow.mapSize.width = 1024;
         shadowLight.shadow.mapSize.height = 1024;
-        shadowLight.shadow.camera.top = shadowLight.shadow.camera.right = 700;
-        shadowLight.shadow.camera.bottom = shadowLight.shadow.camera.left = -700;
+        shadowLight.shadow.camera.top = shadowLight.shadow.camera.right = 5000;
+        shadowLight.shadow.camera.bottom = shadowLight.shadow.camera.left = -5000;
         shadowLight.shadow.camera.near = 100;
-        shadowLight.shadow.camera.far = 900;
-        shadowLight.shadow.radius = 5;
+        shadowLight.shadow.camera.far = 5000;
+        shadowLight.shadow.radius = 2;
         const shadowCameraHelper = new THREE.CameraHelper(shadowLight.shadow.camera);
-        // this._scene.add(shadowCameraHelper);
+        this._scene.add(shadowCameraHelper);
     }
     
     _previousDirectionOffset = 0;
