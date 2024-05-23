@@ -48,25 +48,37 @@ class App {
 // 오디오 로더 생성
     const audioLoader = new THREE.AudioLoader();
 
-// 오디오 파일 로드 및 재생
-    document.getElementById('loginModal').addEventListener('click', function() {
-        if (listener.context.state === 'suspended') {
-            listener.context.resume(); // AudioContext 상태 확인 및 활성화
-        }
+// 초기 볼륨 설정
+let initialVolume = 0.3;
 
-            audioLoader.load('./data/bgm.mp3', function(buffer) {
-                sound.setBuffer(buffer);
-                sound.setLoop(true);
-                sound.setVolume(0.3);
-                sound.play();
-            });
+// AudioContext 상태 확인 및 활성화
+document.getElementById('loginModal').addEventListener('click', function() {
+    if (listener.context.state === 'suspended') {
+        listener.context.resume();
+    }
+
+    // sound가 이미 재생 중인지 확인
+    if (!sound.isPlaying) {
+        audioLoader.load('./data/bgm.mp3', function(buffer) {
+            sound.setBuffer(buffer);
+            sound.setLoop(true);
+            sound.setVolume(initialVolume); // 초기 볼륨 적용
+            sound.play();
         });
-    // 볼륨 노브 컨트롤
-    const volumeSlider = document.getElementById('volumeSlider');
-    volumeSlider.addEventListener('input', function() {
-        const volume = this.value / 100;
-        sound.setVolume(volume);
-    });
+    }
+});
+
+// 볼륨 노브 컨트롤
+const volumeSlider = document.getElementById('volumeSlider');
+volumeSlider.addEventListener('input', function() {
+    const volume = this.value / 100;
+    initialVolume = volume; // 전역 변수로 볼륨 저장
+    if (sound.isPlaying) {
+        sound.setVolume(volume); // 사운드가 재생 중이면 즉시 적용
+    }
+});
+
+
 
     this._raycaster = new THREE.Raycaster();
     this._mouse = new THREE.Vector2();
@@ -169,7 +181,7 @@ class App {
         plane.receiveShadow = true;
 
         this._worldOctree.fromGraphNode(plane);
-        new GLTFLoader().load("./data/sc.glb", (gltf) => {
+        new GLTFLoader().load("./data/schooln.glb", (gltf) => {
             const map = gltf.scene;
             this._scene.add(map);
             this.map = map;
@@ -829,7 +841,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
                 var span = document.getElementsByClassName("close")[0];
                 modal.style.display = "block";
                 var gameAButton = document.getElementById("Game");
-                gameAButton.setAttribute('data-path', 'JonnaZiralBall/index.html'); // data-path 속성 설정
+                gameAButton.setAttribute('data-path', 'BuildTest1/index.html'); // data-path 속성 설정
 
                 // 닫기 버튼 클릭 시 모달 닫기
                 span.onclick = function() {
