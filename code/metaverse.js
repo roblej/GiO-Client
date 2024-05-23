@@ -164,32 +164,30 @@ class App {
         const plane = new THREE.Mesh(planeGeometry,planeMaterial);
         plane.name = "plane";
         plane.rotation.x = -Math.PI/2;
-        plane.position.y= -10;
+        plane.position.y= -0;
         this._scene.add(plane);
         plane.receiveShadow = true;
 
         this._worldOctree.fromGraphNode(plane);
-        new GLTFLoader().load("./data/town_protonew.glb",(gltf) =>{
+        new GLTFLoader().load("./data/sc.glb", (gltf) => {
             const map = gltf.scene;
             this._scene.add(map);
             this.map = map;
-            map.scale.set(50,50,50);
-            map.rotation.y = Math.PI / 2; // Z축을 중심으로 90도 회전
-            map.position.set(0,-3,0);
+            map.scale.set(500, 500, 500);
+            // map.rotation.y = Math.PI/-1; // Z축을 중심으로 180도 회전
+            map.position.set(0, 1, -2100);
+        
+            // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
+            map.traverse((child) => {
+                if (child instanceof THREE.Mesh) {
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                }
+            });
+        
             this._worldOctree.fromGraphNode(map);
-        })
-        // new FBXLoader().load("./data/field_school2.fbx", (object) => {
-        //     const map = object;
-        //     this._scene.add(map);
-        //     this.map = map;
-        //     map.scale.set(1, 1, 1);
-        //     map.rotation.y = Math.PI / 2; // Z축을 중심으로 90도 회전
-        //     map.rotation.x = Math.PI / 2; // Z축을 중심으로 90도 회전
-        //     map.rotation.z = Math.PI / -2; // Z축을 중심으로 90도 회전
-
-        //     map.position.set(0, -3, 0);
-        //     this._worldOctree.fromGraphNode(map);
-        //   });
+        });
+        
 
 
 new GLTFLoader().load("./data/maru.glb",(gltf) =>{
@@ -200,6 +198,7 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
     support.traverse(child =>{
         if(child instanceof THREE.Mesh) {
             child.castShadow = true;
+            child.receiveShadow = true;
         }
         if (child.isMesh) {
             child.userData.type = 'maru';
@@ -245,6 +244,7 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
             npc.traverse(child =>{
                 if(child instanceof THREE.Mesh) {
                     child.castShadow = true;
+                    child.receiveShadow = true;
                 }
                 if (child.isMesh) {
                     child.userData.type = 'friend_crash';
@@ -265,7 +265,7 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
                 const idleAction = animationsMap['idle'];
                 idleAction.play();
             }
-            npc.position.set(-1419,0,1488);
+            npc.position.set(-91,0,-775);
             npc.scale.set(50,50,50);
             const box = (new THREE.Box3).setFromObject(npc);
             // npc.position.y = (box.max.y - box.min.y) /2;
@@ -288,6 +288,7 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
         npc.traverse(child =>{
             if(child instanceof THREE.Mesh) {
                 child.castShadow = true;
+                child.receiveShadow = true;
             }
             if (child.isMesh) {
                 child.userData.type = 'friend_hurt';
@@ -308,7 +309,7 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
             const idleAction = animationsMap['idle'];
             idleAction.play();
         }
-        npc.position.set(-1861,1,1400);
+        npc.position.set(-209,1,-1350);
         npc.scale.set(50,50,50);
         npc.rotation.z = Math.PI/2
         npc.rotation.x = Math.PI/2
@@ -333,6 +334,7 @@ new GLTFLoader().load("./data/maru.glb",(gltf) =>{
         npc.traverse(child =>{
             if(child instanceof THREE.Mesh) {
                 child.castShadow = true;
+                child.receiveShadow = true;
             }
             if (child.isMesh) {
                 child.userData.type = 'teacher';
@@ -378,6 +380,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
     npc.traverse(child =>{
         if(child instanceof THREE.Mesh) {
             child.castShadow = true;
+            child.receiveShadow = true;
         }
         if (child.isMesh) {
             child.userData.type = 'rector';
@@ -398,7 +401,8 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         const idleAction = animationsMap['idle'];
         idleAction.play();
     }
-    npc.position.set(-2137,1,1117);
+    npc.position.set(225,1,-1682);
+    // npc.rotation.y = Math.PI /2;
     npc.scale.set(70,70,70);
     const box = (new THREE.Box3).setFromObject(npc);
     // npc.position.y = (box.max.y - box.min.y) /2;
@@ -410,7 +414,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         new THREE.Vector3(0, height - diameter/2, 0),
         diameter/2
     );
-    npc.rotation.y = Math.PI/2;
+    // npc.rotation.y = Math.PI/2;
     this._npc = npc;
 });
 
@@ -422,6 +426,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
     npc.traverse(child =>{
         if(child instanceof THREE.Mesh) {
             child.castShadow = true;
+            child.receiveShadow = true;
         }
         if (child.isMesh) {
             child.userData.type = 'game_friend';
@@ -442,7 +447,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         const idleAction = animationsMap['idle'];
         idleAction.play();
     }
-    npc.position.set(-1274,1,2307);
+    npc.position.set(-705,1,-690);
     npc.scale.set(50,50,50);
     const box = (new THREE.Box3).setFromObject(npc);
     // npc.position.y = (box.max.y - box.min.y) /2;
@@ -466,6 +471,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
     npc.traverse(child =>{
         if(child instanceof THREE.Mesh) {
             child.castShadow = true;
+            child.receiveShadow = true;
         }
         if (child.isMesh) {
             child.userData.type = 'teacher';
@@ -486,7 +492,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         const idleAction = animationsMap['idle'];
         idleAction.play();
     }
-    npc.position.set(-882,0,1097);
+    npc.position.set(-104,0,-160);
     npc.scale.set(70,70,70);
     const box = (new THREE.Box3).setFromObject(npc);
     // npc.position.y = (box.max.y - box.min.y) /2;
@@ -498,7 +504,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         new THREE.Vector3(0, height - diameter/2, 0),
         diameter/2
     );
-    npc.rotation.y = Math.PI/2;
+    npc.rotation.y = Math.PI/4;
     this._npc = npc;
 }); 
     new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
@@ -510,6 +516,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         npc.traverse(child =>{
             if(child instanceof THREE.Mesh) {
                 child.castShadow = true;
+                child.receiveShadow = true;
             }
             if (child.isMesh) {
                 child.userData.type = 'casher';
@@ -555,6 +562,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         model.traverse(child => {
             if (child instanceof THREE.Mesh) {
                 child.castShadow = true;
+                child.receiveShadow = true;
             }
         });
 
@@ -584,7 +592,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         );
         
         model.scale.set(50, 50, 50);
-        // model.position.set(2389,10,2690)
+        model.position.set(-0.5,10,-9)
             const axisHelper = new THREE.AxesHelper(1000);
             // this._scene.add(axisHelper)
             const boxHelper = new THREE.BoxHelper(model);
@@ -624,7 +632,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
             boxT.castShadow = true;
             boxT.position.set(-150, 0, 0);
             boxT.name = "tp";
-            this._scene.add(boxT);
+            // this._scene.add(boxT);
             this._boxT= boxT;
             this._worldOctree.fromGraphNode(boxT);
     }
@@ -816,12 +824,12 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
                 
             }
             else if (selectedObject.userData.type == 'game_friend') {
-                game_name = "GameA"
+                game_name = "GameB"
                 var modal = document.getElementById("myModal");
                 var span = document.getElementsByClassName("close")[0];
                 modal.style.display = "block";
                 var gameAButton = document.getElementById("Game");
-                gameAButton.setAttribute('data-path', 'WebGLTest1/index.html'); // data-path 속성 설정
+                gameAButton.setAttribute('data-path', 'JonnaZiralBall/index.html'); // data-path 속성 설정
 
                 // 닫기 버튼 클릭 시 모달 닫기
                 span.onclick = function() {
@@ -1290,7 +1298,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
             1,
             20000
         );
-        camera.position.set(0, 100, 500);
+        camera.position.set(0, 100, 400);
         this._camera = camera;
     }
 
@@ -1308,13 +1316,13 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
     }
 
     _setupLight() {
-        const ambientLight = new THREE.AmbientLight(0xffffff, 5);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 2);
         this._scene.add(ambientLight);
 
 
-        const shadowLight = new THREE.DirectionalLight(0xffffff, 0.2);
-        shadowLight.position.set(200, 500, 200);
-        shadowLight.target.position.set(0, 0, 0);
+        const shadowLight = new THREE.DirectionalLight(0xffffff, 2);
+        shadowLight.position.set(-1000, 1200, -2350);
+        shadowLight.target.position.set(50, 0, -1000);
         const directionalLightHelper = new THREE.DirectionalLightHelper(shadowLight, 10);
         // this._scene.add(directionalLightHelper);
         
@@ -1322,13 +1330,14 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
         this._scene.add(shadowLight.target);
 
         shadowLight.castShadow = true;
+        // shadowLight.receiveShadow = true;
         shadowLight.shadow.mapSize.width = 1024;
         shadowLight.shadow.mapSize.height = 1024;
-        shadowLight.shadow.camera.top = shadowLight.shadow.camera.right = 700;
-        shadowLight.shadow.camera.bottom = shadowLight.shadow.camera.left = -700;
+        shadowLight.shadow.camera.top = shadowLight.shadow.camera.right = 5000;
+        shadowLight.shadow.camera.bottom = shadowLight.shadow.camera.left = -5000;
         shadowLight.shadow.camera.near = 100;
-        shadowLight.shadow.camera.far = 900;
-        shadowLight.shadow.radius = 5;
+        shadowLight.shadow.camera.far = 5000;
+        shadowLight.shadow.radius = 2;
         const shadowCameraHelper = new THREE.CameraHelper(shadowLight.shadow.camera);
         // this._scene.add(shadowCameraHelper);
     }
