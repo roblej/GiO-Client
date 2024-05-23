@@ -130,7 +130,8 @@ class App {
     _processAnimation(){
         const previousAnimationAction = this._currentAnimationAction;
 
-        if(this._pressKeys["w"] || this._pressKeys["a"] || this._pressKeys["s"] || this._pressKeys["d"]) {
+        if(this._pressKeys["w"] || this._pressKeys["a"] || this._pressKeys["s"]
+        || this._pressKeys["d"]) {
             if(this._pressKeys["shift"] ){
                 this._currentAnimationAction = this._animationMap["run"];
                 // this._speed = 350;
@@ -1309,10 +1310,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
     _setupLight() {
         const ambientLight = new THREE.AmbientLight(0xffffff, 5);
         this._scene.add(ambientLight);
-        // this._addPointLight(500, 150, 500, 0xff0000);
-        // this._addPointLight(-500, 150, 500, 0xffff00);
-        // this._addPointLight(-500, 150, -500, 0x00ff00);
-        // this._addPointLight(500, 150, -500, 0x0000ff);
+
 
         const shadowLight = new THREE.DirectionalLight(0xffffff, 0.2);
         shadowLight.position.set(200, 500, 200);

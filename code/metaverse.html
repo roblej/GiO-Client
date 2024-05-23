@@ -58,14 +58,20 @@
                 </div>
             </div>
             <div id="loginModal" class="modal textModal">
-                <div class="modal-content">
+                <div class="modal-content" id="loginContent">
+                    <div id="loginBannerFront"></div>
+                    <div id="loginBanner">
+                    </div>
+
                     <span class="close">&times;</span>
                     <form id="loginForm">
                         <h2>로그인</h2>
                         <input type="text" placeholder="아이디" name="id" required>
                         <input type="password" placeholder="비밀번호" name="password" required>
-                        <button type="submit">로그인</button>
-                        <button type="button" onclick="switchToSignup()">회원가입</button>
+                        <button type="submit" id="loginBtn">로그인</button>
+                    </br>
+                        <button type="button" id = "regBtn"onclick="switchToSignup()">회원가입하기</button>
+                        <button type = "button" id="findBtn"> ID/PW 찾기</button>
                     </form>
                     <form id="signupForm" style="display:none;">
                         <h2>회원가입</h2>

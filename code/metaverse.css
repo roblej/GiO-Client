@@ -63,6 +63,64 @@ input[type="range"]::-moz-range-thumb {
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
+/* 모달 콘텐츠 스타일 */
+.modal-content {
+  background-color: #fefefe;
+  position: fixed;
+  bottom: -100px;
+  right: 10%;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+/* 배너 이미지 스타일 */
+#loginBanner {
+  background-image: url(./data/loginImage/main.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: calc(100% + 4vw); /* 부모 padding을 무시하기 위해 넓이 조정 (7% * 2) */
+  height: 0; /* 높이는 padding-bottom으로 설정 */
+  padding-bottom: calc(100% / 2.56); /* 1280x500 비율을 유지하도록 높이 설정 */
+  position: relative; /* position을 relative로 설정 */
+  left: -2vw; /* padding의 반대 값만큼 좌측으로 이동 */
+  margin-top: -4vh; /* 상단 padding을 무시하기 위해 위로 이동 */
+  margin-bottom: 2vh; /* 필요에 따라 하단 여백 추가 */
+  box-sizing: border-box;
+}
+
+/* loginBannerFront 이미지 스타일 */
+#loginBannerFront {
+  background-image: url(./data/loginImage/bush_front.png);
+  position: absolute;
+  background-size: contain;
+  background-repeat: no-repeat; /* 이미지 반복 방지 */
+  width: 100%;
+  height: 40vh; /* 뷰포트 높이의 25% */
+  right: -40vw;
+  bottom: -17vh;
+  z-index: 2;
+  box-shadow: none; /* 그림자 제거 */
+}
+
+/* loginContent 스타일 */
+#loginContent {
+  width: 55vw;
+  right: 21vw;
+  top : -11vh;
+  padding: 2vw;
+  border: none;
+}
+
+/* loginModal 스타일 */
+#loginModal {
+  background-image: url(./data/loginImage/bush_back.png);
+  background-size: contain;
+  background-repeat: no-repeat; /* 이미지 반복 방지 */
+  background-position: center; /* 이미지 중앙 정렬 */
+  overflow: hidden; /* 경계를 벗어난 부분 숨김 */
+}
 .casher {
   display: none; /* 기본적으로 숨김 */
   position: fixed; /* Stay in place */
@@ -76,17 +134,6 @@ input[type="range"]::-moz-range-thumb {
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-/* 모달 콘텐츠 스타일 */
-.modal-content {
-  background-color: #fefefe;
-  position: fixed;
-  bottom: -100px;
-  right: 10%;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
-}
 #game-content{
   width: 80%;
   height: 70%;
@@ -320,5 +367,9 @@ input[type="range"]::-moz-range-thumb {
   object-fit: cover;
 }
 
-
+#regBtn, #findBtn{
+  border: none;
+  background-color: transparent;
+  color: #989898;
+}
 
