@@ -237,6 +237,9 @@ input[type="range"]::-moz-range-thumb {
   border-color: black;
   border-radius: 5px;
   background-color: white;
+  background-image: url("/code/data/mypageimage/mypage_profile_bigdog.png");
+  background-repeat: no-repeat;
+  background-size: fill;
 }
 
 .profile h2{
@@ -277,6 +280,15 @@ tbody td {
   width: 14%;
   height: 45px;
   border: 1px dotted #ccc;
+  text-align: center;
+}
+
+
+.sticker-img {
+  width: 100%;
+  height: 100%;
+  scale: 80%;
+  object-fit: fill;
 }
 
 .npc-box {
@@ -298,6 +310,23 @@ thead th.first-cell {
   font-family: 'Pretendard-Regular';
 }
 
-.sticker-box img {
-  scale: 80%;
+tbody td.single {
+  width: 16.66%; /* 1/6의 너비 */
+  text-align: center;
+  font-family: 'Pretendard-Regular';
 }
+
+tbody td.double {
+  width: 33.33%; /* 2/6의 너비 */
+}
+
+.bg-image {
+  width: 100%;
+  height: 100%;
+  background-image: url("/code/data/mypageimage/mypage_NPC_off.png");
+  background-repeat: repeat-x;
+  scale: 80%;
+  background-size: 20%; /* 적절한 크기로 설정 */
+}
+
+
