@@ -227,12 +227,13 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .profile{
-  width: 25%;
-  height: 50%;
+  width: 20%;
+  height: 40%;
+  position: absolute; 
 }
 .profile-box{
   width: 80%;
-  height: 67%;
+  height: 60%;
   border-color: black;
   border-radius: 5px;
   background-color: white;
@@ -299,6 +300,4 @@ thead th.first-cell {
 
 .sticker-box img {
   scale: 80%;
-  
-
 }
