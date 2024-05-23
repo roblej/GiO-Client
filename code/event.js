@@ -1,4 +1,5 @@
 import { game_name } from './metaverse.js';
+export let globalId = "";
 
 export function onMouseMove(event, appInstance) {
     event.preventDefault();
@@ -37,7 +38,6 @@ export function onMouseMove(event, appInstance) {
         appInstance._highlighted = null;
     }
 }
-export let globalId = "";
 // document.addEventListener('DOMContentLoaded', () => {
 //     sessionStorage.clear();  // sessionStorage의 모든 항목을 비우기
 // });
@@ -204,11 +204,31 @@ document.getElementById('Game').addEventListener('click', function() {
     var gameModal = document.getElementById('gameModal');
     var unityGame = document.getElementById('unityGame');
     var gamePath = this.getAttribute('data-path');
+    console.log(globalId)
+    // Unity WebGL 로드 완료 후에 실행되는 콜백 함수
+    var loadGameAndSendData = function() {
+        // Unity에 데이터를 전달하는 함수 호출
+        console.log('Sending globalId to Unity:', globalId);
+        unityGame.contentWindow.postMessage(globalId, "*");
+    };
+
+    // Unity WebGL 로드 완료 후에 실행되는 콜백 함수 설정
+    unityGame.onload = function() {
+        // Unity WebGL 라이브러리가 완전히 로드된 후에 실행되는 함수
+        loadGameAndSendData();
+    };
+
+    // Unity WebGL 게임 로드
     unityGame.src = `http://3.106.251.131:8080/${gamePath}`;
-    // unityGame.src = `http://localhost:8080/${gamePath}`;
     gameModal.style.display = 'block'; // 게임 모달을 표시
     textmodal.style.display = "none";
 });
+
+
+
+
+
+
 
 // 모달 닫기 버튼 이벤트 리스너 추가
 document.getElementById('closeGameModal').addEventListener('click', function() {
