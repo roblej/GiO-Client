@@ -171,32 +171,32 @@ document.addEventListener('DOMContentLoaded', () => {
     option1Button.addEventListener('click', eventHandler);
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const option1Button = document.getElementById('option2');
+// document.addEventListener('DOMContentLoaded', () => {
+//     const option1Button = document.getElementById('option2');
 
-    option1Button.addEventListener('click', () => {
-        const randomScore = Math.floor(Math.random() * 11) * 10; // 0부터 100까지 10의 단위로 랜덤 점수 생성
+//     option1Button.addEventListener('click', () => {
+//         const randomScore = Math.floor(Math.random() * 11) * 10; // 0부터 100까지 10의 단위로 랜덤 점수 생성
 
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                id: globalId,
-                game_name: game_name,
-                score: randomScore // 랜덤 점수 사용
-            }),
-        };
+//         const requestOptions = {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify({
+//                 id: globalId,
+//                 game_name: game_name,
+//                 score: randomScore // 랜덤 점수 사용
+//             }),
+//         };
         
-        // fetch 함수를 사용하여 POST 요청 보내기
-        // fetch('http://127.0.0.1:3000/api/gamescore', requestOptions)
-        fetch('http://3.106.251.131:3000/api/gamescore', requestOptions)
-            .then(response => response.json())
-            .then(data => console.log(data)) // 응답 데이터 처리
-            .catch(error => console.error('Error:', error)); // 에러 처리
-    });
-});
+//         // fetch 함수를 사용하여 POST 요청 보내기
+//         // fetch('http://127.0.0.1:3000/api/gamescore', requestOptions)
+//         fetch('http://3.106.251.131:3000/api/gamescore', requestOptions)
+//             .then(response => response.json())
+//             .then(data => console.log(data)) // 응답 데이터 처리
+//             .catch(error => console.error('Error:', error)); // 에러 처리
+//     });
+// });
 
 // 게임 시작 버튼 이벤트 리스너 추가
 document.getElementById('Game').addEventListener('click', function() {
@@ -232,7 +232,7 @@ window.onclick = function(event) {
 // Unity에서 메시지를 받을 이벤트 리스너 추가
 window.addEventListener('message', function(event) {
     if (event.data.type === 'score') {
-        console.log(event.data.value)
+        // console.log(event.data.value)
         const game_score = event.data.value
         const requestOptions = {
             method: 'POST',

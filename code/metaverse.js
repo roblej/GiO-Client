@@ -841,7 +841,7 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
                 var span = document.getElementsByClassName("close")[0];
                 modal.style.display = "block";
                 var gameAButton = document.getElementById("Game");
-                gameAButton.setAttribute('data-path', 'BuildTest3/index.html'); // data-path 속성 설정
+                gameAButton.setAttribute('data-path', 'BallMiniGame/index.html'); // data-path 속성 설정
 
                 // 닫기 버튼 클릭 시 모달 닫기
                 span.onclick = function() {
