@@ -171,32 +171,32 @@ document.addEventListener('DOMContentLoaded', () => {
     option1Button.addEventListener('click', eventHandler);
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const option1Button = document.getElementById('option2');
+// document.addEventListener('DOMContentLoaded', () => {
+//     const option1Button = document.getElementById('option2');
 
-    option1Button.addEventListener('click', () => {
-        const randomScore = Math.floor(Math.random() * 11) * 10; // 0부터 100까지 10의 단위로 랜덤 점수 생성
+//     option1Button.addEventListener('click', () => {
+//         const randomScore = Math.floor(Math.random() * 11) * 10; // 0부터 100까지 10의 단위로 랜덤 점수 생성
 
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                id: globalId,
-                game_name: game_name,
-                score: randomScore // 랜덤 점수 사용
-            }),
-        };
+//         const requestOptions = {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify({
+//                 id: globalId,
+//                 game_name: game_name,
+//                 score: randomScore // 랜덤 점수 사용
+//             }),
+//         };
         
-        // fetch 함수를 사용하여 POST 요청 보내기
-        // fetch('http://127.0.0.1:3000/api/gamescore', requestOptions)
-        fetch('http://3.106.251.131:3000/api/gamescore', requestOptions)
-            .then(response => response.json())
-            .then(data => console.log(data)) // 응답 데이터 처리
-            .catch(error => console.error('Error:', error)); // 에러 처리
-    });
-});
+//         // fetch 함수를 사용하여 POST 요청 보내기
+//         // fetch('http://127.0.0.1:3000/api/gamescore', requestOptions)
+//         fetch('http://3.106.251.131:3000/api/gamescore', requestOptions)
+//             .then(response => response.json())
+//             .then(data => console.log(data)) // 응답 데이터 처리
+//             .catch(error => console.error('Error:', error)); // 에러 처리
+//     });
+// });
 
 // 게임 시작 버튼 이벤트 리스너 추가
 document.getElementById('Game').addEventListener('click', function() {
@@ -204,31 +204,12 @@ document.getElementById('Game').addEventListener('click', function() {
     var gameModal = document.getElementById('gameModal');
     var unityGame = document.getElementById('unityGame');
     var gamePath = this.getAttribute('data-path');
-    console.log(globalId)
-    // Unity WebGL 로드 완료 후에 실행되는 콜백 함수
-    var loadGameAndSendData = function() {
-        // Unity에 데이터를 전달하는 함수 호출
-        console.log('Sending globalId to Unity:', globalId);
-        unityGame.contentWindow.postMessage(globalId, "*");
-    };
-
-    // Unity WebGL 로드 완료 후에 실행되는 콜백 함수 설정
-    unityGame.onload = function() {
-        // Unity WebGL 라이브러리가 완전히 로드된 후에 실행되는 함수
-        loadGameAndSendData();
-    };
 
     // Unity WebGL 게임 로드
     unityGame.src = `http://3.106.251.131:8080/${gamePath}`;
     gameModal.style.display = 'block'; // 게임 모달을 표시
     textmodal.style.display = "none";
 });
-
-
-
-
-
-
 
 // 모달 닫기 버튼 이벤트 리스너 추가
 document.getElementById('closeGameModal').addEventListener('click', function() {
@@ -247,3 +228,30 @@ window.onclick = function(event) {
         gameModal.style.display = 'none'; // 게임 모달을 숨김
     }
 }
+
+// Unity에서 메시지를 받을 이벤트 리스너 추가
+window.addEventListener('message', function(event) {
+    if (event.data.type === 'score') {
+        // console.log(event.data.value)
+        const game_score = event.data.value
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: globalId,
+                game_name: game_name,
+                score: game_score
+            }),
+        };
+        
+        // fetch 함수를 사용하여 POST 요청 보내기
+        // fetch('http://127.0.0.1:3000/api/gamescore', requestOptions)
+        fetch('http://3.106.251.131:3000/api/gamescore', requestOptions)
+            .then(response => response.json())
+            .then(data => console.log(data)) // 응답 데이터 처리
+            .catch(error => console.error('Error:', error)); // 에러 처리
+
+    }
+}, false);
