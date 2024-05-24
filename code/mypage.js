@@ -37,19 +37,19 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   window.onclick = function(event) {
-      if (event.target == modal) {
-          modal.style.display = "none";
-          console.log("Outside clicked"); // 모달 외부 클릭 확인
-      }
-  }
-
-  document.addEventListener("keydown", function(event) {
-      if (event.key === "Escape" || event.key === "Esc") {
-          modal.style.display = "none";
-          console.log("Escape key pressed"); // Esc 키 눌림 확인
-      }
-  });
-
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape" || event.key === "Esc") {
+        if (modal.style.display === "flex") {
+            modal.style.display = "none";
+        } else {
+            modal.style.display = "flex";
+        }
+    }
+});
   // 초기화
   document.getElementById("Mypage").style.display = "block";
 });
