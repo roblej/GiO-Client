@@ -21,10 +21,9 @@
 </head>
 <body>
     <!-- 볼륨 조절 슬라이더 -->
-    <input type="range" id="volumeSlider" min="0" max="100" value="50" style="position: fixed; top: 40px; right: 20px; z-index: 1000; width: 200px;">
+    <input type="range" id="volumeSlider" min="0" max="100" value="50">
 
-
-    <div id="positionLabel" style="position: absolute; top: 10px; right: 10px; color: white; font-family: Arial; font-size: 16px; z-index: 99999;"></div>
+    <div id="positionLabel" style="position: absolute; top: 10px; right: 10px; color: white; font-family: Arial; font-size: 16px; z-index: 99999; display: none;"></div>
     <div id="webgl-container"></div>
             <!-- 모달 창 -->
             <div id="myModal" class="modal">
@@ -59,14 +58,22 @@
                 </div>
             </div>
             <div id="loginModal" class="modal textModal">
-                <div class="modal-content">
+                <div class="modal-content" id="loginContent">
+                    <div id="loginBannerFront"></div>
+                    <div id="loginBanner">
+                    </div>
+
                     <span class="close">&times;</span>
                     <form id="loginForm">
                         <h2>로그인</h2>
-                        <input type="text" placeholder="아이디" name="id" required>
-                        <input type="password" placeholder="비밀번호" name="password" required>
-                        <button type="submit">로그인</button>
-                        <button type="button" onclick="switchToSignup()">회원가입</button>
+                        <div id="loginBtns">
+                            <input type="text" placeholder="아이디" name="id" required>
+                            <input type="password" placeholder="비밀번호" name="password" required>
+                            <button type="submit" id="loginBtn">로그인</button>
+                        </div>
+                    </br>
+                        <button type="button" id = "regBtn"onclick="switchToSignup()">회원가입하기</button>
+                        <button type = "button" id="findBtn"> ID/PW 찾기</button>
                     </form>
                     <form id="signupForm" style="display:none;">
                         <h2>회원가입</h2>
@@ -82,6 +89,7 @@
             <div id="speechBubble" style="display: none; position: absolute; padding: 10px; background: white; border: 1px solid black; border-radius: 5px;">
                 Hello, I'm an NPC!
             </div>
+
 
             <button id="openModal">마이페이지</button>
             <div id="pageModal" class="mypagemodal-bg">
@@ -102,40 +110,31 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_07_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_02.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_05_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_03.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_04.png" alt="sticker" class="sticker-img"></td>
                                             </tr>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_05.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_06_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_08_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_09_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_10_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_06_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_04_01.png" alt="sticker" class="sticker-img"></td>
                                             </tr>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_01_1.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_08_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_06_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_03_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_02_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_07_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_05_01.png" alt="sticker" class="sticker-img"></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -147,31 +146,38 @@
                                                 <th colspan="6" class="first-cell">만남</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td colspan="2"></td>
-                                                <td></td>
-                                                <td colspan="2"></td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td colspan="2"></td>
-                                                <td></td>
-                                                <td colspan="2"></td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                        </tbody>
+                                        <tr>
+                                            <td class="single">학교</td>
+                                            <td class="double" colspan="2">
+                                                <div class="bg-image"></div>
+                                            </td>
+                                            <td class="single">마을회관</td>
+                                            <td class="double" colspan="2">
+                                                <div class="bg-image"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="single">도서관</td>
+                                            <td class="double" colspan="2">
+                                                <div class="bg-image"></div>
+                                            </td>
+                                            <td class="single">마트</td>
+                                            <td class="double" colspan="2">
+                                                <div class="bg-image"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="single">공원</td>
+                                            <td class="double" colspan="2">
+                                                <div class="bg-image"></div>
+                                            </td>
+                                            <td class="single"></td>
+                                            <td class="double" colspan="2">
+                                            </td>
+                                        </tr>
                                     </table>
-                                </div>
-                            </div>
+                                </div>                                
+                            </div>                             
                         </div>
                         <div id="MemberInfo" class="tabcontent">
                             <div class="info">
