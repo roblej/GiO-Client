@@ -429,7 +429,23 @@ tbody td.double {
   background-image: url("/code/data/mypageimage/mypage_NPC_off.png");
   background-repeat: repeat-x;
   scale: 80%;
-  background-size: 20%; /* 적절한 크기로 설정 */
+
 }
 
+.info{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 9%;
+  top: 12%;
+  font-family: 'Pretendard-Regular';
+}
 
+.data{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 9%;
+  top: 12%;
+  font-family: 'Pretendard-Regular';
+}
