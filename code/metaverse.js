@@ -202,7 +202,7 @@ volumeSlider.addEventListener('input', function() {
         
 
 
-new GLTFLoader().load("./data/maru.glb",(gltf) =>{
+new GLTFLoader().load("./data/maru1.glb",(gltf) =>{
     const support = gltf.scene;
     this._scene.add(support);
     
