@@ -43,10 +43,10 @@ document.addEventListener("DOMContentLoaded", function() {
 }
 document.addEventListener("keydown", function(event) {
     if (event.key === "Escape" || event.key === "Esc") {
-        if (modal.style.display === "block") {
+        if (modal.style.display === "flex") {
             modal.style.display = "none";
         } else {
-            modal.style.display = "block";
+            modal.style.display = "flex";
         }
     }
 });
