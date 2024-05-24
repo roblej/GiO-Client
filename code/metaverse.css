@@ -301,3 +301,21 @@ thead th.first-cell {
 .sticker-box img {
   scale: 80%;
 }
+
+.info{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 9%;
+  top: 12%;
+  font-family: 'Pretendard-Regular';
+}
+
+.data{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 9%;
+  top: 12%;
+  font-family: 'Pretendard-Regular';
+}
