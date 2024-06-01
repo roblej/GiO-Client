@@ -43,7 +43,12 @@ export function onMouseMove(event, appInstance) {
 // });
 
 // 모달 요소
-const loginModal = document.getElementById('loginModal');
+// const loginModal = document.getElementById('loginModal');
+// const loginForm = document.getElementById('loginForm');
+// const signupForm = document.getElementById('signupForm');
+// const closeButtons = document.querySelectorAll('.modal .close');
+
+const loginModal = document.getElementById('loginModal1');
 const loginForm = document.getElementById('loginForm');
 const signupForm = document.getElementById('signupForm');
 const closeButtons = document.querySelectorAll('.modal .close');
