@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData();
         formData.append("file", audioBlob);
 
-        fetch('http://3.106.251.131:5000/recognize', {
+        fetch('https://gio.pe.kr:446/recognize', {
             method: 'POST',
             body: formData
         })

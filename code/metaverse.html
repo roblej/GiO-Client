@@ -4,20 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="metaverse.css">
-    <script> src = "event.js"</script>
     <script type="importmap">
         {
-          "imports": {
-            "three": "/node_modules/three/build/three.module.js",
-            "stats.js": "/node_modules/stats.js/src/stats.js"
-          }
+            "imports": {
+                "three": "/node_modules/three/build/three.module.js",
+                "stats.js": "/node_modules/stats.js/src/stats.js"
+            }
         }
-        </script>
-        
-    <script type="module" src="metaverse.js" defer></script>
-    <title>Document</title>
+    </script>
+    <script type="module" src="event.js"></script>
     <script type="module" src="record.js"></script>
-    
+    <title>Document</title>
 </head>
 <body>
     <!-- 볼륨 조절 슬라이더 -->
@@ -57,6 +54,13 @@
                     </div>
                 </div>
             </div>
+            <div id="loadingPage">
+                <div id="loadback">
+                    <h1>Loading...</h1>
+                    <div class="spinner"></div>
+                </div>
+            </div>
+            
             <div id="loginModal" class="modal textModal">
                 <div class="modal-content" id="loginContent">
                     <div id="loginBannerFront"></div>
@@ -82,7 +86,7 @@
                         <input type="password" placeholder="비밀번호 확인" name="confirmPassword" required>
                         <input type="text" placeholder="나이" name="age" required>
                         <button type="submit">회원가입</button>
-                        <button type="button" onclick="switchToLogin()">로그인</button>
+                        <!-- <button type="button" onclick="switchToLogin()">로그인</button> -->
                     </form>
                 </div>
             </div>
@@ -216,5 +220,6 @@
                 </div>
             </div>
             <script src="mypage.js"></script>
+            <script type="module" src="login.js"></script>
 </body>
 </html>

@@ -92,6 +92,17 @@ input[type="range"]::-moz-range-thumb {
   cursor: pointer;
 }
 
+.loginModal1 {
+  background-image: url(./data/loginImage/mainimage.png);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 1080px;
+}
+
 /* 모달 창 스타일 */
 .modal {
   display: none; /* 기본적으로 숨김 */
@@ -116,6 +127,66 @@ input[type="range"]::-moz-range-thumb {
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
 }
+
+/* metaverse.css */
+
+#loadingPage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(./data/loginImage/mainimage.png);
+  background-size: cover;
+  background-position: center;
+  color: black;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* 다른 요소 위로 표시되도록 설정 */
+  flex-direction: column; /* 세로로 정렬 */
+}
+#loadingPage::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5); /* 투명도 조절 */
+  z-index: -1; /* 배경 이미지 위에 표시되도록 설정 */
+}
+#loadback{
+  width: 70%;
+  height: 40%;
+  margin: auto;
+  background-color: #FBFBFB;
+  text-align: center;
+}
+#loadback .h1{
+  margin-top: 100px;
+}
+.spinner {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+  margin: auto;
+  margin-top: 200px; /* 텍스트 아래에 공간 추가 */
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+#loadingPage h1 {
+  font-size: 24px;
+}
+
 /* 배너 이미지 스타일 */
 #loginBanner {
   background-image: url(./data/loginImage/main.png);
@@ -202,7 +273,7 @@ input[type="range"]::-moz-range-thumb {
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 #recordButton{
-  display: none;
+  /* display: none; */
 }
 #game-content{
   width: 80%;
