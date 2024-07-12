@@ -6,7 +6,10 @@ import { Capsule } from "../jsm/math/Capsule.js";
 import { OrbitControls } from "../jsm/controls/OrbitControls.js";
 import { onMouseMove } from './event.js';
 import { FBXLoader } from '../jsm/loaders/FBXLoader.js';
-
+import { getSticker } from './event.js';
+// import {stickerNumber} from './event.js';
+import {updateSticker} from './event.js'
+import { globalId } from './login.js';
 // THREE.GLTFLoader
 export var game_name = "";
 
@@ -180,6 +183,40 @@ export function initThreeJS(){
                 plane.receiveShadow = true;
         
                 this._worldOctree.fromGraphNode(plane);
+                //
+                // const loader = new THREE.FileLoader();
+                // loader.setResponseType('arraybuffer');
+        
+                // loader.load('./data/sc.glb.gz', (data) => {
+                //     // 데이터 디코딩
+                //     const decompressedData = pako.inflate(new Uint8Array(data));
+        
+                //     const blob = new Blob([decompressedData], { type: 'application/octet-stream' });
+                //     const url = URL.createObjectURL(blob);
+        
+                //     // GLTFLoader로 모델 로드
+                //     const gltfLoader = new GLTFLoader();
+                //     gltfLoader.load(url, (gltf) => {
+                //         const map = gltf.scene;
+                //         this._scene.add(map);
+                //         this.map = map;
+                //         map.scale.set(500, 500, 500);
+                //         // map.rotation.y = Math.PI/-1; // Z축을 중심으로 180도 회전
+                //         map.position.set(0, 1, -2100);
+                    
+                //         // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
+                //         map.traverse((child) => {
+                //             if (child instanceof THREE.Mesh) {
+                //                 child.castShadow = true;
+                //                 child.receiveShadow = true;
+                //             }
+                //         });
+                    
+                //         this._worldOctree.fromGraphNode(map);
+                //         loadingPage.style.display = 'none'; // 로딩 페이지 숨김
+                //     });
+                // });
+//
                 new GLTFLoader().load("./data/schooln.glb", (gltf) => {
                     const map = gltf.scene;
                     this._scene.add(map);
