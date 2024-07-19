@@ -20,6 +20,14 @@ body{
     width: 100%;
     height: 100%;
 }
+.BtnMaps{
+  width: 200px;
+  height: 100px;
+  z-index: 100000;
+  position: fixed;
+  top: 140px;
+  right: 160px;
+}
 /* 슬라이더 기본 스타일 */
 input[type="range"] {
   -webkit-appearance: none; /* 기본 스타일 제거 */

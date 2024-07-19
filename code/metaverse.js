@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import Stats from "stats.js";
 import { GLTFLoader } from "../jsm/loaders/GLTFLoader.js";
+import { DRACOLoader} from "../jsm/loaders/DRACOLoader.js";
 import { Octree } from "../jsm/math/Octree.js";
 import { Capsule } from "../jsm/math/Capsule.js";
 import { OrbitControls } from "../jsm/controls/OrbitControls.js";
@@ -217,14 +218,19 @@ export function initThreeJS(){
                 //     });
                 // });
 //
-                new GLTFLoader().load("./data/schooln.glb", (gltf) => {
+                const dracoLoader = new DRACOLoader();
+                dracoLoader.setDecoderPath('../jsm/libs/draco/'); // DRACO decoder 경로를 설정하세요
+                const loader = new GLTFLoader();
+                loader.setDRACOLoader(dracoLoader);
+
+                loader.load('./data/schooln.glb', (gltf) => {
                     const map = gltf.scene;
                     this._scene.add(map);
                     this.map = map;
                     map.scale.set(500, 500, 500);
-                    // map.rotation.y = Math.PI/-1; // Z축을 중심으로 180도 회전
+                    // map.rotation.y = Math.PI / -1; // Z축을 중심으로 180도 회전
                     map.position.set(0, 1, -2100);
-                
+
                     // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
                     map.traverse((child) => {
                         if (child instanceof THREE.Mesh) {
@@ -232,13 +238,15 @@ export function initThreeJS(){
                             child.receiveShadow = true;
                         }
                     });
-                
+
                     this._worldOctree.fromGraphNode(map);
                     loadingPage.style.display = 'none'; // 로딩 페이지 숨김
+                }, undefined, function(error) {
+                    console.error(error);
                 });
                 
         
-        new GLTFLoader().load("./data/maru_anim_noneT.glb",(gltf) =>{
+            loader.load("./data/maru_anim_noneT.glb",(gltf) =>{
             const support = gltf.scene;
             this._scene.add(support);
             
@@ -284,7 +292,7 @@ export function initThreeJS(){
             this._support = support;
             this._worldOctree.fromGraphNode(support);
         });
-                new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
+                loader.load("./data/Xbot.glb",(gltf) =>{
                     const npc = gltf.scene;
                     this._scene.add(npc);
                     
@@ -328,7 +336,7 @@ export function initThreeJS(){
                     npc.rotation.y = Math.PI;
                     this._npc = npc;
             }); 
-            new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
+            loader.load("./data/Xbot.glb",(gltf) =>{
                 const npc = gltf.scene;
                 this._scene.add(npc);
                 
@@ -374,7 +382,7 @@ export function initThreeJS(){
                 npc.rotation.y = Math.PI;
                 this._npc = npc;
         }); 
-            new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
+        loader.load("./data/Xbot.glb",(gltf) =>{
                 const npc = gltf.scene;
                 this._scene.add(npc);
                 
@@ -420,7 +428,7 @@ export function initThreeJS(){
         }); 
          
         
-        new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
+        loader.load("./data/Xbot.glb",(gltf) =>{
             const npc = gltf.scene;
             this._scene.add(npc);
             
@@ -466,7 +474,7 @@ export function initThreeJS(){
             this._npc = npc;
         });
         
-        new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
+        loader.load("./data/Xbot.glb",(gltf) =>{
             const npc = gltf.scene;
             this._scene.add(npc);
             
@@ -511,7 +519,7 @@ export function initThreeJS(){
             this._npc = npc;
         });
         
-        new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
+        loader.load("./data/Xbot.glb",(gltf) =>{
             const npc = gltf.scene;
             this._scene.add(npc);
             
@@ -555,7 +563,7 @@ export function initThreeJS(){
             npc.rotation.y = Math.PI/4;
             this._npc = npc;
         }); 
-            new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
+        loader.load("./data/Xbot.glb",(gltf) =>{
         
                 const npc = gltf.scene;
                 this._scene.add(npc);
@@ -603,7 +611,7 @@ export function initThreeJS(){
         }); 
         
         
-            new GLTFLoader().load("./data/Xbot.glb", (gltf) => {
+        loader.load("./data/Xbot.glb", (gltf) => {
                 const model = gltf.scene;
                 this._scene.add(model);
         
@@ -1338,6 +1346,45 @@ export function initThreeJS(){
             }
         }
         
+        _addPointLight(x, y, z, helperColor) {
+            const color = 0xffffff;
+            const intensity = 900000;
+        
+            const pointLight = new THREE.PointLight(color, intensity, 2000);
+            pointLight.position.set(x, y, z);
+        
+            this._scene.add(pointLight);
+        
+            const pointLightHelper = new THREE.PointLightHelper(pointLight, 10, helperColor);
+            this._scene.add(pointLightHelper);
+        }
+    
+        _setupLight() {
+            const ambientLight = new THREE.AmbientLight(0xffffff, 2);
+            this._scene.add(ambientLight);
+    
+    
+            const shadowLight = new THREE.DirectionalLight(0xffffff, 2);
+            shadowLight.position.set(-1000, 1200, -2350);
+            shadowLight.target.position.set(50, 0, -1000);
+            const directionalLightHelper = new THREE.DirectionalLightHelper(shadowLight, 10);
+            // this._scene.add(directionalLightHelper);
+            
+            this._scene.add(shadowLight);
+            this._scene.add(shadowLight.target);
+    
+            shadowLight.castShadow = true;
+            // shadowLight.receiveShadow = true;
+            shadowLight.shadow.mapSize.width = 1024;
+            shadowLight.shadow.mapSize.height = 1024;
+            shadowLight.shadow.camera.top = shadowLight.shadow.camera.right = 5000;
+            shadowLight.shadow.camera.bottom = shadowLight.shadow.camera.left = -5000;
+            shadowLight.shadow.camera.near = 100;
+            shadowLight.shadow.camera.far = 5000;
+            shadowLight.shadow.radius = 2;
+            const shadowCameraHelper = new THREE.CameraHelper(shadowLight.shadow.camera);
+            // this._scene.add(shadowCameraHelper);
+        }
         
             _setupCamera(){
                 const camera = new THREE.PerspectiveCamera(
@@ -1350,45 +1397,7 @@ export function initThreeJS(){
                 this._camera = camera;
             }
         
-            _addPointLight(x, y, z, helperColor) {
-                const color = 0xffffff;
-                const intensity = 900000;
-            
-                const pointLight = new THREE.PointLight(color, intensity, 2000);
-                pointLight.position.set(x, y, z);
-            
-                this._scene.add(pointLight);
-            
-                const pointLightHelper = new THREE.PointLightHelper(pointLight, 10, helperColor);
-                this._scene.add(pointLightHelper);
-            }
-        
-            _setupLight() {
-                const ambientLight = new THREE.AmbientLight(0xffffff, 2);
-                this._scene.add(ambientLight);
-        
-        
-                const shadowLight = new THREE.DirectionalLight(0xffffff, 2);
-                shadowLight.position.set(-1000, 1200, -2350);
-                shadowLight.target.position.set(50, 0, -1000);
-                const directionalLightHelper = new THREE.DirectionalLightHelper(shadowLight, 10);
-                // this._scene.add(directionalLightHelper);
-                
-                this._scene.add(shadowLight);
-                this._scene.add(shadowLight.target);
-        
-                shadowLight.castShadow = true;
-                // shadowLight.receiveShadow = true;
-                shadowLight.shadow.mapSize.width = 1024;
-                shadowLight.shadow.mapSize.height = 1024;
-                shadowLight.shadow.camera.top = shadowLight.shadow.camera.right = 5000;
-                shadowLight.shadow.camera.bottom = shadowLight.shadow.camera.left = -5000;
-                shadowLight.shadow.camera.near = 100;
-                shadowLight.shadow.camera.far = 5000;
-                shadowLight.shadow.radius = 2;
-                const shadowCameraHelper = new THREE.CameraHelper(shadowLight.shadow.camera);
-                // this._scene.add(shadowCameraHelper);
-            }
+
             
             _previousDirectionOffset = 0;
         
