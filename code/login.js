@@ -119,10 +119,30 @@ signupForm.addEventListener('submit', function(event) {
 })
 .then(data => {
     console.log('스티커 row 추가 성공:', data);
+    // process 테이블에 row 추가
+    return fetch('https://gio.pe.kr:444/addProcessRow', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    });
+})
+.then(response => {
+    if (response.ok) {
+        return response.json(); // 성공 시 JSON 데이터로 파싱
+    } else {
+        throw new Error('진행도 row 추가 중 오류 발생'); // 기타 오류 처리
+    }
+})
+.then(data => {
+    console.log('진행도 row 추가 성공:', data);
     switchToLogin(); // 로그인 화면으로 전환
 })
 .catch(error => {
-    console.error('회원가입 실패 또는 스티커 row 추가 실패:', error);
+    console.error('회원가입 실패 또는 추가 중 오류 발생:', error);
     alert(error.message); // 에러 메시지 표시
 });
 });
