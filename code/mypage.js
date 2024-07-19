@@ -1,3 +1,6 @@
+import { getSticker } from "./event.js";
+import { globalId } from "./login.js";
+
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");

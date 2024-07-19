@@ -1,6 +1,61 @@
 import { game_name } from './metaverse.js';
 import { globalId } from './login.js';
 
+// export var stickerNumber = 0
+
+export function updateSticker(stickerNumber) {
+    fetch('https://gio.pe.kr:444/updateSticker', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: globalId,
+        stickerNumber: stickerNumber
+      })
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('스티커 업데이트 실패');
+      }
+    })
+    .then(data => {
+      console.log('스티커 업데이트 성공:', data);
+      alert('스티커 업데이트 성공!');
+    })
+    .catch(error => {
+      console.error('스티커 업데이트 실패:', error);
+      alert(error.message);
+    });
+  }
+
+  export function getSticker(id) {
+    fetch(`https://gio.pe.kr:444/getSticker/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('스티커 조회 실패');
+      }
+    })
+    .then(data => {
+      console.log('스티커 조회 성공:', data);
+      alert('스티커 조회 성공!');
+      // 여기서 data를 이용해 UI를 업데이트할 수 있습니다.
+    })
+    .catch(error => {
+      console.error('스티커 조회 실패:', error);
+      alert(error.message);
+    });
+  }
+
 export function onMouseMove(event, appInstance) {
     event.preventDefault();
 
@@ -118,3 +173,4 @@ window.addEventListener('message', function(event) {
 
     }
 }, false);
+  
