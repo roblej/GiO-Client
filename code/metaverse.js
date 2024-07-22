@@ -210,6 +210,10 @@ class App {
         this._isNpcCameraActive = true;
     
         console.log("Switched to NPC camera"); // 디버그 로그 추가
+        // 카메라 전환이 완료된 후에 대화창을 띄움
+        setTimeout(() => {
+            this._showNpcDialog(npc.userData.type);
+        }, 500); // 0.5초 지연 후 대화창 띄우기 (필요에 따라 조정 가능)
     }
     
 
