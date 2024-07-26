@@ -223,13 +223,13 @@ export function initThreeJS(){
                 const loader = new GLTFLoader();
                 loader.setDRACOLoader(dracoLoader);
 
-                loader.load('./data/schooln.glb', (gltf) => {
+                loader.load('./data/sc_pre.glb', (gltf) => {
                     const map = gltf.scene;
                     this._scene.add(map);
                     this.map = map;
-                    map.scale.set(500, 500, 500);
+                    map.scale.set(45, 45, 45);
                     // map.rotation.y = Math.PI / -1; // Z축을 중심으로 180도 회전
-                    map.position.set(0, 1, -2100);
+                    map.position.set(0, 0, 0);
 
                     // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
                     map.traverse((child) => {
@@ -650,9 +650,9 @@ export function initThreeJS(){
                 model.scale.set(50, 50, 50);
                 model.position.set(-0.5,10,-9)
                     const axisHelper = new THREE.AxesHelper(1000);
-                    // this._scene.add(axisHelper)
+                    this._scene.add(axisHelper)
                     const boxHelper = new THREE.BoxHelper(model);
-                    // this._scene.add(boxHelper);
+                    this._scene.add(boxHelper);
                     this._boxHelper = boxHelper;
                     this._model = model;
                 });
