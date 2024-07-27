@@ -184,7 +184,7 @@ class App {
         npcForward.normalize();
     
         // 카메라 위치를 NPC 전방으로 설정
-        const cameraOffset = 50; // NPC로부터 카메라의 거리 (원하는 대로 조정 가능)
+        const cameraOffset = 100; // NPC로부터 카메라의 거리 (원하는 대로 조정 가능)
         const newCameraPosition = npcPosition.clone().add(npcForward.multiplyScalar(-cameraOffset));
     
         const newCamera = new THREE.PerspectiveCamera(
@@ -211,9 +211,10 @@ class App {
     
         console.log("Switched to NPC camera"); // 디버그 로그 추가
         // 카메라 전환이 완료된 후에 대화창을 띄움
-        setTimeout(() => {
-            this._showNpcDialog(npc.userData.type);
-        }, 500); // 0.5초 지연 후 대화창 띄우기 (필요에 따라 조정 가능)
+        // setTimeout(() => {
+        //     this._showNpcDialog(npc.userData.type);
+        // }, 000); // 0.1초 지연 후 대화창 띄우기 (필요에 따라 조정 가능)
+        this._showNpcDialog(npc.userData.type);
     }
     
 
@@ -763,597 +764,1169 @@ new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
                     break; // 첫 번째 NPC 객체만 처리하고 루프 종료
                 }
     
-                if (selectedObject.userData.type === 'casher') {
-                    console.log('Casher clicked'); // Casher 클릭 여부 확인하는 로그
-    
-                    var casher = document.getElementById("thiscasher");
-                    var span = document.getElementsByClassName("close")[1];
-                    var speechText = document.getElementById("speechText");
-                    var buttonGroup = document.getElementById("buttonGroup");
-    
-                    casher.style.display = "block";
-    
-                    // 모달을 초기 상태로 재설정하는 함수
-                    function resetModal() {
-                        speechText.style.display = "block"; // 텍스트 보이기
-                        buttonGroup.style.display = "none"; // 버튼 그룹 숨기기
-                    }
-    
-                    // 초기 상태로 모달 재설정
-                    resetModal();
-    
-                    // 닫기 버튼 클릭 시 모달 닫기
-                    span.onclick = function () {
-                        casher.style.display = "none";
-                        resetModal();
-                    }
-    
-                    // 텍스트 클릭 시 텍스트 숨기기 및 버튼 그룹 보이기
-                    speechText.onclick = function () {
-                        speechText.style.display = "none"; // 텍스트 숨김
-                        buttonGroup.style.display = "block"; // 버튼 그룹 표시
-                    }
-    
-                    // 선택지 1 클릭 시 동작
-                    document.getElementById("select1").onclick = function () {
-                        console.log("선택지 1 선택됨");
-                        casher.style.display = "none";
-                        resetModal();
-                    }
-    
-                    // 선택지 2 클릭 시 동작
-                    document.getElementById("select2").onclick = function () {
-                        console.log("선택지 2 선택됨");
-                        casher.style.display = "none";
-                        resetModal();
-                    }
-    
-                    // 선택지 3 클릭 시 동작
-                    document.getElementById("select3").onclick = function () {
-                        console.log("선택지 3 선택됨");
-                        casher.style.display = "none";
-                        resetModal();
-                    }
-    
-                    // 모달 창 바깥 영역 클릭 시 모달 닫기
-                    window.onclick = function (event) {
-                        if (event.target == casher) {
-                            casher.style.display = "none";
-                            resetModal();
-                        }
-                    }
-    
-                    break; // 첫 번째 교차 객체만 처리하고 루프 종료
-                } else if (selectedObject.userData.type == 'teacher') {
-                    console.log('Teacher clicked'); // Teacher 클릭 여부 확인하는 로그
-    
-                    var casher = document.getElementById("thiscasher");
-                    var span = document.getElementsByClassName("close")[1];
-                    var dialogText = document.querySelector("#thiscasher .Speech1 p");
-                    var option1 = document.getElementById("select1");
-                    var option2 = document.getElementById("select2");
-                    var option3 = document.getElementById("select3");
-                    var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
-    
-                    // 대화 내용 업데이트
-                    dialogText.innerHTML = "안녕? 새로 온 학생이니?";
-    
-                    // 각 선택지 업데이트
-                    function resetModal() {
-                        option1.innerHTML = "네, 맞아요. 안녕하세요?";
-                        option2.innerHTML = "(무시하고 갈 길을 간다.)";
-                        option3.innerHTML = "누구세요?";
-                        dialogText.style.display = "block";  // 텍스트를 보이게 함
-                        buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
-                    }
-    
-                    // 초기 상태로 모달 재설정
-                    resetModal();
-    
-                    casher.style.display = "block";
-    
-                    // 텍스트 클릭 시 텍스트 숨기기 및 버튼 그룹 보이기
-                    dialogText.onclick = function () {
-                        this.style.display = "none"; // 텍스트 숨김
-                        buttonGroup.style.display = "block"; // 버튼 그룹 표시
-                    };
-    
-                    // 닫기 버튼 클릭 시 모달 닫기
-                    span.onclick = function () {
-                        casher.style.display = "none";
-                        resetModal();
-                    };
-    
-                    option1.onclick = function () {
-                        console.log("첫 번째 선택지 선택됨");
-                        dialogText.style.display = "block";
-                        buttonGroup.style.display = "none";
-                        dialogText.innerHTML = "안녕? 나는 선생님이란다. 학교에 온걸 환영해!";
-                        dialogText.onclick = function () {
-                            casher.style.display = "none";
-                            resetModal();
-                        };
-                    };
-    
-                    option2.onclick = function () {
-                        console.log("두 번째 선택지 선택됨");
-                        dialogText.style.display = "block";
-                        buttonGroup.style.display = "none";
-                        dialogText.innerHTML = "어머..낯을가리는 아이인가?";
-                        dialogText.onclick = function () {
-                            casher.style.display = "none";
-                            resetModal();
-                        };
-                    };
-    
-                    option3.onclick = function () {
-                        console.log("세 번째 선택지 선택됨");
-                        dialogText.style.display = "block";
-                        buttonGroup.style.display = "none";
-                        dialogText.innerHTML = "나는 선생님이란다.";
-                        dialogText.onclick = function () {
-                            casher.style.display = "none";
-                            resetModal();
-                        };
-                    };
-    
-                    // 모달 창 바깥 영역 클릭 시 모달 닫기
-                    window.onclick = function (event) {
-                        if (event.target == casher) {
-                            casher.style.display = "none";
-                            resetModal();
-                        }
-                    };
-    
-                } else if (selectedObject.userData.type == 'game_friend') {
-                    game_name = "GameB"
-                    var modal = document.getElementById("myModal");
-                    var span = document.getElementsByClassName("close")[0];
-                    modal.style.display = "block";
-                    var gameAButton = document.getElementById("Game");
-                    gameAButton.setAttribute('data-path', 'BallMiniGame/index.html'); // data-path 속성 설정
-    
-                    // 닫기 버튼 클릭 시 모달 닫기
-                    span.onclick = function () {
-                        modal.style.display = "none";
-                    }
-    
-                    // 선택지 1 클릭 시 동작
-                    document.getElementById("option1").onclick = function () {
-                        console.log("선택지 1 선택됨");
-                        modal.style.display = "none";
-                    }
-    
-                    // 선택지 2 클릭 시 동작
-                    document.getElementById("option2").onclick = function () {
-                        console.log("선택지 2 선택됨");
-                        modal.style.display = "none";
-                    }
-    
-                    // 모달 창 바깥 영역 클릭 시 모달 닫기
-                    window.onclick = function (event) {
-                        if (event.target == modal) {
-                            modal.style.display = "none";
-                        }
-                    }
-    
-                    break; // 첫 번째 교차 객체만 처리하고 루프 종료
-                } else if (selectedObject.userData.type == 'friend_crash') {
-                    var casher = document.getElementById("thiscasher");
-                    var span = document.getElementsByClassName("close")[1];
-                    var dialogText = document.querySelector("#thiscasher .Speech1 p");
-                    var option1 = document.getElementById("select1");
-                    var option2 = document.getElementById("select2");
-                    var option3 = document.getElementById("select3");
-                    var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
-    
-                    // 대화 내용 업데이트
-                    dialogText.innerHTML = "운동장을 걷다가 어깨를 부딪쳤다. 사과를 안하고 지나갔다.";
-    
-                    // 각 선택지 업데이트
-                    function resetModal() {
-                        option1.innerHTML = "야! 너 왜 부딪혔는데 사과 안해?";
-                        option2.innerHTML = "(기분 나쁜데... 그래도 이번엔 그냥 지나가자.)";
-                        option3.innerHTML = "(쫓아가서 어깨를 다시 부딪힌다.)";
-                        dialogText.style.display = "block";  // 텍스트를 보이게 함
-                        buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
-                    }
-    
-                    // 초기 상태로 모달 재설정
-                    resetModal();
-    
-                    casher.style.display = "block";
-    
-                    // 텍스트 클릭 시 텍스트 숨기기 및 버튼 그룹 보이기
-                    dialogText.onclick = function () {
-                        this.style.display = "none"; // 텍스트 숨김
-                        buttonGroup.style.display = "block"; // 버튼 그룹 표시
-                    };
-    
-                    // 닫기 버튼 클릭 시 모달 닫기
-                    span.onclick = function () {
-                        casher.style.display = "none";
-                        resetModal();
-                    };
-    
-                    option1.onclick = function () {
-                        console.log("첫 번째 선택지 선택됨");
-                        dialogText.style.display = "block";
-                        buttonGroup.style.display = "none";
-                        dialogText.innerHTML = "어? 아...미안";
-                        dialogText.onclick = function () {
-                            casher.style.display = "none";
-                            resetModal();
-                        };
-                    };
-    
-                    option2.onclick = function () {
-                        console.log("두 번째 선택지 선택됨");
-                        dialogText.style.display = "block";
-                        buttonGroup.style.display = "none";
-                        dialogText.innerHTML = "...";
-                        dialogText.onclick = function () {
-                            casher.style.display = "none";
-                            resetModal();
-                        };
-                    };
-    
-                    option3.onclick = function () {
-                        console.log("세 번째 선택지 선택됨");
-                        dialogText.style.display = "block";
-                        buttonGroup.style.display = "none";
-                        dialogText.innerHTML = "아야! 너 뭐야?";
-                        dialogText.onclick = function () {
-                            casher.style.display = "none";
-                            resetModal();
-                        };
-                    };
-    
-                    // 모달 창 바깥 영역 클릭 시 모달 닫기
-                    window.onclick = function (event) {
-                        if (event.target == casher) {
-                            casher.style.display = "none";
-                            resetModal();
-                        }
-                    };
-                } else if (selectedObject.userData.type == 'rector') {
-                    var casher = document.getElementById("thiscasher");
-                    var span = document.getElementsByClassName("close")[1];
-                    var dialogText = document.querySelector("#thiscasher .Speech1 p");
-                    var option1 = document.getElementById("select1");
-                    var option2 = document.getElementById("select2");
-                    var option3 = document.getElementById("select3");
-                    var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
-    
-                    // 대화 내용 업데이트
-                    dialogText.innerHTML = "교장선생님이다.";
-    
-                    // 각 선택지 업데이트
-                    function resetModal() {
-                        option1.innerHTML = "교장선생님은 왜 머리가 없으세요?";
-                        option2.innerHTML = "안녕하세요!";
-                        option3.innerHTML = "(무시하고 지나간다)";
-                        dialogText.style.display = "block";  // 텍스트를 보이게 함
-                        buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
-                    }
-    
-                    // 초기 상태로 모달 재설정
-                    resetModal();
-    
-                    casher.style.display = "block";
-    
-                    // 텍스트 클릭 시 텍스트 숨기기 및 버튼 그룹 보이기
-                    dialogText.onclick = function () {
-                        this.style.display = "none"; // 텍스트 숨김
-                        buttonGroup.style.display = "block"; // 버튼 그룹 표시
-                    };
-    
-                    // 닫기 버튼 클릭 시 모달 닫기
-                    span.onclick = function () {
-                        casher.style.display = "none";
-                        resetModal();
-                    };
-    
-                    option1.onclick = function () {
-                        console.log("첫 번째 선택지 선택됨");
-                        dialogText.style.display = "block";
-                        buttonGroup.style.display = "none";
-                        dialogText.innerHTML = "머리가 없는게 아니다. 내가 나아갈 뿐";
-                        dialogText.onclick = function () {
-                            casher.style.display = "none";
-                            resetModal();
-                        };
-                    };
-    
-                    option2.onclick = function () {
-                        console.log("두 번째 선택지 선택됨");
-                        dialogText.style.display = "block";
-                        buttonGroup.style.display = "none";
-                        dialogText.innerHTML = "안녕, 오늘도 좋은 하루 보내렴";
-                        dialogText.onclick = function () {
-                            casher.style.display = "none";
-                            resetModal();
-                        };
-                    };
-    
-                    option3.onclick = function () {
-                        console.log("세 번째 선택지 선택됨");
-                        dialogText.style.display = "block";
-                        buttonGroup.style.display = "none";
-                        dialogText.innerHTML = "...";
-                        dialogText.onclick = function () {
-                            casher.style.display = "none";
-                            resetModal();
-                        };
-                    };
-    
-                    // 모달 창 바깥 영역 클릭 시 모달 닫기
-                    window.onclick = function (event) {
-                        if (event.target == casher) {
-                            casher.style.display = "none";
-                            resetModal();
-                        }
-                    };
-                } else if (selectedObject.userData.type == 'npc3') {
-                    var casher = document.getElementById("thiscasher");
-                    var span = document.getElementsByClassName("close")[1];
-                    var dialogText = document.querySelector("#thiscasher .Speech1 p");
-                    var option1 = document.getElementById("select1");
-                    var option2 = document.getElementById("select2");
-                    var option3 = document.getElementById("select3");
-                    var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
-    
-                    // 대화 내용 업데이트
-                    dialogText.innerHTML = "안녕? 나는 npc3야.";
-    
-                    // 각 선택지 업데이트
-                    function resetModal() {
-                        option1.innerHTML = "안녕하세요";
-                        option2.innerHTML = "와 AI다!?";
-                        option3.innerHTML = "집에가고싶어요";
-                        dialogText.style.display = "block";  // 텍스트를 보이게 함
-                        buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
-                    }
-    
-                    // 초기 상태로 모달 재설정
-                    resetModal();
-    
-                    casher.style.display = "block";
-    
-                    // 텍스트 클릭 시 텍스트 숨기기 및 버튼 그룹 보이기
-                    dialogText.onclick = function () {
-                        this.style.display = "none"; // 텍스트 숨김
-                        buttonGroup.style.display = "block"; // 버튼 그룹 표시
-                    };
-    
-                    // 닫기 버튼 클릭 시 모달 닫기
-                    span.onclick = function () {
-                        casher.style.display = "none";
-                        resetModal();
-                    };
-    
-                    // 각 선택지 클릭 시 동작
-                    option1.onclick = function () {
-                        console.log("첫 번째 선택지 선택됨");
-                        casher.style.display = "none";
-                        resetModal();
-                    };
-    
-                    option2.onclick = function () {
-                        console.log("두 번째 선택지 선택됨");
-                        casher.style.display = "none";
-                        resetModal();
-                    };
-    
-                    option3.onclick = function () {
-                        console.log("세 번째 선택지 선택됨");
-                        casher.style.display = "none";
-                        resetModal();
-                    };
-    
-                    // 모달 창 바깥 영역 클릭 시 모달 닫기
-                    window.onclick = function (event) {
-                        if (event.target == casher) {
-                            casher.style.display = "none";
-                            resetModal();
-                        }
-                    };
-                } else if (selectedObject.userData.type == 'friend_hurt') {
-                    var casher = document.getElementById("thiscasher");
-                    var span = document.getElementsByClassName("close")[1];
-                    var dialogText = document.querySelector("#thiscasher .Speech1 p");
-                    var option1 = document.getElementById("select1");
-                    var option2 = document.getElementById("select2");
-                    var option3 = document.getElementById("select3");
-                    var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
-    
-                    // 대화 내용 업데이트
-                    dialogText.innerHTML = "넘어져서 주져 앉아있다. 무릎에 상처가 났다..";
-    
-                    // 각 선택지 업데이트
-                    function resetModal() {
-                        option1.innerHTML = "어, 피가 난다!";
-                        option2.innerHTML = "괜찮아? 아프겠다. 양호실까지 부축해줄까?";
-                        option3.innerHTML = "(무시하고 지나간다.)";
-                        dialogText.style.display = "block";  // 텍스트를 보이게 함
-                        buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
-                    }
-    
-                    // 초기 상태로 모달 재설정
-                    resetModal();
-    
-                    casher.style.display = "block";
-    
-                    // 텍스트 클릭 시 텍스트 숨기기 및 버튼 그룹 보이기
-                    dialogText.onclick = function () {
-                        this.style.display = "none"; // 텍스트 숨김
-                        buttonGroup.style.display = "block"; // 버튼 그룹 표시
-                    };
-    
-                    // 닫기 버튼 클릭 시 모달 닫기
-                    span.onclick = function () {
-                        casher.style.display = "none";
-                        resetModal();
-                    };
-    
-                    // 각 선택지 클릭 시 동작
-                    option1.onclick = function () {
-                        console.log("첫 번째 선택지 선택됨");
-                        dialogText.style.display = "block";
-                        buttonGroup.style.display = "none";
-                        dialogText.innerHTML = "뭐야? 구경났어?";
-                        dialogText.onclick = function () {
-                            casher.style.display = "none";
-                            resetModal();
-                        };
-                    };
-    
-                    option2.onclick = function () {
-                        console.log("두 번째 선택지 선택됨");
-                        dialogText.style.display = "block";
-                        buttonGroup.style.display = "none";
-                        dialogText.innerHTML = "괜찮아. 혼자 양호실에 갈게. 걱정해줘서 고마워.";
-                        dialogText.onclick = function () {
-                            casher.style.display = "none";
-                            resetModal();
-                        };
-                    };
-    
-                    option3.onclick = function () {
-                        console.log("세 번째 선택지 선택됨");
-                        dialogText.style.display = "block";
-                        buttonGroup.style.display = "none";
-                        dialogText.innerHTML = ".....";
-                        dialogText.onclick = function () {
-                            casher.style.display = "none";
-                            resetModal();
-                        };
-                    };
-    
-                    // 모달 창 바깥 영역 클릭 시 모달 닫기
-                    window.onclick = function (event) {
-                        if (event.target == casher) {
-                            casher.style.display = "none";
-                            resetModal();
-                        }
-                    };
-                }
-    
-                if (intersects[i].object.name === "clickableBox") {
-                    var modal = document.getElementById("myModal");
-                    var span = document.getElementsByClassName("close")[0];
-                    sessionStorage.setItem('npc_name', selectedObject.userData.type);
-                    modal.style.display = "block";
-    
-                    // 닫기 버튼 클릭 시 모달 닫기
-                    span.onclick = function () {
-                        modal.style.display = "none";
-                    }
-    
-                    // 선택지 1 클릭 시 동작
-                    document.getElementById("option1").onclick = function () {
-                        console.log("선택지 1 선택됨");
-                        modal.style.display = "none";
-                    }
-    
-                    // 선택지 2 클릭 시 동작
-                    document.getElementById("option2").onclick = function () {
-                        console.log("선택지 2 선택됨");
-                        modal.style.display = "none";
-                    }
-    
-                    // 모달 창 바깥 영역 클릭 시 모달 닫기
-                    window.onclick = function (event) {
-                        if (event.target == modal) {
-                            modal.style.display = "none";
-                        }
-                    }
-    
-                    break; // 첫 번째 교차 객체만 처리하고 루프 종료
-                } else if (intersects[i].object.name === "GameA") {
-                    game_name = "GameA"
-                    var modal = document.getElementById("myModal");
-                    var span = document.getElementsByClassName("close")[0];
-                    modal.style.display = "block";
-                    var gameAButton = document.getElementById("Game");
-                    gameAButton.setAttribute('data-path', 'WebGLTest1/index.html'); // data-path 속성 설정
-    
-                    // 닫기 버튼 클릭 시 모달 닫기
-                    span.onclick = function () {
-                        modal.style.display = "none";
-                    }
-    
-                    // 선택지 1 클릭 시 동작
-                    document.getElementById("option1").onclick = function () {
-                        console.log("선택지 1 선택됨");
-                        modal.style.display = "none";
-                    }
-    
-                    // 선택지 2 클릭 시 동작
-                    document.getElementById("option2").onclick = function () {
-                        console.log("선택지 2 선택됨");
-                        modal.style.display = "none";
-                    }
-    
-                    // 모달 창 바깥 영역 클릭 시 모달 닫기
-                    window.onclick = function (event) {
-                        if (event.target == modal) {
-                            modal.style.display = "none";
-                        }
-                    }
-    
-                    break; // 첫 번째 교차 객체만 처리하고 루프 종료
-                } else if (intersects[i].object.name === "GameB") {
-                    game_name = "GameB"
-                    var modal = document.getElementById("myModal");
-                    var span = document.getElementsByClassName("close")[0];
-                    modal.style.display = "block";
-    
-                    var gameAButton = document.getElementById("Game");
-                    if (gameAButton) {
-                        gameAButton.setAttribute('data-path', 'JonnaZiralBall/index.html'); // data-path 속성 설정
-                    }
-                    // 닫기 버튼 클릭 시 모달 닫기
-                    span.onclick = function () {
-                        modal.style.display = "none";
-                    }
-    
-                    // 선택지 1 클릭 시 동작
-                    document.getElementById("option1").onclick = function () {
-                        console.log("선택지 1 선택됨");
-                        modal.style.display = "none";
-                    }
-    
-                    // 선택지 2 클릭 시 동작
-                    document.getElementById("option2").onclick = function () {
-                        console.log("선택지 2 선택됨");
-                        modal.style.display = "none";
-                    }
-    
-                    // 모달 창 바깥 영역 클릭 시 모달 닫기
-                    window.onclick = function (event) {
-                        if (event.target == modal) {
-                            modal.style.display = "none";
-                        }
-                    }
-    
-                    break; // 첫 번째 교차 객체만 처리하고 루프 종료
-                }
-    
-                if (intersects[i].object.name === "tp") {
-                    // 캐릭터의 새 위치 설정
-                    this._model.position.x = 2328;
-                    this._model.position.y = 10;
-                    this._model.position.z = 247;
-    
-                    // 캐릭터의 현재 y 위치를 유지하면서 캡슐 위치 업데이트
-                    const heightOffset = (this._model._capsule.end.y - this._model._capsule.start.y) / 2;
-                    this._model._capsule.start.set(this._model.position.x, this._model.position.y, this._model.position.z);
-                    this._model._capsule.end.set(this._model.position.x, this._model.position.y + heightOffset * 2, this._model.position.z);
-                }
+                // if (selectedObject.userData.type === 'casher') {
+                //     console.log('Casher clicked'); // Casher 클릭 여부 확인하는 로그
+    
+                //     var casher = document.getElementById("thiscasher");
+                //     var span = document.getElementsByClassName("close")[1];
+                //     var speechText = document.getElementById("speechText");
+                //     var buttonGroup = document.getElementById("buttonGroup");
+    
+                //     casher.style.display = "block";
+    
+                //     // 모달을 초기 상태로 재설정하는 함수
+                //     function resetModal() {
+                //         speechText.style.display = "block"; // 텍스트 보이기
+                //         buttonGroup.style.display = "none"; // 버튼 그룹 숨기기
+                //     }
+    
+                //     // 초기 상태로 모달 재설정
+                //     resetModal();
+    
+                //     // 닫기 버튼 클릭 시 모달 닫기
+                //     span.onclick = function () {
+                //         casher.style.display = "none";
+                //         resetModal();
+                //     }
+    
+                //     // 텍스트 클릭 시 텍스트 숨기기 및 버튼 그룹 보이기
+                //     speechText.onclick = function () {
+                //         speechText.style.display = "none"; // 텍스트 숨김
+                //         buttonGroup.style.display = "block"; // 버튼 그룹 표시
+                //     }
+    
+                //     // 선택지 1 클릭 시 동작
+                //     document.getElementById("select1").onclick = function () {
+                //         console.log("선택지 1 선택됨");
+                //         casher.style.display = "none";
+                //         resetModal();
+                //     }
+    
+                //     // 선택지 2 클릭 시 동작
+                //     document.getElementById("select2").onclick = function () {
+                //         console.log("선택지 2 선택됨");
+                //         casher.style.display = "none";
+                //         resetModal();
+                //     }
+    
+                //     // 선택지 3 클릭 시 동작
+                //     document.getElementById("select3").onclick = function () {
+                //         console.log("선택지 3 선택됨");
+                //         casher.style.display = "none";
+                //         resetModal();
+                //     }
+    
+                //     // 모달 창 바깥 영역 클릭 시 모달 닫기
+                //     window.onclick = function (event) {
+                //         if (event.target == casher) {
+                //             casher.style.display = "none";
+                //             resetModal();
+                //         }
+                //     }
+    
+                //     break; // 첫 번째 교차 객체만 처리하고 루프 종료
+                // } else if (selectedObject.userData.type == 'teacher') {
+                //     console.log('Teacher clicked'); // Teacher 클릭 여부 확인하는 로그
+    
+                //     var casher = document.getElementById("thiscasher");
+                //     var span = document.getElementsByClassName("close")[1];
+                //     var dialogText = document.querySelector("#thiscasher .Speech1 p");
+                //     var option1 = document.getElementById("select1");
+                //     var option2 = document.getElementById("select2");
+                //     var option3 = document.getElementById("select3");
+                //     var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
+    
+                //     // 대화 내용 업데이트
+                //     dialogText.innerHTML = "안녕? 새로 온 학생이니?";
+    
+                //     // 각 선택지 업데이트
+                //     function resetModal() {
+                //         option1.innerHTML = "네, 맞아요. 안녕하세요?";
+                //         option2.innerHTML = "(무시하고 갈 길을 간다.)";
+                //         option3.innerHTML = "누구세요?";
+                //         dialogText.style.display = "block";  // 텍스트를 보이게 함
+                //         buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                //     }
+    
+                //     // 초기 상태로 모달 재설정
+                //     resetModal();
+    
+                //     casher.style.display = "block";
+    
+                //     // 텍스트 클릭 시 텍스트 숨기기 및 버튼 그룹 보이기
+                //     dialogText.onclick = function () {
+                //         this.style.display = "none"; // 텍스트 숨김
+                //         buttonGroup.style.display = "block"; // 버튼 그룹 표시
+                //     };
+    
+                //     // 닫기 버튼 클릭 시 모달 닫기
+                //     span.onclick = function () {
+                //         casher.style.display = "none";
+                //         resetModal();
+                //     };
+    
+                //     option1.onclick = function () {
+                //         console.log("첫 번째 선택지 선택됨");
+                //         dialogText.style.display = "block";
+                //         buttonGroup.style.display = "none";
+                //         dialogText.innerHTML = "안녕? 나는 선생님이란다. 학교에 온걸 환영해!";
+                //         dialogText.onclick = function () {
+                //             casher.style.display = "none";
+                //             resetModal();
+                //         };
+                //     };
+    
+                //     option2.onclick = function () {
+                //         console.log("두 번째 선택지 선택됨");
+                //         dialogText.style.display = "block";
+                //         buttonGroup.style.display = "none";
+                //         dialogText.innerHTML = "어머..낯을가리는 아이인가?";
+                //         dialogText.onclick = function () {
+                //             casher.style.display = "none";
+                //             resetModal();
+                //         };
+                //     };
+    
+                //     option3.onclick = function () {
+                //         console.log("세 번째 선택지 선택됨");
+                //         dialogText.style.display = "block";
+                //         buttonGroup.style.display = "none";
+                //         dialogText.innerHTML = "나는 선생님이란다.";
+                //         dialogText.onclick = function () {
+                //             casher.style.display = "none";
+                //             resetModal();
+                //         };
+                //     };
+    
+                //     // 모달 창 바깥 영역 클릭 시 모달 닫기
+                //     window.onclick = function (event) {
+                //         if (event.target == casher) {
+                //             casher.style.display = "none";
+                //             resetModal();
+                //         }
+                //     };
+    
+                // } else if (selectedObject.userData.type == 'game_friend') {
+                //     game_name = "GameB"
+                //     var modal = document.getElementById("myModal");
+                //     var span = document.getElementsByClassName("close")[0];
+                //     modal.style.display = "block";
+                //     var gameAButton = document.getElementById("Game");
+                //     gameAButton.setAttribute('data-path', 'BallMiniGame/index.html'); // data-path 속성 설정
+    
+                //     // 닫기 버튼 클릭 시 모달 닫기
+                //     span.onclick = function () {
+                //         modal.style.display = "none";
+                //     }
+    
+                //     // 선택지 1 클릭 시 동작
+                //     document.getElementById("option1").onclick = function () {
+                //         console.log("선택지 1 선택됨");
+                //         modal.style.display = "none";
+                //     }
+    
+                //     // 선택지 2 클릭 시 동작
+                //     document.getElementById("option2").onclick = function () {
+                //         console.log("선택지 2 선택됨");
+                //         modal.style.display = "none";
+                //     }
+    
+                //     // 모달 창 바깥 영역 클릭 시 모달 닫기
+                //     window.onclick = function (event) {
+                //         if (event.target == modal) {
+                //             modal.style.display = "none";
+                //         }
+                //     }
+    
+                //     break; // 첫 번째 교차 객체만 처리하고 루프 종료
+                // } else if (selectedObject.userData.type == 'friend_crash') {
+                //     var casher = document.getElementById("thiscasher");
+                //     var span = document.getElementsByClassName("close")[1];
+                //     var dialogText = document.querySelector("#thiscasher .Speech1 p");
+                //     var option1 = document.getElementById("select1");
+                //     var option2 = document.getElementById("select2");
+                //     var option3 = document.getElementById("select3");
+                //     var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
+    
+                //     // 대화 내용 업데이트
+                //     dialogText.innerHTML = "운동장을 걷다가 어깨를 부딪쳤다. 사과를 안하고 지나갔다.";
+    
+                //     // 각 선택지 업데이트
+                //     function resetModal() {
+                //         option1.innerHTML = "야! 너 왜 부딪혔는데 사과 안해?";
+                //         option2.innerHTML = "(기분 나쁜데... 그래도 이번엔 그냥 지나가자.)";
+                //         option3.innerHTML = "(쫓아가서 어깨를 다시 부딪힌다.)";
+                //         dialogText.style.display = "block";  // 텍스트를 보이게 함
+                //         buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                //     }
+    
+                //     // 초기 상태로 모달 재설정
+                //     resetModal();
+    
+                //     casher.style.display = "block";
+    
+                //     // 텍스트 클릭 시 텍스트 숨기기 및 버튼 그룹 보이기
+                //     dialogText.onclick = function () {
+                //         this.style.display = "none"; // 텍스트 숨김
+                //         buttonGroup.style.display = "block"; // 버튼 그룹 표시
+                //     };
+    
+                //     // 닫기 버튼 클릭 시 모달 닫기
+                //     span.onclick = function () {
+                //         casher.style.display = "none";
+                //         resetModal();
+                //     };
+    
+                //     option1.onclick = function () {
+                //         console.log("첫 번째 선택지 선택됨");
+                //         dialogText.style.display = "block";
+                //         buttonGroup.style.display = "none";
+                //         dialogText.innerHTML = "어? 아...미안";
+                //         dialogText.onclick = function () {
+                //             casher.style.display = "none";
+                //             resetModal();
+                //         };
+                //     };
+    
+                //     option2.onclick = function () {
+                //         console.log("두 번째 선택지 선택됨");
+                //         dialogText.style.display = "block";
+                //         buttonGroup.style.display = "none";
+                //         dialogText.innerHTML = "...";
+                //         dialogText.onclick = function () {
+                //             casher.style.display = "none";
+                //             resetModal();
+                //         };
+                //     };
+    
+                //     option3.onclick = function () {
+                //         console.log("세 번째 선택지 선택됨");
+                //         dialogText.style.display = "block";
+                //         buttonGroup.style.display = "none";
+                //         dialogText.innerHTML = "아야! 너 뭐야?";
+                //         dialogText.onclick = function () {
+                //             casher.style.display = "none";
+                //             resetModal();
+                //         };
+                //     };
+    
+                //     // 모달 창 바깥 영역 클릭 시 모달 닫기
+                //     window.onclick = function (event) {
+                //         if (event.target == casher) {
+                //             casher.style.display = "none";
+                //             resetModal();
+                //         }
+                //     };
+                // } else if (selectedObject.userData.type == 'rector') {
+                //     var casher = document.getElementById("thiscasher");
+                //     var span = document.getElementsByClassName("close")[1];
+                //     var dialogText = document.querySelector("#thiscasher .Speech1 p");
+                //     var option1 = document.getElementById("select1");
+                //     var option2 = document.getElementById("select2");
+                //     var option3 = document.getElementById("select3");
+                //     var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
+    
+                //     // 대화 내용 업데이트
+                //     dialogText.innerHTML = "교장선생님이다.";
+    
+                //     // 각 선택지 업데이트
+                //     function resetModal() {
+                //         option1.innerHTML = "교장선생님은 왜 머리가 없으세요?";
+                //         option2.innerHTML = "안녕하세요!";
+                //         option3.innerHTML = "(무시하고 지나간다)";
+                //         dialogText.style.display = "block";  // 텍스트를 보이게 함
+                //         buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                //     }
+    
+                //     // 초기 상태로 모달 재설정
+                //     resetModal();
+    
+                //     casher.style.display = "block";
+    
+                //     // 텍스트 클릭 시 텍스트 숨기기 및 버튼 그룹 보이기
+                //     dialogText.onclick = function () {
+                //         this.style.display = "none"; // 텍스트 숨김
+                //         buttonGroup.style.display = "block"; // 버튼 그룹 표시
+                //     };
+    
+                //     // 닫기 버튼 클릭 시 모달 닫기
+                //     span.onclick = function () {
+                //         casher.style.display = "none";
+                //         resetModal();
+                //     };
+    
+                //     option1.onclick = function () {
+                //         console.log("첫 번째 선택지 선택됨");
+                //         dialogText.style.display = "block";
+                //         buttonGroup.style.display = "none";
+                //         dialogText.innerHTML = "머리가 없는게 아니다. 내가 나아갈 뿐";
+                //         dialogText.onclick = function () {
+                //             casher.style.display = "none";
+                //             resetModal();
+                //         };
+                //     };
+    
+                //     option2.onclick = function () {
+                //         console.log("두 번째 선택지 선택됨");
+                //         dialogText.style.display = "block";
+                //         buttonGroup.style.display = "none";
+                //         dialogText.innerHTML = "안녕, 오늘도 좋은 하루 보내렴";
+                //         dialogText.onclick = function () {
+                //             casher.style.display = "none";
+                //             resetModal();
+                //         };
+                //     };
+    
+                //     option3.onclick = function () {
+                //         console.log("세 번째 선택지 선택됨");
+                //         dialogText.style.display = "block";
+                //         buttonGroup.style.display = "none";
+                //         dialogText.innerHTML = "...";
+                //         dialogText.onclick = function () {
+                //             casher.style.display = "none";
+                //             resetModal();
+                //         };
+                //     };
+    
+                //     // 모달 창 바깥 영역 클릭 시 모달 닫기
+                //     window.onclick = function (event) {
+                //         if (event.target == casher) {
+                //             casher.style.display = "none";
+                //             resetModal();
+                //         }
+                //     };
+                // } else if (selectedObject.userData.type == 'npc3') {
+                //     var casher = document.getElementById("thiscasher");
+                //     var span = document.getElementsByClassName("close")[1];
+                //     var dialogText = document.querySelector("#thiscasher .Speech1 p");
+                //     var option1 = document.getElementById("select1");
+                //     var option2 = document.getElementById("select2");
+                //     var option3 = document.getElementById("select3");
+                //     var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
+    
+                //     // 대화 내용 업데이트
+                //     dialogText.innerHTML = "안녕? 나는 npc3야.";
+    
+                //     // 각 선택지 업데이트
+                //     function resetModal() {
+                //         option1.innerHTML = "안녕하세요";
+                //         option2.innerHTML = "와 AI다!?";
+                //         option3.innerHTML = "집에가고싶어요";
+                //         dialogText.style.display = "block";  // 텍스트를 보이게 함
+                //         buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                //     }
+    
+                //     // 초기 상태로 모달 재설정
+                //     resetModal();
+    
+                //     casher.style.display = "block";
+    
+                //     // 텍스트 클릭 시 텍스트 숨기기 및 버튼 그룹 보이기
+                //     dialogText.onclick = function () {
+                //         this.style.display = "none"; // 텍스트 숨김
+                //         buttonGroup.style.display = "block"; // 버튼 그룹 표시
+                //     };
+    
+                //     // 닫기 버튼 클릭 시 모달 닫기
+                //     span.onclick = function () {
+                //         casher.style.display = "none";
+                //         resetModal();
+                //     };
+    
+                //     // 각 선택지 클릭 시 동작
+                //     option1.onclick = function () {
+                //         console.log("첫 번째 선택지 선택됨");
+                //         casher.style.display = "none";
+                //         resetModal();
+                //     };
+    
+                //     option2.onclick = function () {
+                //         console.log("두 번째 선택지 선택됨");
+                //         casher.style.display = "none";
+                //         resetModal();
+                //     };
+    
+                //     option3.onclick = function () {
+                //         console.log("세 번째 선택지 선택됨");
+                //         casher.style.display = "none";
+                //         resetModal();
+                //     };
+    
+                //     // 모달 창 바깥 영역 클릭 시 모달 닫기
+                //     window.onclick = function (event) {
+                //         if (event.target == casher) {
+                //             casher.style.display = "none";
+                //             resetModal();
+                //         }
+                //     };
+                // } else if (selectedObject.userData.type == 'friend_hurt') {
+                //     var casher = document.getElementById("thiscasher");
+                //     var span = document.getElementsByClassName("close")[1];
+                //     var dialogText = document.querySelector("#thiscasher .Speech1 p");
+                //     var option1 = document.getElementById("select1");
+                //     var option2 = document.getElementById("select2");
+                //     var option3 = document.getElementById("select3");
+                //     var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
+    
+                //     // 대화 내용 업데이트
+                //     dialogText.innerHTML = "넘어져서 주져 앉아있다. 무릎에 상처가 났다..";
+    
+                //     // 각 선택지 업데이트
+                //     function resetModal() {
+                //         option1.innerHTML = "어, 피가 난다!";
+                //         option2.innerHTML = "괜찮아? 아프겠다. 양호실까지 부축해줄까?";
+                //         option3.innerHTML = "(무시하고 지나간다.)";
+                //         dialogText.style.display = "block";  // 텍스트를 보이게 함
+                //         buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                //     }
+    
+                //     // 초기 상태로 모달 재설정
+                //     resetModal();
+    
+                //     casher.style.display = "block";
+    
+                //     // 텍스트 클릭 시 텍스트 숨기기 및 버튼 그룹 보이기
+                //     dialogText.onclick = function () {
+                //         this.style.display = "none"; // 텍스트 숨김
+                //         buttonGroup.style.display = "block"; // 버튼 그룹 표시
+                //     };
+    
+                //     // 닫기 버튼 클릭 시 모달 닫기
+                //     span.onclick = function () {
+                //         casher.style.display = "none";
+                //         resetModal();
+                //     };
+    
+                //     // 각 선택지 클릭 시 동작
+                //     option1.onclick = function () {
+                //         console.log("첫 번째 선택지 선택됨");
+                //         dialogText.style.display = "block";
+                //         buttonGroup.style.display = "none";
+                //         dialogText.innerHTML = "뭐야? 구경났어?";
+                //         dialogText.onclick = function () {
+                //             casher.style.display = "none";
+                //             resetModal();
+                //         };
+                //     };
+    
+                //     option2.onclick = function () {
+                //         console.log("두 번째 선택지 선택됨");
+                //         dialogText.style.display = "block";
+                //         buttonGroup.style.display = "none";
+                //         dialogText.innerHTML = "괜찮아. 혼자 양호실에 갈게. 걱정해줘서 고마워.";
+                //         dialogText.onclick = function () {
+                //             casher.style.display = "none";
+                //             resetModal();
+                //         };
+                //     };
+    
+                //     option3.onclick = function () {
+                //         console.log("세 번째 선택지 선택됨");
+                //         dialogText.style.display = "block";
+                //         buttonGroup.style.display = "none";
+                //         dialogText.innerHTML = ".....";
+                //         dialogText.onclick = function () {
+                //             casher.style.display = "none";
+                //             resetModal();
+                //         };
+                //     };
+    
+                //     // 모달 창 바깥 영역 클릭 시 모달 닫기
+                //     window.onclick = function (event) {
+                //         if (event.target == casher) {
+                //             casher.style.display = "none";
+                //             resetModal();
+                //         }
+                //     };
+                // }
+    
+                // if (intersects[i].object.name === "clickableBox") {
+                //     var modal = document.getElementById("myModal");
+                //     var span = document.getElementsByClassName("close")[0];
+                //     sessionStorage.setItem('npc_name', selectedObject.userData.type);
+                //     modal.style.display = "block";
+    
+                //     // 닫기 버튼 클릭 시 모달 닫기
+                //     span.onclick = function () {
+                //         modal.style.display = "none";
+                //     }
+    
+                //     // 선택지 1 클릭 시 동작
+                //     document.getElementById("option1").onclick = function () {
+                //         console.log("선택지 1 선택됨");
+                //         modal.style.display = "none";
+                //     }
+    
+                //     // 선택지 2 클릭 시 동작
+                //     document.getElementById("option2").onclick = function () {
+                //         console.log("선택지 2 선택됨");
+                //         modal.style.display = "none";
+                //     }
+    
+                //     // 모달 창 바깥 영역 클릭 시 모달 닫기
+                //     window.onclick = function (event) {
+                //         if (event.target == modal) {
+                //             modal.style.display = "none";
+                //         }
+                //     }
+    
+                //     break; // 첫 번째 교차 객체만 처리하고 루프 종료
+                // } else if (intersects[i].object.name === "GameA") {
+                //     game_name = "GameA"
+                //     var modal = document.getElementById("myModal");
+                //     var span = document.getElementsByClassName("close")[0];
+                //     modal.style.display = "block";
+                //     var gameAButton = document.getElementById("Game");
+                //     gameAButton.setAttribute('data-path', 'WebGLTest1/index.html'); // data-path 속성 설정
+    
+                //     // 닫기 버튼 클릭 시 모달 닫기
+                //     span.onclick = function () {
+                //         modal.style.display = "none";
+                //     }
+    
+                //     // 선택지 1 클릭 시 동작
+                //     document.getElementById("option1").onclick = function () {
+                //         console.log("선택지 1 선택됨");
+                //         modal.style.display = "none";
+                //     }
+    
+                //     // 선택지 2 클릭 시 동작
+                //     document.getElementById("option2").onclick = function () {
+                //         console.log("선택지 2 선택됨");
+                //         modal.style.display = "none";
+                //     }
+    
+                //     // 모달 창 바깥 영역 클릭 시 모달 닫기
+                //     window.onclick = function (event) {
+                //         if (event.target == modal) {
+                //             modal.style.display = "none";
+                //         }
+                //     }
+    
+                //     break; // 첫 번째 교차 객체만 처리하고 루프 종료
+                // } else if (intersects[i].object.name === "GameB") {
+                //     game_name = "GameB"
+                //     var modal = document.getElementById("myModal");
+                //     var span = document.getElementsByClassName("close")[0];
+                //     modal.style.display = "block";
+    
+                //     var gameAButton = document.getElementById("Game");
+                //     if (gameAButton) {
+                //         gameAButton.setAttribute('data-path', 'JonnaZiralBall/index.html'); // data-path 속성 설정
+                //     }
+                //     // 닫기 버튼 클릭 시 모달 닫기
+                //     span.onclick = function () {
+                //         modal.style.display = "none";
+                //     }
+    
+                //     // 선택지 1 클릭 시 동작
+                //     document.getElementById("option1").onclick = function () {
+                //         console.log("선택지 1 선택됨");
+                //         modal.style.display = "none";
+                //     }
+    
+                //     // 선택지 2 클릭 시 동작
+                //     document.getElementById("option2").onclick = function () {
+                //         console.log("선택지 2 선택됨");
+                //         modal.style.display = "none";
+                //     }
+    
+                //     // 모달 창 바깥 영역 클릭 시 모달 닫기
+                //     window.onclick = function (event) {
+                //         if (event.target == modal) {
+                //             modal.style.display = "none";
+                //         }
+                //     }
+    
+                //     break; // 첫 번째 교차 객체만 처리하고 루프 종료
+                // }
+    
+                // if (intersects[i].object.name === "tp") {
+                //     // 캐릭터의 새 위치 설정
+                //     this._model.position.x = 2328;
+                //     this._model.position.y = 10;
+                //     this._model.position.z = 247;
+    
+                //     // 캐릭터의 현재 y 위치를 유지하면서 캡슐 위치 업데이트
+                //     const heightOffset = (this._model._capsule.end.y - this._model._capsule.start.y) / 2;
+                //     this._model._capsule.start.set(this._model.position.x, this._model.position.y, this._model.position.z);
+                //     this._model._capsule.end.set(this._model.position.x, this._model.position.y + heightOffset * 2, this._model.position.z);
+                // }
             }
         }
     }
+    _showNpcDialog(npcType) {
+        console.log(`Showing dialog for NPC type: ${npcType}`); // 디버그 로그 추가'
+        if (npcType === 'casher') {
+            var casher = document.getElementById("thiscasher");
+            var span = document.getElementsByClassName("close")[1];
+            var speechText = document.getElementById("speechText");
+            var buttonGroup = document.getElementById("buttonGroup");
+    
+            casher.style.display = "block";
+    
+            function resetModal() {
+                speechText.style.display = "block";
+                buttonGroup.style.display = "none";
+            }
+    
+            resetModal();
+    
+            span.onclick = function () {
+                casher.style.display = "none";
+                resetModal();
+            }
+    
+            speechText.onclick = function () {
+                speechText.style.display = "none";
+                buttonGroup.style.display = "block";
+            }
+    
+            document.getElementById("select1").onclick = function () {
+                console.log("선택지 1 선택됨");
+                casher.style.display = "none";
+                resetModal();
+            }
+    
+            document.getElementById("select2").onclick = function () {
+                console.log("선택지 2 선택됨");
+                casher.style.display = "none";
+                resetModal();
+            }
+    
+            document.getElementById("select3").onclick = function () {
+                console.log("선택지 3 선택됨");
+                casher.style.display = "none";
+                resetModal();
+            }
+    
+            window.onclick = function (event) {
+                if (event.target == casher) {
+                    casher.style.display = "none";
+                    resetModal();
+                }
+            }
+        } else if (npcType === 'teacher') {
+            var casher = document.getElementById("thiscasher");
+            var span = document.getElementsByClassName("close")[1];
+            var dialogText = document.querySelector("#thiscasher .Speech1 p");
+            var option1 = document.getElementById("select1");
+            var option2 = document.getElementById("select2");
+            var option3 = document.getElementById("select3");
+            var buttonGroup = document.getElementById("buttonGroup");
+    
+            dialogText.innerHTML = "안녕? 새로 온 학생이니?";
+    
+            function resetModal() {
+                option1.innerHTML = "네, 맞아요. 안녕하세요?";
+                option2.innerHTML = "(무시하고 갈 길을 간다.)";
+                option3.innerHTML = "누구세요?";
+                dialogText.style.display = "block";
+                buttonGroup.style.display = "none";
+            }
+    
+            resetModal();
+    
+            casher.style.display = "block";
+    
+            dialogText.onclick = function () {
+                this.style.display = "none";
+                buttonGroup.style.display = "block";
+            };
+    
+            span.onclick = function () {
+                casher.style.display = "none";
+                resetModal();
+            };
+    
+            option1.onclick = function () {
+                console.log("첫 번째 선택지 선택됨");
+                dialogText.style.display = "block";
+                buttonGroup.style.display = "none";
+                dialogText.innerHTML = "안녕? 나는 선생님이란다. 학교에 온걸 환영해!";
+                dialogText.onclick = function () {
+                    casher.style.display = "none";
+                    resetModal();
+                };
+            };
+    
+            option2.onclick = function () {
+                console.log("두 번째 선택지 선택됨");
+                dialogText.style.display = "block";
+                buttonGroup.style.display = "none";
+                dialogText.innerHTML = "어머..낯을가리는 아이인가?";
+                dialogText.onclick = function () {
+                    casher.style.display = "none";
+                    resetModal();
+                };
+            };
+    
+            option3.onclick = function () {
+                console.log("세 번째 선택지 선택됨");
+                dialogText.style.display = "block";
+                buttonGroup.style.display = "none";
+                dialogText.innerHTML = "나는 선생님이란다.";
+                dialogText.onclick = function () {
+                    casher.style.display = "none";
+                    resetModal();
+                };
+            };
+    
+            window.onclick = function (event) {
+                if (event.target == casher) {
+                    casher.style.display = "none";
+                    resetModal();
+                }
+            }
+        } else if (npcType == 'game_friend') {
+            game_name = "GameB"
+            var modal = document.getElementById("myModal");
+            var span = document.getElementsByClassName("close")[0];
+            modal.style.display = "block";
+            var gameAButton = document.getElementById("Game");
+            gameAButton.setAttribute('data-path', 'BallMiniGame/index.html'); // data-path 속성 설정
+
+            // 닫기 버튼 클릭 시 모달 닫기
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            // 선택지 1 클릭 시 동작
+            document.getElementById("option1").onclick = function () {
+                console.log("선택지 1 선택됨");
+                modal.style.display = "none";
+            }
+
+            // 선택지 2 클릭 시 동작
+            document.getElementById("option2").onclick = function () {
+                console.log("선택지 2 선택됨");
+                modal.style.display = "none";
+            }
+
+            // 모달 창 바깥 영역 클릭 시 모달 닫기
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            // break; // 첫 번째 교차 객체만 처리하고 루프 종료
+        } else if (npcType == 'friend_crash') {
+            var casher = document.getElementById("thiscasher");
+            var span = document.getElementsByClassName("close")[1];
+            var dialogText = document.querySelector("#thiscasher .Speech1 p");
+            var option1 = document.getElementById("select1");
+            var option2 = document.getElementById("select2");
+            var option3 = document.getElementById("select3");
+            var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
+
+            // 대화 내용 업데이트
+            dialogText.innerHTML = "운동장을 걷다가 어깨를 부딪쳤다. 사과를 안하고 지나갔다.";
+
+            // 각 선택지 업데이트
+            function resetModal() {
+                option1.innerHTML = "야! 너 왜 부딪혔는데 사과 안해?";
+                option2.innerHTML = "(기분 나쁜데... 그래도 이번엔 그냥 지나가자.)";
+                option3.innerHTML = "(쫓아가서 어깨를 다시 부딪힌다.)";
+                dialogText.style.display = "block";  // 텍스트를 보이게 함
+                buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+            }
+
+            // 초기 상태로 모달 재설정
+            resetModal();
+
+            casher.style.display = "block";
+
+            // 텍스트 클릭 시 텍스트 숨기기 및 버튼 그룹 보이기
+            dialogText.onclick = function () {
+                this.style.display = "none"; // 텍스트 숨김
+                buttonGroup.style.display = "block"; // 버튼 그룹 표시
+            };
+
+            // 닫기 버튼 클릭 시 모달 닫기
+            span.onclick = function () {
+                casher.style.display = "none";
+                resetModal();
+            };
+
+            option1.onclick = function () {
+                console.log("첫 번째 선택지 선택됨");
+                dialogText.style.display = "block";
+                buttonGroup.style.display = "none";
+                dialogText.innerHTML = "어? 아...미안";
+                dialogText.onclick = function () {
+                    casher.style.display = "none";
+                    resetModal();
+                };
+            };
+
+            option2.onclick = function () {
+                console.log("두 번째 선택지 선택됨");
+                dialogText.style.display = "block";
+                buttonGroup.style.display = "none";
+                dialogText.innerHTML = "...";
+                dialogText.onclick = function () {
+                    casher.style.display = "none";
+                    resetModal();
+                };
+            };
+
+            option3.onclick = function () {
+                console.log("세 번째 선택지 선택됨");
+                dialogText.style.display = "block";
+                buttonGroup.style.display = "none";
+                dialogText.innerHTML = "아야! 너 뭐야?";
+                dialogText.onclick = function () {
+                    casher.style.display = "none";
+                    resetModal();
+                };
+            };
+
+            // 모달 창 바깥 영역 클릭 시 모달 닫기
+            window.onclick = function (event) {
+                if (event.target == casher) {
+                    casher.style.display = "none";
+                    resetModal();
+                }
+            };
+        } else if (npcType == 'rector') {
+            var casher = document.getElementById("thiscasher");
+            var span = document.getElementsByClassName("close")[1];
+            var dialogText = document.querySelector("#thiscasher .Speech1 p");
+            var option1 = document.getElementById("select1");
+            var option2 = document.getElementById("select2");
+            var option3 = document.getElementById("select3");
+            var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
+
+            // 대화 내용 업데이트
+            dialogText.innerHTML = "교장선생님이다.";
+
+            // 각 선택지 업데이트
+            function resetModal() {
+                option1.innerHTML = "교장선생님은 왜 머리가 없으세요?";
+                option2.innerHTML = "안녕하세요!";
+                option3.innerHTML = "(무시하고 지나간다)";
+                dialogText.style.display = "block";  // 텍스트를 보이게 함
+                buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+            }
+
+            // 초기 상태로 모달 재설정
+            resetModal();
+
+            casher.style.display = "block";
+
+            // 텍스트 클릭 시 텍스트 숨기기 및 버튼 그룹 보이기
+            dialogText.onclick = function () {
+                this.style.display = "none"; // 텍스트 숨김
+                buttonGroup.style.display = "block"; // 버튼 그룹 표시
+            };
+
+            // 닫기 버튼 클릭 시 모달 닫기
+            span.onclick = function () {
+                casher.style.display = "none";
+                resetModal();
+            };
+
+            option1.onclick = function () {
+                console.log("첫 번째 선택지 선택됨");
+                dialogText.style.display = "block";
+                buttonGroup.style.display = "none";
+                dialogText.innerHTML = "머리가 없는게 아니다. 내가 나아갈 뿐";
+                dialogText.onclick = function () {
+                    casher.style.display = "none";
+                    resetModal();
+                };
+            };
+
+            option2.onclick = function () {
+                console.log("두 번째 선택지 선택됨");
+                dialogText.style.display = "block";
+                buttonGroup.style.display = "none";
+                dialogText.innerHTML = "안녕, 오늘도 좋은 하루 보내렴";
+                dialogText.onclick = function () {
+                    casher.style.display = "none";
+                    resetModal();
+                };
+            };
+
+            option3.onclick = function () {
+                console.log("세 번째 선택지 선택됨");
+                dialogText.style.display = "block";
+                buttonGroup.style.display = "none";
+                dialogText.innerHTML = "...";
+                dialogText.onclick = function () {
+                    casher.style.display = "none";
+                    resetModal();
+                };
+            };
+
+            // 모달 창 바깥 영역 클릭 시 모달 닫기
+            window.onclick = function (event) {
+                if (event.target == casher) {
+                    casher.style.display = "none";
+                    resetModal();
+                }
+            };
+        } else if (npcType == 'npc3') {
+            var casher = document.getElementById("thiscasher");
+            var span = document.getElementsByClassName("close")[1];
+            var dialogText = document.querySelector("#thiscasher .Speech1 p");
+            var option1 = document.getElementById("select1");
+            var option2 = document.getElementById("select2");
+            var option3 = document.getElementById("select3");
+            var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
+
+            // 대화 내용 업데이트
+            dialogText.innerHTML = "안녕? 나는 npc3야.";
+
+            // 각 선택지 업데이트
+            function resetModal() {
+                option1.innerHTML = "안녕하세요";
+                option2.innerHTML = "와 AI다!?";
+                option3.innerHTML = "집에가고싶어요";
+                dialogText.style.display = "block";  // 텍스트를 보이게 함
+                buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+            }
+
+            // 초기 상태로 모달 재설정
+            resetModal();
+
+            casher.style.display = "block";
+
+            // 텍스트 클릭 시 텍스트 숨기기 및 버튼 그룹 보이기
+            dialogText.onclick = function () {
+                this.style.display = "none"; // 텍스트 숨김
+                buttonGroup.style.display = "block"; // 버튼 그룹 표시
+            };
+
+            // 닫기 버튼 클릭 시 모달 닫기
+            span.onclick = function () {
+                casher.style.display = "none";
+                resetModal();
+            };
+
+            // 각 선택지 클릭 시 동작
+            option1.onclick = function () {
+                console.log("첫 번째 선택지 선택됨");
+                casher.style.display = "none";
+                resetModal();
+            };
+
+            option2.onclick = function () {
+                console.log("두 번째 선택지 선택됨");
+                casher.style.display = "none";
+                resetModal();
+            };
+
+            option3.onclick = function () {
+                console.log("세 번째 선택지 선택됨");
+                casher.style.display = "none";
+                resetModal();
+            };
+
+            // 모달 창 바깥 영역 클릭 시 모달 닫기
+            window.onclick = function (event) {
+                if (event.target == casher) {
+                    casher.style.display = "none";
+                    resetModal();
+                }
+            };
+        } else if (npcType == 'friend_hurt') {
+            var casher = document.getElementById("thiscasher");
+            var span = document.getElementsByClassName("close")[1];
+            var dialogText = document.querySelector("#thiscasher .Speech1 p");
+            var option1 = document.getElementById("select1");
+            var option2 = document.getElementById("select2");
+            var option3 = document.getElementById("select3");
+            var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
+
+            // 대화 내용 업데이트
+            dialogText.innerHTML = "넘어져서 주져 앉아있다. 무릎에 상처가 났다..";
+
+            // 각 선택지 업데이트
+            function resetModal() {
+                option1.innerHTML = "어, 피가 난다!";
+                option2.innerHTML = "괜찮아? 아프겠다. 양호실까지 부축해줄까?";
+                option3.innerHTML = "(무시하고 지나간다.)";
+                dialogText.style.display = "block";  // 텍스트를 보이게 함
+                buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+            }
+
+            // 초기 상태로 모달 재설정
+            resetModal();
+
+            casher.style.display = "block";
+
+            // 텍스트 클릭 시 텍스트 숨기기 및 버튼 그룹 보이기
+            dialogText.onclick = function () {
+                this.style.display = "none"; // 텍스트 숨김
+                buttonGroup.style.display = "block"; // 버튼 그룹 표시
+            };
+
+            // 닫기 버튼 클릭 시 모달 닫기
+            span.onclick = function () {
+                casher.style.display = "none";
+                resetModal();
+            };
+
+            // 각 선택지 클릭 시 동작
+            option1.onclick = function () {
+                console.log("첫 번째 선택지 선택됨");
+                dialogText.style.display = "block";
+                buttonGroup.style.display = "none";
+                dialogText.innerHTML = "뭐야? 구경났어?";
+                dialogText.onclick = function () {
+                    casher.style.display = "none";
+                    resetModal();
+                };
+            };
+
+            option2.onclick = function () {
+                console.log("두 번째 선택지 선택됨");
+                dialogText.style.display = "block";
+                buttonGroup.style.display = "none";
+                dialogText.innerHTML = "괜찮아. 혼자 양호실에 갈게. 걱정해줘서 고마워.";
+                dialogText.onclick = function () {
+                    casher.style.display = "none";
+                    resetModal();
+                };
+            };
+
+            option3.onclick = function () {
+                console.log("세 번째 선택지 선택됨");
+                dialogText.style.display = "block";
+                buttonGroup.style.display = "none";
+                dialogText.innerHTML = ".....";
+                dialogText.onclick = function () {
+                    casher.style.display = "none";
+                    resetModal();
+                };
+            };
+
+            // 모달 창 바깥 영역 클릭 시 모달 닫기
+            window.onclick = function (event) {
+                if (event.target == casher) {
+                    casher.style.display = "none";
+                    resetModal();
+                }
+            };
+        }
+
+        // if (intersects[i].object.name === "clickableBox") {
+        //     var modal = document.getElementById("myModal");
+        //     var span = document.getElementsByClassName("close")[0];
+        //     sessionStorage.setItem('npc_name', selectedObject.userData.type);
+        //     modal.style.display = "block";
+
+        //     // 닫기 버튼 클릭 시 모달 닫기
+        //     span.onclick = function () {
+        //         modal.style.display = "none";
+        //     }
+
+        //     // 선택지 1 클릭 시 동작
+        //     document.getElementById("option1").onclick = function () {
+        //         console.log("선택지 1 선택됨");
+        //         modal.style.display = "none";
+        //     }
+
+        //     // 선택지 2 클릭 시 동작
+        //     document.getElementById("option2").onclick = function () {
+        //         console.log("선택지 2 선택됨");
+        //         modal.style.display = "none";
+        //     }
+
+        //     // 모달 창 바깥 영역 클릭 시 모달 닫기
+        //     window.onclick = function (event) {
+        //         if (event.target == modal) {
+        //             modal.style.display = "none";
+        //         }
+        //     }
+
+        //     break; // 첫 번째 교차 객체만 처리하고 루프 종료
+        // } 
+        else if (intersects[i].object.name === "GameA") {
+            game_name = "GameA"
+            var modal = document.getElementById("myModal");
+            var span = document.getElementsByClassName("close")[0];
+            modal.style.display = "block";
+            var gameAButton = document.getElementById("Game");
+            gameAButton.setAttribute('data-path', 'WebGLTest1/index.html'); // data-path 속성 설정
+
+            // 닫기 버튼 클릭 시 모달 닫기
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            // 선택지 1 클릭 시 동작
+            document.getElementById("option1").onclick = function () {
+                console.log("선택지 1 선택됨");
+                modal.style.display = "none";
+            }
+
+            // 선택지 2 클릭 시 동작
+            document.getElementById("option2").onclick = function () {
+                console.log("선택지 2 선택됨");
+                modal.style.display = "none";
+            }
+
+            // 모달 창 바깥 영역 클릭 시 모달 닫기
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            // break; // 첫 번째 교차 객체만 처리하고 루프 종료
+        } else if (intersects[i].object.name === "GameB") {
+            game_name = "GameB"
+            var modal = document.getElementById("myModal");
+            var span = document.getElementsByClassName("close")[0];
+            modal.style.display = "block";
+
+            var gameAButton = document.getElementById("Game");
+            if (gameAButton) {
+                gameAButton.setAttribute('data-path', 'JonnaZiralBall/index.html'); // data-path 속성 설정
+            }
+            // 닫기 버튼 클릭 시 모달 닫기
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            // 선택지 1 클릭 시 동작
+            document.getElementById("option1").onclick = function () {
+                console.log("선택지 1 선택됨");
+                modal.style.display = "none";
+            }
+
+            // 선택지 2 클릭 시 동작
+            document.getElementById("option2").onclick = function () {
+                console.log("선택지 2 선택됨");
+                modal.style.display = "none";
+            }
+
+            // 모달 창 바깥 영역 클릭 시 모달 닫기
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            // break; // 첫 번째 교차 객체만 처리하고 루프 종료
+        }
+
+        if (intersects[i].object.name === "tp") {
+            // 캐릭터의 새 위치 설정
+            this._model.position.x = 2328;
+            this._model.position.y = 10;
+            this._model.position.z = 247;
+
+            // 캐릭터의 현재 y 위치를 유지하면서 캡슐 위치 업데이트
+            const heightOffset = (this._model._capsule.end.y - this._model._capsule.start.y) / 2;
+            this._model._capsule.start.set(this._model.position.x, this._model.position.y, this._model.position.z);
+            this._model._capsule.end.set(this._model.position.x, this._model.position.y + heightOffset * 2, this._model.position.z);
+        }
+    }
+
 
 
     
