@@ -116,6 +116,12 @@ export function initThreeJS(){
             }
             _setupOctree(){
                 this._worldOctree = new Octree();
+                // this._worldOctree = new Octree({
+                //     undeferred: false, // 비동기 작업 비활성화
+                //     depthMax: 10, // 최대 깊이 제한 (필요에 따라 조정)
+                //     objectsThreshold: 8, // 노드당 객체 수 (필요에 따라 조정)
+                //     overlapPct: 0.15 // 겹침 비율 (필요에 따라 조정)
+                // });
             }
         
             _setupControls(){
@@ -259,7 +265,7 @@ export function initThreeJS(){
         
             _setupModel() {
                 const planeGeometry = new THREE.PlaneGeometry(20000,20000);
-                const planeMaterial = new THREE.MeshPhongMaterial({color: 0x0A630A});
+                const planeMaterial = new THREE.MeshPhongMaterial({color: 0x0A630A,transparent: true, opacity: 0 });
                 const NpcMaterial = new THREE.MeshPhongMaterial({color: 0x878787});
                 const plane = new THREE.Mesh(planeGeometry,planeMaterial);
                 plane.name = "plane";
@@ -314,8 +320,8 @@ export function initThreeJS(){
                 this.map = map;
                 map.scale.set(45, 45, 45);
                 // map.rotation.y = Math.PI / -1; // Z축을 중심으로 180도 회전
-                map.position.set(0, 0, 0);
-
+                map.position.set(-1111, 0, -2561);
+                map.rotation.y = Math.PI / 4;
                 // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
                 map.traverse((child) => {
                     if (child instanceof THREE.Mesh) {
@@ -324,7 +330,7 @@ export function initThreeJS(){
                     }
                 });
 
-                this._worldOctree.fromGraphNode(map);
+                // this._worldOctree.fromGraphNode(map);
                 loadingPage.style.display = 'none'; // 로딩 페이지 숨김
             }, undefined, function(error) {
                 console.error(error);
@@ -377,6 +383,8 @@ export function initThreeJS(){
             this._support = support;
             this._worldOctree.fromGraphNode(support);
         });
+        const npcs = [];
+        this._npcs = npcs
                 new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
                     const npc = gltf.scene;
                     this._scene.add(npc);
@@ -420,6 +428,7 @@ export function initThreeJS(){
                         diameter/2
                     );
                     npc.rotation.y = Math.PI;
+                    npcs.push(npc);
                     this._npc = npc;
             }); 
             new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
@@ -467,6 +476,7 @@ export function initThreeJS(){
                     diameter/2
                 );
                 npc.rotation.y = Math.PI;
+                npcs.push(npc);
                 this._npc = npc;
         }); 
             new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
@@ -512,6 +522,7 @@ export function initThreeJS(){
                     diameter/2
                 );
                 // npc.rotation.y = Math.PI;
+                npcs.push(npc);
                 this._npc = npc;
         }); 
          
@@ -560,6 +571,7 @@ export function initThreeJS(){
                 diameter/2
             );
             // npc.rotation.y = Math.PI/2;
+            npcs.push(npc);
             this._npc = npc;
         });
         
@@ -606,6 +618,7 @@ export function initThreeJS(){
                 diameter/2
             );
             npc.rotation.y = Math.PI/2;
+            npcs.push(npc);
             this._npc = npc;
         });
         
@@ -652,6 +665,7 @@ export function initThreeJS(){
                 diameter/2
             );
             npc.rotation.y = Math.PI/4;
+            npcs.push(npc);
             this._npc = npc;
         }); 
             new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
@@ -699,6 +713,7 @@ export function initThreeJS(){
                     diameter/2
                 );
                 // npc.rotation.y = Math.PI;
+                npcs.push(npc);
                 this._npc = npc;
         }); 
         
@@ -741,6 +756,7 @@ export function initThreeJS(){
                 
                 model.scale.set(50, 50, 50);
                 model.position.set(-0.5,10,-9)
+                model.rotation.y = Math.PI;
                     const axisHelper = new THREE.AxesHelper(1000);
                     // this._scene.add(axisHelper)
                     const boxHelper = new THREE.BoxHelper(model);
@@ -787,7 +803,7 @@ export function initThreeJS(){
         
         
             _onMouseClick(event) {
-                console.log('Mouse click event'); // 디버그 로그
+                // console.log('Mouse click event'); // 디버그 로그
                 // 마우스 위치를 정규화된 장치 좌표로 변환
                 this._mouse.x = ( event.clientX / this._divContainer.clientWidth ) * 2 - 1;
                 this._mouse.y = - ( event.clientY / this._divContainer.clientHeight ) * 2 + 1;
@@ -803,7 +819,7 @@ export function initThreeJS(){
                 if (intersects.length > 0) {
                     for (let i = 0; i < intersects.length; i++) {
                         const selectedObject = intersects[i].object;
-                        console.log('Clicked object:', selectedObject); // 클릭된 객체 정보 로그
+                        // console.log('Clicked object:', selectedObject); // 클릭된 객체 정보 로그
             
                         if (selectedObject.userData && selectedObject.userData.isNPC) {
                             console.log('NPC clicked, focusing on NPC'); // NPC 클릭 여부 확인하는 로그
@@ -1554,7 +1570,7 @@ export function initThreeJS(){
         
                     this._controls.target.set(
                         this._model.position.x,
-                        this._model.position.y,
+                        this._model.position.y+120,
                         this._model.position.z,
                     )
                     this._support.lookAt(this._model.position)
@@ -1564,7 +1580,16 @@ export function initThreeJS(){
                         const direction = new THREE.Vector3().subVectors(this._model.position, this._support.position).normalize();
                         this._support.position.addScaledVector(direction, step);
                     }
-        
+                    
+                    const minDistance = 200; // NPC들이 바라볼 최소 거리 설정
+
+                    // 모든 NPC 객체에 대해 거리가 일정 거리 이상일 때 lookAt 메서드 적용
+                    this._npcs.forEach((npc) => {
+                        const distance = npc.position.distanceTo(this._model.position);
+                        if (distance < minDistance) {
+                            npc.lookAt(this._model.position);
+                        }
+                    });
                     const vector = new THREE.Vector3();
                     this._support.getWorldPosition(vector);
                     vector.project(this._camera);
