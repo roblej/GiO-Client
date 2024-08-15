@@ -130,8 +130,8 @@ export function initThreeJS(){
                 this._controls.enablePan = false;
                 this._controls.enableDamping = true;
         
-                this._controls.minDistance = 300;  // 카메라가 대상에 가장 가까울 수 있는 거리
-                this._controls.maxDistance = 1000;  // 카메라가 대상에서 가장 멀어질 수 있는 거리
+                this._controls.minDistance = 130;  // 카메라가 대상에 가장 가까울 수 있는 거리
+                this._controls.maxDistance = 300;  // 카메라가 대상에서 가장 멀어질 수 있는 거리
         
                 // this._controls.minPolarAngle = Math.PI / 4;   // 카메라가 아래로 45도 이상 내려가지 못하게 설정
                 // this._controls.maxPolarAngle = Math.PI / 2;   // 카메라가 수평선 이상으로 올라가지 못하게 설정
@@ -332,9 +332,7 @@ export function initThreeJS(){
                     }
                 });
 
-
-                this._worldOctree.fromGraphNode(map);
-
+                // this._worldOctree.fromGraphNode(map);
                 loadingPage.style.display = 'none'; // 로딩 페이지 숨김
             }, undefined, function(error) {
                 console.error(error);
@@ -480,7 +478,7 @@ export function initThreeJS(){
                     diameter/2
                 );
                 npc.rotation.y = Math.PI;
-                npcs.push(npc);
+                // npcs.push(npc);
                 this._npc = npc;
         }); 
             new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
@@ -531,7 +529,7 @@ export function initThreeJS(){
         }); 
          
         
-        new GLTFLoader().load("./data/Xbot.glb",(gltf) =>{
+        new GLTFLoader().load("./data/yellowidle.glb",(gltf) =>{
             const npc = gltf.scene;
             this._scene.add(npc);
             
@@ -551,19 +549,20 @@ export function initThreeJS(){
             this._mixers.push(mixer);
             const animationsMap = {};
             gltf.animations.forEach((clip) => {
-                // console.log(clip.name);
+                console.log(clip.name);
                 animationsMap[clip.name] = mixer.clipAction(clip);
             });
             npc.userData.animationsMap = animationsMap;
             npc.userData.mixer = mixer;
             // 'idle' 애니메이션 재생
-            if (animationsMap['idle']) {
-                const idleAction = animationsMap['idle'];
+            if (animationsMap['Armature|Take 001|BaseLayer']) {
+                const idleAction = animationsMap['Armature|Take 001|BaseLayer'];
                 idleAction.play();
             }
             npc.position.set(225,1,-1682);
             // npc.rotation.y = Math.PI /2;
-            npc.scale.set(70,70,70);
+            // npc.scale.set(70,70,70);
+            npc.scale.set(35,35,35);
             const box = (new THREE.Box3).setFromObject(npc);
             // npc.position.y = (box.max.y - box.min.y) /2;
             const height = box.max.y - box.min.y;
@@ -722,7 +721,7 @@ export function initThreeJS(){
         }); 
         
         
-            new GLTFLoader().load("./data/Xbot.glb", (gltf) => {
+            new GLTFLoader().load("./data/gPlayer.glb", (gltf) => {
                 const model = gltf.scene;
                 this._scene.add(model);
         
@@ -755,16 +754,16 @@ export function initThreeJS(){
                 model._capsule = new Capsule(
                     new THREE.Vector3(0, 0, 0),
                     new THREE.Vector3(0, height, 0),
-                    (diameter/2)*50
+                    (diameter/2)*3
                 );
                 
-                model.scale.set(50, 50, 50);
+                model.scale.set(25, 25, 25);
                 model.position.set(-0.5,10,-9)
                 model.rotation.y = Math.PI;
                     const axisHelper = new THREE.AxesHelper(1000);
-                    // this._scene.add(axisHelper)
+                    this._scene.add(axisHelper)
                     const boxHelper = new THREE.BoxHelper(model);
-                    // this._scene.add(boxHelper);
+                    this._scene.add(boxHelper);
                     this._boxHelper = boxHelper;
                     this._model = model;
                 });
@@ -1580,7 +1579,7 @@ export function initThreeJS(){
         
                     this._controls.target.set(
                         this._model.position.x,
-                        this._model.position.y+120,
+                        this._model.position.y+80,
                         this._model.position.z,
                     )
                     this._support.lookAt(this._model.position)
@@ -1597,9 +1596,31 @@ export function initThreeJS(){
                     this._npcs.forEach((npc) => {
                         const distance = npc.position.distanceTo(this._model.position);
                         if (distance < minDistance) {
-                            npc.lookAt(this._model.position);
+                            // 목표 방향 설정
+                            const targetPosition = this._model.position.clone();
+                            targetPosition.y = npc.position.y;  // Y축 회전만 고려 (필요에 따라 조정 가능)
+                            
+                            // NPC의 현재 회전 상태 저장
+                            const currentQuaternion = npc.quaternion.clone();
+
+                            // NPC를 목표 위치를 바라보게 하고 그 회전을 저장
+                            npc.lookAt(targetPosition);
+                            const targetQuaternion = npc.quaternion.clone();
+                            
+                            // 원래 회전으로 되돌림
+                            npc.quaternion.copy(currentQuaternion);
+
+                            // 선형 보간을 사용하여 부드럽게 회전
+                            const slerpFactor = 0.1;  // 회전 속도를 조절하는 값 (0~1 사이 값, 값이 작을수록 천천히 회전)
+                            npc.quaternion.slerp(targetQuaternion, slerpFactor);
+
+                            // Z축과 X축 회전을 고정하여 뒤로 눕는 것을 방지
+                            npc.rotation.z = 0;
+                            npc.rotation.x = 0;
                         }
                     });
+
+
                     const vector = new THREE.Vector3();
                     this._support.getWorldPosition(vector);
                     vector.project(this._camera);
