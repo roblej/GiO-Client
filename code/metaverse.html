@@ -36,7 +36,7 @@
             <!-- 모달 창 -->
             <div id="myModal" class="modal">
                 <!-- 모달 콘텐츠 -->
-                <div class="modal-content textModal">
+                <div class="Speech1 textModal">
                     <span class="close">&times;</span>
                     <p>거기 너! 나랑 공놀이 하지 않을래?</p>
                     <button id="Game" data-path="">게임 시작!</button>
@@ -74,16 +74,29 @@
             
             <div id="loginModal" class="modal textModal">
                 <div class="modal-content" id="loginContent">
-                    <div id="loginBannerFront"></div>
-                    <div id="loginBanner">
-                    </div>
+                    <h2>교육가이드</h2>
+                    <h2>공지사항</h2>
+                    <img src="./data/loginImage/logo.png" alt="Logo" id="login-logo">
+                    <h2 id="main-login">로그인</h2>
+                    <h2>회원가입</h2>
 
+                    </form>
                     <span class="close">&times;</span>
+                </div>
+                <div id="intro">
+                    <h2>Growing Intercommunication Odyssey</h2>
+                    <h3>고기능 자폐 스펙트럼 아동들의 사회성 교육과 성장을 위한 사이트, GiO</h3>
+                    <h3>교육자들을 위한 보조와 아이들의 치료와 성장을 위해 GiO가 함께합니다.</h3>
+                </div>
+                <div id="loginpage">
+                    <h1>로그인</h1>
                     <form id="loginForm">
-                        <h2>로그인</h2>
-                        <div id="loginBtns">
-                            <input type="text" placeholder="아이디" name="id" required>
-                            <input type="password" placeholder="비밀번호" name="password" required>
+                        <div style="display: flex; justify-content: center;">
+                            <div id="loginBtns">
+                                <input type="text" placeholder="아이디" name="id" required>
+                                <br>
+                                <input type="password" placeholder="비밀번호" name="password" required>
+                            </div>
                             <button type="submit" id="loginBtn">로그인</button>
                         </div>
                     </br>

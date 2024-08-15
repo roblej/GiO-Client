@@ -3,17 +3,46 @@ export let globalId = "";
 const loginModal = document.getElementById('loginModal');
 const loginForm = document.getElementById('loginForm');
 const signupForm = document.getElementById('signupForm');
-const closeButtons = document.querySelectorAll('.modal .close');
+const closeButtons = document.querySelectorAll('#loginModal .close');
+const mainLogin = document.getElementById('main-login');
+const loginpage = document.getElementById('loginpage')
+const loginlogo = document.getElementById('login-logo')
+const intro = document.getElementById('intro')
 
 // 페이지 로드 시 로그인 모달 표시
 document.addEventListener('DOMContentLoaded', function() {
     loginModal.style.display = 'block';
 });
 
+
+mainLogin.addEventListener('click', function() {
+    // 백그라운드 이미지가 수직으로 확대되면서 바뀌는 애니메이션 추가
+    loginModal.classList.remove('scale-down-ver-background');
+    loginModal.classList.add('scale-up-ver-background');
+
+    setTimeout(() => {
+        loginpage.style.display = 'block';
+        intro.style.display = 'none';
+    }, 1000); // 애니메이션 시간과 맞춤
+});
+
+loginlogo.addEventListener('click', function() {
+    // 백그라운드 이미지가 수직으로 축소되면서 원래 상태로 돌아가는 애니메이션 추가
+    loginModal.classList.remove('scale-up-ver-background');
+    loginModal.classList.add('scale-down-ver-background');
+
+    setTimeout(() => {
+        loginpage.style.display = 'none';
+        intro.style.display = 'block';
+    }, 1000); // 애니메이션 시간과 맞춤
+});
+
 // 모달 닫기 버튼 처리
 closeButtons.forEach(button => {
     button.addEventListener('click', function() {
         this.parentElement.parentElement.style.display = 'none';
+        loadThreeJS(); // 로그인 성공 후 three.js 로드
+
     });
 });
 
