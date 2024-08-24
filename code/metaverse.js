@@ -314,14 +314,15 @@ export function initThreeJS(){
             const loader = new GLTFLoader();
             loader.setDRACOLoader(dracoLoader);
 
-            loader.load('./data/sc_pre.glb', (gltf) => {
+            loader.load('./data/townhouse2.glb', (gltf) => {
                 const map = gltf.scene;
                 this._scene.add(map);
                 this.map = map;
                 map.scale.set(45, 45, 45);
                 // map.rotation.y = Math.PI / -1; // Z축을 중심으로 180도 회전
 
-                map.position.set(-1111, 0, -2561);
+                // map.position.set(-1111, 0, -2561);
+                map.position.y = -40;
                 map.rotation.y = Math.PI / 4;
 
                 // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
@@ -332,7 +333,7 @@ export function initThreeJS(){
                     }
                 });
 
-                // this._worldOctree.fromGraphNode(map);
+                this._worldOctree.fromGraphNode(map);
                 loadingPage.style.display = 'none'; // 로딩 페이지 숨김
             }, undefined, function(error) {
                 console.error(error);
