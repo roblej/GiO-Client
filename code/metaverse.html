@@ -39,8 +39,11 @@
                 <div class="Speech1 textModal">
                     <span class="close">&times;</span>
                     <p>거기 너! 나랑 공놀이 하지 않을래?</p>
-                    <button id="Game" data-path="">게임 시작!</button>
-                    <button id="option1">점수확인</button>
+                    <div class="choose" style="display: flex;">
+                    <button id="Game" data-path="">좋아!</button>
+                    <button>싫어</button>
+                    <button id="option1" style="display: none;">점수확인</button>
+                    </div>
                     <!-- <button id="option2">점수기입</button> -->
                     <!-- <button id="recordButton">녹음 시작</button> -->
                 </div>
@@ -55,9 +58,10 @@
 
             <div id="thiscasher" class="casher textModal"> 
                 <div class="Speech1">
-                    <span class="close" id="casher_close">&times;</span>
+                    <span class="npc_name"></span>
                     <p id="speechText">이것은 우리의 대화에 들어가는 것을 테스트 하는 것이에요.</p>
-                    <div id="buttonGroup" style="display: none;">
+                    <span class="close" id="casher_close">&times;</span>
+                    <div id="buttonGroup" class="choose" style="display: none;">
                         <button id ="select1">이렇게 할까?</button>
                         <button id ="select2">저렇게 할까?</button>
                         <button id ="select3">요렇게 할까?</button>
@@ -78,7 +82,7 @@
                     <h2>공지사항</h2>
                     <img src="./data/loginImage/logo.png" alt="Logo" id="login-logo">
                     <h2 id="main-login">로그인</h2>
-                    <h2>회원가입</h2>
+                    <h2 onclick="switchToSignup()">회원가입</h2>
 
                     </form>
                     <span class="close">&times;</span>
@@ -100,16 +104,50 @@
                             <button type="submit" id="loginBtn">로그인</button>
                         </div>
                     </br>
-                        <button type="button" id = "regBtn"onclick="switchToSignup()">회원가입하기</button>
+                        <!-- <button type="button" id = "regBtn"onclick="switchToSignup()">회원가입하기</button> -->
                         <button type = "button" id="findBtn"> ID/PW 찾기</button>
                     </form>
-                    <form id="signupForm" style="display:none;">
+                </div>
+                <div id="signupPage">
+                    <form id="signupForm">
                         <h2>회원가입</h2>
-                        <input type="text" placeholder="아이디" name="id" required>
-                        <input type="password" placeholder="비밀번호" name="password" required>
-                        <input type="password" placeholder="비밀번호 확인" name="confirmPassword" required>
-                        <input type="text" placeholder="나이" name="age" required>
-                        <button type="submit">회원가입</button>
+                        <div style="display: flex;">
+                        <div>
+                        <h4>이름</h4>
+                        <input type="text" placeholder="예시) 홍길동" style="width: 140px;">
+                        </div>
+                        <div style="margin-left: 35px;">
+                            <h4>성별</h4>
+                            <div id="gender">
+
+                                <input type="radio" id="male" name="gender" value="male">
+                                <label for="male" class="genderbutton">남</label>
+                                
+                                <input type="radio" id="female" name="gender" value="female">
+                                <label for="female" class="genderbutton">여</label>
+                            </div>
+                        </div>
+                        </div>
+                        <div>
+                            <h4>생년월일</h4>
+                            <input type="text" placeholder="년(4자)" style="width: 130px;">
+                            <input type="text" placeholder="월" style="width: 77px;">
+                            <input type="text" placeholder="일" style="width: 77px;">
+                        </div>
+                        <div>
+                            <h4>아이디</h4>
+                            <input type="text" placeholder="6~12자의 영문, 숫자만 사용가능합니다." name="id" required style="width: 333px;">
+                        </div>
+                        <div>
+                            <h4>비밀번호</h4>
+                            <input type="password" placeholder="6~12자의 영문, 숫자만 사용가능합니다." name="password" required style="width: 333px;">
+                            <input type="password" placeholder="비밀번호를 다시 입력해주세요." name="confirmPassword" required style="width: 333px;">
+                        </div>
+                        <div>
+                            <h4>이메일</h4>
+                            <input type="email" placeholder="E-mail" style="width: 333px;">
+                        </div>
+                        <button type="submit" style="width: 352px;">가입하기</button>
                         <!-- <button type="button" onclick="switchToLogin()">로그인</button> -->
                     </form>
                 </div>

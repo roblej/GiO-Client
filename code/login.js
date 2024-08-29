@@ -8,6 +8,7 @@ const mainLogin = document.getElementById('main-login');
 const loginpage = document.getElementById('loginpage')
 const loginlogo = document.getElementById('login-logo')
 const intro = document.getElementById('intro')
+const signupPage = document.getElementById('signupPage')
 
 // 페이지 로드 시 로그인 모달 표시
 document.addEventListener('DOMContentLoaded', function() {
@@ -21,6 +22,7 @@ mainLogin.addEventListener('click', function() {
     loginModal.classList.add('scale-up-ver-background');
 
     setTimeout(() => {
+        signupPage.style.display = 'none';
         loginpage.style.display = 'block';
         intro.style.display = 'none';
     }, 1000); // 애니메이션 시간과 맞춤
@@ -28,6 +30,7 @@ mainLogin.addEventListener('click', function() {
 
 loginlogo.addEventListener('click', function() {
     // 백그라운드 이미지가 수직으로 축소되면서 원래 상태로 돌아가는 애니메이션 추가
+    signupPage.style.display = 'none';
     loginModal.classList.remove('scale-up-ver-background');
     loginModal.classList.add('scale-down-ver-background');
 
@@ -47,14 +50,16 @@ closeButtons.forEach(button => {
 });
 
 // 로그인 폼과 회원가입 폼 전환 함수
-window.switchToSignup = function() {
-    loginForm.style.display = 'none';
-    signupForm.style.display = 'block';
+window.switchToSignup = function () {
+    loginpage.style.display = 'none';
+    intro.style.display = 'none'
+    signupPage.style.display = 'block';
 }
 
 window.switchToLogin = function() {
-    signupForm.style.display = 'none';
-    loginForm.style.display = 'block';
+    signupPage.style.display = 'none';
+    intro.style.display = 'none'
+    loginpage.style.display = 'block';
 }
 
 // 로그인 및 회원가입 처리 함수 (예시)
