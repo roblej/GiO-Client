@@ -615,6 +615,7 @@ input[type="radio"]:checked+.genderbutton {
   cursor: pointer;
   /* display: none; */
 }
+
 .mypagemodal-bg {
   display: none;
   justify-content: center;  /* 중앙에 가로로 정렬 */
@@ -627,10 +628,10 @@ input[type="radio"]:checked+.genderbutton {
   /* background-image: url("/code/data/mypageimage/mypageim/mypage_bg_img.jpg");
   background-repeat: no-repeat;
   background-size: cover; */
-  background-color: black;
-  /* opacity: 30%; */
+  background-color: rgba(0, 0, 0, 0.6);  /*회색으로 쓰지말고 블랙/화이트로 넣을 것*/
   padding: 20px;  /* 모달 내부에 패딩을 추가하여 가장자리와의 간격을 확보 */
   box-sizing: border-box;  /* 패딩을 포함한 전체 크기 계산 */
+  margin: -8px;
 }
 
 .image-container {
@@ -652,20 +653,34 @@ input[type="radio"]:checked+.genderbutton {
   max-width: 100%; 
   height: auto;
   width: auto;
-  max-height: calc(100vh - 60px);  /* 모달 전체 높이에 맞게 최대 높이를 설정 */
-  object-fit: contain;  /* 이미지의 비율을 유지하면서 컨테이너에 맞춤 */
+  max-height: calc(100vh - 30px);  
+  /* 모달 전체 높이에 맞게 최대 높이를 설정 */
+  /* object-fit: contain;   */
+  /* 이미지의 비율을 유지하면서 컨테이너에 맞춤 */
 }
 
 #stickerbook00{
-  scale: 80%;
-  padding-top: 12.5%;
-  left: 53%;
+  scale: 82%;
+  /* padding-top: 13.5%; */
+  top: 1080%;
+  left: 53.5%;
 
 }
 
 #stickerbook01{
-  scale: 80%;
-  padding-top: 12.5%;
-  left: 65.5%;
+  scale: 82%;
+  top: 1080%;
+  left: 66.2%;
 }
 
+#stickerbook02{
+  scale: 82%;
+  top: 500%;
+  left: 77.5%;
+}
+
+#bgim{
+  /* object-fit: cover; */
+  width: 100%;
+  height: auto;
+}
