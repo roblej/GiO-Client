@@ -28,7 +28,7 @@ export function initThreeJS(){
             divContainer.appendChild(renderer.domElement);
             this._renderer = renderer;
             this._canvas = renderer.domElement; // canvas를 클래스 변수로 저장
-            
+            renderer.physicallyCorrectLights = true
             renderer.shadowMap.enabled = true;
             renderer.shadowMap.type = THREE.VSMShadowMap;
         
@@ -200,6 +200,7 @@ export function initThreeJS(){
             }
             _focusOnNPC(npc) {
                 console.log("Focusing on NPC:", npc); // 디버그 로그 추가
+                /*
             
                 const npcPosition = new THREE.Vector3();
                 npc.getWorldPosition(npcPosition);
@@ -209,7 +210,6 @@ export function initThreeJS(){
                 const npcForward = new THREE.Vector3();
                 npc.getWorldDirection(npcForward);
                 npcForward.normalize();
-            
                 // 카메라 위치를 NPC 전방으로 설정
                 const cameraOffset = 100; // NPC로부터 카메라의 거리 (원하는 대로 조정 가능)
                 const newCameraPosition = npcPosition.clone().add(npcForward.multiplyScalar(-cameraOffset));
@@ -235,7 +235,7 @@ export function initThreeJS(){
                 this._camera = this._npcCamera;
                 this._controls.object = this._npcCamera;
                 this._isNpcCameraActive = true;
-            
+            */
                 console.log("Switched to NPC camera"); // 디버그 로그 추가
                 // 카메라 전환이 완료된 후에 대화창을 띄움
                 // setTimeout(() => {
@@ -299,9 +299,9 @@ export function initThreeJS(){
                 plane.receiveShadow = true;
                 this._worldOctree.fromGraphNode(plane);
 
-            if (index === 0) {
+            if (index === 0) { // 학교의 경우
                     
-                    loader.load('./data/school/schoolmap3.glb', (gltf) => {
+                    loader.load('./data/school/schoolmap_.glb', (gltf) => { // 학교
                         const map = gltf.scene;
                         this._scene.add(map);
                         this.map = map;
@@ -326,7 +326,7 @@ export function initThreeJS(){
                     }, undefined, function (error) {
                         console.error(error);
                     });
-                    loader.load("./data//school/rude_idle.glb", (gltf) => {
+                    loader.load("./data//school/rude_idle.glb", (gltf) => { // 몸통박치기!!
                         const npc = gltf.scene;
                         this._scene.add(npc);
                     
@@ -372,7 +372,7 @@ export function initThreeJS(){
                         npcs.push(npc);
                         this._npc = npc;
                     });
-                    loader.load("./data//school/schoolgirl_sit.glb", (gltf) => {
+                    loader.load("./data//school/schoolgirl_sit.glb", (gltf) => { // 다쳐서 넘어진 친구
                         const npc = gltf.scene;
                         this._scene.add(npc);
                 
@@ -420,7 +420,7 @@ export function initThreeJS(){
                         // npcs.push(npc);
                         this._npc = npc;
                     });
-                    loader.load("./data/school/teacher_idle.glb", (gltf) => {
+                    loader.load("./data/school/teacher_idle.glb", (gltf) => { // 선생님
                         const npc = gltf.scene;
                         this._scene.add(npc);
                 
@@ -466,7 +466,7 @@ export function initThreeJS(){
                         npcs.push(npc);
                         this._npc = npc;
                     });
-                    loader.load("./data/school/principal_idle.glb", (gltf) => {
+                    loader.load("./data/school/principal_idle.glb", (gltf) => { //교장선생님
                         const npc = gltf.scene;
                         this._scene.add(npc);
             
@@ -496,7 +496,7 @@ export function initThreeJS(){
                             const idleAction = animationsMap['idle'];
                             idleAction.play();
                         }
-                        npc.position.set(-1467, 0, -1182);
+                        npc.position.set(-1467, 4, -1182);
                         // npc.rotation.y = Math.PI /2;
                         // npc.scale.set(70,70,70);
                         npc.scale.set(35, 35, 35);
@@ -514,7 +514,7 @@ export function initThreeJS(){
                         npcs.push(npc);
                         this._npc = npc;
                     });
-                    loader.load("./data/school/ballgamenpc_idle.glb", (gltf) => {
+                    loader.load("./data/school/ballgamenpc_idle.glb", (gltf) => { //공놀이하는 친구
                         const npc = gltf.scene;
                         this._scene.add(npc);
             
@@ -560,17 +560,16 @@ export function initThreeJS(){
                         npcs.push(npc);
                         this._npc = npc;
                     });          
-        } else if (index === 1) {
-                loader.load('./data//townhouse/townhouse2.glb', (gltf) => {
+        } else if (index === 1) { // 마을회관의 경우
+                loader.load('./data//townhouse/townB_.glb', (gltf) => { // 마을회관
                 const map = gltf.scene;
                 this._scene.add(map);
                 this.map = map;
                 map.scale.set(45, 45, 45);
-                // map.rotation.y = Math.PI / -1; // Z축을 중심으로 180도 회전
 
-                // map.position.set(-1111, 0, -2561);
-                map.position.y = -40;
-                map.rotation.y = Math.PI / 4;
+                map.position.set(14, 0, -0);
+                // map.position.y = -40;
+                map.rotation.y = Math.PI *5 / 8;
 
                 // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
                 map.traverse((child) => {
@@ -584,9 +583,193 @@ export function initThreeJS(){
                 loadingPage.style.display = 'none'; // 로딩 페이지 숨김
             }, undefined, function(error) {
                 console.error(error);
-            });
-        } else if (index === 2) {
-            loader.load('./data/library/library.glb', (gltf) => {
+                });
+                loader.load("./data/school/principal_idle.glb", (gltf) => { // 할아버지
+                        const npc = gltf.scene;
+                        this._scene.add(npc);
+                
+        
+                        npc.traverse(child => {
+                            if (child instanceof THREE.Mesh) {
+                                child.castShadow = true;
+                                child.receiveShadow = true;
+                                child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
+                            }
+                            if (child.isMesh) {
+                                child.userData.type = 'grandfather';
+                            }
+                        });
+                        // 애니메이션 믹서 설정
+                        const mixer = new THREE.AnimationMixer(npc);
+                        this._mixers.push(mixer);
+                        const animationsMap = {};
+                        gltf.animations.forEach((clip) => {
+                            // console.log(clip.name);
+                            animationsMap[clip.name] = mixer.clipAction(clip);
+                        });
+                        npc.userData.animationsMap = animationsMap;
+                        npc.userData.mixer = mixer;
+                        // 'idle' 애니메이션 재생
+                        if (animationsMap['idle']) {
+                            const idleAction = animationsMap['idle'];
+                            idleAction.play();
+                        }
+                        npc.position.set(32, 40, -650);
+                        npc.scale.set(35, 35, 35);
+                        const box = (new THREE.Box3).setFromObject(npc);
+                        // npc.position.y = (box.max.y - box.min.y) /2;
+                        const height = box.max.y - box.min.y;
+                        const diameter = box.max.z - box.min.z
+                
+                        npc._capsule = new Capsule(
+                            new THREE.Vector3(0, diameter / 2, 0),
+                            new THREE.Vector3(0, height - diameter / 2, 0),
+                            diameter / 2
+                        );
+                        // npc.rotation.y = Math.PI;
+                        npcs.push(npc);
+                        this._npc = npc;
+                });
+                loader.load("./data/school/teacher_idle.glb", (gltf) => { //부녀회장
+                        const npc = gltf.scene;
+                        this._scene.add(npc);
+                
+        
+                        npc.traverse(child => {
+                            if (child instanceof THREE.Mesh) {
+                                child.castShadow = true;
+                                child.receiveShadow = true;
+                                child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
+                            }
+                            if (child.isMesh) {
+                                child.userData.type = '부녀회장';
+                            }
+                        });
+                        // 애니메이션 믹서 설정
+                        const mixer = new THREE.AnimationMixer(npc);
+                        this._mixers.push(mixer);
+                        const animationsMap = {};
+                        gltf.animations.forEach((clip) => {
+                            // console.log(clip.name);
+                            animationsMap[clip.name] = mixer.clipAction(clip);
+                        });
+                        npc.userData.animationsMap = animationsMap;
+                        npc.userData.mixer = mixer;
+                        // 'idle' 애니메이션 재생
+                        if (animationsMap['idle']) {
+                            const idleAction = animationsMap['idle'];
+                            idleAction.play();
+                        }
+                        npc.position.set(216, 0, -517);
+                        npc.scale.set(35, 35, 35);
+                        const box = (new THREE.Box3).setFromObject(npc);
+                        // npc.position.y = (box.max.y - box.min.y) /2;
+                        const height = box.max.y - box.min.y;
+                        const diameter = box.max.z - box.min.z
+                
+                        npc._capsule = new Capsule(
+                            new THREE.Vector3(0, diameter / 2, 0),
+                            new THREE.Vector3(0, height - diameter / 2, 0),
+                            diameter / 2
+                        );
+                        npc.rotation.y = Math.PI;
+                        npcs.push(npc);
+                        this._npc = npc;
+                });
+                loader.load("./data/school/teacher_idle.glb", (gltf) => { //할머니
+                        const npc = gltf.scene;
+                        this._scene.add(npc);
+                
+        
+                        npc.traverse(child => {
+                            if (child instanceof THREE.Mesh) {
+                                child.castShadow = true;
+                                child.receiveShadow = true;
+                                child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
+                            }
+                            if (child.isMesh) {
+                                child.userData.type = '할머니';
+                            }
+                        });
+                        // 애니메이션 믹서 설정
+                        const mixer = new THREE.AnimationMixer(npc);
+                        this._mixers.push(mixer);
+                        const animationsMap = {};
+                        gltf.animations.forEach((clip) => {
+                            // console.log(clip.name);
+                            animationsMap[clip.name] = mixer.clipAction(clip);
+                        });
+                        npc.userData.animationsMap = animationsMap;
+                        npc.userData.mixer = mixer;
+                        // 'idle' 애니메이션 재생
+                        if (animationsMap['idle']) {
+                            const idleAction = animationsMap['idle'];
+                            idleAction.play();
+                        }
+                        // npc.position.set(-871, 0, -578);
+                        npc.scale.set(35, 35, 35);
+                        const box = (new THREE.Box3).setFromObject(npc);
+                        // npc.position.y = (box.max.y - box.min.y) /2;
+                        const height = box.max.y - box.min.y;
+                        const diameter = box.max.z - box.min.z
+                
+                        npc._capsule = new Capsule(
+                            new THREE.Vector3(0, diameter / 2, 0),
+                            new THREE.Vector3(0, height - diameter / 2, 0),
+                            diameter / 2
+                        );
+                        // npc.rotation.y = Math.PI;
+                        npcs.push(npc);
+                        this._npc = npc;
+                });
+                loader.load("./data/gPlayer.glb", (gltf) => { //종이접기하는 손녀
+                        const npc = gltf.scene;
+                        this._scene.add(npc);
+                
+        
+                        npc.traverse(child => {
+                            if (child instanceof THREE.Mesh) {
+                                child.castShadow = true;
+                                child.receiveShadow = true;
+                                child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
+                            }
+                            if (child.isMesh) {
+                                child.userData.type = 'grandmother_child';
+                            }
+                        });
+                        // 애니메이션 믹서 설정
+                        const mixer = new THREE.AnimationMixer(npc);
+                        this._mixers.push(mixer);
+                        const animationsMap = {};
+                        gltf.animations.forEach((clip) => {
+                            // console.log(clip.name);
+                            animationsMap[clip.name] = mixer.clipAction(clip);
+                        });
+                        npc.userData.animationsMap = animationsMap;
+                        npc.userData.mixer = mixer;
+                        // 'idle' 애니메이션 재생
+                        if (animationsMap['idle']) {
+                            const idleAction = animationsMap['idle'];
+                            idleAction.play();
+                        }
+                        npc.position.set(-625, 0, -350);
+                        npc.scale.set(35, 35, 35);
+                        const box = (new THREE.Box3).setFromObject(npc);
+                        // npc.position.y = (box.max.y - box.min.y) /2;
+                        const height = box.max.y - box.min.y;
+                        const diameter = box.max.z - box.min.z
+                
+                        npc._capsule = new Capsule(
+                            new THREE.Vector3(0, diameter / 2, 0),
+                            new THREE.Vector3(0, height - diameter / 2, 0),
+                            diameter / 2
+                        );
+                        // npc.rotation.y = Math.PI;
+                        npcs.push(npc);
+                        this._npc = npc;
+                    });
+        } else if (index === 2) { // 도서관의 경우
+            loader.load('./data/library/library.glb', (gltf) => { //도서관
                 const map = gltf.scene;
                 this._scene.add(map);
                 this.map = map;
@@ -611,15 +794,15 @@ export function initThreeJS(){
                 console.error(error);
             });
         } else if (index === 3) {
-            loader.load('./data/library/library.glb', (gltf) => {
+            loader.load('./data/library/Librarymap.glb', (gltf) => {
                 const map = gltf.scene;
                 this._scene.add(map);
                 this.map = map;
-                map.scale.set(45, 45, 45);
+                map.scale.set(100, 100, 100);
                 // map.rotation.y = Math.PI / -1; // Z축을 중심으로 180도 회전
 
                 // map.position.set(-1111, 0, -2561);
-                map.position.y = -40;
+                // map.position.y = -40;
                 map.rotation.y = Math.PI / 4;
 
                 // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
@@ -763,55 +946,55 @@ export function initThreeJS(){
         }
 
         _switchScene(index) {
-        // loadingPage.style.display = 'block'; // 로딩 페이지 숨김
-    if (index >= 0 && index < this._scenes.length) {
-        // 이전 씬에서 플레이어 모델 제거
-        if (this._model) {
-            this._scene.remove(this._model,this._support);
-            
-        }
+            // loadingPage.style.display = 'block'; // 로딩 페이지 숨김
+            if (index >= 0 && index < this._scenes.length) {
+                // 이전 씬에서 플레이어 모델 제거
+                if (this._model) {
+                    this._scene.remove(this._model,this._support);
+                    
+                }
 
-        // Octree를 초기화
-        this._setupOctree();
+            // Octree를 초기화
+            this._setupOctree();
 
-        // 씬 전환
-        this._currentSceneIndex = index;
-        this._scene = this._scenes[index];
-        console.log(`Scene ${index + 1}로 전환됨`);
+            // 씬 전환
+            this._currentSceneIndex = index;
+            this._scene = this._scenes[index];
+            console.log(`Scene ${index + 1}로 전환됨`);
 
-        // 처음으로 해당 씬에 접근할 때만 모델 로드
-        if (!this._scene.modelsLoaded) {
-            this._loadSceneModels(this._scene, index);
-            this._scene.modelsLoaded = true;
-         }
-        // this._loadSceneModels(this._scene, index);
-        // this._scene.modelsLoaded = true;
-        
-        // 새로운 씬에 플레이어 모델 추가
-        if (this._model) {
-            let startPosition;
-            switch (index) {
-                case 0:
-                    startPosition = new THREE.Vector3(0, 10, 0); // 첫 번째 씬 위치
-                    this._setupOctree();
-                    break;
-                case 1:
-                    startPosition = new THREE.Vector3(100, 10, 100); // 두 번째 씬 위치
-                    this._setupOctree();
-                    break;
-                case 2:
-                    startPosition = new THREE.Vector3(-50, 10, -50); // 세 번째 씬 위치
-                    break;
-                default:
-                    startPosition = new THREE.Vector3(0, 10, 0); // 기본 위치
-                    break;
+            // 처음으로 해당 씬에 접근할 때만 모델 로드
+            if (!this._scene.modelsLoaded) {
+                this._loadSceneModels(this._scene, index);
+                this._scene.modelsLoaded = true;
             }
-
-            // 플레이어 위치 초기화
-            this._model.position.copy(startPosition);
+            // this._loadSceneModels(this._scene, index);
+            // this._scene.modelsLoaded = true;
             
-            this._scene.add(this._model,this._support);
-        }
+            // 새로운 씬에 플레이어 모델 추가
+            if (this._model) {
+                let startPosition;
+                switch (index) {
+                    case 0:
+                        startPosition = new THREE.Vector3(0, 10, 0); // 첫 번째 씬 위치
+                        this._setupOctree();
+                        break;
+                    case 1:
+                        startPosition = new THREE.Vector3(100, 10, 100); // 두 번째 씬 위치
+                        this._setupOctree();
+                        break;
+                    case 2:
+                        startPosition = new THREE.Vector3(-50, 10, -50); // 세 번째 씬 위치
+                        break;
+                    default:
+                        startPosition = new THREE.Vector3(0, 10, 0); // 기본 위치
+                        break;
+                }
+
+                // 플레이어 위치 초기화
+                this._model.position.copy(startPosition);
+                
+                this._scene.add(this._model,this._support);
+            }
     }
         }        
         _onMouseClick(event) {
@@ -840,6 +1023,8 @@ export function initThreeJS(){
                         if (selectedObject.userData && selectedObject.userData.isNPC) {
                             console.log('NPC clicked, focusing on NPC'); // NPC 클릭 여부 확인하는 로그
                             this._focusOnNPC(selectedObject);
+                            // this._showNpcDialog(selectedObject);
+                            
                             break; // 첫 번째 NPC 객체만 처리하고 루프 종료
                         }
                     }
@@ -869,7 +1054,11 @@ export function initThreeJS(){
                         if (count == 0) {
                             buttonGroup.style.display = "flex"; // 버튼 그룹 표시
                             count++;
-                            recordButton.onclick();
+                            // if (npcType != 'game_friend' && npcType != '할머니' && document.getElementsByClassName('GameBtn').length === 0){
+                            if (npcType = 'game_friend' || npcType == '할머니' || document.getElementsByClassName('GameBtn').length === 0) {
+                                    
+                                } else recordButton.onclick();
+                        // }
 
                             // 클릭 이벤트 비활성화
                             // this.onclick = null; // 현재 클릭된 요소의 onclick 이벤트 비활성화
@@ -893,7 +1082,6 @@ export function initThreeJS(){
                 if (event.code === "Space") { // 스페이스바 눌렀을 때
                     // clicktext.onclick(); // clicktext의 onclick 이벤트 호출
                     buttonGroup.style.display = "flex"; // 버튼 그룹 표시
-                    recordButton.onclick();
 
                 }
             };
@@ -901,6 +1089,7 @@ export function initThreeJS(){
             // 닫기 버튼 클릭 시 모달 닫기
             span.onclick = function () {
                 casher.style.display = "none";
+                count = 0;
                 resetModal();
             };
 
@@ -908,6 +1097,7 @@ export function initThreeJS(){
             window.onclick = function (event) {
                 if (event.target == casher) {
                     casher.style.display = "none";
+                    count = 0;
                     resetModal();
                 }
             };
@@ -916,7 +1106,7 @@ export function initThreeJS(){
                 npc_name[i].innerHTML = npcType;
             }
             speechText.onclick = function () {
-                speechText.style.display = "none";
+                // speechText.style.display = "none";
                 buttonGroup.style.display = "block";
             }
 
@@ -1196,6 +1386,7 @@ export function initThreeJS(){
     
                 // 각 선택지 업데이트
                 function resetModal() {
+                    dialogText.innerHTML = "넘어져서 주져 앉아있다. 무릎에 상처가 났다..";
                     option1.innerHTML = "어, 피가 난다!";
                     option2.innerHTML = "괜찮아? 아프겠다. 양호실까지 부축해줄까?";
                     option3.innerHTML = "(무시하고 지나간다.)";
@@ -1230,83 +1421,75 @@ export function initThreeJS(){
                     dialogText.innerHTML = ".....";
                 };
 
-            }
+            } else if (npcType == 'grandfather') {
     
-            // if (npcType === "clickableBox") {
-            //     var modal = document.getElementById("myModal");
-            //     var span = document.getElementsByClassName("close")[0];
-            //     sessionStorage.setItem('npc_name', selectedObject.userData.type);
-            //     modal.style.display = "block";
+                // 대화 내용 업데이트
+                dialogText.innerHTML = "(귀가 잘 안들리는 할아버지이시다.)";
     
-            //     // 닫기 버튼 클릭 시 모달 닫기
-            //     span.onclick = function () {
-            //         modal.style.display = "none";
-            //     }
+                // 각 선택지 업데이트
+                function resetModal() {
+                    option1.innerHTML = "안녕하세요.";
+                    option2.innerHTML = "";
+                    option3.innerHTML = "";
+                    option2.style.display = 'none';
+                    option3.style.display = 'none';
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                }
     
-            //     // 선택지 1 클릭 시 동작
-            //     document.getElementById("option1").onclick = function () {
-            //         console.log("선택지 1 선택됨");
-            //         modal.style.display = "none";
-            //     }
+                // 초기 상태로 모달 재설정
+                resetModal();
     
-            //     // 선택지 2 클릭 시 동작
-            //     document.getElementById("option2").onclick = function () {
-            //         console.log("선택지 2 선택됨");
-            //         modal.style.display = "none";
-            //     }
+                casher.style.display = "block";
+                var scene1 = 0
+                // 각 선택지 클릭 시 동작
+                option1.onclick = function () {
+                    if (scene1 == 0) {
+                        console.log("첫 번째 선택지 선택됨");
+                        dialogText.style.display = "block";
+                        buttonGroup.style.display = "none";
+                        dialogText.innerHTML = "....응? 뭐라고?";
+                        resetModal2();
+                        scene1++;
+                    } else {
+                        console.log("첫 번째 선택지 선택됨");
+                        dialogText.style.display = "block";
+                        buttonGroup.style.display = "none";
+                        dialogText.innerHTML = "어 그래.. 안녕하구나";
+                    }
+                };
+
+                function resetModal2() {
+                    option1.innerHTML = "(큰목소리로) 안녕하세요!!.";
+                    option2.innerHTML = "(같은 목소리로) 안녕하세요.";
+                    option3.innerHTML = "(큰목소리로) 안녕이라고!";
+                    option2.style.display = 'block';
+                    option3.style.display = 'block';
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                    count = 0;
+                }
+                option2.onclick = function () {
+                    console.log("두 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "잘 안들린단다 얘야";
+                };
     
-            //     // 모달 창 바깥 영역 클릭 시 모달 닫기
-            //     window.onclick = function (event) {
-            //         if (event.target == modal) {
-            //             modal.style.display = "none";
-            //         }
-            //     }
-    
-            //     // break; // 첫 번째 교차 객체만 처리하고 루프 종료
-            // } 
-            else if (npcType === "GameA") {
+                option3.onclick = function () {
+                    console.log("세 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "어린노무자식이 싸가지없게!";
+                };
+            } else if (npcType === "할머니") {
                 game_name = "GameA"
                 var modal = document.getElementById("myModal");
                 var span = document.getElementsByClassName("close")[0];
                 modal.style.display = "block";
                 var gameAButton = document.getElementById("Game");
-                gameAButton.setAttribute('data-path', 'WebGLTest1/index.html'); // data-path 속성 설정
+                gameAButton.setAttribute('data-path', 'LibraryBuild/index.html'); // data-path 속성 설정
     
-                // 닫기 버튼 클릭 시 모달 닫기
-                span.onclick = function () {
-                    modal.style.display = "none";
-                }
-    
-                // 선택지 1 클릭 시 동작
-                document.getElementById("option1").onclick = function () {
-                    console.log("선택지 1 선택됨");
-                    modal.style.display = "none";
-                }
-    
-                // 선택지 2 클릭 시 동작
-                document.getElementById("option2").onclick = function () {
-                    console.log("선택지 2 선택됨");
-                    modal.style.display = "none";
-                }
-    
-                // 모달 창 바깥 영역 클릭 시 모달 닫기
-                window.onclick = function (event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                    }
-                }
-    
-                // break; // 첫 번째 교차 객체만 처리하고 루프 종료
-            } else if (npcType === "GameB") {
-                game_name = "GameB"
-                var modal = document.getElementById("myModal");
-                var span = document.getElementsByClassName("close")[0];
-                modal.style.display = "block";
-    
-                var gameAButton = document.getElementById("Game");
-                if (gameAButton) {
-                    gameAButton.setAttribute('data-path', 'JonnaZiralBall/index.html'); // data-path 속성 설정
-                }   
                 // 닫기 버튼 클릭 시 모달 닫기
                 span.onclick = function () {
                     modal.style.display = "none";

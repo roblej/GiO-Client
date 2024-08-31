@@ -156,7 +156,7 @@ window.onclick = function(event) {
 // Unity에서 메시지를 받을 이벤트 리스너 추가
 window.addEventListener('message', function(event) {
     if (event.data.type === 'score') {
-        // console.log(event.data.value)
+        console.log(event.data.value)
         const game_score = event.data.value
         const requestOptions = {
             method: 'POST',

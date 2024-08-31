@@ -30,7 +30,7 @@ img {
 .BtnMaps{
   width: 200px;
   height: 100px;
-  z-index: 100000;
+  z-index: 1000;
   position: fixed;
   top: 140px;
   right: 160px;
@@ -334,6 +334,7 @@ input[type="radio"]:checked+.genderbutton {
   background-position: center;
   overflow: hidden; /* 경계를 벗어난 부분 숨김 */
   text-align: center;
+  z-index: 1000;
 }
 /* 새로운 백그라운드 이미지 */
 .new-background {
@@ -612,7 +613,7 @@ input[type="radio"]:checked+.genderbutton {
   padding: 5px 15px;
   font-size: 12px;
   cursor: pointer;
-  display: none;
+  /* display: none; */
 }
 .mypagemodal-bg {
   display: none;
