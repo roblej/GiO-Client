@@ -18,6 +18,13 @@
     <script type="module" src="event.js"></script>
     <script type="module" src="record.js"></script>
     <title>Document</title>
+    <style>
+        /* Your existing CSS styles */
+        .hidden {
+            display: none;
+        }
+    </style>
+
 </head>
 <body>
     <!-- 볼륨 조절 슬라이더 -->
@@ -165,13 +172,131 @@
                     <img src="data/mypageimage/mypageim/mypage_book01_img.png" alt="" style="z-index: 3;">
                     <img src="data/mypageimage/mypageim/mypage_book02_img.png" alt="" style="z-index: 4;">
                     <img src="data/mypageimage/mypageim/01.png" alt="" style="z-index: 5;">
-                    <img id="stickerbook00" src="data/mypageimage/mypageim/0101.png" alt="" style="z-index: 6;">
-                    <img id="stickerbook01" src="data/mypageimage/mypageim/0102.png" alt="" style="z-index: 6;">
+                    <img id="stickerbook00" src="data/mypageimage/mypageim/0101.png" alt="" style="z-index: 6;" onclick="showStickerTab()">
+                    <img id="stickerbook01" src="data/mypageimage/mypageim/0102.png" alt="" style="z-index: 6;" onclick="showDataTab()">
                     <img id="stickerbook02" src="data/mypageimage/mypageim/pageout_btn.png" alt="" style="z-index: 3;">
-
+                </div>
+                <div id="StickerTab" class="tabcontent data">
+                    <img src="data/mypageimage/mypageim/002.png" alt="">
+                </div>
+                <div id="DataTab" class="tabcontent data">
+                    <img src="data/mypageimage/mypageim/02.png" alt="">
+                    <img id="activebtn" src="data/mypageimage/mypageim/activedata_btn00.png" alt="" onclick="showActiveTab()">
+                    <img id="talkbtn" src="data/mypageimage/mypageim/talkdata_btn00.png" alt="" onclick="showTalkTab()">
+                </div>
+                <div id="ActiveTab" class="tabcontent data">
+                    <img src="data/mypageimage/mypageim/03.png" alt="">
+                    <img id="schoolbtn" src="data/mypageimage/mypageim/school00.png" alt="" onclick="showSchoolTab()">
+                </div>
+                <div id="TalkTab" class="tabcontent data">
+                    <img src="data/mypageimage/mypageim/05.png" alt="">
+                    <img id="communicationbtn" src="data/mypageimage/mypageim/communication00.png" alt="" onclick="showCommunicationTab()">
+                </div>
+                <div id="SchoolTab" class="tabcontent data">
+                    <img src="data/mypageimage/mypageim/04.png" alt="">
+                </div>
+                <div id="CommunicationTab" class="tabcontent data">
+                    <img src="data/mypageimage/mypageim/06.png" alt="">
                 </div>
 
             </div>
+            <script>
+                // Function to handle showing only the background image and switching tabs
+                function showStickerTab() {
+                    // Hide all elements except the background image
+                    var images = document.querySelectorAll('.image-container img');
+                    images.forEach(function(img) {
+                        if (img.id !== 'bgim') {
+                            img.classList.add('hidden');
+                        }
+                    });
+
+                    // Show the new tab (assuming this function switches to a tab called 'StickerTab')
+                    openTab(null, 'StickerTab');
+                }
+
+                function showDataTab() {
+                    var images = document.querySelectorAll('.image-container img');
+                    images.forEach(function(img) {
+                        if (img.id !== 'bgim') {
+                            img.classList.add('hidden');
+                        }
+                    });
+
+                    openTab(null, 'DataTab');
+                }
+
+                // Function to handle showing another new tab
+                function showActiveTab() {
+                    var images = document.querySelectorAll('.image-container img');
+                    images.forEach(function(img) {
+                        if (img.id !== 'bgim') {
+                            img.classList.add('hidden');
+                        }
+                    });
+
+                    openTab(null, 'ActiveTab');
+                }
+                
+                // Function to handle showing another new tab
+                function showSchoolTab() {
+                    var images = document.querySelectorAll('.image-container img');
+                    images.forEach(function(img) {
+                        if (img.id !== 'bgim') {
+                            img.classList.add('hidden');
+                        }
+                    });
+
+                    openTab(null, 'SchoolTab');
+                }
+
+                // Function to handle showing another new tab
+                function showTalkTab() {
+                    var images = document.querySelectorAll('.image-container img');
+                    images.forEach(function(img) {
+                        if (img.id !== 'bgim') {
+                            img.classList.add('hidden');
+                        }
+                    });
+
+                    openTab(null, 'TalkTab');
+                }
+                
+                // Function to handle showing another new tab
+                function showCommunicationTab() {
+                    var images = document.querySelectorAll('.image-container img');
+                    images.forEach(function(img) {
+                        if (img.id !== 'bgim') {
+                            img.classList.add('hidden');
+                        }
+                    });
+
+                    openTab(null, 'CommunicationTab');
+                }
+
+                // Function to open a specific tab
+                function openTab(evt, tabName) {
+                    var i, tabcontent, tablinks;
+
+                    // Hide all elements with class="tabcontent" by default
+                    tabcontent = document.getElementsByClassName("tabcontent");
+                    for (i = 0; i < tabcontent.length; i++) {
+                        tabcontent[i].style.display = "none";
+                    }
+
+                    // Remove the class "active" from all elements with class="tablinks"
+                    tablinks = document.getElementsByClassName("tablinks");
+                    for (i = 0; i < tablinks.length; i++) {
+                        tablinks[i].className = tablinks[i].className.replace(" active", "");
+                    }
+
+                    // Show the current tab, and add an "active" class to the button that opened the tab
+                    document.getElementById(tabName).style.display = "block";
+                    if (evt) {
+                        evt.currentTarget.className += " active";
+                    }
+                }
+            </script>
             <script src="mypage.js"></script>
             <script type="module" src="login.js"></script>
 </body>
