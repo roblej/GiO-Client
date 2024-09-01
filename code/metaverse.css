@@ -296,6 +296,7 @@ input[type="range"]::-moz-range-thumb {
 #intro{
   position: relative;
   top: 250px;
+  color: #7E5001;
 }
 #loadingPage h1 {
   font-size: 24px;
@@ -432,6 +433,10 @@ input[type="radio"]:checked+.genderbutton {
   overflow: hidden; /* 경계를 벗어난 부분 숨김 */
   text-align: center;
   z-index: 1000;
+  color: #AC6E03;
+}
+#loginModal input::placeholder{
+  color: #7E5001;
 }
 #loginModal #characters {
   z-index: 10001;

@@ -281,12 +281,12 @@ export function initThreeJS(){
                 const loader = new GLTFLoader();
                 const textloader = new THREE.TextureLoader();
                 const planeGeometry = new THREE.PlaneGeometry(20000,20000);
-                const planeMaterial = new THREE.MeshPhongMaterial({color: 0x0A630A,transparent: true, opacity: 0 });
+                const planeMaterial = new THREE.MeshPhongMaterial({color: 0x808080,transparent: true, opacity: 1 });
                 const NpcMaterial = new THREE.MeshPhongMaterial({color: 0x878787});
                 const plane = new THREE.Mesh(planeGeometry,planeMaterial);
                 plane.name = "plane";
                 plane.rotation.x = -Math.PI/2;
-                plane.position.y= -0;
+                plane.position.y= -0.1;
                 this._scene.add(plane);
                 this._scene.background = textloader.load('./data/sky_images.jpeg');
                 
@@ -993,7 +993,7 @@ export function initThreeJS(){
 
             // sound가 이미 재생 중인지 확인
             if (!this._sound.isPlaying) {
-                this._audioLoader.load('./data/bgm.mp3', (buffer) => {
+                this._audioLoader.load('./data/Playtime_LOOP.WAV', (buffer) => {
                 this._sound.setBuffer(buffer);
                 this._sound.setLoop(true);
                 this._sound.setVolume(this._initialVolume); // 초기 볼륨 적용
@@ -1559,7 +1559,7 @@ export function initThreeJS(){
                 var span = document.getElementsByClassName("close")[0];
                 modal.style.display = "block";
                 var gameAButton = document.getElementById("Game");
-                gameAButton.setAttribute('data-path', 'Library/index.html'); // data-path 속성 설정
+                gameAButton.setAttribute('data-path', 'Library_12/index.html'); // data-path 속성 설정
     
                 // 닫기 버튼 클릭 시 모달 닫기
                 span.onclick = function () {
