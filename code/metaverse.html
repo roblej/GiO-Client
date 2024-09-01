@@ -31,12 +31,27 @@
     <input type="range" id="volumeSlider" min="0" max="100" value="50">
 
     <div id="positionLabel" style="position: absolute; top: 10px; right: 10px; color: white; font-family: Arial; font-size: 16px; z-index: 99999;"></div>
-    <div class="BtnMaps">
-        <button id="buttonScene0">Scene 1</button>
-        <button id="buttonScene1">Scene 2</button>
-        <button id="buttonScene2">Scene 3</button>
-        <button id="buttonScene3">Scene 4</button>
-        <button id="buttonScene4">Scene 5</button>
+    <div id="BtnMaps">
+        <button id="buttonNo">X</button>
+        <h1>어느 장소로 이동할까?</h1>
+        <div>    
+            <button id="buttonScene0" style="background-image: url(./data/mappage/school.png);">
+                <div class="SceneTag">학교</div>
+            </button>
+            <button id="buttonScene1" style="background-image: url(./data/mappage/town.png);">
+                <div class="SceneTag">마을회관</div>
+            </button>
+            <button id="buttonScene2" style="background-image: url(./data/mappage/library.png);">
+                <div class="SceneTag">도서관</div>
+            </button>
+            <button id="buttonScene3" style="background-image: url(./data/mappage/mart.png);">
+                <div class="SceneTag">마트</div>
+            </button>
+            <button id="buttonScene4" style="background-image: url(./data/mappage/park.png);">
+                <div class="SceneTag">공원</div>
+            </button>
+            
+        </div>
     </div>
     <div id="webgl-container"></div>
 
@@ -47,8 +62,8 @@
                     <span class="close">&times;</span>
                     <p>거기 너! 나랑 공놀이 하지 않을래?</p>
                     <div class="choose" style="display: flex;">
-                    <button id="Game" data-path="">좋아!</button>
-                    <button>싫어</button>
+                    <button class="GameBtn" id="Game" data-path="">좋아!</button>
+                    <button class="GameBtn">싫어</button>
                     <button id="option1" style="display: none;">점수확인</button>
                     </div>
                     <!-- <button id="option2">점수기입</button> -->
@@ -77,10 +92,11 @@
                 </div>
             </div>
             <div id="loadingPage">
-                <div id="loadback">
+                <!-- <div id="loadback">
                     <h1>Loading...</h1>
                     <div class="spinner"></div>
-                </div>
+                </div> -->
+                <img src="./data/loginImage/logo.png" alt="" id="loadimg">
             </div>
             
             <div id="loginModal" class="modal textModal">
@@ -90,15 +106,17 @@
                     <img src="./data/loginImage/logo.png" alt="Logo" id="login-logo">
                     <h2 id="main-login">로그인</h2>
                     <h2 onclick="switchToSignup()">회원가입</h2>
-
-                    </form>
-                    <span class="close">&times;</span>
-                </div>
-                <div id="intro">
-                    <h2>Growing Intercommunication Odyssey</h2>
-                    <h3>고기능 자폐 스펙트럼 아동들의 사회성 교육과 성장을 위한 사이트, GiO</h3>
-                    <h3>교육자들을 위한 보조와 아이들의 치료와 성장을 위해 GiO가 함께합니다.</h3>
-                </div>
+                    
+                </form>
+                <span class="close" style="display: none;">&times;</span>
+            </div>
+            <div id="intro">
+                <h2>Growing Intercommunication Odyssey</h2>
+                <h3>고기능 자폐 스펙트럼 아동들의 사회성 교육과 성장을 위한 사이트, GiO</h3>
+                <h3>교육자들을 위한 보조와 아이들의 치료와 성장을 위해 GiO가 함께합니다.</h3>
+            </div>
+            <img src="./data/loginImage/characters.png" alt="" id="characters">
+            <img src="./data/loginImage/mini_characters.png" alt="" id="mini_characters">
                 <div id="loginpage">
                     <h1>로그인</h1>
                     <form id="loginForm">
@@ -157,6 +175,10 @@
                         <button type="submit" style="width: 352px;">가입하기</button>
                         <!-- <button type="button" onclick="switchToLogin()">로그인</button> -->
                     </form>
+                    <div id="signupComplete">
+                        <h1>회원가입이 완료되었습니다.</h1>
+                        <button onclick="switchToLogin()">로그인하기</button>
+                    </div>
                 </div>
             </div>
             <div id="speechBubble" style="display: none; position: absolute; padding: 10px; background: white; border: 1px solid black; border-radius: 5px;">

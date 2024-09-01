@@ -156,7 +156,7 @@ window.onclick = function(event) {
 // Unity에서 메시지를 받을 이벤트 리스너 추가
 window.addEventListener('message', function(event) {
     if (event.data.type === 'score') {
-        // console.log(event.data.value)
+        console.log(event.data.value)
         const game_score = event.data.value
         const requestOptions = {
             method: 'POST',
@@ -180,3 +180,21 @@ window.addEventListener('message', function(event) {
     }
 }, false);
   
+const buttons = document.querySelectorAll('#BtnMaps button');
+
+    // 각 버튼에 이벤트 리스너 추가
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            const sceneTag = this.querySelector('.SceneTag');
+            if (sceneTag) {
+                sceneTag.style.backgroundColor = '#4CAF50'; // 호버 시 변경될 배경색
+            }
+        });
+
+        button.addEventListener('mouseleave', function() {
+            const sceneTag = this.querySelector('.SceneTag');
+            if (sceneTag) {
+                sceneTag.style.backgroundColor = '#FFFEFA'; // 원래 배경색
+            }
+        });
+    });
