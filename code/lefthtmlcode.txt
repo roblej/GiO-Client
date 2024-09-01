@@ -1,0 +1,277 @@
+<!-- <div class="mypagemodal"> -->
+                    <div class="page-modal-content">
+                        <div id="Mypage" class="tabcontent">
+                            <div class="page-inner">
+                                <div class="profile">
+                                    <div class="profile-box"></div>
+                                    <h2>삼칠이</h2>
+                                </div>
+                                <div class="sticker-box">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th colspan="7" class="header-cell">스티커북</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_07_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_02.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_05_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_03.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_04.png" alt="sticker" class="sticker-img"></td>
+                                            </tr>
+                                            <tr>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_05.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_06_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_08_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_09_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_10_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_06_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_04_01.png" alt="sticker" class="sticker-img"></td>
+                                            </tr>
+                                            <tr>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_01_1.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_08_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_06_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_03_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_02_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_07_01.png" alt="sticker" class="sticker-img"></td>
+                                                <td><img src="/code/data/mypageimage/mypage_sticker_05_01.png" alt="sticker" class="sticker-img"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div> 
+                                <div class="npc-box">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th colspan="6" class="first-cell">만남</th>
+                                            </tr>
+                                        </thead>
+                                        <tr>
+                                            <td class="single">학교</td>
+                                            <td class="double" colspan="2">
+                                                <div class="bg-image"></div>
+                                            </td>
+                                            <td class="single">마을회관</td>
+                                            <td class="double" colspan="2">
+                                                <div class="bg-image"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="single">도서관</td>
+                                            <td class="double" colspan="2">
+                                                <div class="bg-image"></div>
+                                            </td>
+                                            <td class="single">마트</td>
+                                            <td class="double" colspan="2">
+                                                <div class="bg-image"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="single">공원</td>
+                                            <td class="double" colspan="2">
+                                                <div class="bg-image"></div>
+                                            </td>
+                                            <td class="single"></td>
+                                            <td class="double" colspan="2">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>                                
+                            </div>                             
+                        </div>
+                        <div id="MemberInfo" class="tabcontent">
+                            <div class="info">
+                                <h3>회원정보 수정</h3>
+                                <br><br><br>
+                                <img src="/code/data/mypageimage/mypage_fix2.png" alt="">
+                            </div>
+                        </div>
+                        <div id="Mydata" class="tabcontent">
+                            <div class="data">
+                                <h3>최신 데이터 표</h3>
+                                <br><br>
+                                <img src="/code/data/mypageimage/mypage_data.png" alt="">
+                            </div>
+                        </div>
+                      
+                        <div id="Notion" class="tabcontent">
+                            <h3>공지사항</h3>
+                            <p>공지사항이 여기에 표시됩니다.</p>
+                        </div>
+                      
+                        <div id="FAQ" class="tabcontent">
+                            <h3>FAQ</h3>
+                            <p>FAQ 내용이 여기에 표시됩니다.</p>
+                        </div>
+                    </div>
+                    <div class="close-mypage">&times;</div>
+                    <div class="tab">
+                        <button class="tablinks" onclick="openTab(event, 'Mypage')">마이페이지</button>
+                        <button class="tablinks" onclick="openTab(event, 'MemberInfo')">회원정보 수정</button>
+                        <button class="tablinks" onclick="openTab(event, 'Mydata')">나의 활동<br>(데이터 표)</button>
+                        <button class="tablinks" onclick="openTab(event, 'Notion')">공지사항</button>
+                        <button class="tablinks" onclick="openTab(event, 'FAQ')">FAQ</button>
+                    </div>
+
+
+// // 탭 히스토리를 관리할 배열
+                // var tabHistory = [];
+
+                // // 기본 초기화 함수
+                // function resetToInitialState() {
+                //     tabHistory = ['InitialState'];  // 기본 상태로 히스토리 초기화
+
+                //     var tabcontent = document.getElementsByClassName("tabcontent");
+                //     for (var i = 0; i < tabcontent.length; i++) {
+                //         tabcontent[i].style.display = "none";  // 모든 탭 숨기기
+                //     }
+
+                //     var images = document.querySelectorAll('.image-container img');
+                //     images.forEach(function(img) {
+                //         img.classList.remove('hidden');  // 모든 기본 이미지 표시
+                //     });
+                // }
+
+                // // Function to handle showing only the background image and switching tabs
+                // function showStickerTab() {
+                //     updateTabHistory('StickerTab');
+                //     var images = document.querySelectorAll('.image-container img');
+                //     images.forEach(function(img) {
+                //         if (img.id !== 'bgim') {
+                //             img.classList.add('hidden');
+                //         }
+                //     });
+
+                //     openTab(null, 'StickerTab');
+                // }
+
+                // function showDataTab() {
+                //     updateTabHistory('DataTab');
+                //     var images = document.querySelectorAll('.image-container img');
+                //     images.forEach(function(img) {
+                //         if (img.id !== 'bgim') {
+                //             img.classList.add('hidden');
+                //         }
+                //     });
+
+                //     openTab(null, 'DataTab');
+                // }
+
+                // function showActiveTab() {
+                //     updateTabHistory('ActiveTab');
+                //     var images = document.querySelectorAll('.image-container img');
+                //     images.forEach(function(img) {
+                //         if (img.id !== 'bgim') {
+                //             img.classList.add('hidden');
+                //         }
+                //     });
+
+                //     openTab(null, 'ActiveTab');
+                // }
+
+                // function showSchoolTab() {
+                //     updateTabHistory('SchoolTab');
+                //     var images = document.querySelectorAll('.image-container img');
+                //     images.forEach(function(img) {
+                //         if (img.id !== 'bgim') {
+                //             img.classList.add('hidden');
+                //         }
+                //     });
+
+                //     openTab(null, 'SchoolTab');
+                // }
+
+                // function showTalkTab() {
+                //     updateTabHistory('TalkTab');
+                //     var images = document.querySelectorAll('.image-container img');
+                //     images.forEach(function(img) {
+                //         if (img.id !== 'bgim') {
+                //             img.classList.add('hidden');
+                //         }
+                //     });
+
+                //     openTab(null, 'TalkTab');
+                // }
+
+                // function showCommunicationTab() {
+                //     updateTabHistory('CommunicationTab');
+                //     var images = document.querySelectorAll('.image-container img');
+                //     images.forEach(function(img) {
+                //         if (img.id !== 'bgim') {
+                //             img.classList.add('hidden');
+                //         }
+                //     });
+
+                //     openTab(null, 'CommunicationTab');
+                // }
+
+                // // Helper function to update tab history
+                // function updateTabHistory(currentTab) {
+                //     if (tabHistory[tabHistory.length - 1] !== currentTab) {
+                //         tabHistory.push(currentTab);
+                //     }
+                // }
+
+                // // Function to close the modal window
+                // function closeModal() {
+                //     var modal = document.getElementById('pageModal');
+                //     modal.style.display = 'none';
+
+                //     // 초기화
+                //     tabHistory = [];
+                // }
+
+                // // Function to open the modal window
+                // function openModal() {
+                //     var modal = document.getElementById('pageModal');
+                //     modal.style.display = 'flex';
+
+                //     // 초기화
+                //     tabHistory = [];
+                //      tabHistory.push('InitialState');  // 초기 상태를 히스토리에 추가
+                //     var tabcontent = document.getElementsByClassName("tabcontent");
+                //     for (var i = 0; i < tabcontent.length; i++) {
+                //         tabcontent[i].style.display = "none";
+                //     }
+
+                //     var images = document.querySelectorAll('.image-container img');
+                //     images.forEach(function(img) {
+                //         img.classList.remove('hidden');
+                //     });
+                // }
+
+                // // Event listener for Esc key to go back to previous tab
+                // document.addEventListener('keydown', function(event) {
+                //     if (event.key === 'Escape') {
+                //         if (tabHistory.length > 1) {
+                //             // 현재 탭을 숨기고 이전 탭으로 돌아감
+                //             var currentTab = tabHistory.pop();
+                //             var previousTab = tabHistory[tabHistory.length - 1];
+                //             openTab(null, previousTab);
+                //         }
+                //     }
+                // });
+
+                // // Function to open a specific tab
+                // function openTab(evt, tabName) {
+                //     var i, tabcontent, tablinks;
+
+                //     // Hide all elements with class="tabcontent" by default
+                //     tabcontent = document.getElementsByClassName("tabcontent");
+                //     for (i = 0; i < tabcontent.length; i++) {
+                //         tabcontent[i].style.display = "none";
+                //     }
+
+                //     // Show the current tab
+                //     document.getElementById(tabName).style.display = "block";
+                //     if (evt) {
+                //         evt.currentTarget.className += " active";
+                //     }
+                // }
+
+                //
