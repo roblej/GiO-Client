@@ -213,7 +213,8 @@
                 
                 // 탭 히스토리를 관리할 배열
                 var tabHistory = [];
-
+                
+                var modal = document.getElementById("pageModal");
                 // 기본 초기화 함수
                 function resetToInitialState() {
                     tabHistory = ['InitialState'];  // 기본 상태로 히스토리 초기화
@@ -343,6 +344,16 @@
                         evt.currentTarget.className += " active";
                     }
                 }
+
+                // document.addEventListener("keydown", function(event) {
+                //     if (event.key === "B" || event.key === "b") {
+                //         if (modal.style.display === "flex") {
+                //             modal.style.display = "none";
+                //         } else {
+                //             modal.style.display = "flex";
+                //         }
+                //     }
+                // });
             </script>
             <script src="mypage.js"></script>
             <script type="module" src="login.js"></script>
