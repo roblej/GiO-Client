@@ -11,6 +11,7 @@ import { getSticker } from './event.js';
 // import {stickerNumber} from './event.js';
 import {updateSticker} from './event.js'
 import { globalId } from './login.js';
+import { RGBELoader } from '../jsm/loaders/RGBELoader.js';
 // THREE.GLTFLoader
 export var game_name = "";
 
@@ -147,7 +148,8 @@ export function initThreeJS(){
         
         
                 const stats = new Stats();
-                this._divContainer.appendChild(stats.dom);
+            // this._divContainer.appendChild(stats.dom);
+            //fps업데이트
                 this._fps = stats;
         
                 this._pressKeys = {};
@@ -279,16 +281,19 @@ export function initThreeJS(){
                 const npcs = [];
                 this._npcs = npcs
                 const loader = new GLTFLoader();
-                const textloader = new THREE.TextureLoader();
                 const planeGeometry = new THREE.PlaneGeometry(20000,20000);
-                const planeMaterial = new THREE.MeshPhongMaterial({color: 0x808080,transparent: true, opacity: 1 });
-                const NpcMaterial = new THREE.MeshPhongMaterial({color: 0x878787});
-                const plane = new THREE.Mesh(planeGeometry,planeMaterial);
+                const planeMaterial = new THREE.MeshPhongMaterial({color: 0x808080,transparent: true, opacity: 0 });
+            const plane = new THREE.Mesh(planeGeometry, planeMaterial);
                 plane.name = "plane";
                 plane.rotation.x = -Math.PI/2;
-                plane.position.y= -0.1;
+            plane.position.y = 0;
                 this._scene.add(plane);
-                this._scene.background = textloader.load('./data/sky_images.jpeg');
+                const rgbeLoader = new RGBELoader();
+            rgbeLoader.load('./data/sky_.hdr', (texture) => {
+                    texture.mapping = THREE.EquirectangularReflectionMapping;
+                    this._scene.background = texture;  // 배경으로 HDR 설정
+                    // this._scene.environment = texture; // 반사 환경 설정 (옵션)
+                });
                 
                 plane.receiveShadow = true;
                 this._worldOctree.fromGraphNode(plane);
@@ -817,7 +822,7 @@ export function initThreeJS(){
                             const idleAction = animationsMap['idle'];
                             idleAction.play();
                         }
-                        npc.position.set(99, 0, -2530);
+                        npc.position.set(544, 0, -3768);
                         npc.scale.set(50, 50, 50);
                         const box = (new THREE.Box3).setFromObject(npc);
                         // npc.position.y = (box.max.y - box.min.y) /2;
@@ -888,7 +893,8 @@ export function initThreeJS(){
 
         _loadPlayerModel() {
         // 플레이어 모델 로드
-        const loader = new GLTFLoader();
+            const loader = new GLTFLoader();
+
 
         loader.load('./data/gPlayer.glb', (gltf) => {
             const model = gltf.scene;
