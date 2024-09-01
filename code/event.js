@@ -180,3 +180,21 @@ window.addEventListener('message', function(event) {
     }
 }, false);
   
+const buttons = document.querySelectorAll('#BtnMaps button');
+
+    // 각 버튼에 이벤트 리스너 추가
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            const sceneTag = this.querySelector('.SceneTag');
+            if (sceneTag) {
+                sceneTag.style.backgroundColor = '#4CAF50'; // 호버 시 변경될 배경색
+            }
+        });
+
+        button.addEventListener('mouseleave', function() {
+            const sceneTag = this.querySelector('.SceneTag');
+            if (sceneTag) {
+                sceneTag.style.backgroundColor = '#FFFEFA'; // 원래 배경색
+            }
+        });
+    });
