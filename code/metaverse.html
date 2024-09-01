@@ -164,7 +164,7 @@
             </div>
 
 
-            <button id="openModal">마이페이지</button>
+            <button id="openModal" onclick="openModal()">마이페이지</button>
             <div id="pageModal" class="mypagemodal-bg"> 
                 <div class="image-container">\
                     <img id="bgim" src="data/mypageimage/mypageim/mypage_bg_img.jpg" alt="" style="z-index: 1;">
@@ -174,36 +174,75 @@
                     <img src="data/mypageimage/mypageim/01.png" alt="" style="z-index: 5;">
                     <img id="stickerbook00" src="data/mypageimage/mypageim/0101.png" alt="" style="z-index: 6;" onclick="showStickerTab()">
                     <img id="stickerbook01" src="data/mypageimage/mypageim/0102.png" alt="" style="z-index: 6;" onclick="showDataTab()">
-                    <img id="stickerbook02" src="data/mypageimage/mypageim/pageout_btn.png" alt="" style="z-index: 3;">
+                    <img id="closesticker" src="data/mypageimage/mypageim/pageout_btn.png" alt="" onclick="closeModal()">
                 </div>
                 <div id="StickerTab" class="tabcontent data">
                     <img src="data/mypageimage/mypageim/002.png" alt="">
+                    <img id="closesticker1" src="data/mypageimage/mypageim/pageout_btn.png" alt="" onclick="closeModal()">
+                    <!-- <img id="clickball" src="data/mypageimage/mypageim/sticker00_ball.png" alt=""> -->
+                    <!-- <img id="showball" src="data/mypageimage/mypageim/ball_line.png" alt=""> -->
+                    <img id="ballexplain" src="data/mypageimage/mypageim/000.png" alt="">
                 </div>
                 <div id="DataTab" class="tabcontent data">
                     <img src="data/mypageimage/mypageim/02.png" alt="">
                     <img id="activebtn" src="data/mypageimage/mypageim/activedata_btn00.png" alt="" onclick="showActiveTab()">
                     <img id="talkbtn" src="data/mypageimage/mypageim/talkdata_btn00.png" alt="" onclick="showTalkTab()">
+                    <img id="closesticker2" src="data/mypageimage/mypageim/pageout_btn.png" alt="" onclick="closeModal()">
                 </div>
                 <div id="ActiveTab" class="tabcontent data">
                     <img src="data/mypageimage/mypageim/03.png" alt="">
                     <img id="schoolbtn" src="data/mypageimage/mypageim/school00.png" alt="" onclick="showSchoolTab()">
+                    <img id="closesticker3" src="data/mypageimage/mypageim/pageout_btn.png" alt="" onclick="closeModal()">
                 </div>
                 <div id="TalkTab" class="tabcontent data">
                     <img src="data/mypageimage/mypageim/05.png" alt="">
                     <img id="communicationbtn" src="data/mypageimage/mypageim/communication00.png" alt="" onclick="showCommunicationTab()">
+                    <img id="closesticker4" src="data/mypageimage/mypageim/pageout_btn.png" alt="" onclick="closeModal()">
                 </div>
                 <div id="SchoolTab" class="tabcontent data">
                     <img src="data/mypageimage/mypageim/04.png" alt="">
+                    <img id="closesticker5" src="data/mypageimage/mypageim/pageout_btn.png" alt="" onclick="closeModal()">
                 </div>
                 <div id="CommunicationTab" class="tabcontent data">
                     <img src="data/mypageimage/mypageim/06.png" alt="">
+                    <img id="closesticker6" src="data/mypageimage/mypageim/pageout_btn.png" alt="" onclick="closeModal()">
                 </div>
 
             </div>
             <script>
-                // Function to handle showing only the background image and switching tabs
+                
+                // 탭 히스토리를 관리할 배열
+                var tabHistory = [];
+
+                // 기본 초기화 함수
+                function resetToInitialState() {
+                    tabHistory = ['InitialState'];  // 기본 상태로 히스토리 초기화
+
+                    var tabcontent = document.getElementsByClassName("tabcontent");
+                    for (var i = 0; i < tabcontent.length; i++) {
+                        tabcontent[i].style.display = "none";  // 모든 탭 숨기기
+                    }
+
+                    var images = document.querySelectorAll('.image-container img');
+                    images.forEach(function(img) {
+                        img.classList.remove('hidden');  // 모든 기본 이미지 표시
+                    });
+                }
+
+                function openModal() {
+                    var modal = document.getElementById('pageModal');
+                    modal.style.display = 'flex';
+                    resetToInitialState();  // 초기화 상태로 설정
+                }
+
+                function closeModal() {
+                    var modal = document.getElementById('pageModal');
+                    modal.style.display = 'none';
+                    resetToInitialState();  // 모달을 닫을 때 초기화 상태로 설정
+                }
+
                 function showStickerTab() {
-                    // Hide all elements except the background image
+                    updateTabHistory('StickerTab');
                     var images = document.querySelectorAll('.image-container img');
                     images.forEach(function(img) {
                         if (img.id !== 'bgim') {
@@ -211,11 +250,11 @@
                         }
                     });
 
-                    // Show the new tab (assuming this function switches to a tab called 'StickerTab')
                     openTab(null, 'StickerTab');
                 }
 
                 function showDataTab() {
+                    updateTabHistory('DataTab');
                     var images = document.querySelectorAll('.image-container img');
                     images.forEach(function(img) {
                         if (img.id !== 'bgim') {
@@ -225,9 +264,8 @@
 
                     openTab(null, 'DataTab');
                 }
-
-                // Function to handle showing another new tab
                 function showActiveTab() {
+                    updateTabHistory('ActiveTab');
                     var images = document.querySelectorAll('.image-container img');
                     images.forEach(function(img) {
                         if (img.id !== 'bgim') {
@@ -237,9 +275,9 @@
 
                     openTab(null, 'ActiveTab');
                 }
-                
-                // Function to handle showing another new tab
+
                 function showSchoolTab() {
+                    updateTabHistory('SchoolTab');
                     var images = document.querySelectorAll('.image-container img');
                     images.forEach(function(img) {
                         if (img.id !== 'bgim') {
@@ -250,8 +288,8 @@
                     openTab(null, 'SchoolTab');
                 }
 
-                // Function to handle showing another new tab
                 function showTalkTab() {
+                    updateTabHistory('TalkTab');
                     var images = document.querySelectorAll('.image-container img');
                     images.forEach(function(img) {
                         if (img.id !== 'bgim') {
@@ -261,9 +299,9 @@
 
                     openTab(null, 'TalkTab');
                 }
-                
-                // Function to handle showing another new tab
+
                 function showCommunicationTab() {
+                    updateTabHistory('CommunicationTab');
                     var images = document.querySelectorAll('.image-container img');
                     images.forEach(function(img) {
                         if (img.id !== 'bgim') {
@@ -274,23 +312,32 @@
                     openTab(null, 'CommunicationTab');
                 }
 
+                function updateTabHistory(currentTab) {
+                    if (tabHistory[tabHistory.length - 1] !== currentTab) {
+                        tabHistory.push(currentTab);
+                    }
+                }
+
+                // Esc 키로 이전 탭으로 돌아가는 로직
+                document.addEventListener('keydown', function(event) {
+                    if (event.key === 'Escape') {
+                        if (tabHistory.length > 1) {
+                            var currentTab = tabHistory.pop();
+                            var previousTab = tabHistory[tabHistory.length - 1];
+                            openTab(null, previousTab);
+                        } else {
+                            resetToInitialState();  // 초기 상태로 돌아가기
+                        }
+                    }
+                });
+
                 // Function to open a specific tab
                 function openTab(evt, tabName) {
-                    var i, tabcontent, tablinks;
-
-                    // Hide all elements with class="tabcontent" by default
-                    tabcontent = document.getElementsByClassName("tabcontent");
-                    for (i = 0; i < tabcontent.length; i++) {
+                    var tabcontent = document.getElementsByClassName("tabcontent");
+                    for (var i = 0; i < tabcontent.length; i++) {
                         tabcontent[i].style.display = "none";
                     }
 
-                    // Remove the class "active" from all elements with class="tablinks"
-                    tablinks = document.getElementsByClassName("tablinks");
-                    for (i = 0; i < tablinks.length; i++) {
-                        tablinks[i].className = tablinks[i].className.replace(" active", "");
-                    }
-
-                    // Show the current tab, and add an "active" class to the button that opened the tab
                     document.getElementById(tabName).style.display = "block";
                     if (evt) {
                         evt.currentTarget.className += " active";

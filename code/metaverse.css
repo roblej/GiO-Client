@@ -670,10 +670,48 @@ input[type="radio"]:checked+.genderbutton {
   left: 66.2%;
 }
 
-#stickerbook02{
+#closesticker{
   scale: 82%;
   top: 500%;
   left: 77.5%;
+  z-index: 12;
+}
+#closesticker1{
+  scale: 78%;
+  /* bottom: 745px; */
+  bottom: 1180px;
+  left: 82.8%;
+  z-index: 12;
+}
+#closesticker2{
+  scale: 78%;
+  left: 82.8%;
+  z-index: 12;
+  bottom: 1615px;
+}
+#closesticker3{
+  scale: 78%;
+  left: 82.8%;
+  z-index: 12;
+  bottom: 1154px;
+}
+#closesticker4{
+  scale: 78%;
+  left: 82.8%;
+  z-index: 12;
+  bottom: 1130px;
+}
+#closesticker5{
+  scale: 78%;
+  left: 82.8%;
+  z-index: 12;
+  bottom: 735px;
+}
+#closesticker6{
+  scale: 78%;
+  left: 82.8%;
+  z-index: 12;
+  bottom: 735px;
 }
 
 #bgim{
@@ -762,4 +800,28 @@ input[type="radio"]:checked+.genderbutton {
   bottom: 569px;
   scale: 76.3%;
   left: 300px;
+}
+
+/* #clickball{
+  bottom: 962px;
+  bottom: 527px;
+  scale: 78%;
+  left: 230px;
+  z-index: 15;
+}  */
+
+/* #showball{
+  bottom: 952px;
+  left: 125px;
+  scale: 75%;
+  display: none;
+  z-index: 16;
+} */
+
+#ballexplain{
+  bottom: 676px;
+  scale: 76%;
+  left: 675px;
+  /* display: none; */
+  z-index: 17;
 }
