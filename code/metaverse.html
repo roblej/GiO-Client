@@ -28,9 +28,9 @@
 </head>
 <body>
     <!-- 볼륨 조절 슬라이더 -->
-    <input type="range" id="volumeSlider" min="0" max="100" value="50">
+    <input type="range" id="volumeSlider" min="0" max="100" value="50" style="display: none;">
 
-    <div id="positionLabel" style="position: absolute; top: 10px; right: 10px; color: white; font-family: Arial; font-size: 16px; z-index: 99999;"></div>
+    <div id="positionLabel" style="position: absolute; top: 10px; right: 10px; color: white; font-family: Arial; font-size: 16px; z-index: 99999; display: none;"></div>
     <div id="BtnMaps">
         <button id="buttonNo">X</button>
         <h1>어느 장소로 이동할까?</h1>
@@ -186,7 +186,7 @@
             </div>
 
 
-            <button id="openModal" onclick="openModal()">마이페이지</button>
+            <button id="openModal" onclick="openModal()" style="display: none;">마이페이지</button>
             <div id="pageModal" class="mypagemodal-bg"> 
                 <div class="image-container">\
                     <img id="bgim" src="data/mypageimage/mypageim/mypage_bg_img.jpg" alt="" style="z-index: 1;">
@@ -235,7 +235,6 @@
                 
                 // 탭 히스토리를 관리할 배열
                 var tabHistory = [];
-                
                 var modal = document.getElementById("pageModal");
                 // 기본 초기화 함수
                 function resetToInitialState() {
@@ -254,7 +253,7 @@
 
                 function openModal() {
                     var modal = document.getElementById('pageModal');
-                    modal.style.display = 'flex';
+                    modal.style.display = 'block';
                     resetToInitialState();  // 초기화 상태로 설정
                 }
 
@@ -367,15 +366,15 @@
                     }
                 }
 
-                // document.addEventListener("keydown", function(event) {
-                //     if (event.key === "B" || event.key === "b") {
-                //         if (modal.style.display === "flex") {
-                //             modal.style.display = "none";
-                //         } else {
-                //             modal.style.display = "flex";
-                //         }
-                //     }
-                // });
+                document.addEventListener("keydown", function(event) {
+                    if (event.key === "B" || event.key === "b") {
+                        if (modal.style.display === "none") {
+                            openModal();
+                        } else {
+                            closeModal();
+                        }
+                    }
+                });
             </script>
             <script src="mypage.js"></script>
             <script type="module" src="login.js"></script>

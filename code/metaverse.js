@@ -48,6 +48,31 @@ export function initThreeJS(){
             this._currentSceneIndex = 0;
             this._model = null; // 플레이어 모델을 저장할 변수
 
+            const listener = new THREE.AudioListener();
+            this._listener = listener
+            const sound = new THREE.Audio(listener);
+            this._sound = sound
+        
+        // 오디오 로더 생성
+            const audioLoader = new THREE.AudioLoader();
+            this._audioLoader = audioLoader
+        
+        // 초기 볼륨 설정
+            let initialVolume = 0.3;
+            this._initialVolume = initialVolume
+        
+
+
+        
+        // 볼륨 노브 컨트롤
+        const volumeSlider = document.getElementById('volumeSlider');
+        volumeSlider.addEventListener('input', function() {
+            const volume = this.value / 100;
+            initialVolume = volume; // 전역 변수로 볼륨 저장
+            if (sound.isPlaying) {
+                sound.setVolume(volume); // 사운드가 재생 중이면 즉시 적용
+            }
+        });
                 
             this._setupScenes();
             this._setupCamera();
@@ -60,42 +85,7 @@ export function initThreeJS(){
             this._switchScene(0);
             this._animate();
         
-            const listener = new THREE.AudioListener();
             this._camera.add(listener)
-            const sound = new THREE.Audio(listener);
-        
-        // 오디오 로더 생성
-            const audioLoader = new THREE.AudioLoader();
-        
-        // 초기 볼륨 설정
-        let initialVolume = 0.3;
-        
-        // AudioContext 상태 확인 및 활성화
-        document.getElementById('loginModal').addEventListener('click', function() {
-            if (listener.context.state === 'suspended') {
-                listener.context.resume();
-            }
-        
-            // sound가 이미 재생 중인지 확인
-            if (!sound.isPlaying) {
-                audioLoader.load('./data/bgm.mp3', function(buffer) {
-                    sound.setBuffer(buffer);
-                    sound.setLoop(true);
-                    sound.setVolume(initialVolume); // 초기 볼륨 적용
-                    sound.play();
-                });
-            }
-        });
-        
-        // 볼륨 노브 컨트롤
-        const volumeSlider = document.getElementById('volumeSlider');
-        volumeSlider.addEventListener('input', function() {
-            const volume = this.value / 100;
-            initialVolume = volume; // 전역 변수로 볼륨 저장
-            if (sound.isPlaying) {
-                sound.setVolume(volume); // 사운드가 재생 중이면 즉시 적용
-            }
-        });
             this._raycaster = new THREE.Raycaster();
             this._mouse = new THREE.Vector2();
             this._highlighted = null; // 마지막으로 강조 표시된 객체
@@ -996,6 +986,20 @@ export function initThreeJS(){
         }
 
         _switchScene(index) {
+            
+            if (this._listener.context.state === 'suspended') {
+                this._listener.context.resume();
+            }
+
+            // sound가 이미 재생 중인지 확인
+            if (!this._sound.isPlaying) {
+                this._audioLoader.load('./data/bgm.mp3', (buffer) => {
+                this._sound.setBuffer(buffer);
+                this._sound.setLoop(true);
+                this._sound.setVolume(this._initialVolume); // 초기 볼륨 적용
+                this._sound.play();
+        });
+            }
             // loadingPage.style.display = 'block'; // 로딩 페이지 숨김
             if (index >= 0 && index < this._scenes.length) {
                 // 이전 씬에서 플레이어 모델 제거
