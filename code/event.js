@@ -97,12 +97,12 @@ export function onMouseMove(event, appInstance) {
 //     sessionStorage.clear();  // sessionStorage의 모든 항목을 비우기
 // });
 
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') { // ESC 키가 눌렸을 때
-        var modal = document.getElementById('openModal');
-        modal.style.display = 'block'; // 모달을 보이게 설정
-    }
-});
+// document.addEventListener('keydown', function(event) {
+//     if (event.key === 'Escape') { // ESC 키가 눌렸을 때
+//         var modal = document.getElementById('openModal');
+//         modal.style.display = 'block'; // 모달을 보이게 설정
+//     }
+// });
 
 
 document.addEventListener('DOMContentLoaded', () => {

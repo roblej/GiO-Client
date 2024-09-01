@@ -32,6 +32,7 @@ img {
   height: 100%;
   z-index: 100000;
   position: fixed;
+
   /* 화면 전체를 덮도록 고정 위치 설정 */
   top: 0;
   /* 화면의 최상단으로 위치 */
@@ -94,6 +95,7 @@ img {
     top: -125px;
     background-color: #FFFEFA;
     padding: 10px 20px;
+
 }
 /* 슬라이더 기본 스타일 */
 input[type="range"] {
@@ -776,197 +778,213 @@ input[type="radio"]:checked+.genderbutton {
   cursor: pointer;
   /* display: none; */
 }
+
 .mypagemodal-bg {
   display: none;
-  justify-content: center;
-  align-items: center;
+  justify-content: center;  /* 중앙에 가로로 정렬 */
+  align-items: flex-start;  /* 컨테이너의 위쪽에 정렬 */
   position: fixed;
   z-index: 1;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.4);
-}
-.mypagemodal{
-  width: 66.7%;
-  height: 68%;
-  position: absolute;
-
-}
-.page-modal-content {
-  background-color: rgb(222, 232, 244);
-  width: 80%;
-  height: 100%;
-  border-radius: 20px 0px 20px 20px ;
-}
-.tab {
-  width: 20%; /* 탭의 너비를 설정합니다 */
-  height: 50%; /* 전체 높이 */
-  position: absolute;
-  right:0;
-  top: 0;
-
+  overflow: hidden;  /* 스크롤을 방지하고 넘치는 콘텐츠를 숨김 */
+  background-color: rgba(0, 0, 0, 0.6);  /*회색으로 쓰지말고 블랙/화이트로 넣을 것*/
+  padding: 20px;  /* 모달 내부에 패딩을 추가하여 가장자리와의 간격을 확보 */
+  box-sizing: border-box;  /* 패딩을 포함한 전체 크기 계산 */
+  margin: -8px;
 }
 
-.tab button {
-  display: block; /* 버튼을 블록 요소로 만들어 세로로 배치합니다 */
-  background-color: rgb(222, 232, 244);
-  color: black;
-  border: 10px;
-  width: 90%;
-  height: 20%;
-  outline: none;
-  text-align: center;
-  cursor: pointer;
-  transition: 0.3s;
-  font-family: 'Pretendard-Regular';
-  /* font-size: 16px; */
-  border-radius: 0px 20px 20px 0px;
-}
-
-.tab button:hover {
-  background-color: #ddd;
-}
-
-.tab button.active {
-  background-color: #ccc;
-}
-
-.tabcontent {
-  display: none;
-  /* float: left;
-  padding: 0 12px; */
-  width: 100%; /* 탭 내용의 너비 */
-  height: 100%;
-  border-right: none;
-  
-}
-
-.page-inner {
-  width: 80%;
-  height: 75%;
-  padding: 8% 10%;
+.image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* 이미지들을 가로로 중앙에 정렬 */
+  justify-content: flex-start;  /* 이미지들을 위쪽에 쌓이도록 설정 */
+  gap: 20px;  /* 이미지 간의 간격을 조정 */
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  box-sizing: border-box;
   position: relative;
 }
 
-.profile{
-  width: 20%;
-  height: 40%;
-  position: absolute; 
-}
-.profile-box{
-  width: 80%;
-  height: 60%;
-  border-color: black;
-  border-radius: 5px;
-  background-color: white;
-  background-image: url("/code/data/mypageimage/mypage_profile_bigdog.png");
-  background-repeat: no-repeat;
-  background-size: fill;
+.image-container img {
+  position: absolute; /* 자식 이미지에 권한 부여 */
+  max-width: 100%; 
+  height: auto;
+  width: auto;
+  max-height: calc(100vh - 30px);  
+  /* 모달 전체 높이에 맞게 최대 높이를 설정 */
+  /* object-fit: contain;   */
+  /* 이미지의 비율을 유지하면서 컨테이너에 맞춤 */
 }
 
-.profile h2{
-  font-family: 'Pretendard-Regular';
+#stickerbook00{
+  scale: 82%;
+  /* padding-top: 13.5%; */
+  top: 1080%;
+  left: 53.5%;
+
 }
 
-.sticker-box {
-  background-color: #e0f0ff;
-  padding: 10px;
-  border-radius: 10px;
-  width: 60%;
-  height: 40%;
-  position: absolute;
-  right: 7%;
-  top: 10%;
+#stickerbook01{
+  scale: 82%;
+  top: 1080%;
+  left: 66.2%;
 }
 
-table {
-  border-collapse: collapse;
+#closesticker{
+  scale: 82%;
+  top: 500%;
+  left: 77.5%;
+  z-index: 12;
+}
+#closesticker1{
+  scale: 78%;
+  /* bottom: 745px; */
+  bottom: 1180px;
+  left: 82.8%;
+  z-index: 12;
+}
+#closesticker2{
+  scale: 78%;
+  left: 82.8%;
+  z-index: 12;
+  bottom: 1615px;
+}
+#closesticker3{
+  scale: 78%;
+  left: 82.8%;
+  z-index: 12;
+  bottom: 1154px;
+}
+#closesticker4{
+  scale: 78%;
+  left: 82.8%;
+  z-index: 12;
+  bottom: 1130px;
+}
+#closesticker5{
+  scale: 78%;
+  left: 82.8%;
+  z-index: 12;
+  bottom: 735px;
+}
+#closesticker6{
+  scale: 78%;
+  left: 82.8%;
+  z-index: 12;
+  bottom: 735px;
+}
+
+#bgim{
   width: 100%;
-  height: 100%;
+  height: auto;
 }
 
-thead th {
-  padding: 1.5%;
-  text-align: left;
+.tabcontent {
+  display: none; /* 기본적으로 모든 탭 콘텐츠는 숨김 */
+  padding: 20px;
+  border-top: none;
+  position: relative; /* z-index가 적용되도록 설정 */
+  z-index: 10; /* 다른 요소들보다 위에 표시되도록 설정 */
+  top: 0; /* 상단 정렬 */
+  margin: 0 auto; /* 가운데 정렬 */
+  max-width: 80%; /* 최대 너비 설정 */
+  box-sizing: border-box; /* 전체 크기를 계산할 때 padding 포함 */
 }
 
-thead th.header-cell {
-  background-color: #add8e6;
-  width: 100%;
-  height: 10%;
-  border-radius: 10px 10px 0px 0px;
-  font-family: 'Pretendard-Regular';
+.data {
+  padding: 20px;
+  margin-top: 0; /* 스티커북 탭의 상단 여백 제거 */
 }
 
-tbody td {
-  width: 14%;
-  height: 45px;
-  border: 1px dotted #ccc;
-  text-align: center;
-}
-
-
-.sticker-img {
-  width: 100%;
-  height: 100%;
-  scale: 80%;
-  object-fit: fill;
-}
-
-.npc-box {
-  background-color: #e0f0ff;
-  padding: 10px;
-  border-radius: 10px;
-  width: 50%;
-  height: 30%;
-  position: absolute;
-  right: 14%;
-  bottom: 10%;
-}
-
-thead th.first-cell {
-  background-color: #add8e6;
-  width: 100%;
-  height: 10%;
-  border-radius: 10px 10px 0px 0px;
-  font-family: 'Pretendard-Regular';
+.data img {
+  position: relative; /* z-index가 적용되도록 설정 */
+  z-index: 11; /* 탭 콘텐츠보다 더 위에 표시되도록 설정 */
+  max-width: 100%;
 }
 
 
-tbody td.single {
-  width: 16.66%; /* 1/6의 너비 */
-  text-align: center;
-  font-family: 'Pretendard-Regular';
+/* 첫 번째 이미지 스타일 */
+#DataTab img:first-child {
+  max-width: 100%;
+  height: auto;
+  position: relative;
+  z-index: 9;                  /* 두 번째 이미지보다 아래에 위치하도록 설정 */
+  order: 2;                    /* Flexbox 순서 변경: 아래로 이동 */
 }
 
-tbody td.double {
-  width: 33.33%; /* 2/6의 너비 */
+/* #databtn 이미지 스타일 */
+#activebtn {
+  display: block;              /* block 요소로 설정하여 중앙 정렬 가능 */
+  position: relative;          /* 중앙 정렬을 위해 상대적 위치 설정 */
+  z-index: 11;                 /* 첫 번째 이미지보다 위에 표시되도록 설정 */
+  max-width: 100%;             /* 이미지가 컨테이너를 넘지 않도록 제한 */
+  height: auto;                /* 이미지 비율 유지 */
+  order: 1;                    /* Flexbox 순서 변경: 위로 이동 */
+  margin-bottom: 10px;         /* 첫 번째 이미지와의 간격 추가 */
+  bottom: 584px;
+  scale: 76.3%;
+  left: 202px;
+}
+#talkbtn {
+  display: block;              /* block 요소로 설정하여 중앙 정렬 가능 */
+  position: relative;          /* 중앙 정렬을 위해 상대적 위치 설정 */
+  z-index: 11;                 /* 첫 번째 이미지보다 위에 표시되도록 설정 */
+  max-width: 100%;             /* 이미지가 컨테이너를 넘지 않도록 제한 */
+  height: auto;                /* 이미지 비율 유지 */
+  order: 1;                    /* Flexbox 순서 변경: 위로 이동 */
+  margin-bottom: 10px;         /* 첫 번째 이미지와의 간격 추가 */
+  bottom: 1022.5px;
+  scale: 76.3%;
+  left: 742px;
+}
+#schoolbtn {
+  display: block;              /* block 요소로 설정하여 중앙 정렬 가능 */
+  position: relative;          /* 중앙 정렬을 위해 상대적 위치 설정 */
+  z-index: 11;                 /* 첫 번째 이미지보다 위에 표시되도록 설정 */
+  max-width: 100%;             /* 이미지가 컨테이너를 넘지 않도록 제한 */
+  height: auto;                /* 이미지 비율 유지 */
+  order: 1;                    /* Flexbox 순서 변경: 위로 이동 */
+  margin-bottom: 10px;         /* 첫 번째 이미지와의 간격 추가 */
+  bottom: 584px;
+  scale: 76.3%;
+  left: 307px;
+}
+#communicationbtn {
+  display: block;              /* block 요소로 설정하여 중앙 정렬 가능 */
+  position: relative;          /* 중앙 정렬을 위해 상대적 위치 설정 */
+  z-index: 11;                 /* 첫 번째 이미지보다 위에 표시되도록 설정 */
+  max-width: 100%;             /* 이미지가 컨테이너를 넘지 않도록 제한 */
+  height: auto;                /* 이미지 비율 유지 */
+  order: 1;                    /* Flexbox 순서 변경: 위로 이동 */
+  margin-bottom: 10px;         /* 첫 번째 이미지와의 간격 추가 */
+  bottom: 569px;
+  scale: 76.3%;
+  left: 300px;
 }
 
-.bg-image {
-  width: 100%;
-  height: 100%;
-  background-image: url("/code/data/mypageimage/mypage_NPC_off.png");
-  background-repeat: repeat-x;
-  scale: 80%;
+/* #clickball{
+  bottom: 962px;
+  bottom: 527px;
+  scale: 78%;
+  left: 230px;
+  z-index: 15;
+}  */
 
-}
+/* #showball{
+  bottom: 952px;
+  left: 125px;
+  scale: 75%;
+  display: none;
+  z-index: 16;
+} */
 
-.info{
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 9%;
-  top: 12%;
-  font-family: 'Pretendard-Regular';
-}
-
-.data{
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 9%;
-  top: 12%;
-  font-family: 'Pretendard-Regular';
+#ballexplain{
+  bottom: 676px;
+  scale: 76%;
+  left: 675px;
+  /* display: none; */
+  z-index: 17;
 }
