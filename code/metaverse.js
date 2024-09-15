@@ -194,43 +194,122 @@ export function initThreeJS(){
                 }
             }
             _focusOnNPC(npc) {
+                // console.log("Focusing on NPC:", npc); // 디버그 로그 추가
+
+                // const npcPosition = new THREE.Vector3();
+                // npc.getWorldPosition(npcPosition);
+                // console.log("NPC Position:", npcPosition); // 디버그 로그 추가
+            
+                // const npcForward = new THREE.Vector3();
+                // npc.getWorldDirection(npcForward);
+                // npcForward.normalize();
+                // const cameraOffset = 100; 
+                // const newCameraPosition = npcPosition.clone().add(npcForward.multiplyScalar(-cameraOffset));
+            
+                // const newCamera = new THREE.PerspectiveCamera(
+                //     60,
+                //     window.innerWidth / window.innerHeight,
+                //     1,
+                //     20000
+                // );
+                // newCamera.position.set(newCameraPosition.x, npcPosition.y + 50, newCameraPosition.z);
+                
+                // // 카메라가 NPC를 바라보도록 설정
+                // newCamera.lookAt(npcPosition);
+            
+                // this._npcCamera = newCamera;
+                // this._camera = this._npcCamera;
+                // this._controls.object = this._npcCamera;
+            
+                // // NPC를 바라보도록 타겟을 설정
+                // this._controls.target.set(npcPosition.x, npcPosition.y, npcPosition.z);
+            
+                // // 업데이트 호출
+                // this._controls.update();
+            
+                // this._isNpcCameraActive = true;
+
+                // console.log("Focusing on NPC:", npc); // 디버그 로그 추가
+
+                // // NPC의 위치를 가져옵니다
+                // const npcPosition = new THREE.Vector3();
+                // npc.getWorldPosition(npcPosition);
+                // console.log("NPC Position:", npcPosition); // 디버그 로그 추가
+            
+                // // 플레이어의 위치를 가져옵니다
+                // const playerPosition = new THREE.Vector3();
+                // this._player.getWorldPosition(playerPosition); // 이 부분은 플레이어 객체를 가져오는 로직으로 대체하세요
+            
+                // // 새로운 카메라를 생성합니다
+                // const newCamera = new THREE.PerspectiveCamera(
+                //     60,
+                //     window.innerWidth / window.innerHeight,
+                //     1,
+                //     20000
+                // );
+                
+                // // 새로운 카메라의 위치를 플레이어의 위치로 설정합니다
+                // newCamera.position.copy(playerPosition);
+            
+                // // 새로운 카메라가 NPC를 바라보도록 타겟을 설정합니다
+                // newCamera.lookAt(npcPosition);
+            
+                // // 새로운 카메라를 사용하도록 설정합니다
+                // this._camera = newCamera;
+            
+                // // 카메라와 타겟이 제대로 설정되었는지 디버그 로그 추가
+                // console.log("New camera position:", this._camera.position);
+                // console.log("Camera looking at:", npcPosition);
                 console.log("Focusing on NPC:", npc); // 디버그 로그 추가
-                /*
-            
+
+                // NPC의 위치를 가져옵니다
                 const npcPosition = new THREE.Vector3();
-                npc.getWorldPosition(npcPosition);
+                if (npc && npc instanceof THREE.Object3D) {
+                    npc.getWorldPosition(npcPosition);
+                } else {
+                    console.error("NPC is not an instance of THREE.Object3D or is undefined. Cannot get world position.");
+                    return;
+                }
+                
                 console.log("NPC Position:", npcPosition); // 디버그 로그 추가
-            
-                // NPC의 전방 벡터 계산
-                const npcForward = new THREE.Vector3();
-                npc.getWorldDirection(npcForward);
-                npcForward.normalize();
-                // 카메라 위치를 NPC 전방으로 설정
-                const cameraOffset = 100; // NPC로부터 카메라의 거리 (원하는 대로 조정 가능)
-                const newCameraPosition = npcPosition.clone().add(npcForward.multiplyScalar(-cameraOffset));
-            
+                
+                // 플레이어의 위치를 가져옵니다
+                const modelPosition = new THREE.Vector3();
+                if (this._model && this._model instanceof THREE.Object3D) {
+                    this._model.getWorldPosition(modelPosition);
+                } else {
+                    console.error("Player is not an instance of THREE.Object3D or is undefined. Cannot get world position.");
+                    return;
+                }
+                
+                // 새로운 카메라를 생성합니다
                 const newCamera = new THREE.PerspectiveCamera(
                     60,
                     window.innerWidth / window.innerHeight,
                     1,
                     20000
                 );
-                newCamera.position.set(newCameraPosition.x, npcPosition.y + 50, newCameraPosition.z); // 높이 조절
                 
-                // 카메라가 NPC를 바라보도록 설정
-                newCamera.lookAt(npcPosition.x, npcPosition.y, npcPosition.z);
+                // NPC의 위치에서 y값 120을 높인 위치에 카메라를 배치합니다
+                const cameraHeight = 130;
+                const distance = 200; // 카메라와 NPC 사이의 거리
                 
-                // 카메라의 타겟을 NPC 위치로 설정
-                this._controls.target.set(npcPosition.x, npcPosition.y, npcPosition.z);
-                this._controls.update();
-            
-                console.log("New camera position:", newCamera.position); // 디버그 로그 추가
-            
-                this._npcCamera = newCamera;
-                this._camera = this._npcCamera;
-                this._controls.object = this._npcCamera;
-                this._isNpcCameraActive = true;
-            */
+                // 카메라의 위치를 NPC의 위치에서 거리를 두고, y값을 cameraHeight로 설정합니다
+                const direction = new THREE.Vector3();
+                direction.subVectors(npcPosition, modelPosition).normalize(); // NPC를 바라보는 방향
+                newCamera.position.copy(npcPosition).sub(direction.multiplyScalar(distance));
+                newCamera.position.y = cameraHeight;
+                
+                // 카메라가 NPC를 바라보도록 설정합니다
+                newCamera.lookAt(npcPosition.x, npcPosition.y+100, npcPosition.z);
+                
+                // 새로운 카메라를 사용하도록 설정합니다
+                this._camera = newCamera;
+                
+                // 카메라와 타겟이 제대로 설정되었는지 디버그 로그 추가
+                console.log("New camera position:", this._camera.position);
+                console.log("Camera looking at:", npcPosition);
+                
                 console.log("Switched to NPC camera"); // 디버그 로그 추가
                 // 카메라 전환이 완료된 후에 대화창을 띄움
                 // setTimeout(() => {
