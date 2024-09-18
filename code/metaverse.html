@@ -17,7 +17,7 @@
     </script>
     <script type="module" src="event.js"></script>
     <script type="module" src="record.js"></script>
-    <title>Document</title>
+    <title>GiO</title>
     <style>
         /* Your existing CSS styles */
         .hidden {
@@ -30,7 +30,7 @@
     <!-- 볼륨 조절 슬라이더 -->
     <input type="range" id="volumeSlider" min="0" max="100" value="50";>
 
-    <div id="positionLabel" style="position: absolute; top: 10px; right: 10px; color: white; font-family: Arial; font-size: 16px; z-index: 99999; display: none;"></div>
+    <div id="positionLabel" style="position: absolute; top: 10px; right: 10px; color: white; font-family: Arial; font-size: 16px; z-index: 99999;"></div>
     <div id="BtnMaps">
         <button id="buttonNo">X</button>
         <h1>어느 장소로 이동할까?</h1>
@@ -59,11 +59,11 @@
             <div id="myModal" class="modal">
                 <!-- 모달 콘텐츠 -->
                 <div class="Speech1 textModal">
-                    <span class="close">&times;</span>
+                    <span class="close" id="close1">&times;</span>
                     <p>거기 너! 나랑 공놀이 하지 않을래?</p>
                     <div class="choose" style="display: flex;">
                     <button class="GameBtn" id="Game" data-path="">좋아!</button>
-                    <button class="GameBtn">다음에 하자</button>
+                    <button class="GameBtn" onclick="document.getElementById('close1').click()">다음에 하자</button>
                     <button id="option1" style="display: none;">점수확인</button>
                     </div>
                     <!-- <button id="option2">점수기입</button> -->
@@ -82,7 +82,7 @@
                 <div class="Speech1">
                     <span class="npc_name"></span>
                     <p id="speechText">이것은 우리의 대화에 들어가는 것을 테스트 하는 것이에요.</p>
-                    <span class="close" id="casher_close">&times;</span>
+                    <span class="close" id="casher_close" style="display: none;">&times;</span>
                     <div id="buttonGroup" class="choose" style="display: none;">
                         <button id ="select1">이렇게 할까?</button>
                         <button id ="select2">저렇게 할까?</button>
@@ -96,27 +96,27 @@
                     <h1>Loading...</h1>
                     <div class="spinner"></div>
                 </div> -->
-                <img src="./data/loginImage/logo.png" alt="" id="loadimg">
+                <img src="./data/loginImage/loadimg.png" alt="" id="loadimg">
             </div>
             
             <div id="loginModal" class="modal textModal">
                 <div class="modal-content" id="loginContent">
-                    <h2>교육가이드</h2>
-                    <h2>공지사항</h2>
                     <img src="./data/loginImage/logo.png" alt="Logo" id="login-logo">
                     <h2 id="main-login">로그인</h2>
                     <h2 onclick="switchToSignup()">회원가입</h2>
+                    <h2>교육가이드</h2>
+                    <h2>공지사항</h2>
                     
                 </form>
                 <span class="close" style="display: none;">&times;</span>
+                <div id="intro">
+                    <h3 style="font-size: 32px;">Growing Intercommunication Odyssey</h3>
+                    <h4 style="font-size: 18px;">고기능 자폐 스펙트럼 아동들의 사회성 교육과 성장을 위한 사이트, GiO</h4>
+                    <h4 style="font-size: 18px;">교육자들을 위한 보조와 아이들의 치료와 성장을 위해 GiO가 함께합니다.</h4>
+                </div>
             </div>
-            <div id="intro">
-                <h2>Growing Intercommunication Odyssey</h2>
-                <h3>고기능 자폐 스펙트럼 아동들의 사회성 교육과 성장을 위한 사이트, GiO</h3>
-                <h3>교육자들을 위한 보조와 아이들의 치료와 성장을 위해 GiO가 함께합니다.</h3>
-            </div>
-            <img src="./data/loginImage/characters.png" alt="" id="characters">
-            <img src="./data/loginImage/mini_characters.png" alt="" id="mini_characters">
+            <!-- <img src="./data/loginImage/characters.png" alt="" id="characters">
+            <img src="./data/loginImage/mini_characters.png" alt="" id="mini_characters"> -->
                 <div id="loginpage">
                     <h1 style="color: #7E5001;">로그인</h1>
                     <form id="loginForm">

@@ -1247,7 +1247,7 @@ export function initThreeJS(){
                 casher.style.display = "block";
         
                 dialogText.onclick = function () {
-                    this.style.display = "none";
+                    // this.style.display = "none";
                     buttonGroup.style.display = "block";
                 };
         
@@ -1732,6 +1732,8 @@ export function initThreeJS(){
                 const playerPosition = this._model.position.clone();
             const raycaster = new THREE.Raycaster();
             const downDirection = new THREE.Vector3(0, -1, 0); // y축 아래 방향
+            raycaster.near = 0; // 레이캐스트의 시작점 (플레이어의 위치)
+            raycaster.far = 10; // 레이캐스트의 최대 범위 (+10)
             raycaster.set(playerPosition, downDirection);
 
             const intersects = raycaster.intersectObjects(this._scene.children, true);

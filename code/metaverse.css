@@ -218,8 +218,7 @@ input[type="range"]::-moz-range-thumb {
   background-image: url(./data/loginImage/loading.png);
   background-size: cover;
   background-position: center;
-  color: black;
-  /* display: none; */
+  /* color: black; */
   display: none;
   /* Flexbox 컨테이너로 설정 */
   justify-content: center;
@@ -234,24 +233,24 @@ input[type="range"]::-moz-range-thumb {
 
 #loadimg {
   display: block;
-  /* 이미지가 자체적으로 표시되도록 설정 */
   position: relative;
-  width: auto;
-  /* 이미지의 기본 너비 유지 */
-  height: auto;
-  top: -200px;
-  /* 이미지의 기본 높이 유지 */
-  /* background: linear-gradient(0deg, #FFF5C9, #FFCE00); */
-  /* background-size: 200% 200%; */
-  animation: gradientAnimation 3s ease infinite;
-  z-index: 1;
-  /* 이미지가 다른 요소 위에 표시되도록 설정 */
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* Flexbox 속성은 이 요소에 필요하지 않음 */
+  top:20%;
+  left: -15%;
+  z-index: 10000;
+  animation: fade 2s infinite; /* 애니메이션 적용 */
 }
 
-
+@keyframes fade {
+  0% {
+    opacity: 0; /* 처음엔 투명 */
+  }
+  50% {
+    opacity: 1; /* 중간에 불투명 */
+  }
+  100% {
+    opacity: 0; /* 다시 투명 */
+  }
+}
 
 @keyframes gradientAnimation {
   0% {
@@ -294,8 +293,9 @@ input[type="range"]::-moz-range-thumb {
 }
 
 #intro{
-  position: relative;
-  top: 250px;
+  position:relative;
+  top: 230px;
+  left: -600px;
   color: #7E5001;
 }
 #loadingPage h1 {
@@ -304,15 +304,18 @@ input[type="range"]::-moz-range-thumb {
 
 /* loginContent 스타일 */
 #loginContent {
-  width: 55vw;
-  right: 21vw;
-  top : -350px;
+  position: absolute;
+  /* width: 55vw; */
+  /* right: 35vw; */
+  top : 0px;
+  left:100px;
   padding: 2vw;
   border: none;
   display: flex;
-  justify-content: center;
+  justify-content:baseline;
   align-items: center;
   background-color: none;
+  margin: 0 250px 0 0 !important;
 }
 #loginContent h2{
   margin: 0px 20px;
@@ -329,17 +332,21 @@ input[type="range"]::-moz-range-thumb {
   margin: 0px 20px;
 }
 #loginpage{
-  margin-top: 400px;
+  top: 250px;
+  left: 738px;
+  position: absolute;
   display: none;
 }
 #loginpage h1{
   position: relative;
-  left: -6vw;
+  left: -140px;
   margin-bottom: 20px;
 }
 #signupPage{
     margin: auto;
-    margin-top: 250px;
+    position: absolute;
+    top: 200px;
+    left: 738px;
     display: none;
     justify-content: center;
     align-items: center;
@@ -365,7 +372,9 @@ input[type="range"]::-moz-range-thumb {
   text-align: left;
 }
 #signupForm button{
-  margin: 20px 0 !important;
+  margin: 0px 0 !important;
+  margin-top: 30px !important;
+  height: 41px !important;
 }
 #signupForm input{
   padding-left: 5px !important;
@@ -426,8 +435,8 @@ input[type="radio"]:checked+.genderbutton {
 /* loginModal 스타일 */
 #loginModal {
   /* background-image: url(./data/loginImage/mainbg.png); */
-  background-image: url(./data/loginImage/mainbg.png);
-  background-size: cover;
+  background-image: url(./data/loginImage/loginbg.png);
+  background-size: auto;
   background-repeat: no-repeat; /* 이미지 반복 방지 */
   background-position: center;
   overflow: hidden; /* 경계를 벗어난 부분 숨김 */
@@ -703,26 +712,36 @@ input[type="radio"]:checked+.genderbutton {
   background-color: #ffffff;
   opacity: 90%;
   position: fixed;
-  bottom: 100px;
-  right: 15%;
+  bottom: 50px;
+  right: 18%;
   /* margin: 15% auto; 15% from the top and centered */
-  padding: 50px 50px;
-  padding-top: 75px;
+  padding: 30px 30px;
+  /* padding-top: 0px; */
   border: 1px solid rgba(0, 0, 0, 0.0);
   border-radius: 35px;
-  width: 70%; /* Could be more or less, depending on screen size */
+  width: 60%; /* Could be more or less, depending on screen size */
   height: 200px;
   font-size: 35px;
 }
+#speechText{
+  margin: 0;;
+}#buttonGroup{
+}
 .choose{
-  position: relative;
+  /* position: relative; */
   /* display: flex; */
   flex-direction: column;
   gap: 20px;
-  top: -600px;
-  right: -80%;
+  /* top: -600px; */
+  /* right: -80%; */
   width: 650px;
   height: 500px;
+  width: 500px;
+  /* top: 100px; */
+  position: absolute;
+  right: -200px;
+  top: -520px;
+  justify-content: flex-end;
 }
 .choose button{
   font-size: 35px;
@@ -739,7 +758,7 @@ input[type="radio"]:checked+.genderbutton {
   width: 200px;
   height: 30px;
   position: relative;
-  top: -100px;
+  top: -50px;
 }
 /* 닫기 버튼 스타일 */
 .close {
