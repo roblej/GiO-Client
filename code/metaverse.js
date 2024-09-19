@@ -262,6 +262,9 @@ export function initThreeJS(){
                 // console.log("Camera looking at:", npcPosition);
                 console.log("Focusing on NPC:", npc); // 디버그 로그 추가
 
+                // 기존 카메라 저장
+                const previousCamera = this._camera; // 기존 카메라를 저장합니다
+
                 // NPC의 위치를 가져옵니다
                 const npcPosition = new THREE.Vector3();
                 if (npc && npc instanceof THREE.Object3D) {
@@ -316,6 +319,13 @@ export function initThreeJS(){
                 //     this._showNpcDialog(npc.userData.type);
                 // }, 000); // 0.1초 지연 후 대화창 띄우기 (필요에 따라 조정 가능)
                 this._showNpcDialog(npc.userData.type);
+
+                this._onDialogClosed = () => {
+                    this._camera = previousCamera; // 이전 카메라로 복원
+                    this._controls.object = this._camera; // OrbitControls의 객체를 이전 카메라로 설정
+                    this._controls.update(); // 업데이트 호출
+                    console.log("Returned to previous camera.");
+                };
             }
             
         
@@ -1344,7 +1354,8 @@ export function initThreeJS(){
                     dialogText.onclick = function () {
                         casher.style.display = "none";
                         resetModal();
-                    };
+                        this._onDialogClosed();
+                    }.bind(this);
                 };
         
                 option2.onclick = function () {
@@ -1355,7 +1366,8 @@ export function initThreeJS(){
                     dialogText.onclick = function () {
                         casher.style.display = "none";
                         resetModal();
-                    };
+                        this._onDialogClosed();
+                    }.bind(this);
                 };
         
                 option3.onclick = function () {
@@ -1366,7 +1378,8 @@ export function initThreeJS(){
                     dialogText.onclick = function () {
                         casher.style.display = "none";
                         resetModal();
-                    };
+                        this._onDialogClosed();
+                    }.bind(this);
                 };
         
                 window.onclick = function (event) {
