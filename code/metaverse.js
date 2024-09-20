@@ -6,6 +6,7 @@ import { Octree } from "../jsm/math/Octree.js";
 import { Capsule } from "../jsm/math/Capsule.js";
 import { OrbitControls } from "../jsm/controls/OrbitControls.js";
 import { onMouseMove } from './event.js';
+import { sendMessageToClova } from './record.js';
 import { FBXLoader } from '../jsm/loaders/FBXLoader.js';
 import { getSticker } from './event.js';
 // import {stickerNumber} from './event.js';
@@ -1117,6 +1118,8 @@ export function initThreeJS(){
             var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
             var button = document.querySelector("#buttonGroup button")
             var recordButton = document.getElementById('recordButton')
+            var choose_answer
+            var message =`대화 상대가 ${npcType.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent},${option2.textContent},${option3.textContent}가 있다.그리고 아이가 고른 선택지는 ${choose_answer}이다.`
             var count = 0;
             function listKoreanVoices() {
                 if ('speechSynthesis' in window) {
@@ -1321,6 +1324,9 @@ export function initThreeJS(){
 
                 option1.onclick = function () {
                     console.log("첫 번째 선택지 선택됨");
+                    choose_answer = option1.textContent;
+                    message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "안녕? 나는 선생님이란다. 학교에 온걸 환영해!";
