@@ -122,12 +122,7 @@ export function initThreeJS(){
             }
             _setupOctree(){
                 this._worldOctree = new Octree();
-                // this._worldOctree = new Octree({
-                //     undeferred: false, // 비동기 작업 비활성화
-                //     depthMax: 10, // 최대 깊이 제한 (필요에 따라 조정)
-                //     objectsThreshold: 8, // 노드당 객체 수 (필요에 따라 조정)
-                //     overlapPct: 0.15 // 겹침 비율 (필요에 따라 조정)
-                // });
+                console.log('Setup Octree')
             }
         
         _setupControls() {
@@ -1015,13 +1010,13 @@ export function initThreeJS(){
                 }
 
             // Octree를 초기화
-            this._setupOctree();
-
+            
             // 씬 전환
             this._currentSceneIndex = index;
             this._scene = this._scenes[index];
+            
             console.log(`Scene ${index + 1}로 전환됨`);
-
+            
             // 처음으로 해당 씬에 접근할 때만 모델 로드
             if (!this._scene.modelsLoaded) {
                 this._loadSceneModels(this._scene, index);
@@ -1030,18 +1025,19 @@ export function initThreeJS(){
             // this._loadSceneModels(this._scene, index);
             // this._scene.modelsLoaded = true;
             
+            this._setupOctree();
             // 새로운 씬에 플레이어 모델 추가
             if (this._model) {
                 let startPosition;
                 switch (index) {
                     case 0:
-                        startPosition = new THREE.Vector3(-1214, 4, 197); // 첫 번째 씬 위치
-                        this._setupOctree();
+                        startPosition = new THREE.Vector3(-1214, 15, 197); // 첫 번째 씬 위치
+                        // this._setupOctree();
                         break;
                     case 1:
                         startPosition = new THREE.Vector3(100, 0, 100); // 두 번째 씬 위치
                         console.log("case1 전환")
-                        this._setupOctree();
+                        // this._setupOctree();
                         break;
                     case 2:
                         startPosition = new THREE.Vector3(-50, 10, -50); // 세 번째 씬 위치
@@ -1063,7 +1059,7 @@ export function initThreeJS(){
                 this._model._capsule.end.copy(startPosition).y += this._model._capsule.radius * 2;
                 console.log("캡슐 위치 초기화:", this._model._capsule.start, this._model._capsule.end);
                 }
-                
+                // this._model.position.y = 4; // Y축 고
                 this._scene.add(this._model,this._support);
                 
                 }
@@ -1796,23 +1792,43 @@ export function initThreeJS(){
                     this._bOnTheGround = false;
                 }
         // 플레이어 y축 아래로 Raycast 쏘기
-                const playerPosition = this._model.position.clone();
-            const raycaster = new THREE.Raycaster();
-            const downDirection = new THREE.Vector3(0, -1, 0); // y축 아래 방향
-            raycaster.near = 0; // 레이캐스트의 시작점 (플레이어의 위치)
-            raycaster.far = 10; // 레이캐스트의 최대 범위 (+10)
-            raycaster.set(playerPosition, downDirection);
-
-            const intersects = raycaster.intersectObjects(this._scene.children, true);
-            let collidedWithTeleport = false;
-
-            for (let i = 0; i < intersects.length; i++) {
-                const intersectedObject = intersects[i].object;
-                if (intersectedObject.name === 'teleport') {
-                    collidedWithTeleport = true;
-                    break; // 'teleport' 객체를 찾았으므로 반복 종료
-                }
+        const playerPosition = this._model.position.clone();
+        const downDirection = new THREE.Vector3(0, -1, 0); // 아래 방향
+        const upDirection = new THREE.Vector3(0, 1, 0);   // 위 방향
+        
+        const raycasterDown = new THREE.Raycaster();
+        const raycasterUp = new THREE.Raycaster();
+        
+        raycasterDown.near = 0;
+        raycasterDown.far = 1000000; // 아래 방향 최대 감지 거리
+        raycasterUp.near = 0;
+        raycasterUp.far = 1000000;   // 위 방향 최대 감지 거리
+        
+        // Raycaster 설정
+        raycasterDown.set(playerPosition, downDirection);
+        raycasterUp.set(playerPosition, upDirection);
+        const intersectsDown = raycasterDown.intersectObjects(this._scene.children, true);
+        // 위쪽 충돌 검사
+        const intersectsUp = raycasterUp.intersectObjects(this._scene.children, true);
+        
+        // 감지된 객체 처리
+        let collidedWithTeleport = false;
+        
+        for (let i = 0; i < intersectsDown.length; i++) {
+            const intersectedObject = intersectsDown[i].object;
+            if (intersectedObject.name === 'teleport') {
+                collidedWithTeleport = true;
+                break;
             }
+        }
+        
+        for (let i = 0; i < intersectsUp.length; i++) {
+            const intersectedObject = intersectsUp[i].object;
+            if (intersectedObject.name === 'teleport') {
+                collidedWithTeleport = true;
+                break;
+            }
+        }
                 // 충돌 상태에 따른 콘솔 로그 처리
                 if (collidedWithTeleport && !this._hasCollidedWithTeleport) {
                     console.log('Teleport 오브젝트가 플레이어 아래에 감지되었습니다.');
@@ -1909,33 +1925,32 @@ export function initThreeJS(){
                 }
 
                 // NPC와의 상호작용
-                const minDistance = 200; // NPC들이 바라볼 최소 거리 설정
-                this._npcs.forEach((npc) => {
-                    const distance = npc.position.distanceTo(this._model.position);
-                    if (distance < minDistance) {
-                        // 목표 방향 설정
-                        const targetPosition = this._model.position.clone();
-                        targetPosition.y = npc.position.y;  // Y축 회전만 고려 (필요에 따라 조정 가능)
-                        
-                        // NPC의 현재 회전 상태 저장
-                        const currentQuaternion = npc.quaternion.clone();
+const minDistance = 200; // NPC들이 바라볼 최소 거리 설정
+this._npcs.forEach((npc) => {
+    const distance = npc.position.distanceTo(this._model.position);
+    if (distance < minDistance) {
+        // 목표 방향 설정 (NPC의 높이에 맞춰 y축 고정)
+        const targetPosition = this._model.position.clone();
+        targetPosition.y = npc.position.y;  // NPC의 높이만 고려하여 Y축 회전만 하도록 설정
 
-                        // NPC를 목표 위치를 바라보게 하고 그 회전을 저장
-                        npc.lookAt(targetPosition);
-                        const targetQuaternion = npc.quaternion.clone();
-                        
-                        // 원래 회전으로 되돌림
-                        npc.quaternion.copy(currentQuaternion);
+        // NPC의 현재 회전 상태 저장
+        const currentQuaternion = npc.quaternion.clone();
 
-                        // 선형 보간을 사용하여 부드럽게 회전
-                        const slerpFactor = 0.1;  // 회전 속도를 조절하는 값 (0~1 사이 값, 값이 작을수록 천천히 회전)
-                        npc.quaternion.slerp(targetQuaternion, slerpFactor);
+        // NPC가 목표 위치를 바라보도록 설정 (Y축 회전만 적용)
+        npc.lookAt(targetPosition);
 
-                        // Z축과 X축 회전을 고정하여 뒤로 눕는 것을 방지
-                        npc.rotation.z = 0;
-                        npc.rotation.x = 0;
-                    }
-                });
+        // 목표 회전값 저장
+        const targetQuaternion = npc.quaternion.clone();
+
+        // NPC를 원래 회전 상태로 되돌림
+        npc.quaternion.copy(currentQuaternion);
+
+        // 선형 보간(SLERP)을 사용하여 부드럽게 회전
+        const slerpFactor = 0.1;  // 회전 속도를 조절하는 값 (0~1 사이 값)
+        npc.quaternion.slerp(targetQuaternion, slerpFactor);
+    }
+});
+
 
                 // 플레이어와 NPC 간의 사운드 이펙트 또는 추가 이벤트 처리
                 // 예: if (distance < 특정 값) { 사운드 재생 코드 추가 }
