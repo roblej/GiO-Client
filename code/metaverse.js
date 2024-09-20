@@ -256,6 +256,7 @@ export function initThreeJS(){
                 this._showNpcDialog(npc.userData.type);
 
                 this._onDialogClosed = () => {
+                    console.log("Dialog closed, returning to previous camera."); // 디버그 로그 추가
                     this._camera = previousCamera; // 이전 카메라로 복원
                     this._controls.object = this._camera; // OrbitControls의 객체를 이전 카메라로 설정
                     this._controls.update(); // 업데이트 호출
@@ -1192,7 +1193,8 @@ export function initThreeJS(){
                 casher.style.display = "none";
                 count = 0;
                 resetModal();
-            };
+                this._onDialogClosed();
+            }.bind(this);
 
             // 모달 창 바깥 영역 클릭 시 모달 닫기
             window.onclick = function (event) {
@@ -1200,8 +1202,9 @@ export function initThreeJS(){
                     casher.style.display = "none";
                     count = 0;
                     resetModal();
+                    this._onDialogClosed();
                 }
-            };
+            }.bind(this);
 
             for (var i = 0; i < npc_name.length; i++) {
                 npc_name[i].innerHTML = npcType;
@@ -1218,6 +1221,7 @@ export function initThreeJS(){
                 function resetModal() {
                     speechText.style.display = "block";
                     buttonGroup.style.display = "none";
+                    
                 }
         
                 resetModal();
@@ -1225,33 +1229,37 @@ export function initThreeJS(){
                 span.onclick = function () {
                     casher.style.display = "none";
                     resetModal();
-                }
+                }.bind(this);
         
         
                 document.getElementById("select1").onclick = function () {
                     console.log("선택지 1 선택됨");
                     casher.style.display = "none";
                     resetModal();
-                }
+                    this._onDialogClosed();
+                }.bind(this);
         
                 document.getElementById("select2").onclick = function () {
                     console.log("선택지 2 선택됨");
                     casher.style.display = "none";
                     resetModal();
-                }
+                    this._onDialogClosed();
+                }.bind(this);
         
                 document.getElementById("select3").onclick = function () {
                     console.log("선택지 3 선택됨");
                     casher.style.display = "none";
                     resetModal();
-                }
+                    this._onDialogClosed();
+                }.bind(this);
         
                 window.onclick = function (event) {
                     if (event.target == casher) {
                         casher.style.display = "none";
                         resetModal();
+                        this._onDialogClosed();
                     }
-                }
+                }.bind(this);
             } else if (npcType === 'teacher') {
 
         
@@ -1278,7 +1286,8 @@ export function initThreeJS(){
                 span.onclick = function () {
                     casher.style.display = "none";
                     resetModal();
-                };
+                    this._onDialogClosed();
+                }.bind(this);
         
 
                 option1.onclick = function () {
@@ -1291,7 +1300,7 @@ export function initThreeJS(){
                         resetModal();
                         this._onDialogClosed();
                     }.bind(this);
-                };
+                }.bind(this);
         
                 option2.onclick = function () {
                     console.log("두 번째 선택지 선택됨");
@@ -1303,7 +1312,7 @@ export function initThreeJS(){
                         resetModal();
                         this._onDialogClosed();
                     }.bind(this);
-                };
+                }.bind(this);
         
                 option3.onclick = function () {
                     console.log("세 번째 선택지 선택됨");
@@ -1315,14 +1324,15 @@ export function initThreeJS(){
                         resetModal();
                         this._onDialogClosed();
                     }.bind(this);
-                };
+                }.bind(this);
         
                 window.onclick = function (event) {
                     if (event.target == casher) {
                         casher.style.display = "none";
                         resetModal();
+                        this._onDialogClosed();
                     }
-                }
+                }.bind(this);
             } else if (npcType == 'game_friend') {
                 game_name = "GameB"
                 var modal = document.getElementById("myModal");
@@ -1334,26 +1344,30 @@ export function initThreeJS(){
                 // 닫기 버튼 클릭 시 모달 닫기
                 span.onclick = function () {
                     modal.style.display = "none";
-                }
+                    this._onDialogClosed();
+                }.bind(this);
     
                 // 선택지 1 클릭 시 동작
                 document.getElementById("option1").onclick = function () {
                     console.log("선택지 1 선택됨");
                     modal.style.display = "none";
-                }
+                    this._onDialogClosed();
+                }.bind(this);
     
                 // 선택지 2 클릭 시 동작
                 document.getElementById("option2").onclick = function () {
                     console.log("선택지 2 선택됨");
                     modal.style.display = "none";
-                }
+                    this._onDialogClosed();
+                }.bind(this);
     
                 // 모달 창 바깥 영역 클릭 시 모달 닫기
                 window.onclick = function (event) {
                     if (event.target == modal) {
                         modal.style.display = "none";
+                        this._onDialogClosed();
                     }
-                }
+                }.bind(this);
     
                 // break; // 첫 번째 교차 객체만 처리하고 루프 종료
             } else if (npcType == 'friend_crash') {
@@ -1380,21 +1394,24 @@ export function initThreeJS(){
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "어? 아...미안";
-                };
+                    this._onDialogClosed();
+                }.bind(this);
     
                 option2.onclick = function () {
                     console.log("두 번째 선택지 선택됨");
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "...";
-                };
+                    this._onDialogClosed();
+                }.bind(this);
     
                 option3.onclick = function () {
                     console.log("세 번째 선택지 선택됨");
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "아야! 너 뭐야?";
-                };
+                    this._onDialogClosed();
+                }.bind(this);
 
             } else if (npcType == 'rector') {
     
@@ -1420,8 +1437,9 @@ export function initThreeJS(){
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "머리가 없는게 아니다. 내가 나아갈 뿐";
+                    this._onDialogClosed();
 
-                };
+                }.bind(this);
     
                 option2.onclick = function () {
                     console.log("두 번째 선택지 선택됨");
@@ -1431,8 +1449,9 @@ export function initThreeJS(){
                     clicktext.onclick = function () {
                         casher.style.display = "none";
                         resetModal();
+                        this._onDialogClosed();
                     };
-                };
+                }.bind(this);
     
                 option3.onclick = function () {
                     console.log("세 번째 선택지 선택됨");
@@ -1442,8 +1461,9 @@ export function initThreeJS(){
                     clicktext.onclick = function () {
                         casher.style.display = "none";
                         resetModal();
+                        this._onDialogClosed();
                     };
-                };
+                }.bind(this);
 
             } else if (npcType == 'npc3') {
     
@@ -1469,19 +1489,22 @@ export function initThreeJS(){
                     console.log("첫 번째 선택지 선택됨");
                     casher.style.display = "none";
                     resetModal();
-                };
+                    this._onDialogClosed();
+                }.bind(this);
     
                 option2.onclick = function () {
                     console.log("두 번째 선택지 선택됨");
                     casher.style.display = "none";
                     resetModal();
+                    this._onDialogClosed();
                 };
     
                 option3.onclick = function () {
                     console.log("세 번째 선택지 선택됨");
                     casher.style.display = "none";
                     resetModal();
-                };
+                    this._onDialogClosed();
+                }.bind(this);
     
             } else if (npcType == 'friend_hurt') {
     
@@ -1509,21 +1532,24 @@ export function initThreeJS(){
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "뭐야? 구경났어?";
-                };
+                    this._onDialogClosed();
+                }.bind(this);
     
                 option2.onclick = function () {
                     console.log("두 번째 선택지 선택됨");
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "괜찮아. 혼자 양호실에 갈게. 걱정해줘서 고마워.";
-                };
+                    this._onDialogClosed();
+                }.bind(this);
     
                 option3.onclick = function () {
                     console.log("세 번째 선택지 선택됨");
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = ".....";
-                };
+                    this._onDialogClosed();
+                }.bind(this);
 
             } else if (npcType == 'grandfather') {
     
@@ -1554,14 +1580,17 @@ export function initThreeJS(){
                         buttonGroup.style.display = "none";
                         dialogText.innerHTML = "....응? 뭐라고?";
                         resetModal2();
+                        this._onDialogClosed();
+                        
                         scene1++;
                     } else {
                         console.log("첫 번째 선택지 선택됨");
                         dialogText.style.display = "block";
                         buttonGroup.style.display = "none";
                         dialogText.innerHTML = "어 그래.. 안녕하구나";
+                        this._onDialogClosed();
                     }
-                };
+                }.bind(this);
 
                 function resetModal2() {
                     option1.innerHTML = "(큰목소리로) 안녕하세요!!.";
@@ -1578,14 +1607,16 @@ export function initThreeJS(){
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "잘 안들린단다 얘야";
-                };
+                    this._onDialogClosed();
+                }.bind(this);
     
                 option3.onclick = function () {
                     console.log("세 번째 선택지 선택됨");
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "어린노무자식이 싸가지없게!";
-                };
+                    this._onDialogClosed();
+                }.bind(this);
             } else if (npcType === "할머니") {
                 game_name = "GameA"
                 var modal = document.getElementById("myModal");
@@ -1597,26 +1628,30 @@ export function initThreeJS(){
                 // 닫기 버튼 클릭 시 모달 닫기
                 span.onclick = function () {
                     modal.style.display = "none";
-                }
+                    this._onDialogClosed();
+                }.bind(this);
     
                 // 선택지 1 클릭 시 동작
                 document.getElementById("option1").onclick = function () {
                     console.log("선택지 1 선택됨");
                     modal.style.display = "none";
-                }
+                    this._onDialogClosed();
+                }.bind(this);
     
                 // 선택지 2 클릭 시 동작
                 document.getElementById("option2").onclick = function () {
                     console.log("선택지 2 선택됨");
                     modal.style.display = "none";
-                }
+                    this._onDialogClosed();
+                }.bind(this);
     
                 // 모달 창 바깥 영역 클릭 시 모달 닫기
                 window.onclick = function (event) {
                     if (event.target == modal) {
                         modal.style.display = "none";
+                        this._onDialogClosed();
                     }
-                }
+                }.bind(this);
     
                 // break; // 첫 번째 교차 객체만 처리하고 루프 종료
             }
