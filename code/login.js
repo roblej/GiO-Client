@@ -18,17 +18,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
 mainLogin.addEventListener('click', function() {
     // 백그라운드 이미지가 수직으로 확대되면서 바뀌는 애니메이션 추가
-    loginModal.classList.remove('scale-down-ver-background');
-    loginModal.classList.add('scale-up-ver-background');
-    loginModal.classList.remove('main-background');
-    loginModal.classList.add('login-background');
-    document.getElementById('characters').style.display = 'none'
+    // loginModal.classList.remove('scale-down-ver-background');
+    // loginModal.classList.add('scale-up-ver-background');
+    // loginModal.classList.remove('main-background');
+    // loginModal.classList.add('login-background');
+    // document.getElementById('characters').style.display = 'none'
 
     signupPage.style.display = 'none';
     loginpage.style.display = 'block';
     loginpage.classList.add('fade-in'); // opacity 변화 애니메이션 추가
-    document.getElementById('mini_characters').style.display = 'block'
-    document.getElementById('mini_characters').classList.add('fade-in');
+    // document.getElementById('mini_characters').style.display = 'block'
+    // document.getElementById('mini_characters').classList.add('fade-in');
     intro.style.display = 'none';
     setTimeout(() => {
     }, 1000); // 애니메이션 시간과 맞춤
@@ -37,17 +37,17 @@ mainLogin.addEventListener('click', function() {
 loginlogo.addEventListener('click', function() {
     // 백그라운드 이미지가 수직으로 축소되면서 원래 상태로 돌아가는 애니메이션 추가
     signupPage.style.display = 'none';
-    loginModal.classList.remove('scale-up-ver-background');
-    loginModal.classList.add('scale-down-ver-background');
-    loginModal.classList.remove('login-background');
-    loginModal.classList.add('main-background');
+    // loginModal.classList.remove('scale-up-ver-background');
+    // loginModal.classList.add('scale-down-ver-background');
+    // loginModal.classList.remove('login-background');
+    // loginModal.classList.add('main-background');
     loginpage.style.display = 'none';
     intro.style.display = 'block';
     intro.classList.add('fade-in'); // opacity 변화 애니메이션 추가
-    document.getElementById('characters').style.display = 'block'
-    document.getElementById('characters').classList.add('fade-in'); // opacity 변화 애니메이션 추가
-    document.getElementById('mini_characters').style.display = 'none'
-    document.getElementById('mini_characters').classList.add('fade-in');
+    // document.getElementById('characters').style.display = 'block'
+    // document.getElementById('characters').classList.add('fade-in'); // opacity 변화 애니메이션 추가
+    // document.getElementById('mini_characters').style.display = 'none'
+    // document.getElementById('mini_characters').classList.add('fade-in');
     setTimeout(() => {
     }, 1000); // 애니메이션 시간과 맞춤
 });
@@ -64,14 +64,14 @@ closeButtons.forEach(button => {
 // 로그인 폼과 회원가입 폼 전환 함수
 window.switchToSignup = function () {
     loginpage.style.display = 'none';
-    document.getElementById('characters').style.display = 'none'
-    document.getElementById('mini_characters').style.display = 'block'
-    loginModal.classList.remove('main-background');
-    loginModal.classList.add('login-background');
+    // document.getElementById('characters').style.display = 'none'
+    // document.getElementById('mini_characters').style.display = 'block'
+    // loginModal.classList.remove('main-background');
+    // loginModal.classList.add('login-background');
     intro.style.display = 'none'
     signupPage.style.display = 'block';
     signupPage.classList.add('fade-in'); // opacity 변화 애니메이션 추가
-    document.getElementById('mini_characters').classList.add('fade-in');
+    // document.getElementById('mini_characters').classList.add('fade-in');
 }
 
 window.switchToLogin = function () {
@@ -80,7 +80,7 @@ window.switchToLogin = function () {
     intro.style.display = 'none'
     loginpage.style.display = 'block';
     loginpage.classList.add('fade-in'); // opacity 변화 애니메이션 추가
-    document.getElementById('mini_characters').classList.add('fade-in');
+    // document.getElementById('mini_characters').classList.add('fade-in');
 }
 
 // 로그인 및 회원가입 처리 함수 (예시)
