@@ -1122,7 +1122,71 @@ export function initThreeJS(){
             var button = document.querySelector("#buttonGroup button")
             var recordButton = document.getElementById('recordButton')
             var count = 0;
+            function listKoreanVoices() {
+                if ('speechSynthesis' in window) {
+                    const voices = window.speechSynthesis.getVoices();
             
+                    // 한국어 음성만 필터링
+                    const koreanVoices = voices.filter(voice => voice.lang === 'ko-KR');
+            
+                    // 한국어 음성 목록 출력
+                    koreanVoices.forEach((voice, index) => {
+                        console.log(`${index + 1}. 이름: ${voice.name}, 언어: ${voice.lang}, 기본 목소리: ${voice.default}`);
+                    });
+            
+                    if (koreanVoices.length === 0) {
+                        console.log('한국어 음성을 찾을 수 없습니다.');
+                    }
+                } else {
+                    console.log('TTS 기능이 지원되지 않는 브라우저입니다.');
+                }
+            }
+            
+            // 페이지 로드 후 음성 목록을 다시 가져오기 (음성 로딩이 비동기적으로 이루어질 수 있음)
+            window.speechSynthesis.onvoiceschanged = function() {
+                listKoreanVoices();
+            };
+            function testKoreanVoices() {
+                if ('speechSynthesis' in window) {
+                    const voices = window.speechSynthesis.getVoices();
+            
+                    // 한국어 음성만 필터링
+                    const koreanVoices = voices.filter(voice => voice.lang === 'ko-KR');
+            
+                    if (koreanVoices.length === 0) {
+                        console.log('한국어 음성을 찾을 수 없습니다.');
+                        return;
+                    }
+            
+                    // 각 음성을 "안녕하세요"로 테스트
+                    koreanVoices.forEach((voice, index) => {
+                        const utterance = new SpeechSynthesisUtterance("안녕하세요");
+                        utterance.voice = voice;  // 각 음성을 할당
+                        console.log(`${index + 1}. 이름: ${voice.name}, 언어: ${voice.lang}`);
+            
+                        // 음성 출력
+                        window.speechSynthesis.speak(utterance);
+                    });
+                } else {
+                    console.log('TTS 기능이 지원되지 않는 브라우저입니다.');
+                }
+            }
+            
+            // 페이지 로드 후 음성 목록을 다시 가져오기 (음성 로딩이 비동기적으로 이루어질 수 있음)
+            window.speechSynthesis.onvoiceschanged = function() {
+                testKoreanVoices();
+            };
+            
+            
+            function speak(text) {
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    window.speechSynthesis.speak(utterance);
+                } else {
+                    console.log('TTS 기능이 지원되지 않는 브라우저입니다.');
+                }
+            }
+
             // 이벤트 리스너를 설정하는 함수
             function setClickEvent() {
                 for (var i = 0; i < clicktext.length; i++) {
@@ -1232,7 +1296,9 @@ export function initThreeJS(){
 
         
                 dialogText.innerHTML = "안녕? 새로 온 학생이니?";
-        
+                speak(dialogText.innerHTML);
+                // listKoreanVoices();
+                // testKoreanVoices();
                 function resetModal() {
                     option1.innerHTML = "네, 맞아요. 안녕하세요?";
                     option2.innerHTML = "(무시하고 갈 길을 간다.)";
@@ -1262,6 +1328,7 @@ export function initThreeJS(){
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "안녕? 나는 선생님이란다. 학교에 온걸 환영해!";
+                    speak(dialogText.innerHTML);
                     dialogText.onclick = function () {
                         casher.style.display = "none";
                         resetModal();
