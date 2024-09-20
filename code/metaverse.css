@@ -727,6 +727,24 @@ input[type="radio"]:checked+.genderbutton {
   margin: 0;;
 }#buttonGroup{
 }
+#helper{
+  border: 1px solid #ffffff;
+  background-color: white;
+  border-radius: 15px;
+  padding: 15px;
+  position: relative;
+  width: 730px;
+  top:-320px;
+  right: -700px;
+
+}
+#helper_img{
+  position: relative;
+  top: -300px;
+  right: -1200px;
+  width: 250px;
+  height: 250px;
+}
 .choose{
   /* position: relative; */
   /* display: flex; */
