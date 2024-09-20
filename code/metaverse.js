@@ -194,72 +194,7 @@ export function initThreeJS(){
                 }
             }
             _focusOnNPC(npc) {
-                // console.log("Focusing on NPC:", npc); // 디버그 로그 추가
 
-                // const npcPosition = new THREE.Vector3();
-                // npc.getWorldPosition(npcPosition);
-                // console.log("NPC Position:", npcPosition); // 디버그 로그 추가
-            
-                // const npcForward = new THREE.Vector3();
-                // npc.getWorldDirection(npcForward);
-                // npcForward.normalize();
-                // const cameraOffset = 100; 
-                // const newCameraPosition = npcPosition.clone().add(npcForward.multiplyScalar(-cameraOffset));
-            
-                // const newCamera = new THREE.PerspectiveCamera(
-                //     60,
-                //     window.innerWidth / window.innerHeight,
-                //     1,
-                //     20000
-                // );
-                // newCamera.position.set(newCameraPosition.x, npcPosition.y + 50, newCameraPosition.z);
-                
-                // // 카메라가 NPC를 바라보도록 설정
-                // newCamera.lookAt(npcPosition);
-            
-                // this._npcCamera = newCamera;
-                // this._camera = this._npcCamera;
-                // this._controls.object = this._npcCamera;
-            
-                // // NPC를 바라보도록 타겟을 설정
-                // this._controls.target.set(npcPosition.x, npcPosition.y, npcPosition.z);
-            
-                // // 업데이트 호출
-                // this._controls.update();
-            
-                // this._isNpcCameraActive = true;
-
-                // console.log("Focusing on NPC:", npc); // 디버그 로그 추가
-
-                // // NPC의 위치를 가져옵니다
-                // const npcPosition = new THREE.Vector3();
-                // npc.getWorldPosition(npcPosition);
-                // console.log("NPC Position:", npcPosition); // 디버그 로그 추가
-            
-                // // 플레이어의 위치를 가져옵니다
-                // const playerPosition = new THREE.Vector3();
-                // this._player.getWorldPosition(playerPosition); // 이 부분은 플레이어 객체를 가져오는 로직으로 대체하세요
-            
-                // // 새로운 카메라를 생성합니다
-                // const newCamera = new THREE.PerspectiveCamera(
-                //     60,
-                //     window.innerWidth / window.innerHeight,
-                //     1,
-                //     20000
-                // );
-                
-                // // 새로운 카메라의 위치를 플레이어의 위치로 설정합니다
-                // newCamera.position.copy(playerPosition);
-            
-                // // 새로운 카메라가 NPC를 바라보도록 타겟을 설정합니다
-                // newCamera.lookAt(npcPosition);
-            
-                // // 새로운 카메라를 사용하도록 설정합니다
-                // this._camera = newCamera;
-            
-                // // 카메라와 타겟이 제대로 설정되었는지 디버그 로그 추가
-                // console.log("New camera position:", this._camera.position);
-                // console.log("Camera looking at:", npcPosition);
                 console.log("Focusing on NPC:", npc); // 디버그 로그 추가
 
                 // 기존 카메라 저장
