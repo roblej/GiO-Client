@@ -30,8 +30,6 @@ mainLogin.addEventListener('click', function() {
     // document.getElementById('mini_characters').style.display = 'block'
     // document.getElementById('mini_characters').classList.add('fade-in');
     intro.style.display = 'none';
-    loginModal.classList.add('overlay');
-    loginModal.classList.remove('hide-overlay')
     setTimeout(() => {
     }, 1000); // 애니메이션 시간과 맞춤
 });
@@ -46,8 +44,6 @@ loginlogo.addEventListener('click', function() {
     loginpage.style.display = 'none';
     intro.style.display = 'block';
     intro.classList.add('fade-in'); // opacity 변화 애니메이션 추가
-    loginModal.classList.add('hide-overlay');
-    loginModal.classList.remove('overlay');
     // document.getElementById('characters').style.display = 'block'
     // document.getElementById('characters').classList.add('fade-in'); // opacity 변화 애니메이션 추가
     // document.getElementById('mini_characters').style.display = 'none'
@@ -75,8 +71,6 @@ window.switchToSignup = function () {
     intro.style.display = 'none'
     signupPage.style.display = 'block';
     signupPage.classList.add('fade-in'); // opacity 변화 애니메이션 추가
-    loginModal.classList.add('overlay');
-    loginModal.classList.remove('hide-overlay');
     // document.getElementById('mini_characters').classList.add('fade-in');
 }
 
