@@ -54,7 +54,7 @@ img {
   align-items: center;
   /* 수직 중앙 정렬 */
 
-  display: block;
+  display: none;
   /* 필요에 따라 주석 해제 가능 */
 }
 #BtnMaps h1{
