@@ -293,7 +293,7 @@ export function initThreeJS(){
                 this._worldOctree.fromGraphNode(plane);
 
             if (index === 0) { // 학교의 경우       
-                    loader.load('./data/map/School/SchoolMap.glb', (gltf) => { // 학교
+                    loader.load('./data/map/School/scene.glb', (gltf) => { // 학교
                         const map = gltf.scene;
                         this._scene.add(map);
                         this.map = map;
@@ -301,9 +301,9 @@ export function initThreeJS(){
                         // map.rotation.y = Math.PI / -1; // Z축을 중심으로 180도 회전
 
                         // map.position.set(506, 0, -1810);
-                        map.position.set(-1150, 0, -5);
+                        map.position.set(-0, 0, -0);
                         // map.position.y = -40;
-                        map.rotation.y = Math.PI / 4;
+                        // map.rotation.y = Math.PI / 4;
 
                         // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
                         map.traverse((child) => {
@@ -348,7 +348,7 @@ export function initThreeJS(){
                             const idleAction = animationsMap['idle'];
                             idleAction.play();
                         }
-                        npc.position.set(-3265, 8, 512);
+                        npc.position.set(647, 0, -2917);
                         npc.scale.set(50, 50, 50);
                         const box = (new THREE.Box3).setFromObject(npc);
                         // npc.position.y = (box.max.y - box.min.y) /2;
@@ -394,7 +394,7 @@ export function initThreeJS(){
                             const idleAction = animationsMap['sit'];
                             idleAction.play();
                         }
-                        npc.position.set(-2315, 15 , -2199);
+                        npc.position.set(225, 0 , -1722);
                         npc.scale.set(50, 50, 50);
                         // npc.rotation.z = Math.PI / 2
                         // npc.rotation.x = Math.PI / 2
@@ -442,7 +442,7 @@ export function initThreeJS(){
                             const idleAction = animationsMap['idle'];
                             idleAction.play();
                         }
-                        npc.position.set(-152, 12, -1056);
+                        npc.position.set(684, 0 , -511);
                         npc.scale.set(50, 50, 50);
                         const box = (new THREE.Box3).setFromObject(npc);
                         // npc.position.y = (box.max.y - box.min.y) /2;
@@ -488,7 +488,7 @@ export function initThreeJS(){
                             const idleAction = animationsMap['idle'];
                             idleAction.play();
                         }
-                        npc.position.set(-4760, 4, -1739);
+                        npc.position.set(-706, 0, -3827);
                         // npc.rotation.y = Math.PI /2;
                         // npc.scale.set(70,70,70);
                         npc.scale.set(50, 50, 50);
@@ -536,7 +536,7 @@ export function initThreeJS(){
                             const idleAction = animationsMap['idle'];
                             idleAction.play();
                         }
-                        npc.position.set(-6302, 1, -330);
+                        npc.position.set(-1326, 0, -2499);
                         npc.scale.set(50, 50, 50);
                         const box = (new THREE.Box3).setFromObject(npc);
                         // npc.position.y = (box.max.y - box.min.y) /2;
