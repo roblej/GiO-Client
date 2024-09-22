@@ -1419,7 +1419,6 @@ input[type="radio"]:checked+.genderbutton {
   align-items: center;  /* 컨테이너의 위쪽에 정렬 */
   margin: 0;
   padding: 0;
-  background-color: #ddd;
 }
 
 
