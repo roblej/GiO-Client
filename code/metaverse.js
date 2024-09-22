@@ -238,6 +238,18 @@ export function initThreeJS(){
                 // 새로운 카메라를 사용하도록 설정합니다
                 this._camera = newCamera;
                 
+                // 카메라와 NPC 사이의 거리 계산
+                const distanceToNPC = newCamera.position.distanceTo(npcPosition);
+                console.log("Distance to NPC:", distanceToNPC); // 거리 출력
+
+                // 거리 조건에 따라 모델 가시성 설정
+                if (distanceToNPC < 200) {
+                    this._model.visible = false; // 가시성을 끕니다
+                    console.log("Model visibility set to false."); // 디버그 로그 추가
+                } else {
+                    this._model.visible = true; // 가시성을 켭니다
+                    console.log("Model visibility set to true."); // 디버그 로그 추가
+                }
                 // 카메라와 타겟이 제대로 설정되었는지 디버그 로그 추가
                 console.log("New camera position:", this._camera.position);
                 console.log("Camera looking at:", npcPosition);
