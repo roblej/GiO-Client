@@ -6,6 +6,7 @@ import { Octree } from "../jsm/math/Octree.js";
 import { Capsule } from "../jsm/math/Capsule.js";
 import { OrbitControls } from "../jsm/controls/OrbitControls.js";
 import { onMouseMove } from './event.js';
+import { sendMessageToClova } from './record.js';
 import { FBXLoader } from '../jsm/loaders/FBXLoader.js';
 import { getSticker } from './event.js';
 // import {stickerNumber} from './event.js';
@@ -122,12 +123,7 @@ export function initThreeJS(){
             }
             _setupOctree(){
                 this._worldOctree = new Octree();
-                // this._worldOctree = new Octree({
-                //     undeferred: false, // 비동기 작업 비활성화
-                //     depthMax: 10, // 최대 깊이 제한 (필요에 따라 조정)
-                //     objectsThreshold: 8, // 노드당 객체 수 (필요에 따라 조정)
-                //     overlapPct: 0.15 // 겹침 비율 (필요에 따라 조정)
-                // });
+                console.log('Setup Octree')
             }
         
         _setupControls() {
@@ -194,49 +190,74 @@ export function initThreeJS(){
                 }
             }
             _focusOnNPC(npc) {
+
                 console.log("Focusing on NPC:", npc); // 디버그 로그 추가
-                /*
-            
+
+                // 기존 카메라 저장
+                const previousCamera = this._camera; // 기존 카메라를 저장합니다
+
+                // NPC의 위치를 가져옵니다
                 const npcPosition = new THREE.Vector3();
-                npc.getWorldPosition(npcPosition);
+                if (npc && npc instanceof THREE.Object3D) {
+                    npc.getWorldPosition(npcPosition);
+                } else {
+                    console.error("NPC is not an instance of THREE.Object3D or is undefined. Cannot get world position.");
+                    return;
+                }
+                
                 console.log("NPC Position:", npcPosition); // 디버그 로그 추가
-            
-                // NPC의 전방 벡터 계산
-                const npcForward = new THREE.Vector3();
-                npc.getWorldDirection(npcForward);
-                npcForward.normalize();
-                // 카메라 위치를 NPC 전방으로 설정
-                const cameraOffset = 100; // NPC로부터 카메라의 거리 (원하는 대로 조정 가능)
-                const newCameraPosition = npcPosition.clone().add(npcForward.multiplyScalar(-cameraOffset));
-            
+                
+                // 플레이어의 위치를 가져옵니다
+                const modelPosition = new THREE.Vector3();
+                if (this._model && this._model instanceof THREE.Object3D) {
+                    this._model.getWorldPosition(modelPosition);
+                } else {
+                    console.error("Player is not an instance of THREE.Object3D or is undefined. Cannot get world position.");
+                    return;
+                }
+                
+                // 새로운 카메라를 생성합니다
                 const newCamera = new THREE.PerspectiveCamera(
                     60,
                     window.innerWidth / window.innerHeight,
                     1,
                     20000
                 );
-                newCamera.position.set(newCameraPosition.x, npcPosition.y + 50, newCameraPosition.z); // 높이 조절
                 
-                // 카메라가 NPC를 바라보도록 설정
-                newCamera.lookAt(npcPosition.x, npcPosition.y, npcPosition.z);
+                // NPC의 위치에서 y값 120을 높인 위치에 카메라를 배치합니다
+                const cameraHeight = 130;
+                const distance = 200; // 카메라와 NPC 사이의 거리
                 
-                // 카메라의 타겟을 NPC 위치로 설정
-                this._controls.target.set(npcPosition.x, npcPosition.y, npcPosition.z);
-                this._controls.update();
-            
-                console.log("New camera position:", newCamera.position); // 디버그 로그 추가
-            
-                this._npcCamera = newCamera;
-                this._camera = this._npcCamera;
-                this._controls.object = this._npcCamera;
-                this._isNpcCameraActive = true;
-            */
+                // 카메라의 위치를 NPC의 위치에서 거리를 두고, y값을 cameraHeight로 설정합니다
+                const direction = new THREE.Vector3();
+                direction.subVectors(npcPosition, modelPosition).normalize(); // NPC를 바라보는 방향
+                newCamera.position.copy(npcPosition).sub(direction.multiplyScalar(distance));
+                newCamera.position.y = cameraHeight;
+                
+                // 카메라가 NPC를 바라보도록 설정합니다
+                newCamera.lookAt(npcPosition.x, npcPosition.y+100, npcPosition.z);
+                
+                // 새로운 카메라를 사용하도록 설정합니다
+                this._camera = newCamera;
+                
+                // 카메라와 타겟이 제대로 설정되었는지 디버그 로그 추가
+                console.log("New camera position:", this._camera.position);
+                console.log("Camera looking at:", npcPosition);
+                
                 console.log("Switched to NPC camera"); // 디버그 로그 추가
                 // 카메라 전환이 완료된 후에 대화창을 띄움
                 // setTimeout(() => {
                 //     this._showNpcDialog(npc.userData.type);
                 // }, 000); // 0.1초 지연 후 대화창 띄우기 (필요에 따라 조정 가능)
                 this._showNpcDialog(npc.userData.type);
+
+                this._onDialogClosed = () => {
+                    console.log("Dialog closed, returning to previous camera."); // 디버그 로그 추가
+                    this._camera = previousCamera; // 이전 카메라로 복원
+                    this._controls.object = this._camera; // OrbitControls의 객체를 이전 카메라로 설정
+                    this._controls.update(); // 업데이트 호출
+                    console.log("Returned to previous camera.");
+                };
             }
             
         
@@ -1015,13 +1036,13 @@ export function initThreeJS(){
                 }
 
             // Octree를 초기화
-            this._setupOctree();
-
+            
             // 씬 전환
             this._currentSceneIndex = index;
             this._scene = this._scenes[index];
+            
             console.log(`Scene ${index + 1}로 전환됨`);
-
+            
             // 처음으로 해당 씬에 접근할 때만 모델 로드
             if (!this._scene.modelsLoaded) {
                 this._loadSceneModels(this._scene, index);
@@ -1030,18 +1051,19 @@ export function initThreeJS(){
             // this._loadSceneModels(this._scene, index);
             // this._scene.modelsLoaded = true;
             
+            this._setupOctree();
             // 새로운 씬에 플레이어 모델 추가
             if (this._model) {
                 let startPosition;
                 switch (index) {
                     case 0:
-                        startPosition = new THREE.Vector3(-1214, 4, 197); // 첫 번째 씬 위치
-                        this._setupOctree();
+                        startPosition = new THREE.Vector3(-1214, 15, 197); // 첫 번째 씬 위치
+                        // this._setupOctree();
                         break;
                     case 1:
                         startPosition = new THREE.Vector3(100, 0, 100); // 두 번째 씬 위치
                         console.log("case1 전환")
-                        this._setupOctree();
+                        // this._setupOctree();
                         break;
                     case 2:
                         startPosition = new THREE.Vector3(-50, 10, -50); // 세 번째 씬 위치
@@ -1063,7 +1085,7 @@ export function initThreeJS(){
                 this._model._capsule.end.copy(startPosition).y += this._model._capsule.radius * 2;
                 console.log("캡슐 위치 초기화:", this._model._capsule.start, this._model._capsule.end);
                 }
-                
+                // this._model.position.y = 4; // Y축 고
                 this._scene.add(this._model,this._support);
                 
                 }
@@ -1121,6 +1143,8 @@ export function initThreeJS(){
             var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
             var button = document.querySelector("#buttonGroup button")
             var recordButton = document.getElementById('recordButton')
+            var choose_answer
+            var message =`대화 상대가 ${npcType.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent},${option2.textContent},${option3.textContent}가 있다.그리고 아이가 고른 선택지는 ${choose_answer}이다.`
             var count = 0;
             function listKoreanVoices() {
                 if ('speechSynthesis' in window) {
@@ -1232,7 +1256,8 @@ export function initThreeJS(){
                 casher.style.display = "none";
                 count = 0;
                 resetModal();
-            };
+                this._onDialogClosed();
+            }.bind(this);
 
             // 모달 창 바깥 영역 클릭 시 모달 닫기
             window.onclick = function (event) {
@@ -1240,8 +1265,9 @@ export function initThreeJS(){
                     casher.style.display = "none";
                     count = 0;
                     resetModal();
+                    this._onDialogClosed();
                 }
-            };
+            }.bind(this);
 
             for (var i = 0; i < npc_name.length; i++) {
                 npc_name[i].innerHTML = npcType;
@@ -1258,6 +1284,7 @@ export function initThreeJS(){
                 function resetModal() {
                     speechText.style.display = "block";
                     buttonGroup.style.display = "none";
+                    
                 }
         
                 resetModal();
@@ -1265,33 +1292,37 @@ export function initThreeJS(){
                 span.onclick = function () {
                     casher.style.display = "none";
                     resetModal();
-                }
+                }.bind(this);
         
         
                 document.getElementById("select1").onclick = function () {
                     console.log("선택지 1 선택됨");
                     casher.style.display = "none";
                     resetModal();
-                }
+                    this._onDialogClosed();
+                }.bind(this);
         
                 document.getElementById("select2").onclick = function () {
                     console.log("선택지 2 선택됨");
                     casher.style.display = "none";
                     resetModal();
-                }
+                    this._onDialogClosed();
+                }.bind(this);
         
                 document.getElementById("select3").onclick = function () {
                     console.log("선택지 3 선택됨");
                     casher.style.display = "none";
                     resetModal();
-                }
+                    this._onDialogClosed();
+                }.bind(this);
         
                 window.onclick = function (event) {
                     if (event.target == casher) {
                         casher.style.display = "none";
                         resetModal();
+                        this._onDialogClosed();
                     }
-                }
+                }.bind(this);
             } else if (npcType === 'teacher') {
 
         
@@ -1320,11 +1351,15 @@ export function initThreeJS(){
                 span.onclick = function () {
                     casher.style.display = "none";
                     resetModal();
-                };
+                    this._onDialogClosed();
+                }.bind(this);
         
 
                 option1.onclick = function () {
                     console.log("첫 번째 선택지 선택됨");
+                    choose_answer = option1.textContent;
+                    message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "안녕? 나는 선생님이란다. 학교에 온걸 환영해!";
@@ -1332,8 +1367,9 @@ export function initThreeJS(){
                     dialogText.onclick = function () {
                         casher.style.display = "none";
                         resetModal();
-                    };
-                };
+                        this._onDialogClosed();
+                    }.bind(this);
+                }.bind(this);
         
                 option2.onclick = function () {
                     console.log("두 번째 선택지 선택됨");
@@ -1343,8 +1379,9 @@ export function initThreeJS(){
                     dialogText.onclick = function () {
                         casher.style.display = "none";
                         resetModal();
-                    };
-                };
+                        this._onDialogClosed();
+                    }.bind(this);
+                }.bind(this);
         
                 option3.onclick = function () {
                     console.log("세 번째 선택지 선택됨");
@@ -1354,15 +1391,17 @@ export function initThreeJS(){
                     dialogText.onclick = function () {
                         casher.style.display = "none";
                         resetModal();
-                    };
-                };
+                        this._onDialogClosed();
+                    }.bind(this);
+                }.bind(this);
         
                 window.onclick = function (event) {
                     if (event.target == casher) {
                         casher.style.display = "none";
                         resetModal();
+                        this._onDialogClosed();
                     }
-                }
+                }.bind(this);
             } else if (npcType == 'game_friend') {
                 game_name = "GameB"
                 var modal = document.getElementById("myModal");
@@ -1374,26 +1413,30 @@ export function initThreeJS(){
                 // 닫기 버튼 클릭 시 모달 닫기
                 span.onclick = function () {
                     modal.style.display = "none";
-                }
+                    this._onDialogClosed();
+                }.bind(this);
     
                 // 선택지 1 클릭 시 동작
                 document.getElementById("option1").onclick = function () {
                     console.log("선택지 1 선택됨");
                     modal.style.display = "none";
-                }
+                    this._onDialogClosed();
+                }.bind(this);
     
                 // 선택지 2 클릭 시 동작
                 document.getElementById("option2").onclick = function () {
                     console.log("선택지 2 선택됨");
                     modal.style.display = "none";
-                }
+                    this._onDialogClosed();
+                }.bind(this);
     
                 // 모달 창 바깥 영역 클릭 시 모달 닫기
                 window.onclick = function (event) {
                     if (event.target == modal) {
                         modal.style.display = "none";
+                        this._onDialogClosed();
                     }
-                }
+                }.bind(this);
     
                 // break; // 첫 번째 교차 객체만 처리하고 루프 종료
             } else if (npcType == 'friend_crash') {
@@ -1420,21 +1463,24 @@ export function initThreeJS(){
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "어? 아...미안";
-                };
+                    this._onDialogClosed();
+                }.bind(this);
     
                 option2.onclick = function () {
                     console.log("두 번째 선택지 선택됨");
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "...";
-                };
+                    this._onDialogClosed();
+                }.bind(this);
     
                 option3.onclick = function () {
                     console.log("세 번째 선택지 선택됨");
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "아야! 너 뭐야?";
-                };
+                    this._onDialogClosed();
+                }.bind(this);
 
             } else if (npcType == 'rector') {
     
@@ -1460,8 +1506,9 @@ export function initThreeJS(){
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "머리가 없는게 아니다. 내가 나아갈 뿐";
+                    this._onDialogClosed();
 
-                };
+                }.bind(this);
     
                 option2.onclick = function () {
                     console.log("두 번째 선택지 선택됨");
@@ -1471,8 +1518,9 @@ export function initThreeJS(){
                     clicktext.onclick = function () {
                         casher.style.display = "none";
                         resetModal();
+                        this._onDialogClosed();
                     };
-                };
+                }.bind(this);
     
                 option3.onclick = function () {
                     console.log("세 번째 선택지 선택됨");
@@ -1482,8 +1530,9 @@ export function initThreeJS(){
                     clicktext.onclick = function () {
                         casher.style.display = "none";
                         resetModal();
+                        this._onDialogClosed();
                     };
-                };
+                }.bind(this);
 
             } else if (npcType == 'npc3') {
     
@@ -1509,19 +1558,22 @@ export function initThreeJS(){
                     console.log("첫 번째 선택지 선택됨");
                     casher.style.display = "none";
                     resetModal();
-                };
+                    this._onDialogClosed();
+                }.bind(this);
     
                 option2.onclick = function () {
                     console.log("두 번째 선택지 선택됨");
                     casher.style.display = "none";
                     resetModal();
+                    this._onDialogClosed();
                 };
     
                 option3.onclick = function () {
                     console.log("세 번째 선택지 선택됨");
                     casher.style.display = "none";
                     resetModal();
-                };
+                    this._onDialogClosed();
+                }.bind(this);
     
             } else if (npcType == 'friend_hurt') {
     
@@ -1549,21 +1601,24 @@ export function initThreeJS(){
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "뭐야? 구경났어?";
-                };
+                    this._onDialogClosed();
+                }.bind(this);
     
                 option2.onclick = function () {
                     console.log("두 번째 선택지 선택됨");
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "괜찮아. 혼자 양호실에 갈게. 걱정해줘서 고마워.";
-                };
+                    this._onDialogClosed();
+                }.bind(this);
     
                 option3.onclick = function () {
                     console.log("세 번째 선택지 선택됨");
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = ".....";
-                };
+                    this._onDialogClosed();
+                }.bind(this);
 
             } else if (npcType == 'grandfather') {
     
@@ -1594,14 +1649,17 @@ export function initThreeJS(){
                         buttonGroup.style.display = "none";
                         dialogText.innerHTML = "....응? 뭐라고?";
                         resetModal2();
+                        this._onDialogClosed();
+                        
                         scene1++;
                     } else {
                         console.log("첫 번째 선택지 선택됨");
                         dialogText.style.display = "block";
                         buttonGroup.style.display = "none";
                         dialogText.innerHTML = "어 그래.. 안녕하구나";
+                        this._onDialogClosed();
                     }
-                };
+                }.bind(this);
 
                 function resetModal2() {
                     option1.innerHTML = "(큰목소리로) 안녕하세요!!.";
@@ -1618,14 +1676,16 @@ export function initThreeJS(){
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "잘 안들린단다 얘야";
-                };
+                    this._onDialogClosed();
+                }.bind(this);
     
                 option3.onclick = function () {
                     console.log("세 번째 선택지 선택됨");
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "어린노무자식이 싸가지없게!";
-                };
+                    this._onDialogClosed();
+                }.bind(this);
             } else if (npcType === "할머니") {
                 game_name = "GameA"
                 var modal = document.getElementById("myModal");
@@ -1637,26 +1697,30 @@ export function initThreeJS(){
                 // 닫기 버튼 클릭 시 모달 닫기
                 span.onclick = function () {
                     modal.style.display = "none";
-                }
+                    this._onDialogClosed();
+                }.bind(this);
     
                 // 선택지 1 클릭 시 동작
                 document.getElementById("option1").onclick = function () {
                     console.log("선택지 1 선택됨");
                     modal.style.display = "none";
-                }
+                    this._onDialogClosed();
+                }.bind(this);
     
                 // 선택지 2 클릭 시 동작
                 document.getElementById("option2").onclick = function () {
                     console.log("선택지 2 선택됨");
                     modal.style.display = "none";
-                }
+                    this._onDialogClosed();
+                }.bind(this);
     
                 // 모달 창 바깥 영역 클릭 시 모달 닫기
                 window.onclick = function (event) {
                     if (event.target == modal) {
                         modal.style.display = "none";
+                        this._onDialogClosed();
                     }
-                }
+                }.bind(this);
     
                 // break; // 첫 번째 교차 객체만 처리하고 루프 종료
             }
@@ -1796,23 +1860,43 @@ export function initThreeJS(){
                     this._bOnTheGround = false;
                 }
         // 플레이어 y축 아래로 Raycast 쏘기
-                const playerPosition = this._model.position.clone();
-            const raycaster = new THREE.Raycaster();
-            const downDirection = new THREE.Vector3(0, -1, 0); // y축 아래 방향
-            raycaster.near = 0; // 레이캐스트의 시작점 (플레이어의 위치)
-            raycaster.far = 10; // 레이캐스트의 최대 범위 (+10)
-            raycaster.set(playerPosition, downDirection);
-
-            const intersects = raycaster.intersectObjects(this._scene.children, true);
-            let collidedWithTeleport = false;
-
-            for (let i = 0; i < intersects.length; i++) {
-                const intersectedObject = intersects[i].object;
-                if (intersectedObject.name === 'teleport') {
-                    collidedWithTeleport = true;
-                    break; // 'teleport' 객체를 찾았으므로 반복 종료
-                }
+        const playerPosition = this._model.position.clone();
+        const downDirection = new THREE.Vector3(0, -1, 0); // 아래 방향
+        const upDirection = new THREE.Vector3(0, 1, 0);   // 위 방향
+        
+        const raycasterDown = new THREE.Raycaster();
+        const raycasterUp = new THREE.Raycaster();
+        
+        raycasterDown.near = 0;
+        raycasterDown.far = 1000000; // 아래 방향 최대 감지 거리
+        raycasterUp.near = 0;
+        raycasterUp.far = 1000000;   // 위 방향 최대 감지 거리
+        
+        // Raycaster 설정
+        raycasterDown.set(playerPosition, downDirection);
+        raycasterUp.set(playerPosition, upDirection);
+        const intersectsDown = raycasterDown.intersectObjects(this._scene.children, true);
+        // 위쪽 충돌 검사
+        const intersectsUp = raycasterUp.intersectObjects(this._scene.children, true);
+        
+        // 감지된 객체 처리
+        let collidedWithTeleport = false;
+        
+        for (let i = 0; i < intersectsDown.length; i++) {
+            const intersectedObject = intersectsDown[i].object;
+            if (intersectedObject.name === 'teleport') {
+                collidedWithTeleport = true;
+                break;
             }
+        }
+        
+        for (let i = 0; i < intersectsUp.length; i++) {
+            const intersectedObject = intersectsUp[i].object;
+            if (intersectedObject.name === 'teleport') {
+                collidedWithTeleport = true;
+                break;
+            }
+        }
                 // 충돌 상태에 따른 콘솔 로그 처리
                 if (collidedWithTeleport && !this._hasCollidedWithTeleport) {
                     console.log('Teleport 오브젝트가 플레이어 아래에 감지되었습니다.');
@@ -1909,33 +1993,32 @@ export function initThreeJS(){
                 }
 
                 // NPC와의 상호작용
-                const minDistance = 200; // NPC들이 바라볼 최소 거리 설정
-                this._npcs.forEach((npc) => {
-                    const distance = npc.position.distanceTo(this._model.position);
-                    if (distance < minDistance) {
-                        // 목표 방향 설정
-                        const targetPosition = this._model.position.clone();
-                        targetPosition.y = npc.position.y;  // Y축 회전만 고려 (필요에 따라 조정 가능)
-                        
-                        // NPC의 현재 회전 상태 저장
-                        const currentQuaternion = npc.quaternion.clone();
+const minDistance = 200; // NPC들이 바라볼 최소 거리 설정
+this._npcs.forEach((npc) => {
+    const distance = npc.position.distanceTo(this._model.position);
+    if (distance < minDistance) {
+        // 목표 방향 설정 (NPC의 높이에 맞춰 y축 고정)
+        const targetPosition = this._model.position.clone();
+        targetPosition.y = npc.position.y;  // NPC의 높이만 고려하여 Y축 회전만 하도록 설정
 
-                        // NPC를 목표 위치를 바라보게 하고 그 회전을 저장
-                        npc.lookAt(targetPosition);
-                        const targetQuaternion = npc.quaternion.clone();
-                        
-                        // 원래 회전으로 되돌림
-                        npc.quaternion.copy(currentQuaternion);
+        // NPC의 현재 회전 상태 저장
+        const currentQuaternion = npc.quaternion.clone();
 
-                        // 선형 보간을 사용하여 부드럽게 회전
-                        const slerpFactor = 0.1;  // 회전 속도를 조절하는 값 (0~1 사이 값, 값이 작을수록 천천히 회전)
-                        npc.quaternion.slerp(targetQuaternion, slerpFactor);
+        // NPC가 목표 위치를 바라보도록 설정 (Y축 회전만 적용)
+        npc.lookAt(targetPosition);
 
-                        // Z축과 X축 회전을 고정하여 뒤로 눕는 것을 방지
-                        npc.rotation.z = 0;
-                        npc.rotation.x = 0;
-                    }
-                });
+        // 목표 회전값 저장
+        const targetQuaternion = npc.quaternion.clone();
+
+        // NPC를 원래 회전 상태로 되돌림
+        npc.quaternion.copy(currentQuaternion);
+
+        // 선형 보간(SLERP)을 사용하여 부드럽게 회전
+        const slerpFactor = 0.1;  // 회전 속도를 조절하는 값 (0~1 사이 값)
+        npc.quaternion.slerp(targetQuaternion, slerpFactor);
+    }
+});
+
 
                 // 플레이어와 NPC 간의 사운드 이펙트 또는 추가 이벤트 처리
                 // 예: if (distance < 특정 값) { 사운드 재생 코드 추가 }

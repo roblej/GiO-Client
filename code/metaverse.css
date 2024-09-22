@@ -743,6 +743,24 @@ input[type="radio"]:checked+.genderbutton {
   margin: 0;;
 }#buttonGroup{
 }
+#helper{
+  border: 1px solid #ffffff;
+  background-color: white;
+  border-radius: 15px;
+  padding: 15px;
+  position: relative;
+  width: 730px;
+  top:-320px;
+  right: -700px;
+
+}
+#helper_img{
+  position: relative;
+  top: -300px;
+  right: -1200px;
+  width: 250px;
+  height: 250px;
+}
 .choose{
   /* position: relative; */
   /* display: flex; */
@@ -1242,6 +1260,26 @@ input[type="radio"]:checked+.genderbutton {
   /* 모달 전체 높이에 맞게 최대 높이를 설정 */
   /* object-fit: contain;   */
   /* 이미지의 비율을 유지하면서 컨테이너에 맞춤 */
+}
+
+#ima1{
+  position: absolute;
+  top: 100px; 
+  
+}
+#ima2{
+  position: absolute;
+  top: 100px;
+}
+#ima3{
+  position: absolute;
+  top: 60px;
+  left: 280px;
+}
+#ima4{
+  position: absolute;
+  top: 60px;
+  right: 280px;
 }
 
 #stickerbook00{
