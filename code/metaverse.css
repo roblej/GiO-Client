@@ -31,33 +31,60 @@ img {
   width: 100%;
   height: 100%;
   z-index: 100000;
-  position: fixed;
+  position: absolute;
 
   /* 화면 전체를 덮도록 고정 위치 설정 */
   top: 0;
   /* 화면의 최상단으로 위치 */
   left: 0;
   /* 화면의 최좌측으로 위치 */
-  background-image: url(./data/mappage/tpbg.png);
-  background-size: cover;
+  background-image: url(./data/mappage/btnmaps.png);
+  background-size: 1920px 1080px;
   /* 백그라운드 이미지를 전체에 맞추어 확대/축소 */
   background-repeat: no-repeat;
   /* 이미지를 반복하지 않음 */
-  background-position: center;
+  background-position-y: -100px;
   /* 백그라운드 이미지가 중앙에 위치하도록 설정 */
 
   /* display: flex; */
   /* Flexbox를 사용 */
-  flex-direction: column;
-  justify-content: center;
+  /* flex-direction: column; */
+  /* justify-content: center; */
   /* 수평 중앙 정렬 */
   align-items: center;
   /* 수직 중앙 정렬 */
 
-  display: none;
+  display: block;
   /* 필요에 따라 주석 해제 가능 */
 }
+#BtnMaps h1{
+  position: absolute;
+  width: 454px;
+  height: 80px;
+  padding: 10px 10px;
+  padding-top: 20px;
+  text-align: center;
+  left: 725px;
+  top: 75px;
+  background-image: url(./data/mappage/talk.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  animation: move 2s infinite;
+}
+@keyframes move {
+  0% {
+    top: 75px;  /* 초기 위치 */
+  }
+  50% {
+    top: 100px; /* 아래로 이동 */
+  }
+  100% {
+    top: 75px;  /* 다시 위로 */
+  }
+}
 #BtnMaps button{
+  position: absolute;
   padding: 30px;
   font-size: 35px;
   font-weight: bold;
@@ -70,6 +97,23 @@ img {
   background-size: cover;
   border: 1px solid transparent;
 }
+
+#buttonScene0{
+  left: 200px;
+  top: 95px;
+}
+#buttonScene1{
+  left: 600px;
+  top: 163px;
+}
+#buttonScene2{
+  left: 1025px;
+  top: 311px
+}
+#buttonScene3{
+  left: 1500px;
+  top: 80px;
+}
 #buttonNo{
   position: absolute;
   top:100px;
@@ -81,12 +125,6 @@ img {
   padding: 5px !important;
   margin: auto !important;
   background-color: #ffffff;
-}
-#BtnMaps h1{
-  background-color: #fff;
-  border: 1px solid transparent;
-  border-radius: 25px;
-  padding: 10px 150px;
 }
 .SceneTag{
   border: 1px solid transparent;
