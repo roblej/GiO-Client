@@ -186,25 +186,212 @@
             </div>
 
 
+
+
+
+
+
+
+
+            
+
+            
+
             <button id="openModal" onclick="openModal()" style="display: none;">마이페이지</button>
+            
             <div id="pageModal" class="mypagemodal-bg"> 
-                <div class="image-container">\
-                    <img id="bgim" src="data/mypageimage/mypageim/mypage_bg_img.jpg" alt="" style="z-index: 1;">
-                    <img src="data/mypageimage/mypageim/mypage_book00_img.png" alt="" style="z-index: 2;">
-                    <img src="data/mypageimage/mypageim/mypage_book01_img.png" alt="" style="z-index: 3;">
-                    <img src="data/mypageimage/mypageim/mypage_book02_img.png" alt="" style="z-index: 4;">
-                    <img src="data/mypageimage/mypageim/01.png" alt="" style="z-index: 5;">
-                    <img id="stickerbook00" src="data/mypageimage/mypageim/0101.png" alt="" style="z-index: 6;" onclick="showStickerTab()">
-                    <img id="stickerbook01" src="data/mypageimage/mypageim/0102.png" alt="" style="z-index: 6;" onclick="showDataTab()">
-                    <img id="closesticker" src="data/mypageimage/mypageim/pageout_btn.png" alt="" onclick="closeModal()">
+
+                <!--메인창-->
+                <div id="mypageMain">
+                    <div class="index">
+                        <img src="data/mypageimage/mypageim/bookmark_green.png" class="indexDefault index1 indexSelect">
+                        <img src="data/mypageimage/mypageim/bookmark_pink.png" class="indexDefault index2 indexMove" style="z-index: -1;" onclick="showStickerTab()">
+                        <img src="data/mypageimage/mypageim/bookmark_blue.png" class="indexDefault index3 indexMove" style="z-index: -2;">
+                        <img src="data/mypageimage/mypageim/bookmark_yellow.png" class="indexDefault index4 indexMove" style="z-index: -3;" onclick="showSettingTab()">
+                    </div>
+                    <img src="data/mypageimage/mypageim/close_btn.png" class="closeIndex indexDefault indexMove" onclick="closeModal()">
+                    <div id="note">
+                        <div id="profileBox">
+                            <img id="profileImg" src="data/mypageimage/mypageim/profile_img.png">
+                            <div id="playerName">
+                                <p>개척자</p>
+                            </div>
+
+                            <div id="profileBackground">
+                                <div id="profileInfo">
+                                    <div id="birthday" class="backgroundDefault">
+                                        <div class="classification">
+                                            <img id="B-icon" src="data/mypageimage/mypageim/birth_icon.png" width="25em" height="26em">
+                                            <p>생일</p>
+                                        </div>
+                                        <div class="info">
+                                            <p>2015.05.30</p>
+                                        </div>
+                                    </div>
+                                    <div id="joindate" class="backgroundDefault">
+                                        <div class="classification">
+                                            <img id="B-icon" src="data/mypageimage/mypageim/enter_icon.png" width="25em" height="24em">
+                                            <p>가입일</p>
+                                        </div>
+                                        <div class="info">
+                                            <p>2024.07.01</p>
+                                        </div>
+                                    </div>
+                                    <div id="visit" class="backgroundDefault">
+                                        <div class="classification">
+                                            <img id="B-icon" src="data/mypageimage/mypageim/visit_icon.png" width="25em" height="24em">
+                                            <p>방문</p>
+                                        </div>
+                                        <div class="info">
+                                            <p>37회</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div id="buttonBox">
+                            <div id="stickerbook" class="selectOption" onclick="showStickerTab()">
+                                <div id="textBox">
+                                    <p id="optionTitle">스티커북</p>
+                                    <p id="optioninfo">수집한 스티커를 확인할 수 있어요.</p>
+                                </div>
+                            </div>
+                            <div id="system" class="selectOption" onclick="showSettingTab()">
+                                <div id="textBox">
+                                    <p id="optionTitle">설정</p>
+                                    <p id="optioninfo">개인정보, 환경설정을 할 수 있어요.</p>
+                                </div>
+                            </div>
+                            <div id="data" class="selectOption">
+                                <div id="textBox">
+                                    <p id="optionTitle">데이터</p>
+                                    <p id="optioninfo">활동, 대화 점수를 확인할 수 있어요.</p>
+                                </div>
+                            </div>
+                            <div id="buttonOption" class="selectOption">
+                                <div id="twoButton">
+                                    <div id="inputCode" class="buttonSetting">
+                                        <img id="S-icon" src="data/mypageimage/mypageim/code_icon.png" width="24em" height="20em">
+                                        <p class="fontSetting">코드 입력</p>
+                                    </div>
+                                    <div id="logout" class="buttonSetting">
+                                        <img id="S-icon" src="data/mypageimage/mypageim/logout_icon.png" width="23em" height="25em">
+                                        <p class="fontSetting">로그아웃</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <img src="data/mypageimage/mypageim/pencil.png" id="pencil">
                 </div>
-                <div id="StickerTab" class="tabcontent data">
-                    <img src="data/mypageimage/mypageim/002.png" alt="">
-                    <img id="closesticker1" src="data/mypageimage/mypageim/pageout_btn.png" alt="" onclick="closeModal()">
-                    <!-- <img id="clickball" src="data/mypageimage/mypageim/sticker00_ball.png" alt=""> -->
-                    <!-- <img id="showball" src="data/mypageimage/mypageim/ball_line.png" alt=""> -->
-                    <img id="ballexplain" src="data/mypageimage/mypageim/000.png" alt="">
+
+
+
+                <!--스티커북창-->
+                <div id="StickerTab" class="tabcontent">
+                    <div class="index">
+                        <img src="data/mypageimage/mypageim/bookmark_green.png" class="indexDefault index1 indexMove">
+                        <img src="data/mypageimage/mypageim/bookmark_pink.png" class="indexDefault index2 indexSelect" style="z-index: -1;">
+                        <img src="data/mypageimage/mypageim/bookmark_blue.png" class="indexDefault index3 indexMove" style="z-index: -2;">
+                        <img src="data/mypageimage/mypageim/bookmark_yellow.png" class="indexDefault index4 indexMove" style="z-index: -3;" onclick="showSettingTab()">
+                    </div>
+                    <img src="data/mypageimage/mypageim/close_btn.png" class="closeIndex indexDefault indexMove" onclick="closeModal()">
+                    <div id="note">
+                        <div class="pageTitleGroup">
+                            <img src="data/mypageimage/mypageim/sticker_back.png">
+                            <div class="pageTitle" style="background-image: url('data/mypageimage/mypageim/stickerbook_titile.png');">
+                                <p>스티커북</p>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="data/mypageimage/mypageim/pencil.png" id="pencil">
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <!--설정창-->
+                <div id="SettingTab" class="tabcontent">
+                    <div class="index">
+                        <img src="data/mypageimage/mypageim/bookmark_green.png" class="indexDefault index1 indexMove">
+                        <img src="data/mypageimage/mypageim/bookmark_pink.png" class="indexDefault index2 indexMove" style="z-index: -1;" onclick="showStickerTab()">
+                        <img src="data/mypageimage/mypageim/bookmark_blue.png" class="indexDefault index3 indexMove" style="z-index: -2;">
+                        <img src="data/mypageimage/mypageim/bookmark_yellow.png" class="indexDefault index4 indexSelect" style="z-index: -3;">
+                    </div>
+                    <img src="data/mypageimage/mypageim/close_btn.png" class="closeIndex indexDefault indexMove" onclick="closeModal()">
+                    <div id="note">
+                        <div class="pageTitleGroup">
+                            <img src="data/mypageimage/mypageim/system_back.png">
+                            <div class="pageTitle" style="background-image: url('data/mypageimage/mypageim/system_titile.png');">
+                                <p>설정</p>
+                            </div>
+                        </div>
+
+                        <div id="settingInput">
+                            <div id="rightPannel">
+                                <form id="settingForm">
+                                    <div class="inputBox">
+                                        <h4 class="titleLabel">이름</h4>
+                                        <input type="text" id="name" name="name" required style="width: 140px;">
+                                    </div>
+                                    <div class="inputBox">
+                                        <h4>닉네임</h4>
+                                        <input type="text" placeholder="예시) 홍길동" style="width: 140px;">
+                                    </div>
+                                    <div class="inputBox">
+                                        <h4>아이디</h4>
+                                        <input type="text" placeholder="예시) 홍길동" style="width: 140px;">
+                                    </div>
+                                </form>
+                            </div>
+
+
+
+                            <div id="leftPannel"></div>
+
+
+                            
+                        </div>
+
+                        <div id="settingBut" class="buttonSetting">
+                            <img id="SC-icon" src="data/mypageimage/mypageim/edit_icon.png" width="24em" height="25em">
+                            <p class="fontSetting">수정하기</p>
+                        </div>
+
+                        
+
+                    </div>
+                    <img src="data/mypageimage/mypageim/pencil.png" id="pencil">
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <div id="DataTab" class="tabcontent data">
                     <img src="data/mypageimage/mypageim/02.png" alt="">
                     <img id="activebtn" src="data/mypageimage/mypageim/activedata_btn00.png" alt="" onclick="showActiveTab()">
@@ -253,7 +440,7 @@
 
                 function openModal() {
                     var modal = document.getElementById('pageModal');
-                    modal.style.display = 'block';
+                    modal.style.display = 'flex';
                     resetToInitialState();  // 초기화 상태로 설정
                 }
 
@@ -263,9 +450,12 @@
                     resetToInitialState();  // 모달을 닫을 때 초기화 상태로 설정
                 }
 
+                
+
+                /*
                 function showStickerTab() {
                     updateTabHistory('StickerTab');
-                    var images = document.querySelectorAll('.image-container img');
+                    var images = document.querySelectorAll('.image-container img'); //mypageMain로 바꿔야함
                     images.forEach(function(img) {
                         if (img.id !== 'bgim') {
                             img.classList.add('hidden');
@@ -274,6 +464,39 @@
 
                     openTab(null, 'StickerTab');
                 }
+                    */
+            
+
+
+                // 내가만들어서 수정중--------------------------------------------------------------
+                function showStickerTab() {
+                    updateTabHistory('StickerTab');
+                    var elements = document.querySelectorAll('#mypageMain *'); //mypageMain로 바꿔야함
+                    // 모든 요소 순회하면서 숨김 처리
+                    elements.forEach(function(element) {
+                        element.classList.add('hidden'); // 숨김 처리
+                    });
+
+                    openTab(null, 'StickerTab');
+                }
+                
+
+
+
+                function showSettingTab() {
+                    updateTabHistory('SettingTab');
+                    var elements = document.querySelectorAll('#mypageMain *'); //mypageMain로 바꿔야함
+                    // 모든 요소 순회하면서 숨김 처리
+                    elements.forEach(function(element) {
+                        element.classList.add('hidden'); // 숨김 처리
+                    });
+
+                    openTab(null, 'SettingTab');
+                }
+
+
+
+                //-------------------------------------------------------------------------------------
 
                 function showDataTab() {
                     updateTabHistory('DataTab');
@@ -354,17 +577,22 @@
                 });
 
                 // Function to open a specific tab
+                // ---------------------------------------------------------------------------
                 function openTab(evt, tabName) {
                     var tabcontent = document.getElementsByClassName("tabcontent");
                     for (var i = 0; i < tabcontent.length; i++) {
                         tabcontent[i].style.display = "none";
                     }
 
-                    document.getElementById(tabName).style.display = "block";
+                    document.getElementById(tabName).style.display = "flex";
                     if (evt) {
                         evt.currentTarget.className += " active";
                     }
                 }
+                // ---------------------------------------------------------------------------------
+
+
+
 
                 document.addEventListener("keydown", function(event) {
                     if (event.key === "B" || event.key === "b") {

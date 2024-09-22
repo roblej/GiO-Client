@@ -5,6 +5,22 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'HakgyoansimDunggeunmisoTTF-B';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-B.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HakgyoansimDunggeunmisoTTF-R';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimDunggeunmisoTTF-R.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+
+
 * {
     outline : none;
     /* margin: 0; */
@@ -803,20 +819,405 @@ input[type="radio"]:checked+.genderbutton {
   /* display: none; */
 }
 
+
+
+
+
+
+
+
+
+
+/*
+#bgim{
+  width: 100%;
+  height: auto;
+}
+*/
+
+
+
 .mypagemodal-bg {
   display: none;
   justify-content: center;  /* 중앙에 가로로 정렬 */
-  align-items: flex-start;  /* 컨테이너의 위쪽에 정렬 */
+  align-items: center;  /* 컨테이너의 위쪽에 정렬 */
   position: fixed;
   z-index: 1;
   width: 100%;
   height: 100%;
   overflow: hidden;  /* 스크롤을 방지하고 넘치는 콘텐츠를 숨김 */
   background-color: rgba(0, 0, 0, 0.6);  /*회색으로 쓰지말고 블랙/화이트로 넣을 것*/
-  padding: 20px;  /* 모달 내부에 패딩을 추가하여 가장자리와의 간격을 확보 */
   box-sizing: border-box;  /* 패딩을 포함한 전체 크기 계산 */
   margin: -8px;
+  background-image: url("data/mypageimage/mypageim/mypage_background.png");
 }
+
+
+.index {
+  position: absolute;
+  width: 65px;
+  left: 224px;
+  top: 207px;
+}
+
+.indexDefault {
+  position: absolute;
+}
+
+.index2 {
+  top: 118px;
+}
+
+.index3 {
+  top: 236px;
+}
+
+.index4 {
+  top: 354px;
+}
+
+.indexSelect {
+  left: -28px;
+}
+
+.closeIndex {
+  right: 180px;
+  top: 190px;
+}
+
+
+.indexMove {
+  -webkit-transition: .5s ease-in-out;
+  transition: .5s ease-in-out;
+  cursor: pointer;
+}
+
+.indexMove:hover {
+  margin-left: -28px;
+  -webkit-transition: .5s ease-in-out;
+  transition: .5s ease-in-out;
+}
+
+
+/*메인 노트 안 내용 설정*/
+#note {
+  display: flex;
+  flex-direction: row;
+  align-items: center;  /* 이미지들을 가로로 중앙에 정렬 */
+  justify-content: space-between;
+  gap: 20px;  /* 이미지 간의 간격을 조정 */
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  box-sizing: border-box;
+  position: relative;
+  width: 1400px;
+  height: 748px;
+  background-image: url("data/mypageimage/mypageim/note_bg.png");
+}
+
+
+#pencil {
+  position: absolute;
+  bottom: 67px;
+  right: 200px;
+
+}
+
+
+/*왼쪽 프로필 박스*/
+#profileBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* 이미지들을 가로로 중앙에 정렬 */
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: 748px;
+  box-sizing: border-box;
+  position: relative;
+  margin-left: 87px;
+}
+
+#profileImg {
+  position: absolute;
+  margin-top: 132px;
+}
+
+#playerName {
+  position: absolute;
+  display: flex;
+  background-color: #755A49;
+  border-radius: 32px;
+  width: 236px;
+  height: 50px;
+  margin-top: 362px;
+  align-items: center;
+  justify-content: center;
+}
+
+#playerName p {
+  font-family: 'HakgyoansimDunggeunmisoTTF-B';
+  font-size: 30px;
+  color: white;
+  margin: 0px;
+}
+
+#profileBackground {
+  display: flex;
+  width: 534px;
+  height: 443px;
+  background-image: url("data/mypageimage/mypageim/profile_bg.png");
+  margin-top: 211px;
+  justify-content: center;
+}
+
+#profileInfo {
+  display: flex;
+  width: 362px;
+  height: 176px;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 235px;
+}
+
+.backgroundDefault {
+  display: flex;
+  width: 362px;
+  height: 44px;
+  background-image: url("data/mypageimage/mypageim/profile_data_bg.png");
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.classification {
+  display: flex;
+  width: 100px;
+  flex-direction: row;
+  margin-left: 34px;
+  align-items: center;
+}
+
+.classification p {
+  margin: 0px;
+  margin-left: 12px;
+  font-family: 'Pretendard-Regular';
+  color: white;
+  font-size: 21px;
+}
+
+.info {
+  display: flex;
+  margin-right: 42px;
+  align-items: center;
+}
+
+.info p{
+  margin: 0px;
+  font-family: 'Pretendard-Regular';
+  font-size: 21px;
+}
+
+
+/*오른쪽 버튼 박스*/
+#buttonBox {
+  width: 595px;
+  height: 522px;
+  margin-right: 92.5px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: space-between;
+}
+
+
+.selectOption {
+  width: 282px;
+  height: 244px;
+  display: inline-block;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+}
+
+
+#stickerbook {
+  background-image: url("data/mypageimage/mypageim/stickerbook_btn.png");
+}
+
+#data {
+  background-image: url("data/mypageimage/mypageim/data_btn.png");
+}
+
+#system {
+  background-image: url("data/mypageimage/mypageim/system_btn.png");
+}
+
+#buttonOption {
+  position: relative;
+  cursor: default;
+}
+
+#textBox {
+  width: 201px;
+  height: 60px;
+  margin-top: 19px;
+  width: auto;
+  text-align: center;
+}
+
+#optionTitle {
+  font-family: 'HakgyoansimDunggeunmisoTTF-B';
+  font-size: 32px;
+  margin: 0px;
+}
+
+#optioninfo {
+  font-family: 'Pretendard-Regular';
+  font-size: 15px;
+  margin-top: 8px;
+}
+
+#twoButton {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.buttonSetting {
+  width: 166px;
+  height: 53px;
+  background-image: url("data/mypageimage/mypageim/yellow_btn.png");
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+#S-icon {
+  margin-left: 30px;
+}
+
+.fontSetting {
+  margin-left: 9px;
+  font-family: 'HakgyoansimDunggeunmisoTTF-R';
+  font-weight: 100;
+  font-size: 20px;
+}
+
+#logout {
+  margin-top: 16px;
+}
+
+
+
+
+/* font-family: 'Pretendard-Regular'; */
+/* font-family: 'HakgyoansimDunggeunmisoTTF-B'; */
+
+
+
+
+
+/* 스티커북 css */
+.pageTitleGroup {
+  position: absolute;
+  display: flex;
+  margin-left: 47px;
+  height: 70px;
+  width: 312px;
+  align-items: center;  
+  top: 121px;
+}
+
+.pageTitle {
+  display: flex;
+  width: 237px;
+  height: 70px;
+  align-items: center;
+  justify-content: center;
+  margin-left: 46px;
+}
+
+.pageTitle p {
+  margin: 0px;
+  font-family: 'HakgyoansimDunggeunmisoTTF-B';
+  font-size: 32px;
+}
+
+
+
+
+
+
+
+
+
+/* 설정 css */
+#settingInput {
+  width: 1050px;
+  height: 385px;
+  border-radius: 20px;
+  background-color: #FFFADD;
+  position: absolute;
+  top: 214px;
+  left: 175px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#rightPannel {
+  width: 40%;
+}
+
+.titleLabel {
+  display: inline;
+}
+
+
+
+
+
+#settingBut {
+  position: absolute;
+  right: 92px;
+  bottom: 45px;
+}
+
+#SC-icon {
+  margin-left: 31px;
+}
+
+#settingInput p {
+  margin-left: 8px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .image-container {
   display: flex;
@@ -901,27 +1302,23 @@ input[type="radio"]:checked+.genderbutton {
   bottom: 735px;
 }
 
-#bgim{
-  width: 100%;
-  height: auto;
-}
+
 
 .tabcontent {
   display: none; /* 기본적으로 모든 탭 콘텐츠는 숨김 */
-  padding: 20px;
-  border-top: none;
   position: relative; /* z-index가 적용되도록 설정 */
-  z-index: 10; /* 다른 요소들보다 위에 표시되도록 설정 */
-  top: 0; /* 상단 정렬 */
-  margin: 0 auto; /* 가운데 정렬 */
-  max-width: 80%; /* 최대 너비 설정 */
-  box-sizing: border-box; /* 전체 크기를 계산할 때 padding 포함 */
+  z-index: 10; /* 다른 요소들보b다 위에 표시되도록 설정 */
+  width: 100%; /* 전체 너비 */
+  height: 100%; /* 전체 높이 */
+  justify-content: center;  /* 중앙에 가로로 정렬 */
+  align-items: center;  /* 컨테이너의 위쪽에 정렬 */
+  margin: 0;
+  padding: 0;
+  background-color: #ddd;
 }
 
-.data {
-  padding: 20px;
-  margin-top: 0; /* 스티커북 탭의 상단 여백 제거 */
-}
+
+
 
 .data img {
   position: relative; /* z-index가 적용되도록 설정 */
@@ -1012,3 +1409,11 @@ input[type="radio"]:checked+.genderbutton {
   /* display: none; */
   z-index: 17;
 }
+
+
+
+.hidden {
+  display: none !important;
+}
+
+
