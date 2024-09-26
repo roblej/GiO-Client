@@ -48,6 +48,7 @@ export function initThreeJS(){
             this._scenes = [];
             this._currentSceneIndex = 0;
             this._model = null; // 플레이어 모델을 저장할 변수
+            this.originalPosition = new THREE.Vector3(); // 원래 위치 저장을 위한 속성
 
             const listener = new THREE.AudioListener();
             this._listener = listener
@@ -132,7 +133,7 @@ export function initThreeJS(){
                 this._controls.enablePan = false;
                 this._controls.enableDamping = true;
         
-                this._controls.minDistance = 250;  // 카메라가 대상에 가장 가까울 수 있는 거리
+                this._controls.minDistance = 500;  // 카메라가 대상에 가장 가까울 수 있는 거리
                 this._controls.maxDistance = 500;  // 카메라가 대상에서 가장 멀어질 수 있는 거리
         
                 // this._controls.minPolarAngle = Math.PI / 4;   // 카메라가 아래로 45도 이상 내려가지 못하게 설정
@@ -242,15 +243,7 @@ export function initThreeJS(){
                 const distanceToNPC = newCamera.position.distanceTo(npcPosition);
                 console.log("Distance to NPC:", distanceToNPC); // 거리 출력
 
-                // 거리 조건에 따라 모델 가시성 설정
-                if (distanceToNPC < 200) {
-                    this._model.visible = false; // 가시성을 끕니다
-                    console.log("Model visibility set to false."); // 디버그 로그 추가
-                } else {
-                    this._model.visible = true; // 가시성을 켭니다
-                    console.log("Model visibility set to true."); // 디버그 로그 추가
-                }
-                // 카메라와 타겟이 제대로 설정되었는지 디버그 로그 추가
+                //카메라와 타겟이 제대로 설정되었는지 디버그 로그 추가
                 console.log("New camera position:", this._camera.position);
                 console.log("Camera looking at:", npcPosition);
                 
@@ -262,12 +255,14 @@ export function initThreeJS(){
                 this._showNpcDialog(npc.userData.type);
 
                 this._onDialogClosed = () => {
-                    console.log("Dialog closed, returning to previous camera."); // 디버그 로그 추가
+                    console.log("Dialog closed, returning to original position.");
+                    this._model.position.copy(this.originalPosition); // 원래 위치로 복원
                     this._camera = previousCamera; // 이전 카메라로 복원
                     this._controls.object = this._camera; // OrbitControls의 객체를 이전 카메라로 설정
                     this._controls.update(); // 업데이트 호출
-                    console.log("Returned to previous camera.");
+                    console.log("Returned to original position and previous camera.");
                 };
+            
             }
             
         
@@ -277,7 +272,25 @@ export function initThreeJS(){
                 this._renderer.render(this._scene, this._camera);
             }
             // 위까지가 추가한 코드
+            
+            // // NPC 클릭 이벤트 처리 함수
+            // _onNpcClick(npc) {
+            //     const originalPosition = this._model.position.clone(); // 현재 플레이어 위치 저장
+            //     const teleportLocation = npc.userData.teleportLocation; // NPC의 텔레포트 위치
 
+            //     // 플레이어를 텔레포트 위치로 이동
+            //     this._model.position.copy(teleportLocation);
+                
+            //     // NPC 대화창 띄우기
+            //     this._showNpcDialog(npc.userData.type);
+
+            //     // 대화창 닫힘 처리
+            //     this._onDialogClosed = () => {
+            //         // 플레이어를 원래 위치로 이동
+            //         this._model.position.copy(originalPosition);
+            //         console.log("Player returned to original position.");
+            //     };
+            // }
             _processAnimation(){
                 const previousAnimationAction = this._currentAnimationAction;
         
@@ -494,6 +507,25 @@ export function initThreeJS(){
                         // npc.rotation.y = Math.PI;
                         npcs.push(npc);
                         this._npc = npc;
+                        
+                        npc.onclick = () => {
+                            // 현재 플레이어의 위치 저장
+                            this.originalPosition.copy(this._model.position); // 클래스 속성에 저장
+                    
+                            // 플레이어를 특정 위치로 순간 이동
+                            const teleportPosition = new THREE.Vector3(-615.88, 4.07, -236.33);
+                            this._model.position.copy(teleportPosition);
+                    
+                            console.log("Player teleported to:", teleportPosition);
+                    
+                            // 0.01초 후에 카메라 전환 및 대화창 표시
+                            setTimeout(() => {
+                                this._focusOnNPC(npc); // 카메라 전환 및 대화창 띄우기
+                            }, 10); // 10ms = 0.01초
+                        };
+
+
+
                     });
                     loader.load("./data/map/School/Character/principal_idle2.glb", (gltf) => { //교장선생님
                         const npc = gltf.scene;
@@ -2185,7 +2217,7 @@ export function initThreeJS(){
                 }
 
                 // NPC와의 상호작용
-const minDistance = 200; // NPC들이 바라볼 최소 거리 설정
+const minDistance = 400; // NPC들이 바라볼 최소 거리 설정
 this._npcs.forEach((npc) => {
     const distance = npc.position.distanceTo(this._model.position);
     if (distance < minDistance) {
