@@ -223,9 +223,16 @@ export function initThreeJS(){
                     20000
                 );
                 
-                // NPC의 위치에서 y값 120을 높인 위치에 카메라를 배치합니다
-                const cameraHeight = 130;
-                const distance = 200; // 카메라와 NPC 사이의 거리
+                let distance = 200; // 기본 거리
+                let cameraHeight = 130; // 기본 높이
+            
+                if (npc.userData.type === 'teacher') {
+                    distance = 200;
+                    cameraHeight = 130;
+                } else if (npc.userData.type === 'friend_hurt') {
+                    distance = 300;
+                    cameraHeight = 150;
+                }
                 
                 // 카메라의 위치를 NPC의 위치에서 거리를 두고, y값을 cameraHeight로 설정합니다
                 const direction = new THREE.Vector3();
@@ -1329,6 +1336,7 @@ export function initThreeJS(){
 
             
                         if (selectedObject.userData && selectedObject.userData.isNPC) {
+
                             console.log('NPC clicked, focusing on NPC'); // NPC 클릭 여부 확인하는 로그
                             this._focusOnNPC(selectedObject);
                             // this._showNpcDialog(selectedObject);
