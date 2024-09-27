@@ -48,6 +48,7 @@ export function initThreeJS(){
             this._scenes = [];
             this._currentSceneIndex = 0;
             this._model = null; // 플레이어 모델을 저장할 변수
+            this.originalPosition = new THREE.Vector3(); // 원래 위치 저장을 위한 속성
 
             const listener = new THREE.AudioListener();
             this._listener = listener
@@ -223,9 +224,17 @@ export function initThreeJS(){
                 );
                 
                 // NPC의 위치에서 y값 120을 높인 위치에 카메라를 배치합니다
-                const cameraHeight = 130;
-                const distance = 200; // 카메라와 NPC 사이의 거리
+                let distance = 200; // 카메라와 NPC 사이의 거리
+                let cameraHeight = 130;
                 
+                                if (npc.userData.type === 'teacher') {
+                    distance = 200;
+                    cameraHeight = 130;
+                } else if (npc.userData.type === 'friend_hurt') {
+                    distance = 300;
+                    cameraHeight = 150;
+                }
+
                 // 카메라의 위치를 NPC의 위치에서 거리를 두고, y값을 cameraHeight로 설정합니다
                 const direction = new THREE.Vector3();
                 direction.subVectors(npcPosition, modelPosition).normalize(); // NPC를 바라보는 방향
@@ -1523,18 +1532,34 @@ export function initThreeJS(){
                         console.log('Clicked object:', selectedObject); // 클릭된 객체 정보 로그
                         if (selectedObject.name === 'teleport') {
                             console.log("teleport");
+                        } else if (selectedObject.userData.type === 'teacher') {
+                        // 현재 플레이어의 위치 저장
+                        this.originalPosition.copy(this._model.position); // 클래스 속성에 저장
+                    
+                        // 플레이어를 특정 위치로 순간 이동
+                        const teleportPosition = new THREE.Vector3(705, 4.07, -46);
+                        this._model.position.copy(teleportPosition);
+                            
+                        console.log("Player teleported to:", teleportPosition);
+
+                        // 물리 엔진 상태 초기화가 필요한 경우 여기서 추가
+                        if (this._model._capsule) {
+                            this._model._capsule.start.copy(teleportPosition);
+                            this._model._capsule.end.copy(teleportPosition).y += this._model._capsule.radius * 2;
+                            console.log("캡슐 위치 초기화:", this._model._capsule.start, this._model._capsule.end);
                         }
+                    }
                         
 
-            if (selectedObject.userData.animationsMap) {
-    const animationsMap = selectedObject.userData.animationsMap;
-    console.log('Found animationsMap:', animationsMap);
-} else if (selectedObject.parent && selectedObject.parent.userData.animationsMap) {
-    const animationsMap = selectedObject.parent.userData.animationsMap;
-    console.log('Found animationsMap in parent:', animationsMap);
-} else {
-    console.log('animationsMap is undefined for this object');
-}
+                                    if (selectedObject.userData.animationsMap) {
+                            const animationsMap = selectedObject.userData.animationsMap;
+                            console.log('Found animationsMap:', animationsMap);
+                        } else if (selectedObject.parent && selectedObject.parent.userData.animationsMap) {
+                            const animationsMap = selectedObject.parent.userData.animationsMap;
+                            console.log('Found animationsMap in parent:', animationsMap);
+                        } else {
+                            console.log('animationsMap is undefined for this object');
+                        }
                         if (selectedObject.userData && selectedObject.userData.isNPC) {
                             console.log('NPC clicked, focusing on NPC'); // NPC 클릭 여부 확인하는 로그
                             console.log(selectedObject)
@@ -1586,6 +1611,20 @@ export function initThreeJS(){
             var choose_answer
             var message =`대화 상대가 ${npcType.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent},${option2.textContent},${option3.textContent}가 있다.그리고 아이가 고른 선택지는 ${choose_answer}이다.`
             var count = 0;
+
+            function resetplayerposition() {
+                this._model.position.copy(this.originalPosition);
+                            
+                console.log("Player teleported to:", this.originalPosition);
+
+                // 물리 엔진 상태 초기화가 필요한 경우 여기서 추가
+                if (this._model._capsule) {
+                    this._model._capsule.start.copy(this.originalPosition);
+                    this._model._capsule.end.copy(this.originalPosition).y += this._model._capsule.radius * 2;
+                    console.log("캡슐 위치 초기화:", this._model._capsule.start, this._model._capsule.end);
+                }
+            }
+
             function listKoreanVoices() {
                 if ('speechSynthesis' in window) {
                     const voices = window.speechSynthesis.getVoices();
@@ -1808,6 +1847,7 @@ export function initThreeJS(){
                         casher.style.display = "none";
                         resetModal();
                         this._onDialogClosed();
+                        resetplayerposition.call(this);
                     }.bind(this);
                 }.bind(this);
         
@@ -1820,6 +1860,7 @@ export function initThreeJS(){
                         casher.style.display = "none";
                         resetModal();
                         this._onDialogClosed();
+                        resetplayerposition.call(this);
                     }.bind(this);
                 }.bind(this);
         
@@ -1832,6 +1873,7 @@ export function initThreeJS(){
                         casher.style.display = "none";
                         resetModal();
                         this._onDialogClosed();
+                        resetplayerposition.call(this);
                     }.bind(this);
                 }.bind(this);
         
@@ -1840,6 +1882,7 @@ export function initThreeJS(){
                         casher.style.display = "none";
                         resetModal();
                         this._onDialogClosed();
+                        resetplayerposition.call(this);
                     }
                 }.bind(this);
             } else if (npcType == 'game_friend') {
