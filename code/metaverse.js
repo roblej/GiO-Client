@@ -530,8 +530,10 @@ export function initThreeJS(){
                         npc.userData.animationsMap = animationsMap;
                         npc.userData.mixer = mixer;
                         // 'idle' 애니메이션 재생
-                        if (animationsMap['Idle']) {
-                            const idleAction = animationsMap['Idle'];
+
+                        if (animationsMap['Idle.001']) {
+                            const idleAction = animationsMap['Idle.001'];
+
                             idleAction.play();
                         }
                         npc.position.set(-706, 0, -3827);
