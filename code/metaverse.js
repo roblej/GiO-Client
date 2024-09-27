@@ -25,7 +25,7 @@ export function initThreeJS(){
             console.log("construct complete")
             const divContainer = document.querySelector("#webgl-container");
             this._divContainer = divContainer;
-            const renderer = new THREE.WebGLRenderer({ antialias:true});
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setPixelRatio(window.devicePixelRatio);
             divContainer.appendChild(renderer.domElement);
             this._renderer = renderer;
@@ -55,26 +55,26 @@ export function initThreeJS(){
             const sound = new THREE.Audio(listener);
             this._sound = sound
         
-        // 오디오 로더 생성
+            // 오디오 로더 생성
             const audioLoader = new THREE.AudioLoader();
             this._audioLoader = audioLoader
         
-        // 초기 볼륨 설정
+            // 초기 볼륨 설정
             let initialVolume = 0.3;
             this._initialVolume = initialVolume
         
 
 
         
-        // 볼륨 노브 컨트롤
-        const volumeSlider = document.getElementById('volumeSlider');
-        volumeSlider.addEventListener('input', function() {
-            const volume = this.value / 100;
-            initialVolume = volume; // 전역 변수로 볼륨 저장
-            if (sound.isPlaying) {
-                sound.setVolume(volume); // 사운드가 재생 중이면 즉시 적용
-            }
-        });
+            // 볼륨 노브 컨트롤
+            const volumeSlider = document.getElementById('volumeSlider');
+            volumeSlider.addEventListener('input', function () {
+                const volume = this.value / 100;
+                initialVolume = volume; // 전역 변수로 볼륨 저장
+                if (sound.isPlaying) {
+                    sound.setVolume(volume); // 사운드가 재생 중이면 즉시 적용
+                }
+            });
                 
             this._setupScenes();
             this._setupCamera();
@@ -96,7 +96,7 @@ export function initThreeJS(){
             // this._divContainer.addEventListener('mousemove', this._onMouseMove.bind(this));
             this._divContainer.addEventListener('mousemove', (event) => onMouseMove(event, this));
                 
-                // 마우스 클릭 이벤트 리스너 추가
+            // 마우스 클릭 이벤트 리스너 추가
             this._divContainer.addEventListener('click', this._onMouseClick.bind(this));
         
             window.onresize = this.resize.bind(this);
@@ -105,7 +105,7 @@ export function initThreeJS(){
             requestAnimationFrame(this.render.bind(this));
         }
         
-            _setupScenes() {
+        _setupScenes() {
             // 5개의 빈 씬을 생성하여 배열에 추가
             for (let i = 0; i < 6; i++) {
                 const scene = new THREE.Scene();
@@ -113,811 +113,818 @@ export function initThreeJS(){
             
             }
             this._scene = this._scenes[this._currentSceneIndex];
-            }
+        }
         
-            _updatePositionLabel() {
-                if (this._model) {  // 모델이 로드된 경우에만 실행
-                    const { x, y, z } = this._model.position;
-                    this._positionLabel.innerHTML = `Model Position - X: ${x.toFixed(2)}, Y: ${y.toFixed(2)}, Z: ${z.toFixed(2)}`;
-                }
+        _updatePositionLabel() {
+            if (this._model) {  // 모델이 로드된 경우에만 실행
+                const { x, y, z } = this._model.position;
+                this._positionLabel.innerHTML = `Model Position - X: ${x.toFixed(2)}, Y: ${y.toFixed(2)}, Z: ${z.toFixed(2)}`;
             }
-            _setupOctree(){
-                this._worldOctree = new Octree();
-                console.log('Setup Octree')
-            }
+        }
+        _setupOctree() {
+            this._worldOctree = new Octree();
+            console.log('Setup Octree')
+        }
         
         _setupControls() {
-                this._camera.position.set(0,120, 300)
-                this._controls = new OrbitControls(this._camera,this._divContainer);
-                this._controls.target.set(0, 120, 0);
-                this._controls.enablePan = false;
-                this._controls.enableDamping = true;
+            this._camera.position.set(0, 120, 300)
+            this._controls = new OrbitControls(this._camera, this._divContainer);
+            this._controls.target.set(0, 120, 0);
+            this._controls.enablePan = false;
+            this._controls.enableDamping = true;
         
-                this._controls.minDistance = 500;  // 카메라가 대상에 가장 가까울 수 있는 거리
-                this._controls.maxDistance = 500;  // 카메라가 대상에서 가장 멀어질 수 있는 거리
+            this._controls.minDistance = 500;  // 카메라가 대상에 가장 가까울 수 있는 거리
+            this._controls.maxDistance = 500;  // 카메라가 대상에서 가장 멀어질 수 있는 거리
         
-                // this._controls.minPolarAngle = Math.PI / 4;   // 카메라가 아래로 45도 이상 내려가지 못하게 설정
-                // this._controls.maxPolarAngle = Math.PI / 2;   // 카메라가 수평선 이상으로 올라가지 못하게 설정
-                this._controls.minPolarAngle = Math.PI / 4;;  // 카메라가 수직에서 아래로 최소 75도 위치에서 멈춤 (15도 위)
-                this._controls.maxPolarAngle = 80 * (Math.PI / 180);  // 카메라가 수직에서 아래로 최대 45도 위치에서 멈춤
+            // this._controls.minPolarAngle = Math.PI / 4;   // 카메라가 아래로 45도 이상 내려가지 못하게 설정
+            // this._controls.maxPolarAngle = Math.PI / 2;   // 카메라가 수평선 이상으로 올라가지 못하게 설정
+            this._controls.minPolarAngle = Math.PI / 4;;  // 카메라가 수직에서 아래로 최소 75도 위치에서 멈춤 (15도 위)
+            this._controls.maxPolarAngle = 80 * (Math.PI / 180);  // 카메라가 수직에서 아래로 최대 45도 위치에서 멈춤
                 
         
         
-                const stats = new Stats();
+            const stats = new Stats();
             // this._divContainer.appendChild(stats.dom);
             //fps업데이트
-                this._fps = stats;
+            this._fps = stats;
         
-                this._pressKeys = {};
+            this._pressKeys = {};
         
-                document.addEventListener("keydown", (event) => {
-                    this._pressKeys[event.key.toLowerCase()]= true;
-                    this._processAnimation();
-                });
+            document.addEventListener("keydown", (event) => {
+                this._pressKeys[event.key.toLowerCase()] = true;
+                this._processAnimation();
+            });
         
-                document.addEventListener("keyup", (event) => {
-                    this._pressKeys[event.key.toLowerCase()]= false;
-                    this._processAnimation();
-                });
-            }
-            // 추가한 코드
-            _setupEventListeners() {
-                window.addEventListener('keydown', (event) => {
-                    if (event.key === 'Escape' || event.key === 'x') {
-                        this._switchToOriginalCamera();
-                    }
-                });
-                document.getElementById('buttonScene0').addEventListener('click', () => this._switchScene(0));
-                document.getElementById('buttonScene1').addEventListener('click', () => this._switchScene(1));
-                document.getElementById('buttonScene2').addEventListener('click', () => this._switchScene(2));
-                document.getElementById('buttonScene3').addEventListener('click', () => this._switchScene(3));
-                document.getElementById('buttonNo').addEventListener('click',()=> document.getElementById('BtnMaps').style.display = 'none')
-            }
-            _onKeyDown(event) {
-                console.log('Key down event:', event.key); // 디버그 로그
+            document.addEventListener("keyup", (event) => {
+                this._pressKeys[event.key.toLowerCase()] = false;
+                this._processAnimation();
+            });
+        }
+        // 추가한 코드
+        _setupEventListeners() {
+            window.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape' || event.key === 'x') {
                     this._switchToOriginalCamera();
                 }
+            });
+            document.getElementById('buttonScene0').addEventListener('click', () => this._switchScene(0));
+            document.getElementById('buttonScene1').addEventListener('click', () => this._switchScene(1));
+            document.getElementById('buttonScene2').addEventListener('click', () => this._switchScene(2));
+            document.getElementById('buttonScene3').addEventListener('click', () => this._switchScene(3));
+            document.getElementById('buttonNo').addEventListener('click', () => document.getElementById('BtnMaps').style.display = 'none')
+        }
+        _onKeyDown(event) {
+            console.log('Key down event:', event.key); // 디버그 로그
+            if (event.key === 'Escape' || event.key === 'x') {
+                this._switchToOriginalCamera();
             }
-            _switchToOriginalCamera() {
-                if (this._isNpcCameraActive) {
-                    console.log("Switching to original camera"); // 디버그 로그 추가
+        }
+        _switchToOriginalCamera() {
+            if (this._isNpcCameraActive) {
+                console.log("Switching to original camera"); // 디버그 로그 추가
             
-                    this._camera = this._originalCamera;
-                    this._controls.object = this._originalCamera;
-                    this._isNpcCameraActive = false;
-                }
+                this._camera = this._originalCamera;
+                this._controls.object = this._originalCamera;
+                this._isNpcCameraActive = false;
             }
-            _focusOnNPC(npc) {
+        }
+        _focusOnNPC(npc) {
 
-                console.log("Focusing on NPC:", npc); // 디버그 로그 추가
+            console.log("Focusing on NPC:", npc); // 디버그 로그 추가
 
-                // 기존 카메라 저장
-                const previousCamera = this._camera; // 기존 카메라를 저장합니다
+            // 기존 카메라 저장
+            const previousCamera = this._camera; // 기존 카메라를 저장합니다
 
-                // NPC의 위치를 가져옵니다
-                const npcPosition = new THREE.Vector3();
-                if (npc && npc instanceof THREE.Object3D) {
-                    npc.getWorldPosition(npcPosition);
-                } else {
-                    console.error("NPC is not an instance of THREE.Object3D or is undefined. Cannot get world position.");
-                    return;
-                }
-                
-                console.log("NPC Position:", npcPosition); // 디버그 로그 추가
-                
-                // 플레이어의 위치를 가져옵니다
-                const modelPosition = new THREE.Vector3();
-                if (this._model && this._model instanceof THREE.Object3D) {
-                    this._model.getWorldPosition(modelPosition);
-                } else {
-                    console.error("Player is not an instance of THREE.Object3D or is undefined. Cannot get world position.");
-                    return;
-                }
-                
-                // 새로운 카메라를 생성합니다
-                const newCamera = new THREE.PerspectiveCamera(
-                    60,
-                    window.innerWidth / window.innerHeight,
-                    1,
-                    20000
-                );
-                
-                let distance = 200; // 기본 거리
-                let cameraHeight = 130; // 기본 높이
-            
-                if (npc.userData.type === 'teacher') {
-                    distance = 200;
-                    cameraHeight = 130;
-                } else if (npc.userData.type === 'friend_hurt') {
-                    distance = 300;
-                    cameraHeight = 150;
-                }
-                
-                // 카메라의 위치를 NPC의 위치에서 거리를 두고, y값을 cameraHeight로 설정합니다
-                const direction = new THREE.Vector3();
-                direction.subVectors(npcPosition, modelPosition).normalize(); // NPC를 바라보는 방향
-                newCamera.position.copy(npcPosition).sub(direction.multiplyScalar(distance));
-                newCamera.position.y = cameraHeight;
-                
-                // 카메라가 NPC를 바라보도록 설정합니다
-                newCamera.lookAt(npcPosition.x, npcPosition.y+100, npcPosition.z);
-                
-                // 새로운 카메라를 사용하도록 설정합니다
-                this._camera = newCamera;
-                
-                // 카메라와 NPC 사이의 거리 계산
-                const distanceToNPC = newCamera.position.distanceTo(npcPosition);
-                console.log("Distance to NPC:", distanceToNPC); // 거리 출력
-
-                //카메라와 타겟이 제대로 설정되었는지 디버그 로그 추가
-                console.log("New camera position:", this._camera.position);
-                console.log("Camera looking at:", npcPosition);
-                
-                console.log("Switched to NPC camera"); // 디버그 로그 추가
-                // 카메라 전환이 완료된 후에 대화창을 띄움
-                // setTimeout(() => {
-                //     this._showNpcDialog(npc.userData.type);
-                // }, 000); // 0.1초 지연 후 대화창 띄우기 (필요에 따라 조정 가능)
-                this._showNpcDialog(npc.userData.type);
-
-                this._onDialogClosed = () => {
-                    console.log("Dialog closed, returning to original position.");
-                    this._model.position.copy(this.originalPosition); // 원래 위치로 복원
-                    this._camera = previousCamera; // 이전 카메라로 복원
-                    this._controls.object = this._camera; // OrbitControls의 객체를 이전 카메라로 설정
-                    this._controls.update(); // 업데이트 호출
-                    console.log("Returned to original position and previous camera.");
-                };
-            
+            // NPC의 위치를 가져옵니다
+            const npcPosition = new THREE.Vector3();
+            if (npc && npc instanceof THREE.Object3D) {
+                npc.getWorldPosition(npcPosition);
+            } else {
+                console.error("NPC is not an instance of THREE.Object3D or is undefined. Cannot get world position.");
+                return;
             }
-            
-        
-            _animate() {
-                requestAnimationFrame(this._animate.bind(this));
-                this._controls.update();
-                this._renderer.render(this._scene, this._camera);
-            }
-            // 위까지가 추가한 코드
-            
-            // // NPC 클릭 이벤트 처리 함수
-            // _onNpcClick(npc) {
-            //     const originalPosition = this._model.position.clone(); // 현재 플레이어 위치 저장
-            //     const teleportLocation = npc.userData.teleportLocation; // NPC의 텔레포트 위치
-
-            //     // 플레이어를 텔레포트 위치로 이동
-            //     this._model.position.copy(teleportLocation);
                 
-            //     // NPC 대화창 띄우기
+            console.log("NPC Position:", npcPosition); // 디버그 로그 추가
+                
+            // 플레이어의 위치를 가져옵니다
+            const modelPosition = new THREE.Vector3();
+            if (this._model && this._model instanceof THREE.Object3D) {
+                this._model.getWorldPosition(modelPosition);
+            } else {
+                console.error("Player is not an instance of THREE.Object3D or is undefined. Cannot get world position.");
+                return;
+            }
+                
+            // 새로운 카메라를 생성합니다
+            const newCamera = new THREE.PerspectiveCamera(
+                60,
+                window.innerWidth / window.innerHeight,
+                1,
+                20000
+            );
+                
+            let distance = 200; // 기본 거리
+            let cameraHeight = 130; // 기본 높이
+            
+            if (npc.userData.type === 'teacher') {
+                distance = 200;
+                cameraHeight = 130;
+            } else if (npc.userData.type === 'friend_hurt') {
+                distance = 300;
+                cameraHeight = 150;
+            }
+                
+            // 카메라의 위치를 NPC의 위치에서 거리를 두고, y값을 cameraHeight로 설정합니다
+            const direction = new THREE.Vector3();
+            direction.subVectors(npcPosition, modelPosition).normalize(); // NPC를 바라보는 방향
+            newCamera.position.copy(npcPosition).sub(direction.multiplyScalar(distance));
+            newCamera.position.y = cameraHeight;
+                
+            // 카메라가 NPC를 바라보도록 설정합니다
+            newCamera.lookAt(npcPosition.x, npcPosition.y + 100, npcPosition.z);
+                
+            // 새로운 카메라를 사용하도록 설정합니다
+            this._camera = newCamera;
+                
+            // 카메라와 NPC 사이의 거리 계산
+            const distanceToNPC = newCamera.position.distanceTo(npcPosition);
+            console.log("Distance to NPC:", distanceToNPC); // 거리 출력
+
+            //카메라와 타겟이 제대로 설정되었는지 디버그 로그 추가
+            console.log("New camera position:", this._camera.position);
+            console.log("Camera looking at:", npcPosition);
+                
+            console.log("Switched to NPC camera"); // 디버그 로그 추가
+            // 카메라 전환이 완료된 후에 대화창을 띄움
+            // setTimeout(() => {
             //     this._showNpcDialog(npc.userData.type);
+            // }, 000); // 0.1초 지연 후 대화창 띄우기 (필요에 따라 조정 가능)
+            this._showNpcDialog(npc.userData.type);
 
-            //     // 대화창 닫힘 처리
-            //     this._onDialogClosed = () => {
-            //         // 플레이어를 원래 위치로 이동
-            //         this._model.position.copy(originalPosition);
-            //         console.log("Player returned to original position.");
-            //     };
-            // }
-            _processAnimation(){
-                const previousAnimationAction = this._currentAnimationAction;
+            this._onDialogClosed = () => {
+                console.log("Dialog closed, returning to original position.");
+                this._model.position.copy(this.originalPosition); // 원래 위치로 복원
+                this._camera = previousCamera; // 이전 카메라로 복원
+                this._controls.object = this._camera; // OrbitControls의 객체를 이전 카메라로 설정
+                this._controls.update(); // 업데이트 호출
+                console.log("Returned to original position and previous camera.");
+            };
+            
+        }
+            
         
-                if(this._pressKeys["w"] || this._pressKeys["a"] || this._pressKeys["s"]
-                || this._pressKeys["d"]) {
-                    if(this._pressKeys["shift"] ){
-                        this._currentAnimationAction = this._animationMap["run"];
-                        // this._speed = 350;
-                        this._maxSpeed = 700;
-                        this._acceleration = 16;
-                    } else{
-                        this._currentAnimationAction = this._animationMap["walk"];
-                        // this._speed = 80;
-                        this._maxSpeed = 240;
-                        this._acceleration = 9;
-        
-                    }
-                }else{
-                    this._currentAnimationAction = this._animationMap["idle"];
-                    this._speed = 0;
-                    this._maxSpeed = 0;
-                    this._acceleration = 0;
-                }
-        
-                if(previousAnimationAction !== this._currentAnimationAction){
-                    previousAnimationAction.fadeOut(0.5);
-                    this._currentAnimationAction.reset().fadeIn(0.5).play(); 
-                }
-            }
-        _loadSceneModels(scene, index) {
-                loadingPage.style.display = 'flex';
-                const npcs = [];
-                this._npcs = npcs
-                const loader = new GLTFLoader();
-                const planeGeometry = new THREE.PlaneGeometry(20000,20000);
-                const planeMaterial = new THREE.MeshPhongMaterial({color: 0x808080,transparent: true, opacity: 0 });
-            const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-                plane.name = "plane";
-                plane.rotation.x = -Math.PI/2;
-            plane.position.y = 0;
-                this._scene.add(plane);
-                const rgbeLoader = new RGBELoader();
-            rgbeLoader.load('./data/sky_.hdr', (texture) => {
-                    texture.mapping = THREE.EquirectangularReflectionMapping;
-                    this._scene.background = texture;  // 배경으로 HDR 설정
-                    // this._scene.environment = texture; // 반사 환경 설정 (옵션)
-                });
+        _animate() {
+            requestAnimationFrame(this._animate.bind(this));
+            this._controls.update();
+            this._renderer.render(this._scene, this._camera);
+        }
+        // 위까지가 추가한 코드
+            
+        // // NPC 클릭 이벤트 처리 함수
+        // _onNpcClick(npc) {
+        //     const originalPosition = this._model.position.clone(); // 현재 플레이어 위치 저장
+        //     const teleportLocation = npc.userData.teleportLocation; // NPC의 텔레포트 위치
+
+        //     // 플레이어를 텔레포트 위치로 이동
+        //     this._model.position.copy(teleportLocation);
                 
-                plane.receiveShadow = true;
-                this._worldOctree.fromGraphNode(plane);
+        //     // NPC 대화창 띄우기
+        //     this._showNpcDialog(npc.userData.type);
+
+        //     // 대화창 닫힘 처리
+        //     this._onDialogClosed = () => {
+        //         // 플레이어를 원래 위치로 이동
+        //         this._model.position.copy(originalPosition);
+        //         console.log("Player returned to original position.");
+        //     };
+        // }
+        _processAnimation() {
+            const previousAnimationAction = this._currentAnimationAction;
+        
+            if (this._pressKeys["w"] || this._pressKeys["a"] || this._pressKeys["s"]
+                || this._pressKeys["d"]) {
+                if (this._pressKeys["shift"]) {
+                    this._currentAnimationAction = this._animationMap["run"];
+                    // this._speed = 350;
+                    this._maxSpeed = 700;
+                    this._acceleration = 16;
+                } else {
+                    this._currentAnimationAction = this._animationMap["walk"];
+                    // this._speed = 80;
+                    this._maxSpeed = 240;
+                    this._acceleration = 9;
+        
+                }
+            } else {
+                this._currentAnimationAction = this._animationMap["idle"];
+                this._speed = 0;
+                this._maxSpeed = 0;
+                this._acceleration = 0;
+            }
+        
+            if (previousAnimationAction !== this._currentAnimationAction) {
+                previousAnimationAction.fadeOut(0.5);
+                this._currentAnimationAction.reset().fadeIn(0.5).play();
+            }
+        }
+        _loadSceneModels(scene, index) {
+            loadingPage.style.display = 'flex';
+            const npcs = [];
+            this._npcs = npcs
+            const loader = new GLTFLoader();
+            const planeGeometry = new THREE.PlaneGeometry(20000, 20000);
+            const planeMaterial = new THREE.MeshPhongMaterial({ color: 0x808080, transparent: true, opacity: 0 });
+            const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+            plane.name = "plane";
+            plane.rotation.x = -Math.PI / 2;
+            plane.position.y = 0;
+            this._scene.add(plane);
+            const rgbeLoader = new RGBELoader();
+            rgbeLoader.load('./data/sky_.hdr', (texture) => {
+                texture.mapping = THREE.EquirectangularReflectionMapping;
+                this._scene.background = texture;  // 배경으로 HDR 설정
+                // this._scene.environment = texture; // 반사 환경 설정 (옵션)
+            });
+                
+            plane.receiveShadow = true;
+            this._worldOctree.fromGraphNode(plane);
 
             if (index === 0) { // 학교의 경우       
-                    loader.load('./data/map/School/scene.glb', (gltf) => { // 학교
-                        const map = gltf.scene;
-                        this._scene.add(map);
-                        this.map = map;
-                        map.scale.set(100, 100, 100);
-                        // map.rotation.y = Math.PI / -1; // Z축을 중심으로 180도 회전
+                loader.load('./data/map/School/scene.glb', (gltf) => { // 학교
+                    const map = gltf.scene;
+                    this._scene.add(map);
+                    this.map = map;
+                    map.scale.set(100, 100, 100);
+                    // map.rotation.y = Math.PI / -1; // Z축을 중심으로 180도 회전
 
-                        // map.position.set(506, 0, -1810);
-                        map.position.set(-0, 0, -0);
-                        // map.position.y = -40;
-                        // map.rotation.y = Math.PI / 4;
+                    // map.position.set(506, 0, -1810);
+                    map.position.set(-0, 0, -0);
+                    // map.position.y = -40;
+                    // map.rotation.y = Math.PI / 4;
 
-                        // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
-                        map.traverse((child) => {
-                            if (child instanceof THREE.Mesh) {
-                                child.castShadow = true;
-                                child.receiveShadow = true;
-                            }
-                        });
-
-                        this._worldOctree.fromGraphNode(map);
-                        loadingPage.style.display = 'none'; // 로딩 페이지 숨김
-                    }, undefined, function (error) {
-                        console.error(error);
+                    // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
+                    map.traverse((child) => {
+                        if (child instanceof THREE.Mesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                        }
                     });
-                    loader.load("./data/map/School/Character/rude_idle.glb", (gltf) => { // 몸통박치기!!
-                        const npc = gltf.scene;
-                        this._scene.add(npc);
+
+                    this._worldOctree.fromGraphNode(map);
+                    loadingPage.style.display = 'none'; // 로딩 페이지 숨김
+                }, undefined, function (error) {
+                    console.error(error);
+                });
+                loader.load("./data/map/School/Character/rude_idle.glb", (gltf) => { // 몸통박치기!!
+                    const npc = gltf.scene;
+                    this._scene.add(npc);
                     
             
-                        npc.traverse(child => {
-                            if (child instanceof THREE.Mesh) {
-                                child.castShadow = true;
-                                child.receiveShadow = true;
-                                child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
-                            }
-                            if (child.isMesh) {
-                                child.userData.type = 'friend_crash';
-                            }
-                        });
-                        // 애니메이션 믹서 설정
-                        const mixer = new THREE.AnimationMixer(npc);
-                        this._mixers.push(mixer);
-                        const animationsMap = {};
-                        gltf.animations.forEach((clip) => {
-                            // console.log(clip.name);
-                            animationsMap[clip.name] = mixer.clipAction(clip);
-                        });
-                        npc.userData.animationsMap = animationsMap;
-                        npc.userData.mixer = mixer;
-                        // 'idle' 애니메이션 재생
-                        if (animationsMap['idle']) {
-                            const idleAction = animationsMap['idle'];
-                            idleAction.play();
+                    npc.traverse(child => {
+                        if (child instanceof THREE.Mesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                            child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
                         }
-                        npc.position.set(647, 0, -2917);
-                        npc.scale.set(50, 50, 50);
-                        const box = (new THREE.Box3).setFromObject(npc);
-                        // npc.position.y = (box.max.y - box.min.y) /2;
-                        const height = box.max.y - box.min.y;
-                        const diameter = box.max.z - box.min.z
+                        if (child.isMesh) {
+                            child.userData.type = 'friend_crash';
+                        }
+                    });
+                    // 애니메이션 믹서 설정
+                    const mixer = new THREE.AnimationMixer(npc);
+                    this._mixers.push(mixer);
+                    const animationsMap = {};
+                    gltf.animations.forEach((clip) => {
+                        // console.log(clip.name);
+                        animationsMap[clip.name] = mixer.clipAction(clip);
+                    });
+                    npc.userData.animationsMap = animationsMap;
+                    npc.userData.mixer = mixer;
+                    // 'idle' 애니메이션 재생
+                    if (animationsMap['idle']) {
+                        const idleAction = animationsMap['idle'];
+                        idleAction.play();
+                    }
+                    npc.position.set(647, 0, -2917);
+                    npc.scale.set(50, 50, 50);
+                    const box = (new THREE.Box3).setFromObject(npc);
+                    // npc.position.y = (box.max.y - box.min.y) /2;
+                    const height = box.max.y - box.min.y;
+                    const diameter = box.max.z - box.min.z
                     
-                        npc._capsule = new Capsule(
-                            new THREE.Vector3(0, diameter / 2, 0),
-                            new THREE.Vector3(0, height - diameter / 2, 0),
-                            diameter / 2
-                        );
-                        npc.rotation.y = Math.PI/2;
-                        npcs.push(npc);
-                        this._npc = npc;
-                    });
-                    loader.load("./data/map/School/Character/schoolgirl_sit.glb", (gltf) => { // 다쳐서 넘어진 친구
-                        const npc = gltf.scene;
-                        this._scene.add(npc);
+                    npc._capsule = new Capsule(
+                        new THREE.Vector3(0, diameter / 2, 0),
+                        new THREE.Vector3(0, height - diameter / 2, 0),
+                        diameter / 2
+                    );
+                    npc.rotation.y = Math.PI / 2;
+                    npcs.push(npc);
+                    this._npc = npc;
+                });
+                loader.load("./data/map/School/Character/schoolgirl_sit.glb", (gltf) => { // 다쳐서 넘어진 친구
+                    const npc = gltf.scene;
+                    this._scene.add(npc);
                 
         
-                        npc.traverse(child => {
-                            if (child instanceof THREE.Mesh) {
-                                child.castShadow = true;
-                                child.receiveShadow = true;
-                                child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
-                            }
-                            if (child.isMesh) {
-                                child.userData.type = 'friend_hurt';
-                            }
-                        });
-                        // 애니메이션 믹서 설정
-                        const mixer = new THREE.AnimationMixer(npc);
-                        this._mixers.push(mixer);
-                        const animationsMap = {};
-                        gltf.animations.forEach((clip) => {
-                            console.log(clip.name);
-                            animationsMap[clip.name] = mixer.clipAction(clip);
-                        });
-                        npc.userData.animationsMap = animationsMap;
-                        npc.userData.mixer = mixer;
-                        // 'idle' 애니메이션 재생
-                        if (animationsMap['sit']) {
-                            const idleAction = animationsMap['sit'];
-                            idleAction.play();
+                    npc.traverse(child => {
+                        if (child instanceof THREE.Mesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                            child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
                         }
-                        npc.position.set(225, 0 , -1722);
-                        npc.scale.set(50, 50, 50);
-                        // npc.rotation.z = Math.PI / 2
-                        // npc.rotation.x = Math.PI / 2
-                        const box = (new THREE.Box3).setFromObject(npc);
-                        // npc.position.y = (box.max.y - box.min.y) /2;
-                        const height = box.max.y - box.min.y;
-                        const diameter = box.max.z - box.min.z
-                
-                        npc._capsule = new Capsule(
-                            new THREE.Vector3(0, diameter / 2, 0),
-                            new THREE.Vector3(0, height - diameter / 2, 0),
-                            diameter / 2
-                        );
-                        // npc.rotation.y = Math.PI;
-                        // npcs.push(npc);
-                        this._npc = npc;
+                        if (child.isMesh) {
+                            child.userData.type = 'friend_hurt';
+                        }
                     });
-                    loader.load("./data/map/School/Character/teacher_idle.glb", (gltf) => { // 선생님
-                        const npc = gltf.scene;
-                        this._scene.add(npc);
+                    // 애니메이션 믹서 설정
+                    const mixer = new THREE.AnimationMixer(npc);
+                    this._mixers.push(mixer);
+                    const animationsMap = {};
+                    gltf.animations.forEach((clip) => {
+                        console.log(clip.name);
+                        animationsMap[clip.name] = mixer.clipAction(clip);
+                    });
+                    npc.userData.animationsMap = animationsMap;
+                    npc.userData.mixer = mixer;
+                    // 'idle' 애니메이션 재생
+                    if (animationsMap['sit']) {
+                        const idleAction = animationsMap['sit'];
+                        idleAction.play();
+                    }
+                    npc.position.set(225, 0, -1722);
+                    npc.scale.set(50, 50, 50);
+                    // npc.rotation.z = Math.PI / 2
+                    // npc.rotation.x = Math.PI / 2
+                    const box = (new THREE.Box3).setFromObject(npc);
+                    // npc.position.y = (box.max.y - box.min.y) /2;
+                    const height = box.max.y - box.min.y;
+                    const diameter = box.max.z - box.min.z
+                
+                    npc._capsule = new Capsule(
+                        new THREE.Vector3(0, diameter / 2, 0),
+                        new THREE.Vector3(0, height - diameter / 2, 0),
+                        diameter / 2
+                    );
+                    // npc.rotation.y = Math.PI;
+                    // npcs.push(npc);
+                    this._npc = npc;
+                });
+                loader.load("./data/map/School/Character/teacher_idle.glb", (gltf) => { // 선생님
+                    const npc = gltf.scene;
+                    this._scene.add(npc);
                 
         
-                        npc.traverse(child => {
-                            if (child instanceof THREE.Mesh) {
-                                child.castShadow = true;
-                                child.receiveShadow = true;
-                                child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
-                            }
-                            if (child.isMesh) {
-                                child.userData.type = 'teacher';
-                            }
-                        });
-                        // 애니메이션 믹서 설정
-                        const mixer = new THREE.AnimationMixer(npc);
-                        this._mixers.push(mixer);
-                        const animationsMap = {};
-                        gltf.animations.forEach((clip) => {
-                            // console.log(clip.name);
-                            animationsMap[clip.name] = mixer.clipAction(clip);
-                        });
-                        npc.userData.animationsMap = animationsMap;
-                        npc.userData.mixer = mixer;
-                        // 'idle' 애니메이션 재생
-                        if (animationsMap['idle']) {
-                            const idleAction = animationsMap['idle'];
-                            idleAction.play();
+                    npc.traverse(child => {
+                        if (child instanceof THREE.Mesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                            child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
                         }
-                        npc.position.set(684, 0 , -511);
-                        npc.scale.set(50, 50, 50);
-                        const box = (new THREE.Box3).setFromObject(npc);
-                        // npc.position.y = (box.max.y - box.min.y) /2;
-                        const height = box.max.y - box.min.y;
-                        const diameter = box.max.z - box.min.z
+                        if (child.isMesh) {
+                            child.userData.type = 'teacher';
+                        }
+                    });
+                    // 애니메이션 믹서 설정
+                    const mixer = new THREE.AnimationMixer(npc);
+                    this._mixers.push(mixer);
+                    const animationsMap = {};
+                    gltf.animations.forEach((clip) => {
+                        // console.log(clip.name);
+                        animationsMap[clip.name] = mixer.clipAction(clip);
+                    });
+                    npc.userData.animationsMap = animationsMap;
+                    npc.userData.mixer = mixer;
+                    // 'idle' 애니메이션 재생
+                    if (animationsMap['idle']) {
+                        const idleAction = animationsMap['idle'];
+                        idleAction.play();
+                    }
+                    npc.position.set(684, 0, -511);
+                    npc.scale.set(50, 50, 50);
+                    const box = (new THREE.Box3).setFromObject(npc);
+                    // npc.position.y = (box.max.y - box.min.y) /2;
+                    const height = box.max.y - box.min.y;
+                    const diameter = box.max.z - box.min.z
                 
-                        npc._capsule = new Capsule(
-                            new THREE.Vector3(0, diameter / 2, 0),
-                            new THREE.Vector3(0, height - diameter / 2, 0),
-                            diameter / 2
-                        );
-                        // npc.rotation.y = Math.PI;
-                        npcs.push(npc);
-                        this._npc = npc;
+                    npc._capsule = new Capsule(
+                        new THREE.Vector3(0, diameter / 2, 0),
+                        new THREE.Vector3(0, height - diameter / 2, 0),
+                        diameter / 2
+                    );
+                    // npc.rotation.y = Math.PI;
+                    npcs.push(npc);
+                    this._npc = npc;
                         
-                        npc.onclick = () => {
-                            // 현재 플레이어의 위치 저장
-                            this.originalPosition.copy(this._model.position); // 클래스 속성에 저장
+                    npc.onclick = () => {
+                        // 현재 플레이어의 위치 저장
+                        this.originalPosition.copy(this._model.position); // 클래스 속성에 저장
                     
-                            // 플레이어를 특정 위치로 순간 이동
-                            const teleportPosition = new THREE.Vector3(-615.88, 4.07, -236.33);
-                            this._model.position.copy(teleportPosition);
-                    
-                            console.log("Player teleported to:", teleportPosition);
-                    
-                            // 0.01초 후에 카메라 전환 및 대화창 표시
-                            setTimeout(() => {
-                                this._focusOnNPC(npc); // 카메라 전환 및 대화창 띄우기
-                            }, 10); // 10ms = 0.01초
-                        };
+                        // 플레이어를 특정 위치로 순간 이동
+                        const teleportPosition = new THREE.Vector3(-615.88, 4.07, -236.33);
+                        this._model.position.copy(teleportPosition);
+                            
+                        console.log("Player teleported to:", teleportPosition);
+
+                        // 물리 엔진 상태 초기화가 필요한 경우 여기서 추가
+                        if (this._model._capsule) {
+                            this._model._capsule.start.copy(teleportPosition);
+                            this._model._capsule.end.copy(teleportPosition).y += this._model._capsule.radius * 2;
+                            console.log("캡슐 위치 초기화:", this._model._capsule.start, this._model._capsule.end);
+                        }
+                            
+                        // 0.01초 후에 카메라 전환 및 대화창 표시
+                        setTimeout(() => {
+                            this._focusOnNPC(npc); // 카메라 전환 및 대화창 띄우기
+                        }, 10); // 10ms = 0.01초
+                    };
 
 
 
-                    });
-                    loader.load("./data/map/School/Character/principal_idle2.glb", (gltf) => { //교장선생님
-                        const npc = gltf.scene;
-                        this._scene.add(npc);
+                });
+                loader.load("./data/map/School/Character/principal_idle2.glb", (gltf) => { //교장선생님
+                    const npc = gltf.scene;
+                    this._scene.add(npc);
             
         
-                        npc.traverse(child => {
-                            if (child instanceof THREE.Mesh) {
-                                child.castShadow = true;
-                                child.receiveShadow = true;
-                                child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
-                            }
-                            if (child.isMesh) {
-                                child.userData.type = 'rector';
-                            }
-                        });
-                        // 애니메이션 믹서 설정
-                        const mixer = new THREE.AnimationMixer(npc);
-                        this._mixers.push(mixer);
-                        const animationsMap = {};
-                        gltf.animations.forEach((clip) => {
-                            console.log(clip.name);
-                            animationsMap[clip.name] = mixer.clipAction(clip);
-                        });
-                        npc.userData.animationsMap = animationsMap;
-                        npc.userData.mixer = mixer;
-                        // 'idle' 애니메이션 재생
-                        if (animationsMap['idle']) {
-                            const idleAction = animationsMap['idle'];
-                            idleAction.play();
+                    npc.traverse(child => {
+                        if (child instanceof THREE.Mesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                            child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
                         }
-                        npc.position.set(-706, 0, -3827);
-                        // npc.rotation.y = Math.PI /2;
-                        // npc.scale.set(70,70,70);
-                        npc.scale.set(50, 50, 50);
-                        const box = (new THREE.Box3).setFromObject(npc);
-                        // npc.position.y = (box.max.y - box.min.y) /2;
-                        const height = box.max.y - box.min.y;
-                        const diameter = box.max.z - box.min.z
-            
-                        npc._capsule = new Capsule(
-                            new THREE.Vector3(0, diameter / 2, 0),
-                            new THREE.Vector3(0, height - diameter / 2, 0),
-                            diameter / 2
-                        );
-                        npc.rotation.y = Math.PI/4;
-                        npcs.push(npc);
-                        this._npc = npc;
+                        if (child.isMesh) {
+                            child.userData.type = 'rector';
+                        }
                     });
-                    loader.load("./data/map/School/Character/ballgamenpc_idle.glb", (gltf) => { //공놀이하는 친구
-                        const npc = gltf.scene;
-                        this._scene.add(npc);
+                    // 애니메이션 믹서 설정
+                    const mixer = new THREE.AnimationMixer(npc);
+                    this._mixers.push(mixer);
+                    const animationsMap = {};
+                    gltf.animations.forEach((clip) => {
+                        console.log(clip.name);
+                        animationsMap[clip.name] = mixer.clipAction(clip);
+                    });
+                    npc.userData.animationsMap = animationsMap;
+                    npc.userData.mixer = mixer;
+                    // 'idle' 애니메이션 재생
+                    if (animationsMap['idle']) {
+                        const idleAction = animationsMap['idle'];
+                        idleAction.play();
+                    }
+                    npc.position.set(-706, 0, -3827);
+                    // npc.rotation.y = Math.PI /2;
+                    // npc.scale.set(70,70,70);
+                    npc.scale.set(50, 50, 50);
+                    const box = (new THREE.Box3).setFromObject(npc);
+                    // npc.position.y = (box.max.y - box.min.y) /2;
+                    const height = box.max.y - box.min.y;
+                    const diameter = box.max.z - box.min.z
+            
+                    npc._capsule = new Capsule(
+                        new THREE.Vector3(0, diameter / 2, 0),
+                        new THREE.Vector3(0, height - diameter / 2, 0),
+                        diameter / 2
+                    );
+                    npc.rotation.y = Math.PI / 4;
+                    npcs.push(npc);
+                    this._npc = npc;
+                });
+                loader.load("./data/map/School/Character/ballgamenpc_idle.glb", (gltf) => { //공놀이하는 친구
+                    const npc = gltf.scene;
+                    this._scene.add(npc);
             
         
-                        npc.traverse(child => {
-                            if (child instanceof THREE.Mesh) {
-                                child.castShadow = true;
-                                child.receiveShadow = true;
-                                child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
-                            }
-                            if (child.isMesh) {
-                                child.userData.type = 'game_friend';
-                            }
-                        });
-                        // 애니메이션 믹서 설정
-                        const mixer = new THREE.AnimationMixer(npc);
-                        this._mixers.push(mixer);
-                        const animationsMap = {};
-                        gltf.animations.forEach((clip) => {
-                            // console.log(clip.name);
-                            animationsMap[clip.name] = mixer.clipAction(clip);
-                        });
-                        npc.userData.animationsMap = animationsMap;
-                        npc.userData.mixer = mixer;
-                        // 'idle' 애니메이션 재생
-                        if (animationsMap['idle']) {
-                            const idleAction = animationsMap['idle'];
-                            idleAction.play();
+                    npc.traverse(child => {
+                        if (child instanceof THREE.Mesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                            child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
                         }
-                        npc.position.set(-1326, 0, -2499);
-                        npc.scale.set(50, 50, 50);
-                        const box = (new THREE.Box3).setFromObject(npc);
-                        // npc.position.y = (box.max.y - box.min.y) /2;
-                        const height = box.max.y - box.min.y;
-                        const diameter = box.max.z - box.min.z
+                        if (child.isMesh) {
+                            child.userData.type = 'game_friend';
+                        }
+                    });
+                    // 애니메이션 믹서 설정
+                    const mixer = new THREE.AnimationMixer(npc);
+                    this._mixers.push(mixer);
+                    const animationsMap = {};
+                    gltf.animations.forEach((clip) => {
+                        // console.log(clip.name);
+                        animationsMap[clip.name] = mixer.clipAction(clip);
+                    });
+                    npc.userData.animationsMap = animationsMap;
+                    npc.userData.mixer = mixer;
+                    // 'idle' 애니메이션 재생
+                    if (animationsMap['idle']) {
+                        const idleAction = animationsMap['idle'];
+                        idleAction.play();
+                    }
+                    npc.position.set(-1326, 0, -2499);
+                    npc.scale.set(50, 50, 50);
+                    const box = (new THREE.Box3).setFromObject(npc);
+                    // npc.position.y = (box.max.y - box.min.y) /2;
+                    const height = box.max.y - box.min.y;
+                    const diameter = box.max.z - box.min.z
             
-                        npc._capsule = new Capsule(
-                            new THREE.Vector3(0, diameter / 2, 0),
-                            new THREE.Vector3(0, height - diameter / 2, 0),
-                            diameter / 2
-                        );
-                        npc.rotation.y = Math.PI / 2;
-                        npcs.push(npc);
-                        this._npc = npc;
-                    });          
-        } else if (index === 1) { // 마을회관 외부의 경우
+                    npc._capsule = new Capsule(
+                        new THREE.Vector3(0, diameter / 2, 0),
+                        new THREE.Vector3(0, height - diameter / 2, 0),
+                        diameter / 2
+                    );
+                    npc.rotation.y = Math.PI / 2;
+                    npcs.push(npc);
+                    this._npc = npc;
+                });
+            } else if (index === 1) { // 마을회관 외부의 경우
                 loader.load('./data/map/Town_building/TownB_Outside.glb', (gltf) => { // 마을회관
-                const map = gltf.scene;
-                this._scene.add(map);
-                this.map = map;
-                map.scale.set(100, 100, 100);
+                    const map = gltf.scene;
+                    this._scene.add(map);
+                    this.map = map;
+                    map.scale.set(100, 100, 100);
 
-                map.position.set(0, 0, -0);
-                // map.position.y = -40;
-                map.rotation.y = Math.PI *5 / 8;
+                    map.position.set(0, 0, -0);
+                    // map.position.y = -40;
+                    map.rotation.y = Math.PI * 5 / 8;
 
-                // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
-                map.traverse((child) => {
-                    if (child instanceof THREE.Mesh) {
-                        child.castShadow = true;
-                        child.receiveShadow = true;
-                    }
+                    // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
+                    map.traverse((child) => {
+                        if (child instanceof THREE.Mesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                        }
+                    });
+
+                    this._worldOctree.fromGraphNode(map);
+                    loadingPage.style.display = 'none'; // 로딩 페이지 숨김
+                }, undefined, function (error) {
+                    console.error(error);
                 });
+            } else if (index === 2) { // 도서관 외부의 경우
+                loader.load('./data/map/Library/Library_Outside.glb', (gltf) => { //도서관
+                    const map = gltf.scene;
+                    this._scene.add(map);
+                    this.map = map;
+                    map.scale.set(100, 100, 100);
+                    // map.rotation.y = Math.PI / -1; // Z축을 중심으로 180도 회전
 
-                this._worldOctree.fromGraphNode(map);
-                loadingPage.style.display = 'none'; // 로딩 페이지 숨김
-            }, undefined, function(error) {
-                console.error(error);
+                    // map.position.set(-1111, 0, -2561);
+                    // map.position.y = -40;
+                    map.rotation.y = Math.PI / 4;
+
+                    // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
+                    map.traverse((child) => {
+                        if (child instanceof THREE.Mesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                        }
+                    });
+
+                    this._worldOctree.fromGraphNode(map);
+                    loadingPage.style.display = 'none'; // 로딩 페이지 숨김
+                }, undefined, function (error) {
+                    console.error(error);
                 });
-        } else if (index === 2) { // 도서관 외부의 경우
-            loader.load('./data/map/Library/Library_Outside.glb', (gltf) => { //도서관
-                const map = gltf.scene;
-                this._scene.add(map);
-                this.map = map;
-                map.scale.set(100, 100, 100);
-                // map.rotation.y = Math.PI / -1; // Z축을 중심으로 180도 회전
+            } else if (index === 3) { // 공원의 경우
+                loader.load('./data/map/park/park.glb', (gltf) => {
+                    const map = gltf.scene;
+                    this._scene.add(map);
+                    this.map = map;
+                    map.scale.set(100, 100, 100);
+                    // map.rotation.y = Math.PI / -1; // Z축을 중심으로 180도 회전
 
-                // map.position.set(-1111, 0, -2561);
-                // map.position.y = -40;
-                map.rotation.y = Math.PI / 4;
+                    // map.position.set(-1111, 0, -2561);
+                    // map.position.y = -40;
+                    map.rotation.y = Math.PI / 4;
 
-                // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
-                map.traverse((child) => {
-                    if (child instanceof THREE.Mesh) {
-                        child.castShadow = true;
-                        child.receiveShadow = true;
-                    }
+                    // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
+                    map.traverse((child) => {
+                        if (child instanceof THREE.Mesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                        }
+                        if (child.name === "Fountain" || child.name === 'Cylinder003')
+                            child.userData.type = 'fountain';
+                        else if (child.name === "Warning") {
+                            child.userData.type = 'warning';
+                        }
+                    });
+
+                    this._worldOctree.fromGraphNode(map);
+                    loadingPage.style.display = 'none'; // 로딩 페이지 숨김
+                }, undefined, function (error) {
+                    console.error(error);
                 });
-
-                this._worldOctree.fromGraphNode(map);
-                loadingPage.style.display = 'none'; // 로딩 페이지 숨김
-            }, undefined, function(error) {
-                console.error(error);
-            });
-        } else if (index === 3) { // 공원의 경우
-            loader.load('./data/map/park/park.glb', (gltf) => {
-                const map = gltf.scene;
-                this._scene.add(map);
-                this.map = map;
-                map.scale.set(100, 100, 100);
-                // map.rotation.y = Math.PI / -1; // Z축을 중심으로 180도 회전
-
-                // map.position.set(-1111, 0, -2561);
-                // map.position.y = -40;
-                map.rotation.y = Math.PI / 4;
-
-                // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
-                map.traverse((child) => {
-                    if (child instanceof THREE.Mesh) {
-                        child.castShadow = true;
-                        child.receiveShadow = true;
-                    }
-                    if(child.name === "Fountain" || child.name ==='Cylinder003')
-                        child.userData.type = 'fountain';
-                    else if(child.name === "Warning"){
-                        child.userData.type = 'warning';
-                    }
-                });
-
-                this._worldOctree.fromGraphNode(map);
-                loadingPage.style.display = 'none'; // 로딩 페이지 숨김
-            }, undefined, function(error) {
-                console.error(error);
-            });
-            loader.load("./data/map/Park/Character/park_female_idle.glb", (gltf) => { // 물건을 떨어뜨린 사람
-                const npc = gltf.scene;
-                this._scene.add(npc);
+                loader.load("./data/map/Park/Character/park_female_idle.glb", (gltf) => { // 물건을 떨어뜨린 사람
+                    const npc = gltf.scene;
+                    this._scene.add(npc);
         
 
-                npc.traverse(child => {
-                    if (child instanceof THREE.Mesh) {
-                        child.castShadow = true;
-                        child.receiveShadow = true;
-                        child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
+                    npc.traverse(child => {
+                        if (child instanceof THREE.Mesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                            child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
+                        }
+                        if (child.isMesh) {
+                            child.userData.type = 'fall_item';
+                        }
+                    });
+                    // 애니메이션 믹서 설정
+                    const mixer = new THREE.AnimationMixer(npc);
+                    this._mixers.push(mixer);
+                    const animationsMap = {};
+                    gltf.animations.forEach((clip) => {
+                        // console.log(clip.name);
+                        animationsMap[clip.name] = mixer.clipAction(clip);
+                    });
+                    npc.userData.animationsMap = animationsMap;
+                    npc.userData.mixer = mixer;
+                    // 'idle' 애니메이션 재생
+                    if (animationsMap['idle']) {
+                        const idleAction = animationsMap['idle'];
+                        idleAction.play();
                     }
-                    if (child.isMesh) {
-                        child.userData.type = 'fall_item';
-                    }
-                });
-                // 애니메이션 믹서 설정
-                const mixer = new THREE.AnimationMixer(npc);
-                this._mixers.push(mixer);
-                const animationsMap = {};
-                gltf.animations.forEach((clip) => {
-                    // console.log(clip.name);
-                    animationsMap[clip.name] = mixer.clipAction(clip);
-                });
-                npc.userData.animationsMap = animationsMap;
-                npc.userData.mixer = mixer;
-                // 'idle' 애니메이션 재생
-                if (animationsMap['idle']) {
-                    const idleAction = animationsMap['idle'];
-                    idleAction.play();
-                }
-                npc.position.set(32, 40, -650);
-                npc.scale.set(50, 50, 50);
-                const box = (new THREE.Box3).setFromObject(npc);
-                // npc.position.y = (box.max.y - box.min.y) /2;
-                const height = box.max.y - box.min.y;
-                const diameter = box.max.z - box.min.z
+                    npc.position.set(32, 40, -650);
+                    npc.scale.set(50, 50, 50);
+                    const box = (new THREE.Box3).setFromObject(npc);
+                    // npc.position.y = (box.max.y - box.min.y) /2;
+                    const height = box.max.y - box.min.y;
+                    const diameter = box.max.z - box.min.z
         
-                npc._capsule = new Capsule(
-                    new THREE.Vector3(0, diameter / 2, 0),
-                    new THREE.Vector3(0, height - diameter / 2, 0),
-                    diameter / 2
-                );
-                // npc.rotation.y = Math.PI;
-                npcs.push(npc);
-                this._npc = npc;
-            });
-            loader.load("./data/map/Park/Character/park_man_idle.glb", (gltf) => { // 산책하는 아저씨
-            const npc = gltf.scene;
-            this._scene.add(npc);
+                    npc._capsule = new Capsule(
+                        new THREE.Vector3(0, diameter / 2, 0),
+                        new THREE.Vector3(0, height - diameter / 2, 0),
+                        diameter / 2
+                    );
+                    // npc.rotation.y = Math.PI;
+                    npcs.push(npc);
+                    this._npc = npc;
+                });
+                loader.load("./data/map/Park/Character/park_man_idle.glb", (gltf) => { // 산책하는 아저씨
+                    const npc = gltf.scene;
+                    this._scene.add(npc);
     
 
-            npc.traverse(child => {
-                if (child instanceof THREE.Mesh) {
-                    child.castShadow = true;
-                    child.receiveShadow = true;
-                    child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
-                }
-                if (child.isMesh) {
-                    child.userData.type = 'grandfather';
-                }
-            });
-            // 애니메이션 믹서 설정
-            const mixer = new THREE.AnimationMixer(npc);
-            this._mixers.push(mixer);
-            const animationsMap = {};
-            gltf.animations.forEach((clip) => {
-                // console.log(clip.name);
-                animationsMap[clip.name] = mixer.clipAction(clip);
-            });
-            npc.userData.animationsMap = animationsMap;
-            npc.userData.mixer = mixer;
-            // 'idle' 애니메이션 재생
-            if (animationsMap['idle']) {
-                const idleAction = animationsMap['idle'];
-                idleAction.play();
-            }
-            npc.position.set(32, 40, -650);
-            npc.scale.set(50, 50, 50);
-            const box = (new THREE.Box3).setFromObject(npc);
-            // npc.position.y = (box.max.y - box.min.y) /2;
-            const height = box.max.y - box.min.y;
-            const diameter = box.max.z - box.min.z
+                    npc.traverse(child => {
+                        if (child instanceof THREE.Mesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                            child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
+                        }
+                        if (child.isMesh) {
+                            child.userData.type = 'grandfather';
+                        }
+                    });
+                    // 애니메이션 믹서 설정
+                    const mixer = new THREE.AnimationMixer(npc);
+                    this._mixers.push(mixer);
+                    const animationsMap = {};
+                    gltf.animations.forEach((clip) => {
+                        // console.log(clip.name);
+                        animationsMap[clip.name] = mixer.clipAction(clip);
+                    });
+                    npc.userData.animationsMap = animationsMap;
+                    npc.userData.mixer = mixer;
+                    // 'idle' 애니메이션 재생
+                    if (animationsMap['idle']) {
+                        const idleAction = animationsMap['idle'];
+                        idleAction.play();
+                    }
+                    npc.position.set(32, 40, -650);
+                    npc.scale.set(50, 50, 50);
+                    const box = (new THREE.Box3).setFromObject(npc);
+                    // npc.position.y = (box.max.y - box.min.y) /2;
+                    const height = box.max.y - box.min.y;
+                    const diameter = box.max.z - box.min.z
     
-            npc._capsule = new Capsule(
-                new THREE.Vector3(0, diameter / 2, 0),
-                new THREE.Vector3(0, height - diameter / 2, 0),
-                diameter / 2
-            );
-            // npc.rotation.y = Math.PI;
-            npcs.push(npc);
-            this._npc = npc;
-            });
-            loader.load("./data/map/park/Character/park_gameNPC_idle.glb", (gltf) => { // 캐리커쳐 학생
-        const npc = gltf.scene;
-        this._scene.add(npc);
+                    npc._capsule = new Capsule(
+                        new THREE.Vector3(0, diameter / 2, 0),
+                        new THREE.Vector3(0, height - diameter / 2, 0),
+                        diameter / 2
+                    );
+                    // npc.rotation.y = Math.PI;
+                    npcs.push(npc);
+                    this._npc = npc;
+                });
+                loader.load("./data/map/park/Character/park_gameNPC_idle.glb", (gltf) => { // 캐리커쳐 학생
+                    const npc = gltf.scene;
+                    this._scene.add(npc);
 
 
-        npc.traverse(child => {
-            if (child instanceof THREE.Mesh) {
-                child.castShadow = true;
-                child.receiveShadow = true;
-                child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
-            }
-            if (child.isMesh) {
-                child.userData.type = 'park_game';
-            }
-        });
-        // 애니메이션 믹서 설정
-        const mixer = new THREE.AnimationMixer(npc);
-        this._mixers.push(mixer);
-        const animationsMap = {};
-        gltf.animations.forEach((clip) => {
-            // console.log(clip.name);
-            animationsMap[clip.name] = mixer.clipAction(clip);
-        });
-        npc.userData.animationsMap = animationsMap;
-        npc.userData.mixer = mixer;
-        // 'idle' 애니메이션 재생
-        if (animationsMap['idle']) {
-            const idleAction = animationsMap['idle'];
-            idleAction.play();
-        }
-        npc.position.set(32, 40, -650);
-        npc.scale.set(50, 50, 50);
-        const box = (new THREE.Box3).setFromObject(npc);
-        // npc.position.y = (box.max.y - box.min.y) /2;
-        const height = box.max.y - box.min.y;
-        const diameter = box.max.z - box.min.z
-
-        npc._capsule = new Capsule(
-            new THREE.Vector3(0, diameter / 2, 0),
-            new THREE.Vector3(0, height - diameter / 2, 0),
-            diameter / 2
-        );
-        // npc.rotation.y = Math.PI;
-        npcs.push(npc);
-        this._npc = npc;
-            });
-
-        } else if (index === 4) { // 마을회관 내부의 경우
-            loader.load('./data/map/Town_building/TownB_Inside.glb', (gltf) => {
-                const map = gltf.scene;
-                this._scene.add(map);
-                this.map = map;
-                map.scale.set(100, 100, 100);
-                // map.rotation.y = Math.PI / -1; // Z축을 중심으로 180도 회전
-
-                // map.position.set(-1111, 0, -2561);
-                // map.position.y = -40;
-                map.rotation.y = Math.PI / 4;
-
-                // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
-                map.traverse((child) => {
-                    if (child instanceof THREE.Mesh) {
-                        child.castShadow = true;
-                        child.receiveShadow = true;
+                    npc.traverse(child => {
+                        if (child instanceof THREE.Mesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                            child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
+                        }
+                        if (child.isMesh) {
+                            child.userData.type = 'park_game';
+                        }
+                    });
+                    // 애니메이션 믹서 설정
+                    const mixer = new THREE.AnimationMixer(npc);
+                    this._mixers.push(mixer);
+                    const animationsMap = {};
+                    gltf.animations.forEach((clip) => {
+                        // console.log(clip.name);
+                        animationsMap[clip.name] = mixer.clipAction(clip);
+                    });
+                    npc.userData.animationsMap = animationsMap;
+                    npc.userData.mixer = mixer;
+                    // 'idle' 애니메이션 재생
+                    if (animationsMap['idle']) {
+                        const idleAction = animationsMap['idle'];
+                        idleAction.play();
                     }
+                    npc.position.set(32, 40, -650);
+                    npc.scale.set(50, 50, 50);
+                    const box = (new THREE.Box3).setFromObject(npc);
+                    // npc.position.y = (box.max.y - box.min.y) /2;
+                    const height = box.max.y - box.min.y;
+                    const diameter = box.max.z - box.min.z
+
+                    npc._capsule = new Capsule(
+                        new THREE.Vector3(0, diameter / 2, 0),
+                        new THREE.Vector3(0, height - diameter / 2, 0),
+                        diameter / 2
+                    );
+                    // npc.rotation.y = Math.PI;
+                    npcs.push(npc);
+                    this._npc = npc;
                 });
 
-                this._worldOctree.fromGraphNode(map);
-                loadingPage.style.display = 'none'; // 로딩 페이지 숨김
-            }, undefined, function(error) {
-                console.error(error);
-            });
-            loader.load("./data/map/Town_building/Character/town_grandpa_sit.glb", (gltf) => { // 할아버지
-                const npc = gltf.scene;
-                this._scene.add(npc);
+            } else if (index === 4) { // 마을회관 내부의 경우
+                loader.load('./data/map/Town_building/TownB_Inside.glb', (gltf) => {
+                    const map = gltf.scene;
+                    this._scene.add(map);
+                    this.map = map;
+                    map.scale.set(100, 100, 100);
+                    // map.rotation.y = Math.PI / -1; // Z축을 중심으로 180도 회전
+
+                    // map.position.set(-1111, 0, -2561);
+                    // map.position.y = -40;
+                    map.rotation.y = Math.PI / 4;
+
+                    // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
+                    map.traverse((child) => {
+                        if (child instanceof THREE.Mesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                        }
+                    });
+
+                    this._worldOctree.fromGraphNode(map);
+                    loadingPage.style.display = 'none'; // 로딩 페이지 숨김
+                }, undefined, function (error) {
+                    console.error(error);
+                });
+                loader.load("./data/map/Town_building/Character/town_grandpa_sit.glb", (gltf) => { // 할아버지
+                    const npc = gltf.scene;
+                    this._scene.add(npc);
         
 
-                npc.traverse(child => {
-                    if (child instanceof THREE.Mesh) {
-                        child.castShadow = true;
-                        child.receiveShadow = true;
-                        child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
+                    npc.traverse(child => {
+                        if (child instanceof THREE.Mesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                            child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
+                        }
+                        if (child.isMesh) {
+                            child.userData.type = 'grandfather';
+                        }
+                    });
+                    // 애니메이션 믹서 설정
+                    const mixer = new THREE.AnimationMixer(npc);
+                    this._mixers.push(mixer);
+                    const animationsMap = {};
+                    gltf.animations.forEach((clip) => {
+                        // console.log(clip.name);
+                        animationsMap[clip.name] = mixer.clipAction(clip);
+                    });
+                    npc.userData.animationsMap = animationsMap;
+                    npc.userData.mixer = mixer;
+                    // 'idle' 애니메이션 재생
+                    if (animationsMap['sit']) {
+                        const idleAction = animationsMap['sit'];
+                        idleAction.play();
                     }
-                    if (child.isMesh) {
-                        child.userData.type = 'grandfather';
-                    }
-                });
-                // 애니메이션 믹서 설정
-                const mixer = new THREE.AnimationMixer(npc);
-                this._mixers.push(mixer);
-                const animationsMap = {};
-                gltf.animations.forEach((clip) => {
-                    // console.log(clip.name);
-                    animationsMap[clip.name] = mixer.clipAction(clip);
-                });
-                npc.userData.animationsMap = animationsMap;
-                npc.userData.mixer = mixer;
-                // 'idle' 애니메이션 재생
-                if (animationsMap['sit']) {
-                    const idleAction = animationsMap['sit'];
-                    idleAction.play();
-                }
-                npc.position.set(32, 40, -650);
-                npc.scale.set(50, 50, 50);
-                const box = (new THREE.Box3).setFromObject(npc);
-                // npc.position.y = (box.max.y - box.min.y) /2;
-                const height = box.max.y - box.min.y;
-                const diameter = box.max.z - box.min.z
+                    npc.position.set(32, 40, -650);
+                    npc.scale.set(50, 50, 50);
+                    const box = (new THREE.Box3).setFromObject(npc);
+                    // npc.position.y = (box.max.y - box.min.y) /2;
+                    const height = box.max.y - box.min.y;
+                    const diameter = box.max.z - box.min.z
         
-                npc._capsule = new Capsule(
-                    new THREE.Vector3(0, diameter / 2, 0),
-                    new THREE.Vector3(0, height - diameter / 2, 0),
-                    diameter / 2
-                );
-                // npc.rotation.y = Math.PI;
-                npcs.push(npc);
-                this._npc = npc;
-            });
-            loader.load("./data/map/Town_building/Character/town_lady_idle.glb", (gltf) => { //부녀회장
+                    npc._capsule = new Capsule(
+                        new THREE.Vector3(0, diameter / 2, 0),
+                        new THREE.Vector3(0, height - diameter / 2, 0),
+                        diameter / 2
+                    );
+                    // npc.rotation.y = Math.PI;
+                    npcs.push(npc);
+                    this._npc = npc;
+                });
+                loader.load("./data/map/Town_building/Character/town_lady_idle.glb", (gltf) => { //부녀회장
                     const npc = gltf.scene;
                     this._scene.add(npc);
             
@@ -962,8 +969,8 @@ export function initThreeJS(){
                     npc.rotation.y = Math.PI;
                     npcs.push(npc);
                     this._npc = npc;
-            });
-            loader.load("./data/map/Town_building/Character/town_grandma_idle.glb", (gltf) => { //할머니
+                });
+                loader.load("./data/map/Town_building/Character/town_grandma_idle.glb", (gltf) => { //할머니
                     const npc = gltf.scene;
                     this._scene.add(npc);
             
@@ -1008,8 +1015,8 @@ export function initThreeJS(){
                     // npc.rotation.y = Math.PI;
                     npcs.push(npc);
                     this._npc = npc;
-            });
-            loader.load("./data/map/Town_building/Character/town_granddaughter_idle.glb", (gltf) => { //종이접기하는 손녀
+                });
+                loader.load("./data/map/Town_building/Character/town_granddaughter_idle.glb", (gltf) => { //종이접기하는 손녀
                     const npc = gltf.scene;
                     this._scene.add(npc);
             
@@ -1054,94 +1061,94 @@ export function initThreeJS(){
                     // npc.rotation.y = Math.PI;
                     npcs.push(npc);
                     this._npc = npc;
-            });
-            loader.load("./data/map/Town_building/Character/town_chief_idle.glb", (gltf) => { //이장
-                const npc = gltf.scene;
-                this._scene.add(npc);
+                });
+                loader.load("./data/map/Town_building/Character/town_chief_idle.glb", (gltf) => { //이장
+                    const npc = gltf.scene;
+                    this._scene.add(npc);
         
 
-                npc.traverse(child => {
-                    if (child instanceof THREE.Mesh) {
-                        child.castShadow = true;
-                        child.receiveShadow = true;
-                        child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
+                    npc.traverse(child => {
+                        if (child instanceof THREE.Mesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                            child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
+                        }
+                        if (child.isMesh) {
+                            child.userData.type = 'town_chief';
+                        }
+                    });
+                    // 애니메이션 믹서 설정
+                    const mixer = new THREE.AnimationMixer(npc);
+                    this._mixers.push(mixer);
+                    const animationsMap = {};
+                    gltf.animations.forEach((clip) => {
+                        // console.log(clip.name);
+                        animationsMap[clip.name] = mixer.clipAction(clip);
+                    });
+                    npc.userData.animationsMap = animationsMap;
+                    npc.userData.mixer = mixer;
+                    // 'idle' 애니메이션 재생
+                    if (animationsMap['idle']) {
+                        const idleAction = animationsMap['idle'];
+                        idleAction.play();
                     }
-                    if (child.isMesh) {
-                        child.userData.type = 'town_chief';
-                    }
-                });
-                // 애니메이션 믹서 설정
-                const mixer = new THREE.AnimationMixer(npc);
-                this._mixers.push(mixer);
-                const animationsMap = {};
-                gltf.animations.forEach((clip) => {
-                    // console.log(clip.name);
-                    animationsMap[clip.name] = mixer.clipAction(clip);
-                });
-                npc.userData.animationsMap = animationsMap;
-                npc.userData.mixer = mixer;
-                // 'idle' 애니메이션 재생
-                if (animationsMap['idle']) {
-                    const idleAction = animationsMap['idle'];
-                    idleAction.play();
-                }
-                npc.position.set(-0, 0, -0);
-                npc.scale.set(50, 50, 50);
-                const box = (new THREE.Box3).setFromObject(npc);
-                // npc.position.y = (box.max.y - box.min.y) /2;
-                const height = box.max.y - box.min.y;
-                const diameter = box.max.z - box.min.z
+                    npc.position.set(-0, 0, -0);
+                    npc.scale.set(50, 50, 50);
+                    const box = (new THREE.Box3).setFromObject(npc);
+                    // npc.position.y = (box.max.y - box.min.y) /2;
+                    const height = box.max.y - box.min.y;
+                    const diameter = box.max.z - box.min.z
         
-                npc._capsule = new Capsule(
-                    new THREE.Vector3(0, diameter / 2, 0),
-                    new THREE.Vector3(0, height - diameter / 2, 0),
-                    diameter / 2
-                );
-                // npc.rotation.y = Math.PI;
-                npcs.push(npc);
-                this._npc = npc;
-        });
-        } else if (index === 5) { // 도서관 내부의 경우
-            loader.load('./data/map/Library/Library_inside.glb', (gltf) => {
-                const map = gltf.scene;
-                this._scene.add(map);
-                this.map = map;
-                map.scale.set(100, 100, 100);
-                // map.rotation.y = Math.PI / -1; // Z축을 중심으로 180도 회전
-
-                // map.position.set(-1111, 0, -2561);
-                // map.position.y = -40;
-                map.rotation.y = Math.PI / 4;
-
-                // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
-                map.traverse((child) => {
-                    if (child instanceof THREE.Mesh) {
-                        child.castShadow = true;
-                        child.receiveShadow = true;
-                    }
+                    npc._capsule = new Capsule(
+                        new THREE.Vector3(0, diameter / 2, 0),
+                        new THREE.Vector3(0, height - diameter / 2, 0),
+                        diameter / 2
+                    );
+                    // npc.rotation.y = Math.PI;
+                    npcs.push(npc);
+                    this._npc = npc;
                 });
+            } else if (index === 5) { // 도서관 내부의 경우
+                loader.load('./data/map/Library/Library_inside.glb', (gltf) => {
+                    const map = gltf.scene;
+                    this._scene.add(map);
+                    this.map = map;
+                    map.scale.set(100, 100, 100);
+                    // map.rotation.y = Math.PI / -1; // Z축을 중심으로 180도 회전
 
-                this._worldOctree.fromGraphNode(map);
-                loadingPage.style.display = 'none'; // 로딩 페이지 숨김
-            }, undefined, function(error) {
-                console.error(error);
-            });
+                    // map.position.set(-1111, 0, -2561);
+                    // map.position.y = -40;
+                    map.rotation.y = Math.PI / 4;
+
+                    // map 내의 모든 자식 객체를 순회하여 그림자 설정 적용
+                    map.traverse((child) => {
+                        if (child instanceof THREE.Mesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                        }
+                    });
+
+                    this._worldOctree.fromGraphNode(map);
+                    loadingPage.style.display = 'none'; // 로딩 페이지 숨김
+                }, undefined, function (error) {
+                    console.error(error);
+                });
+            }
         }
-    }
 
         _loadPlayerModel() {
-        // 플레이어 모델 로드
+            // 플레이어 모델 로드
             const loader = new GLTFLoader();
 
 
-        loader.load('./data/gPlayer.glb', (gltf) => {
-            const model = gltf.scene;
-            model.traverse(child => {
-                                if (child instanceof THREE.Mesh) {
-                                    child.castShadow = true;
-                                    child.receiveShadow = true;
-                                }
-                            });
+            loader.load('./data/gPlayer.glb', (gltf) => {
+                const model = gltf.scene;
+                model.traverse(child => {
+                    if (child instanceof THREE.Mesh) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                    }
+                });
             
                     
                 const animationClips = gltf.animations;
@@ -1165,68 +1172,68 @@ export function initThreeJS(){
                 model._capsule = new Capsule(
                     new THREE.Vector3(0, 0, 0),
                     new THREE.Vector3(0, height, 0),
-                    (diameter/2)*3
+                    (diameter / 2) * 3
                 );
                 
                 model.scale.set(50, 50, 50);
-                model.position.set(-0.5,10,-9)
+                model.position.set(-0.5, 10, -9)
                 model.rotation.y = Math.PI;
-                    const axisHelper = new THREE.AxesHelper(1000);
-                    // this._scene.add(axisHelper)
-                    const boxHelper = new THREE.BoxHelper(model);
-                    // this._scene.add(boxHelper);
-                    this._boxHelper = boxHelper;
-                    this._model = model;
+                const axisHelper = new THREE.AxesHelper(1000);
+                // this._scene.add(axisHelper)
+                const boxHelper = new THREE.BoxHelper(model);
+                // this._scene.add(boxHelper);
+                this._boxHelper = boxHelper;
+                this._model = model;
         
-                    this._scene.add(this._model);
-        });
+                this._scene.add(this._model);
+            });
         
-            loader.load("./data/maru_anim_noneT.glb",(gltf) =>{
-            const support = gltf.scene;
-            this._scene.add(support);
+            loader.load("./data/maru_anim_noneT.glb", (gltf) => {
+                const support = gltf.scene;
+                this._scene.add(support);
             
         
-            support.traverse(child =>{
-                if(child instanceof THREE.Mesh) {
-                    child.castShadow = true;
-                    child.receiveShadow = true;
+                support.traverse(child => {
+                    if (child instanceof THREE.Mesh) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                    }
+                    if (child.isMesh) {
+                        child.userData.type = 'maru';
+                    }
+                });
+                // 애니메이션 믹서 설정
+                const mixer = new THREE.AnimationMixer(support);
+                this._mixers.push(mixer);
+                const animationsMap = {};
+                gltf.animations.forEach((clip) => {
+                    console.log(clip.name)
+                    animationsMap[clip.name] = mixer.clipAction(clip);
+                });
+                support.userData.animationsMap = animationsMap;
+                support.userData.mixer = mixer;
+                // 'idle' 애니메이션 재생
+                if (animationsMap['Run']) {
+                    const idleAction = animationsMap['Run'];
+                    idleAction.play();
                 }
-                if (child.isMesh) {
-                    child.userData.type = 'maru';
-                }
-            });
-            // 애니메이션 믹서 설정
-            const mixer = new THREE.AnimationMixer(support);
-            this._mixers.push(mixer);
-            const animationsMap = {};
-            gltf.animations.forEach((clip) => {
-                console.log(clip.name)
-                animationsMap[clip.name] = mixer.clipAction(clip);
-            });
-            support.userData.animationsMap = animationsMap;
-            support.userData.mixer = mixer;
-            // 'idle' 애니메이션 재생
-            if (animationsMap['Run']) {
-                const idleAction = animationsMap['Run'];
-                idleAction.play();
-            }
-            // npc.position.set(1000,0,-230);
-            support.scale.set(50,50,50);
-            support.position.set(50,0,0)
-            // const box = (new THREE.Box3).setFromObject(support);
-            // npc.position.y = (box.max.y - box.min.y) /2;
-            // const height = box.max.y - box.min.y;
-            // const diameter = box.max.z - box.min.z
+                // npc.position.set(1000,0,-230);
+                support.scale.set(50, 50, 50);
+                support.position.set(50, 0, 0)
+                // const box = (new THREE.Box3).setFromObject(support);
+                // npc.position.y = (box.max.y - box.min.y) /2;
+                // const height = box.max.y - box.min.y;
+                // const diameter = box.max.z - box.min.z
             
-            // npc._capsule = new Capsule(
-            //     new THREE.Vector3(0, diameter/2, 0),
-            //     new THREE.Vector3(0, height - diameter/2, 0),
-            //     diameter/2
-            // );
-            support.rotation.y = Math.PI;
-            this._support = support;
-            this._worldOctree.fromGraphNode(support);
-        });
+                // npc._capsule = new Capsule(
+                //     new THREE.Vector3(0, diameter/2, 0),
+                //     new THREE.Vector3(0, height - diameter/2, 0),
+                //     diameter/2
+                // );
+                support.rotation.y = Math.PI;
+                this._support = support;
+                this._worldOctree.fromGraphNode(support);
+            });
         }
 
         _switchScene(index) {
@@ -1238,115 +1245,132 @@ export function initThreeJS(){
             // sound가 이미 재생 중인지 확인
             if (!this._sound.isPlaying) {
                 this._audioLoader.load('./data/Playtime_LOOP.WAV', (buffer) => {
-                this._sound.setBuffer(buffer);
-                this._sound.setLoop(true);
-                this._sound.setVolume(this._initialVolume); // 초기 볼륨 적용
-                this._sound.play();
-        });
+                    this._sound.setBuffer(buffer);
+                    this._sound.setLoop(true);
+                    this._sound.setVolume(this._initialVolume); // 초기 볼륨 적용
+                    this._sound.play();
+                });
             }
             // loadingPage.style.display = 'block'; // 로딩 페이지 숨김
             if (index >= 0 && index < this._scenes.length) {
                 // 이전 씬에서 플레이어 모델 제거
                 if (this._model) {
-                    this._scene.remove(this._model,this._support);
+                    this._scene.remove(this._model, this._support);
                     
                 }
 
-            // Octree를 초기화
+                // Octree를 초기화
             
-            // 씬 전환
-            this._currentSceneIndex = index;
-            this._scene = this._scenes[index];
+                // 씬 전환
+                this._currentSceneIndex = index;
+                this._scene = this._scenes[index];
             
-            console.log(`Scene ${index + 1}로 전환됨`);
+                console.log(`Scene ${index + 1}로 전환됨`);
             
-            // 처음으로 해당 씬에 접근할 때만 모델 로드
-            if (!this._scene.modelsLoaded) {
-                this._loadSceneModels(this._scene, index);
-                this._scene.modelsLoaded = true;
-            }
-            // this._loadSceneModels(this._scene, index);
-            // this._scene.modelsLoaded = true;
-            
-            this._setupOctree();
-            // 새로운 씬에 플레이어 모델 추가
-            if (this._model) {
-                let startPosition;
-                switch (index) {
-                    case 0:
-                        startPosition = new THREE.Vector3(-1214, 15, 197); // 첫 번째 씬 위치
-                        // this._setupOctree();
-                        break;
-                    case 1:
-                        startPosition = new THREE.Vector3(100, 0, 100); // 두 번째 씬 위치
-                        console.log("case1 전환")
-                        // this._setupOctree();
-                        break;
-                    case 2:
-                        startPosition = new THREE.Vector3(-50, 10, -50); // 세 번째 씬 위치
-                        break;
-                    default:
-                        startPosition = new THREE.Vector3(0, 10, 0); // 기본 위치
-                        break;
+                // 처음으로 해당 씬에 접근할 때만 모델 로드
+                if (!this._scene.modelsLoaded) {
+                    this._loadSceneModels(this._scene, index);
+                    this._scene.modelsLoaded = true;
                 }
+                // this._loadSceneModels(this._scene, index);
+                // this._scene.modelsLoaded = true;
+            
+                this._setupOctree();
+                // 새로운 씬에 플레이어 모델 추가
+                if (this._model) {
+                    let startPosition;
+                    switch (index) {
+                        case 0:
+                            startPosition = new THREE.Vector3(-1214, 15, 197); // 첫 번째 씬 위치
+                            // this._setupOctree();
+                            break;
+                        case 1:
+                            startPosition = new THREE.Vector3(100, 0, 100); // 두 번째 씬 위치
+                            console.log("case1 전환")
+                            // this._setupOctree();
+                            break;
+                        case 2:
+                            startPosition = new THREE.Vector3(-50, 10, -50); // 세 번째 씬 위치
+                            break;
+                        default:
+                            startPosition = new THREE.Vector3(0, 10, 0); // 기본 위치
+                            break;
+                    }
 
-                // 플레이어 위치 초기화
-                this._model.position.copy(startPosition);
+                    // 플레이어 위치 초기화
+                    this._model.position.copy(startPosition);
 
-                // 추가적인 상태 확인을 위한 콘솔 로그
-            console.log("플레이어 위치 설정:", this._model.position);
+                    // 추가적인 상태 확인을 위한 콘솔 로그
+                    console.log("플레이어 위치 설정:", this._model.position);
 
-            // 물리 엔진 상태 초기화가 필요한 경우 여기서 추가
-            if (this._model._capsule) {
-                this._model._capsule.start.copy(startPosition);
-                this._model._capsule.end.copy(startPosition).y += this._model._capsule.radius * 2;
-                console.log("캡슐 위치 초기화:", this._model._capsule.start, this._model._capsule.end);
-                }
-                // this._model.position.y = 4; // Y축 고
-                this._scene.add(this._model,this._support);
+                    // 물리 엔진 상태 초기화가 필요한 경우 여기서 추가
+                    if (this._model._capsule) {
+                        this._model._capsule.start.copy(startPosition);
+                        this._model._capsule.end.copy(startPosition).y += this._model._capsule.radius * 2;
+                        console.log("캡슐 위치 초기화:", this._model._capsule.start, this._model._capsule.end);
+                    }
+                    // this._model.position.y = 4; // Y축 고
+                    this._scene.add(this._model, this._support);
                 
                 }
                 document.getElementById("BtnMaps").style.display = "none";
-    }
-        }        
+            }
+        }
         _onMouseClick(event) {
 
-                console.log('Mouse click event'); // 디버그 로그
+            console.log('Mouse click event'); // 디버그 로그
 
-                // 마우스 위치를 정규화된 장치 좌표로 변환
-                this._mouse.x = ( event.clientX / this._divContainer.clientWidth ) * 2 - 1;
-                this._mouse.y = - ( event.clientY / this._divContainer.clientHeight ) * 2 + 1;
-                const maxDistance = 50000; // 예를 들어 50 유닛
-                // Raycaster 업데이트
-                this._raycaster.setFromCamera(this._mouse, this._camera);
-                // this._raycaster.ray.origin.copy(this._model.position); // 플레이어 위치로 광선 시작점 설정
-                // this._raycaster.near = 0;
-                // this._raycaster.far = maxDistance;
+            // 마우스 위치를 정규화된 장치 좌표로 변환
+            this._mouse.x = (event.clientX / this._divContainer.clientWidth) * 2 - 1;
+            this._mouse.y = - (event.clientY / this._divContainer.clientHeight) * 2 + 1;
+            const maxDistance = 50000; // 예를 들어 50 유닛
+            // Raycaster 업데이트
+            this._raycaster.setFromCamera(this._mouse, this._camera);
+            // this._raycaster.ray.origin.copy(this._model.position); // 플레이어 위치로 광선 시작점 설정
+            // this._raycaster.near = 0;
+            // this._raycaster.far = maxDistance;
             
-                // 클릭된 객체 확인
-                const intersects = this._raycaster.intersectObjects(this._scene.children, true);
-                if (intersects.length > 0) {
-                    for (let i = 0; i < intersects.length; i++) {
-                        const selectedObject = intersects[0].object; // 첫 번째 교차된 객체만 사용
+            // 클릭된 객체 확인
+            const intersects = this._raycaster.intersectObjects(this._scene.children, true);
+            if (intersects.length > 0) {
+                for (let i = 0; i < intersects.length; i++) {
+                    const selectedObject = intersects[0].object; // 첫 번째 교차된 객체만 사용
 
-                        console.log('Clicked object:', selectedObject); // 클릭된 객체 정보 로그
-                        if (selectedObject.name === 'teleport') {
-                            console.log("teleport");
-                        }
-
-            
-                        if (selectedObject.userData && selectedObject.userData.isNPC) {
-
-                            console.log('NPC clicked, focusing on NPC'); // NPC 클릭 여부 확인하는 로그
-                            this._focusOnNPC(selectedObject);
-                            // this._showNpcDialog(selectedObject);
+                    console.log('Clicked object:', selectedObject); // 클릭된 객체 정보 로그
+                    if (selectedObject.name === 'teleport') {
+                        console.log("teleport");
+                    }
+                    else if (selectedObject.userData.type === 'teacher') {
+                        // 현재 플레이어의 위치 저장
+                        this.originalPosition.copy(this._model.position); // 클래스 속성에 저장
+                    
+                        // 플레이어를 특정 위치로 순간 이동
+                        const teleportPosition = new THREE.Vector3(705, 4.07, -46);
+                        this._model.position.copy(teleportPosition);
                             
-                            break; // 첫 번째 NPC 객체만 처리하고 루프 종료
-                        }else if(selectedObject.userData.type === 'warning'||selectedObject.userData.type === 'fountain'){
-                            this._showNpcDialog(selectedObject.userData.type);
+                        console.log("Player teleported to:", teleportPosition);
+
+                        // 물리 엔진 상태 초기화가 필요한 경우 여기서 추가
+                        if (this._model._capsule) {
+                            this._model._capsule.start.copy(teleportPosition);
+                            this._model._capsule.end.copy(teleportPosition).y += this._model._capsule.radius * 2;
+                            console.log("캡슐 위치 초기화:", this._model._capsule.start, this._model._capsule.end);
                         }
                     }
+
+            
+                    if (selectedObject.userData && selectedObject.userData.isNPC) {
+
+                        console.log('NPC clicked, focusing on NPC'); // NPC 클릭 여부 확인하는 로그
+                        this._focusOnNPC(selectedObject);
+                        // this._showNpcDialog(selectedObject);
+                            
+                        break; // 첫 번째 NPC 객체만 처리하고 루프 종료
+                    } else if (selectedObject.userData.type === 'warning' || selectedObject.userData.type === 'fountain') {
+                        this._showNpcDialog(selectedObject.userData.type);
+                    }
                 }
+            }
         }
         
         _showNpcDialog(npcType) {
@@ -1364,8 +1388,22 @@ export function initThreeJS(){
             var button = document.querySelector("#buttonGroup button")
             var recordButton = document.getElementById('recordButton')
             var choose_answer
-            var message =`대화 상대가 ${npcType.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent},${option2.textContent},${option3.textContent}가 있다.그리고 아이가 고른 선택지는 ${choose_answer}이다.`
+            var message = `대화 상대가 ${npcType.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent},${option2.textContent},${option3.textContent}가 있다.그리고 아이가 고른 선택지는 ${choose_answer}이다.`
             var count = 0;
+
+            function resetplayerposition() {
+                this._model.position.copy(this.originalPosition);
+                            
+                console.log("Player teleported to:", this.originalPosition);
+
+                // 물리 엔진 상태 초기화가 필요한 경우 여기서 추가
+                if (this._model._capsule) {
+                    this._model._capsule.start.copy(this.originalPosition);
+                    this._model._capsule.end.copy(this.originalPosition).y += this._model._capsule.radius * 2;
+                    console.log("캡슐 위치 초기화:", this._model._capsule.start, this._model._capsule.end);
+                }
+            }
+
             function listKoreanVoices() {
                 if ('speechSynthesis' in window) {
                     const voices = window.speechSynthesis.getVoices();
@@ -1544,7 +1582,6 @@ export function initThreeJS(){
                     }
                 }.bind(this);
             } else if (npcType === 'teacher') {
-
         
                 dialogText.innerHTML = "안녕? 새로 온 학생이니?";
                 speak(dialogText.innerHTML);
@@ -1588,6 +1625,7 @@ export function initThreeJS(){
                         casher.style.display = "none";
                         resetModal();
                         this._onDialogClosed();
+                        resetplayerposition.call(this);
                     }.bind(this);
                 }.bind(this);
         
@@ -1600,6 +1638,7 @@ export function initThreeJS(){
                         casher.style.display = "none";
                         resetModal();
                         this._onDialogClosed();
+                        resetplayerposition.call(this);
                     }.bind(this);
                 }.bind(this);
         
@@ -1612,6 +1651,7 @@ export function initThreeJS(){
                         casher.style.display = "none";
                         resetModal();
                         this._onDialogClosed();
+                        resetplayerposition.call(this);
                     }.bind(this);
                 }.bind(this);
         
@@ -1620,6 +1660,7 @@ export function initThreeJS(){
                         casher.style.display = "none";
                         resetModal();
                         this._onDialogClosed();
+                        resetplayerposition.call(this);
                     }
                 }.bind(this);
             } else if (npcType == 'game_friend') {
