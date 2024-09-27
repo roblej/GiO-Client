@@ -31,12 +31,31 @@
     <input type="range" id="volumeSlider" min="0" max="100" value="50";>
 
     <div id="positionLabel" style="position: absolute; top: 10px; right: 10px; color: white; font-family: Arial; font-size: 16px; z-index: 99999;"></div>
+    <div id = "tutorial">
+        <div class="map_intro">
+            <div class="tori"></div>
+            <div class="tori_text_box">
+                <div class="tori_tag npc_name">토리</div>
+                <div class="tori_text">안녕! GiO 세계에 온걸 환영해!</div>
+                <div class="tori_next next_btn"></div>
+            </div>
+            <div class="namebox">
+                <div id="name_intro">이름을 입력하세요.</div>
+                <input id="name_input" type="text" placeholder="입력한 이름으로 표시됩니다. (최대7자)">
+                <button>확인</button>
+            </div>
+        </div>
+    </div>
+    <div class='tori_help'>
+        <p>지도에 표시되어 있는<br>학교를 클릭해봐! 버스를 타고<br>학교로 이동할 수 있어!</p>
+        <div class="next_btn"></div>
+    </div>
     <div id="BtnMaps">
         <button id="buttonNo">X</button>
         <h1>어느 장소로 이동할까?</h1>
         <div>    
             <button id="buttonScene0" style="background-image: url(./data/mappage/school.png);">
-                <div class="SceneTag">학교</div>
+                <!-- <div class="SceneTag">학교</div> -->
             </button>
             <button id="buttonScene1" style="background-image: url(./data/mappage/town.png);">
                 <div class="SceneTag">마을회관</div>
@@ -55,7 +74,8 @@
             <div id="myModal" class="modal">
                 <!-- 모달 콘텐츠 -->
                 <div class="Speech1 textModal">
-                    <span class="close" id="close1">&times;</span>
+                    <span class="npc_name"></span>
+                    <span class="close" id="close1" style="display: none;">&times;</span>
                     <p>거기 너! 나랑 공놀이 하지 않을래?</p>
                     <div class="choose" style="display: flex;">
                     <button class="GameBtn" id="Game" data-path="">좋아!</button>
@@ -78,6 +98,7 @@
                 <div class="Speech1">
                     <span class="npc_name"></span>
                     <p id="speechText">이것은 우리의 대화에 들어가는 것을 테스트 하는 것이에요.</p>
+                    <button id="next" class="next_btn"></button>
                     <span class="close" id="casher_close" style="display: none;">&times;</span>
                     <div id="buttonGroup" class="choose" style="display: none;">
                         <button id ="select1">이렇게 할까?</button>
@@ -85,8 +106,8 @@
                         <button id ="select3">요렇게 할까?</button>
                         <button id="recordButton" style="display: none;">녹음 시작</button>
                     </div>
-                    <div style="display: none;">
-                        <div id="helper"></div>
+                    <div id="'helper" style="display: none;">
+                        <div id="helper_text"></div>
                         <img src="/code/data/maru.png" alt="" id="helper_img">
                     </div>
                 </div>
@@ -115,8 +136,6 @@
                     <h4 style="font-size: 18px;">교육자들을 위한 보조와 아이들의 치료와 성장을 위해 GiO가 함께합니다.</h4>
                 </div>
             </div>
-            <!-- <img src="./data/loginImage/characters.png" alt="" id="characters">
-            <img src="./data/loginImage/mini_characters.png" alt="" id="mini_characters"> -->
                 <div id="loginpage">
                     <h1 style="color: #373737;">로그인</h1>
                     <form id="loginForm">
@@ -604,6 +623,9 @@
                         }
                     }
                 });
+                document.getElementById("logout").addEventListener("click", function() {
+      location.reload(); // 페이지를 새로고침
+       });
             </script>
             <script src="mypage.js"></script>
             <script type="module" src="login.js"></script>

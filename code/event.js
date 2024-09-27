@@ -198,3 +198,63 @@ const buttons = document.querySelectorAll('#BtnMaps button');
             }
         });
     });
+
+// 각 버튼을 선택
+const button1 = document.getElementById('select1');
+const button2 = document.getElementById('select2');
+const button3 = document.getElementById('select3');
+
+// 각 버튼에 클릭 이벤트 추가
+button1.addEventListener('click', function() {
+    button1.classList.toggle('active'); // 'active' 클래스 토글
+});
+
+button2.addEventListener('click', function() {
+    button2.classList.toggle('active'); // 'active' 클래스 토글
+});
+
+button3.addEventListener('click', function() {
+    button3.classList.toggle('active'); // 'active' 클래스 토글
+});
+
+
+        // DOMContentLoaded 이벤트 확인
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('DOMContentLoaded 이벤트가 실행되었습니다.'); // 이벤트가 실행되었는지 확인
+
+            const tuto_btn = document.getElementsByClassName('tori_next')[0]; // 첫 번째 버튼 선택
+          const tori_text = document.querySelector('.tori_text'); // 올바른 클래스 선택
+          const tori = document.querySelector('.tori')
+          const tori_text_box = document.querySelector('.tori_text_box')
+          const confirmbtn = document.querySelector('.namebox button')
+
+            if (tuto_btn && tori_text) {
+                console.log('요소가 존재함'); // 요소가 제대로 선택되었는지 확인
+                // 클릭 이벤트 리스너 추가
+                tuto_btn.addEventListener('click', function () {
+                  tori_text.innerHTML = '내 이름은 토리! 너와 함께 GiO를 다니기 위해 찾아왔어!';
+                  tuto_btn.addEventListener('click', function () {
+
+                    tori.style.display = 'none'
+                    tori_text_box.style.display = 'none'
+                    document.querySelector('.namebox').style.display = 'flex'
+                    confirmbtn.addEventListener('click', function () {
+                      console.log('test')
+                      document.querySelector('.namebox').style.display = 'none'
+                      tori_text_box.style.display = 'block'
+                      tori.style.display = 'block'
+                      tori_text.innerHTML = '아하? 너의 이름은 (유저가 입력한 이름)구나! 좋아! GiO 세계에 온 걸 환영해!<br>네가 GiO에 적응할 수 있도록 최선을 다할게. 우선 학교에 가볼까?';
+                      tuto_btn.addEventListener('click', function () {
+                        document.querySelector('.map_intro').style.display = 'none'
+                        document.getElementById("BtnMaps").style.display = "flex";
+                        document.querySelector('.tori_help').style.display = 'block';
+
+                      })
+                    })
+
+                  })
+                });
+            } else {
+                console.log('요소가 제대로 선택되지 않았습니다.');
+            }
+        });

@@ -18,6 +18,7 @@ export var game_name = "";
 export function initThreeJS(){
     console.log("function complete")
     const loadingPage = document.getElementById('loadingPage');
+    const tutorialPage = document.getElementById('tutorial')
     loadingPage.style.display = 'flex';
     
     class App {
@@ -48,6 +49,7 @@ export function initThreeJS(){
             this._scenes = [];
             this._currentSceneIndex = 0;
             this._model = null; // 플레이어 모델을 저장할 변수
+            this.originPosition = new THREE.Vector3();
 
             const listener = new THREE.AudioListener();
             this._listener = listener
@@ -166,7 +168,10 @@ export function initThreeJS(){
                         this._switchToOriginalCamera();
                     }
                 });
-                document.getElementById('buttonScene0').addEventListener('click', () => this._switchScene(0));
+                document.getElementById('buttonScene0').addEventListener('click', () => {
+                    this._switchScene(0);
+                    document.querySelector('.tori_help').style.display = 'none';
+                });
                 document.getElementById('buttonScene1').addEventListener('click', () => this._switchScene(1));
                 document.getElementById('buttonScene2').addEventListener('click', () => this._switchScene(2));
                 document.getElementById('buttonScene3').addEventListener('click', () => this._switchScene(3));
@@ -340,6 +345,7 @@ export function initThreeJS(){
 
                         this._worldOctree.fromGraphNode(map);
                         loadingPage.style.display = 'none'; // 로딩 페이지 숨김
+                        tutorialPage.style.display = ' block';
                     }, undefined, function (error) {
                         console.error(error);
                     });
@@ -577,7 +583,12 @@ export function initThreeJS(){
                         npcs.push(npc);
                         this._npc = npc;
                     });          
-        } else if (index === 1) { // 마을회관 외부의 경우
+            } else if (index === 1) { // 마을회관 외부의 경우
+                            rgbeLoader.load('./data/sky_edit3.hdr', (texture) => {
+                    texture.mapping = THREE.EquirectangularReflectionMapping;
+                    this._scene.background = texture;  // 배경으로 HDR 설정
+                    // this._scene.environment = texture; // 반사 환경 설정 (옵션)
+                });
                 loader.load('./data/map/Town_building/TownB_Outside.glb', (gltf) => { // 마을회관
                 const map = gltf.scene;
                 this._scene.add(map);
@@ -1453,7 +1464,7 @@ export function initThreeJS(){
                 let startPosition;
                 switch (index) {
                     case 0:
-                        startPosition = new THREE.Vector3(-1214, 15, 197); // 첫 번째 씬 위치
+                        startPosition = new THREE.Vector3(95, 15, 31); // 첫 번째 씬 위치
                         // this._setupOctree();
                         break;
                     case 1:
@@ -1472,6 +1483,7 @@ export function initThreeJS(){
                 // 플레이어 위치 초기화
                 this._model.position.copy(startPosition);
 
+                
                 // 추가적인 상태 확인을 위한 콘솔 로그
             console.log("플레이어 위치 설정:", this._model.position);
 
@@ -1482,7 +1494,8 @@ export function initThreeJS(){
                 console.log("캡슐 위치 초기화:", this._model._capsule.start, this._model._capsule.end);
                 }
                 // this._model.position.y = 4; // Y축 고
-                this._scene.add(this._model,this._support);
+                this._scene.add(this._model, this._support);
+                this._worldOctree.fromGraphNode(this.map);
                 
                 }
                 document.getElementById("BtnMaps").style.display = "none";
@@ -1526,6 +1539,7 @@ export function initThreeJS(){
                         if (selectedObject.userData && selectedObject.userData.isNPC) {
                             console.log('NPC clicked, focusing on NPC'); // NPC 클릭 여부 확인하는 로그
                             console.log(selectedObject)
+
                             this._focusOnNPC(selectedObject);
                             // this._showNpcDialog(selectedObject);
                             const animationsMap = selectedObject.userData.anim;
@@ -1644,6 +1658,11 @@ export function initThreeJS(){
                 for (var i = 0; i < clicktext.length; i++) {
                     clicktext[i].onclick = function () {
                         console.log(count)
+                        if (document.getElementById('buttonGroup').style.display = 'flex') {
+                            document.getElementById('next').style.display = 'none'
+                        } else if(document.getElementById('buttonGroup').style.display = 'none') {
+                            document.getElementById('next').style.display = 'block'
+                        }
                         if (count == 0) {
                             buttonGroup.style.display = "flex"; // 버튼 그룹 표시
                             count++;
@@ -1656,7 +1675,7 @@ export function initThreeJS(){
                             // 클릭 이벤트 비활성화
                             // this.onclick = null; // 현재 클릭된 요소의 onclick 이벤트 비활성화
                         } else if (count == 1) {
-                            buttonGroup.style.display = "none";
+                            // buttonGroup.style.display = "none";
                             count++;
 
                             // 다시 클릭 이벤트 활성화
@@ -1670,7 +1689,6 @@ export function initThreeJS(){
 
         // 처음에 클릭 이벤트를 설정
             setClickEvent();
-
             document.body.onkeydown = function (event) {
                 if (event.code === "Space") { // 스페이스바 눌렀을 때
                     // clicktext.onclick(); // clicktext의 onclick 이벤트 호출
@@ -1703,6 +1721,7 @@ export function initThreeJS(){
             speechText.onclick = function () {
                 // speechText.style.display = "none";
                 buttonGroup.style.display = "block";
+                document.getElementById('next').style.display = 'none'
             }
 
             if (npcType === 'casher') {
@@ -1712,6 +1731,7 @@ export function initThreeJS(){
                 function resetModal() {
                     speechText.style.display = "block";
                     buttonGroup.style.display = "none";
+
                     
                 }
         
@@ -1752,7 +1772,6 @@ export function initThreeJS(){
                     }
                 }.bind(this);
             } else if (npcType === 'teacher') {
-
         
                 dialogText.innerHTML = "안녕? 새로 온 학생이니?";
                 // speak(dialogText.innerHTML);
@@ -1764,6 +1783,7 @@ export function initThreeJS(){
                     option3.innerHTML = "누구세요?";
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
+                    document.getElementById('next').style.display = 'block'
                 }
 
         
@@ -1774,6 +1794,7 @@ export function initThreeJS(){
                 dialogText.onclick = function () {
                     // this.style.display = "none";
                     buttonGroup.style.display = "block";
+                    document.getElementById('next').style.display = 'none'
                 };
         
                 span.onclick = function () {
@@ -1789,7 +1810,7 @@ export function initThreeJS(){
                     message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
                     sendMessageToClova(message)
                     dialogText.style.display = "block";
-                    buttonGroup.style.display = "none";
+                    // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "안녕? 나는 선생님이란다. 학교에 온걸 환영해!";
                     speak(dialogText.innerHTML);
                     dialogText.onclick = function () {
