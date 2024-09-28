@@ -133,7 +133,7 @@ export function initThreeJS(){
                 this._controls.enablePan = false;
                 this._controls.enableDamping = true;
         
-                this._controls.minDistance = 250;  // 카메라가 대상에 가장 가까울 수 있는 거리
+                this._controls.minDistance = 500;  // 카메라가 대상에 가장 가까울 수 있는 거리
                 this._controls.maxDistance = 500;  // 카메라가 대상에서 가장 멀어질 수 있는 거리
         
                 // this._controls.minPolarAngle = Math.PI / 4;   // 카메라가 아래로 45도 이상 내려가지 못하게 설정
@@ -227,13 +227,17 @@ export function initThreeJS(){
                 let distance = 200; // 카메라와 NPC 사이의 거리
                 let cameraHeight = 130;
                 
-                                if (npc.userData.type === 'teacher') {
+                if (npc.userData.type === 'teacher') {
                     distance = 200;
                     cameraHeight = 130;
                 } else if (npc.userData.type === 'friend_hurt') {
                     distance = 300;
                     cameraHeight = 150;
+                } else if (npc.userData.type === 'book_friend') {
+                    distance = 200;
+                    cameraHeight = 110;
                 }
+
 
                 // 카메라의 위치를 NPC의 위치에서 거리를 두고, y값을 cameraHeight로 설정합니다
                 const direction = new THREE.Vector3();
@@ -1074,7 +1078,7 @@ export function initThreeJS(){
                 this._npc = npc;
         });
         } else if (index === 5) { // 도서관 내부의 경우
-            loader.load('./data/map/Library/Library_inside.glb', (gltf) => {
+            loader.load('./data/map/Library/LibraryIn_wNav.glb', (gltf) => {
                 const map = gltf.scene;
                 this._scene.add(map);
                 this.map = map;
@@ -1128,7 +1132,7 @@ export function initThreeJS(){
                 const idleAction = animationsMap['idle'];
                 idleAction.play();
             }
-            npc.position.set(45, 0, -98);
+            npc.position.set(-356, 0, 776);
             npc.scale.set(50, 50, 50);
             const box = (new THREE.Box3).setFromObject(npc);
             // npc.position.y = (box.max.y - box.min.y) /2;
@@ -1144,7 +1148,7 @@ export function initThreeJS(){
             npcs.push(npc);
             this._npc = npc;
                 });
-                                loader.load("./data/map/Library/Character/library_searching_idle.glb", (gltf) => { // 책을 꺼내는 아이
+                                loader.load("./data/map/Library/Character/library_searching_idle.glb", (gltf) => { // 책을 찾는 아이(컴퓨터 쓰는애)
             const npc = gltf.scene;
             this._scene.add(npc);
     
@@ -1187,10 +1191,10 @@ export function initThreeJS(){
                 diameter / 2
             );
             // npc.rotation.y = Math.PI;
-            npcs.push(npc);
+            // npcs.push(npc);
             this._npc = npc;
             });
-                            loader.load("./data/map/Library/Character/library_glasses_idle.glb", (gltf) => { // 책을 꺼내는 아이
+                            loader.load("./data/map/Library/Character/library_glasses_idle.glb", (gltf) => { // 안경을 떨어트린 학생
             const npc = gltf.scene;
             this._scene.add(npc);
     
@@ -1233,10 +1237,10 @@ export function initThreeJS(){
                 diameter / 2
             );
             // npc.rotation.y = Math.PI;
-            npcs.push(npc);
+            // npcs.push(npc);
             this._npc = npc;
             });
-            loader.load("./data/map/Library/Character/library_reading_sit.glb", (gltf) => { // 책을 꺼내는 아이
+            loader.load("./data/map/Library/Character/library_reading_sit.glb", (gltf) => { // 앉아서 책 읽는 학생
             const npc = gltf.scene;
             this._scene.add(npc);
     
@@ -1279,10 +1283,10 @@ export function initThreeJS(){
                 diameter / 2
             );
             // npc.rotation.y = Math.PI;
-            npcs.push(npc);
+            // npcs.push(npc);
             this._npc = npc;
             });
-            loader.load("./data/map/Library/Character/library_gameNPC_idle.glb", (gltf) => { // 책을 꺼내는 아이
+            loader.load("./data/map/Library/Character/library_gameNPC_idle.glb", (gltf) => { // 도서관 게임 NPC
             const npc = gltf.scene;
             this._scene.add(npc);
     
@@ -1524,6 +1528,23 @@ export function initThreeJS(){
                 // this._raycaster.ray.origin.copy(this._model.position); // 플레이어 위치로 광선 시작점 설정
                 // this._raycaster.near = 0;
                 // this._raycaster.far = maxDistance;
+
+                function teleportPlayer(teleportPosition) {
+                    // 현재 플레이어의 위치 저장
+                    this.originalPosition.copy(this._model.position); // 클래스 속성에 저장
+                    
+                    // 플레이어를 특정 위치로 순간 이동
+                    this._model.position.copy(teleportPosition);
+                        
+                    console.log("Player teleported to:", teleportPosition);
+                
+                    // 물리 엔진 상태 초기화가 필요한 경우
+                    if (this._model._capsule) {
+                        this._model._capsule.start.copy(teleportPosition);
+                        this._model._capsule.end.copy(teleportPosition).y += this._model._capsule.radius * 2;
+                        console.log("캡슐 위치 초기화:", this._model._capsule.start, this._model._capsule.end);
+                    }
+                }
             
                 // 클릭된 객체 확인
                 const intersects = this._raycaster.intersectObjects(this._scene.children, true);
@@ -1535,21 +1556,16 @@ export function initThreeJS(){
                         if (selectedObject.name === 'teleport') {
                             console.log("teleport");
                         } else if (selectedObject.userData.type === 'teacher') {
-                        // 현재 플레이어의 위치 저장
-                        this.originalPosition.copy(this._model.position); // 클래스 속성에 저장
-                    
-                        // 플레이어를 특정 위치로 순간 이동
-                        const teleportPosition = new THREE.Vector3(705, 4.07, -46);
-                        this._model.position.copy(teleportPosition);
-                            
-                        console.log("Player teleported to:", teleportPosition);
-
-                        // 물리 엔진 상태 초기화가 필요한 경우 여기서 추가
-                        if (this._model._capsule) {
-                            this._model._capsule.start.copy(teleportPosition);
-                            this._model._capsule.end.copy(teleportPosition).y += this._model._capsule.radius * 2;
-                            console.log("캡슐 위치 초기화:", this._model._capsule.start, this._model._capsule.end);
-                        }
+                        teleportPlayer.call(this, new THREE.Vector3(705, 4.07, -46));
+                        } else if (selectedObject.userData.type === 'friend_crash') {
+                        teleportPlayer.call(this, new THREE.Vector3(451, 4.07, -2760));
+                        } else if (selectedObject.userData.type === 'rector') {
+                        teleportPlayer.call(this, new THREE.Vector3(-846, 4.07, -3546));
+                        } else if (selectedObject.userData.type === 'game_friend') {
+                        teleportPlayer.call(this, new THREE.Vector3(-1138, 4.07, -2236));
+                        } else if (selectedObject.userData.type === 'book_friend') {
+                        teleportPlayer.call(this, new THREE.Vector3(-260, 6.99, 507.71));
+                        
                     }
                         
 
@@ -1888,42 +1904,46 @@ export function initThreeJS(){
                     }
                 }.bind(this);
             } else if (npcType == 'game_friend') {
-                game_name = "GameB"
+                game_name = "GameB";
                 var modal = document.getElementById("myModal");
                 var span = document.getElementsByClassName("close")[0];
                 modal.style.display = "block";
                 var gameAButton = document.getElementById("Game");
                 gameAButton.setAttribute('data-path', 'BallMiniGame/index.html'); // data-path 속성 설정
-    
+            
                 // 닫기 버튼 클릭 시 모달 닫기
                 span.onclick = function () {
                     modal.style.display = "none";
-                    this._onDialogClosed();
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
                 }.bind(this);
-    
+            
+                // "좋아!" 버튼 클릭 시 동작
+                gameAButton.onclick = function () {
+                    console.log("게임 선택됨");
+                    modal.style.display = "none";
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                }.bind(this);
+            
+                // "다음에 하자" 버튼 클릭 시 모달 닫기
+                document.getElementById("close1").onclick = function () {
+                    modal.style.display = "none";
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                }.bind(this);
+            
                 // 선택지 1 클릭 시 동작
                 document.getElementById("option1").onclick = function () {
                     console.log("선택지 1 선택됨");
                     modal.style.display = "none";
-                    this._onDialogClosed();
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
                 }.bind(this);
-    
-                // 선택지 2 클릭 시 동작
-                document.getElementById("option2").onclick = function () {
-                    console.log("선택지 2 선택됨");
-                    modal.style.display = "none";
-                    this._onDialogClosed();
-                }.bind(this);
-    
+            
                 // 모달 창 바깥 영역 클릭 시 모달 닫기
                 window.onclick = function (event) {
                     if (event.target == modal) {
                         modal.style.display = "none";
-                        this._onDialogClosed();
+                        this._onDialogClosed(); // 모달 닫기 후 카메라 복원
                     }
                 }.bind(this);
-    
-                // break; // 첫 번째 교차 객체만 처리하고 루프 종료
             } else if (npcType == 'friend_crash') {
     
                 // 대화 내용 업데이트
@@ -2209,6 +2229,200 @@ export function initThreeJS(){
                 }.bind(this);
     
                 // break; // 첫 번째 교차 객체만 처리하고 루프 종료
+            } else if (npcType == 'book_friend') {
+    
+                // 대화 내용 업데이트
+                dialogText.innerHTML = "키가 작아서 책을 못 꺼내고 있다.";
+    
+                // 각 선택지 업데이트
+                function resetModal() {
+                    option1.innerHTML = "저 책 꺼내는거 도와줄까?";
+                    option2.innerHTML = "너 키가 작네?";
+                    option3.innerHTML = "(일단 갈길을 간다.)";
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                }
+    
+                // 초기 상태로 모달 재설정
+                resetModal();
+    
+                casher.style.display = "block";
+    
+                option1.onclick = function () {
+                    console.log("첫 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "와 정말 감사합니다!(어린이가 원하는 책을 꺼내준다)";
+                    this._onDialogClosed();
+                }.bind(this);
+    
+                option2.onclick = function () {
+                    console.log("두 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "기분 나빠!";
+                    this._onDialogClosed();
+                }.bind(this);
+    
+                option3.onclick = function () {
+                    console.log("세 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "...";
+                    this._onDialogClosed();
+                }.bind(this);
+            } else if (npcType == 'library_searching') {
+    
+                // 대화 내용 업데이트
+                dialogText.innerHTML = "독서 검색대를 사용하려고 하는데 이미 이용하고 있는 사람이 있다.";
+    
+                // 각 선택지 업데이트
+                function resetModal() {
+                    option1.innerHTML = "(뒤에서 기다린다.)";
+                    option2.innerHTML = "빨리 하면 안될까요?";
+                    option3.innerHTML = "제가 먼저 검색대 써도 될까요?";
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                }
+    
+                // 초기 상태로 모달 재설정
+                resetModal();
+    
+                casher.style.display = "block";
+    
+                option1.onclick = function () {
+                    console.log("첫 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "아, 이제 저는 다 썼어요.";
+                    this._onDialogClosed();
+                }.bind(this);
+    
+                option2.onclick = function () {
+                    console.log("두 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "네? 잠시만요..허..";
+                    this._onDialogClosed();
+                }.bind(this);
+    
+                option3.onclick = function () {
+                    console.log("세 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "예? 금방해요. 잠시만요.";
+                    this._onDialogClosed();
+                }.bind(this);
+            } else if (npcType == 'read') {
+    
+                // 대화 내용 업데이트
+                dialogText.innerHTML = "재밌어 보이는 만화책을 읽고 있다. 한번 보고싶다.";
+    
+                // 각 선택지 업데이트
+                function resetModal() {
+                    option1.innerHTML = "책 빨리 반납해주세요. 저도 읽고 싶어요.";
+                    option2.innerHTML = "그거 나 줬으면 좋겠다.";
+                    option3.innerHTML = "(조용히 제목을 보고 책을 찾으러 가자.)";
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                }
+    
+                // 초기 상태로 모달 재설정
+                resetModal();
+    
+                casher.style.display = "block";
+    
+                option1.onclick = function () {
+                    console.log("첫 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "네? 아직 제가 읽고 있는 걸요? 그리고 이 책은 저쪽 책장에 가면 더 있어요...";
+                    this._onDialogClosed();
+                }.bind(this);
+    
+                option2.onclick = function () {
+                    console.log("두 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "네? 아..이 책과 같은 책은 저쪽에 가면 찾을 수 있어요..";
+                    this._onDialogClosed();
+                }.bind(this);
+    
+                option3.onclick = function () {
+                    console.log("세 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "...";
+                    this._onDialogClosed();
+                }.bind(this);
+            } else if (npcType == 'glass') {
+    
+                // 대화 내용 업데이트
+                dialogText.innerHTML = "안경과 필통을 떨어트려서 곤란해하는 학생이 있다.";
+    
+                // 각 선택지 업데이트
+                function resetModal() {
+                    option1.innerHTML = "도와드릴까요?";
+                    option2.innerHTML = "(피해서 갈길을 간다.)";
+                    option3.innerHTML = "";
+                    option2.style.display = 'block';
+                    option3.style.display = 'none';
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                }
+    
+                // 초기 상태로 모달 재설정
+                resetModal();
+    
+                casher.style.display = "block";
+                var scene1 = 0
+                // 각 선택지 클릭 시 동작
+                option1.onclick = function () {
+                    if (scene1 == 0) {
+                        console.log("첫 번째 선택지 선택됨");
+                        dialogText.style.display = "block";
+                        buttonGroup.style.display = "none";
+                        dialogText.innerHTML = "부탁드릴게요. 안경을 찾아주세요.";
+                        resetModal2();
+                        // this._onDialogClosed();
+                        
+                        scene1++;
+                    } else {
+                        console.log("첫 번째 선택지 선택됨");
+                        dialogText.style.display = "block";
+                        buttonGroup.style.display = "none";
+                        dialogText.innerHTML = "정말 감사합니다!";
+                        // this._onDialogClosed();
+                    }
+                }.bind(this);
+
+                function resetModal2() {
+                    option1.innerHTML = "(안경을 찾아주고 물건 줍는걸 도와준다.)";
+                    option2.innerHTML = "(안경을 주워주고 갈 길을 간다.)";
+                    option3.innerHTML = "....";
+                    option2.style.display = 'block';
+                    option3.style.display = 'block';
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                    count = 0;
+                }
+                option2.onclick = function () {
+                    console.log("두 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "감사합니다.";
+                    this._onDialogClosed();
+                }.bind(this);
+    
+                option3.onclick = function () {
+                    console.log("세 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "어린노무자식이 싸가지없게!";
+                    this._onDialogClosed();
+                }.bind(this);
+                
+
             } else if(npcType == 'warning'){
                 console.log('warning')
             } else if(npcType == 'fountain'){
@@ -2490,7 +2704,7 @@ export function initThreeJS(){
                 }
 
                 // NPC와의 상호작용
-const minDistance = 200; // NPC들이 바라볼 최소 거리 설정
+const minDistance = 400; // NPC들이 바라볼 최소 거리 설정
 this._npcs.forEach((npc) => {
     const distance = npc.position.distanceTo(this._model.position);
     if (distance < minDistance) {
