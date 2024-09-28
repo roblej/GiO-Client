@@ -12,8 +12,11 @@ import { getSticker } from './event.js';
 import {updateSticker} from './event.js'
 import { globalId } from './login.js';
 import { RGBELoader } from '../jsm/loaders/RGBELoader.js';
+import { gender } from './login.js';
+import { tutorial } from './event.js';
 // THREE.GLTFLoader
 export var game_name = "";
+
 
 export function initThreeJS(){
     console.log("function complete")
@@ -302,7 +305,8 @@ export function initThreeJS(){
             }
         _loadSceneModels(scene, index) {
                 loadingPage.style.display = 'flex';
-                const npcs = [];
+            const npcs = [];
+            
                 this._npcs = npcs
                 const loader = new GLTFLoader();
                 const planeGeometry = new THREE.PlaneGeometry(20000,20000);
@@ -313,17 +317,36 @@ export function initThreeJS(){
             plane.position.y = 0;
                 this._scene.add(plane);
                 const rgbeLoader = new RGBELoader();
-            rgbeLoader.load('./data/sky_.hdr', (texture) => {
-                    texture.mapping = THREE.EquirectangularReflectionMapping;
-                    this._scene.background = texture;  // 배경으로 HDR 설정
-                    // this._scene.environment = texture; // 반사 환경 설정 (옵션)
-                });
+// index에 따른 HDR 텍스처 설정
+    let hdrPath;
+    if (index === 0) { // 학교의 경우
+        hdrPath = './data/sky_edit3.hdr';
+    } else if (index === 1) { // 마을회관 외부의 경우
+        hdrPath = './data/sky_edit3.hdr';
+    } else if (index === 2) { // 도서관 외부의 경우
+        hdrPath = './data/sky_edit3.hdr';
+    } else if (index === 3) { // 공원의 경우
+        hdrPath = './data/sky_edit3.hdr';
+    } else if (index === 4) { // 마을회관 내부의 경우
+        hdrPath = './data/inside_.hdr';
+    } else if (index === 5) { // 도서관 내부의 경우
+        hdrPath = './data/inside_.hdr';
+    }
+
+    // 선택된 HDR 로드
+    rgbeLoader.load(hdrPath, (texture) => {
+        texture.mapping = THREE.EquirectangularReflectionMapping;
+        this._scene.background = texture;  // 배경으로 HDR 설정
+        console.log(`HDR 텍스처 (${hdrPath})가 로드되었습니다.`);
+    }, undefined, (error) => {
+        console.error(`HDR 텍스처 로드 실패 (${hdrPath}):`, error);
+    });
                 
                 plane.receiveShadow = true;
                 this._worldOctree.fromGraphNode(plane);
 
             if (index === 0) { // 학교의 경우       
-                    loader.load('./data/map/School/scene.glb', (gltf) => { // 학교
+                    loader.load('./data/map/School/SchoolMap_wNav.glb', (gltf) => { // 학교
                         const map = gltf.scene;
                         this._scene.add(map);
                         this.map = map;
@@ -341,11 +364,18 @@ export function initThreeJS(){
                                 child.castShadow = true;
                                 child.receiveShadow = true;
                             }
+                            if (child.isMesh && child.name === 'NavMesh') {  // 특정 이름의 Mesh를 찾음
+                                // 투명도 설정
+                                child.visible = false;  // NavMesh를 보이지 않게 함
+                            }
                         });
 
                         this._worldOctree.fromGraphNode(map);
                         loadingPage.style.display = 'none'; // 로딩 페이지 숨김
-                        tutorialPage.style.display = ' block';
+                        if (tutorial == 'true') {
+                            tutorialPage.style.display = ' block';
+                        }
+                        
                     }, undefined, function (error) {
                         console.error(error);
                     });
@@ -584,12 +614,7 @@ export function initThreeJS(){
                         this._npc = npc;
                     });          
             } else if (index === 1) { // 마을회관 외부의 경우
-                            rgbeLoader.load('./data/sky_edit3.hdr', (texture) => {
-                    texture.mapping = THREE.EquirectangularReflectionMapping;
-                    this._scene.background = texture;  // 배경으로 HDR 설정
-                    // this._scene.environment = texture; // 반사 환경 설정 (옵션)
-                });
-                loader.load('./data/map/Town_building/TownB_Outside.glb', (gltf) => { // 마을회관
+                loader.load('./data/map/Town_building/townbOut_wNav.glb', (gltf) => { // 마을회관
                 const map = gltf.scene;
                 this._scene.add(map);
                 this.map = map;
@@ -605,6 +630,11 @@ export function initThreeJS(){
                         child.castShadow = true;
                         child.receiveShadow = true;
                     }
+                    if (child.isMesh && child.name === 'NavMesh') {  // 특정 이름의 Mesh를 찾음
+                        // 투명도 설정
+                        child.visible = false;  // NavMesh를 보이지 않게 함
+                    }
+
                 });
 
                 this._worldOctree.fromGraphNode(map);
@@ -613,7 +643,7 @@ export function initThreeJS(){
                 console.error(error);
                 });
         } else if (index === 2) { // 도서관 외부의 경우
-            loader.load('./data/map/Library/Library_Outside.glb', (gltf) => { //도서관
+            loader.load('./data/map/Library/LibraryOut_wNav.glb', (gltf) => { //도서관
                 const map = gltf.scene;
                 this._scene.add(map);
                 this.map = map;
@@ -629,6 +659,10 @@ export function initThreeJS(){
                     if (child instanceof THREE.Mesh) {
                         child.castShadow = true;
                         child.receiveShadow = true;
+                    }
+                    if (child.isMesh && child.name === 'NavMesh') {  // 특정 이름의 Mesh를 찾음
+                        // 투명도 설정
+                        child.visible = false;  // NavMesh를 보이지 않게 함
                     }
                 });
 
@@ -654,6 +688,10 @@ export function initThreeJS(){
                     if (child instanceof THREE.Mesh) {
                         child.castShadow = true;
                         child.receiveShadow = true;
+                    }
+                    if (child.isMesh && child.name === 'NavMesh') {  // 특정 이름의 Mesh를 찾음
+                        // 투명도 설정
+                        child.visible = false;  // NavMesh를 보이지 않게 함
                     }
                     if(child.name === "Fountain" || child.name ==='Cylinder003')
                         child.userData.type = 'fountain';
@@ -807,7 +845,7 @@ export function initThreeJS(){
             });
 
         } else if (index === 4) { // 마을회관 내부의 경우
-            loader.load('./data/map/Town_building/TownB_Inside.glb', (gltf) => {
+            loader.load('./data/map/Town_building/townBIn_wNav.glb', (gltf) => {
                 const map = gltf.scene;
                 this._scene.add(map);
                 this.map = map;
@@ -823,6 +861,10 @@ export function initThreeJS(){
                     if (child instanceof THREE.Mesh) {
                         child.castShadow = true;
                         child.receiveShadow = true;
+                    }
+                    if (child.isMesh && child.name === 'NavMesh') {  // 특정 이름의 Mesh를 찾음
+                        // 투명도 설정
+                        child.visible = false;  // NavMesh를 보이지 않게 함
                     }
                 });
 
@@ -1062,7 +1104,7 @@ export function initThreeJS(){
                 this._npc = npc;
         });
         } else if (index === 5) { // 도서관 내부의 경우
-            loader.load('./data/map/Library/Library_inside.glb', (gltf) => {
+            loader.load('./data/map/Library/LibraryIn_wNav.glb', (gltf) => {
                 const map = gltf.scene;
                 this._scene.add(map);
                 this.map = map;
@@ -1078,6 +1120,10 @@ export function initThreeJS(){
                     if (child instanceof THREE.Mesh) {
                         child.castShadow = true;
                         child.receiveShadow = true;
+                    }
+                    if (child.isMesh && child.name === 'NavMesh') {  // 특정 이름의 Mesh를 찾음
+                        // 투명도 설정
+                        child.visible = false;  // NavMesh를 보이지 않게 함
                     }
                 });
 
@@ -1323,8 +1369,8 @@ export function initThreeJS(){
         // 플레이어 모델 로드
             const loader = new GLTFLoader();
 
-
-        loader.load('./data/gPlayer.glb', (gltf) => {
+        const modelPath = gender === 'male' ? './data/bPlayer.glb' : './data/gPlayer.glb';
+        loader.load(modelPath, (gltf) => {
             const model = gltf.scene;
             model.traverse(child => {
                                 if (child instanceof THREE.Mesh) {
@@ -1371,7 +1417,7 @@ export function initThreeJS(){
                     this._scene.add(this._model);
         });
         
-            loader.load("./data/maru_anim_noneT.glb",(gltf) =>{
+            loader.load("./data/tori.glb",(gltf) =>{
             const support = gltf.scene;
             this._scene.add(support);
             
@@ -1396,13 +1442,13 @@ export function initThreeJS(){
             support.userData.animationsMap = animationsMap;
             support.userData.mixer = mixer;
             // 'idle' 애니메이션 재생
-            if (animationsMap['Run']) {
-                const idleAction = animationsMap['Run'];
+            if (animationsMap['idle']) {
+                const idleAction = animationsMap['idle'];
                 idleAction.play();
             }
             // npc.position.set(1000,0,-230);
             support.scale.set(50,50,50);
-            support.position.set(50,0,0)
+            support.position.set(200,100,0)
             // const box = (new THREE.Box3).setFromObject(support);
             // npc.position.y = (box.max.y - box.min.y) /2;
             // const height = box.max.y - box.min.y;
@@ -1657,12 +1703,12 @@ export function initThreeJS(){
             function setClickEvent() {
                 for (var i = 0; i < clicktext.length; i++) {
                     clicktext[i].onclick = function () {
-                        console.log(count)
-                        if (document.getElementById('buttonGroup').style.display = 'flex') {
-                            document.getElementById('next').style.display = 'none'
-                        } else if(document.getElementById('buttonGroup').style.display = 'none') {
-                            document.getElementById('next').style.display = 'block'
-                        }
+                        // console.log(count)
+                        // if (document.getElementById('buttonGroup').style.display = 'flex') {
+                        //     document.getElementById('next').style.display = 'none'
+                        // } else if(document.getElementById('buttonGroup').style.display = 'none') {
+                        //     document.getElementById('next').style.display = 'block'
+                        // }
                         if (count == 0) {
                             buttonGroup.style.display = "flex"; // 버튼 그룹 표시
                             count++;
@@ -1681,7 +1727,7 @@ export function initThreeJS(){
                             // 다시 클릭 이벤트 활성화
                             // setClickEvent(); // 이벤트 리스너를 재설정
                         } else {
-                            casher.style.display = "none";
+                            // casher.style.display = "none";
                         }
                     };
                 }
@@ -1702,155 +1748,95 @@ export function initThreeJS(){
                 casher.style.display = "none";
                 count = 0;
                 resetModal();
+                document.querySelectorAll('.choose button').forEach(function(button) {
+                    button.classList.remove('active');
+                })
                 this._onDialogClosed();
             }.bind(this);
 
             // 모달 창 바깥 영역 클릭 시 모달 닫기
-            window.onclick = function (event) {
-                if (event.target == casher) {
-                    casher.style.display = "none";
-                    count = 0;
-                    resetModal();
-                    this._onDialogClosed();
-                }
-            }.bind(this);
+            // window.onclick = function (event) {
+            //     if (event.target == casher) {
+            //         casher.style.display = "none";
+            //         count = 0;
+            //         resetModal();
+            //         this._onDialogClosed();
+            //     }
+            // }.bind(this);
 
             for (var i = 0; i < npc_name.length; i++) {
                 npc_name[i].innerHTML = npcType;
             }
-            speechText.onclick = function () {
-                // speechText.style.display = "none";
+            speechText.onclick = function () {;
                 buttonGroup.style.display = "block";
-                document.getElementById('next').style.display = 'none'
+                // document.getElementById('next').style.display = 'none'
             }
+            dialogText.onclick = function () {
+                buttonGroup.style.display = "block";
+                // document.getElementById('next').style.display = 'none'
+                };
 
-            if (npcType === 'casher') {
-                
-                casher.style.display = "block";
+            if (npcType === 'teacher') {
         
-                function resetModal() {
-                    speechText.style.display = "block";
-                    buttonGroup.style.display = "none";
-
-                    
-                }
-        
-                resetModal();
-        
-                span.onclick = function () {
-                    casher.style.display = "none";
-                    resetModal();
-                }.bind(this);
-        
-        
-                document.getElementById("select1").onclick = function () {
-                    console.log("선택지 1 선택됨");
-                    casher.style.display = "none";
-                    resetModal();
-                    this._onDialogClosed();
-                }.bind(this);
-        
-                document.getElementById("select2").onclick = function () {
-                    console.log("선택지 2 선택됨");
-                    casher.style.display = "none";
-                    resetModal();
-                    this._onDialogClosed();
-                }.bind(this);
-        
-                document.getElementById("select3").onclick = function () {
-                    console.log("선택지 3 선택됨");
-                    casher.style.display = "none";
-                    resetModal();
-                    this._onDialogClosed();
-                }.bind(this);
-        
-                window.onclick = function (event) {
-                    if (event.target == casher) {
-                        casher.style.display = "none";
-                        resetModal();
-                        this._onDialogClosed();
-                    }
-                }.bind(this);
-            } else if (npcType === 'teacher') {
-        
-                dialogText.innerHTML = "안녕? 새로 온 학생이니?";
+                // dialogText.innerHTML = "안녕? 새로 온 학생이니?";
                 // speak(dialogText.innerHTML);
                 // listKoreanVoices();
                 // testKoreanVoices();
+                let score = 100;
                 function resetModal() {
+                    dialogText.innerHTML = "안녕? 새로 온 학생이니?";
                     option1.innerHTML = "네, 맞아요. 안녕하세요?";
                     option2.innerHTML = "(무시하고 갈 길을 간다.)";
                     option3.innerHTML = "누구세요?";
                     dialogText.style.display = "block";
-                    buttonGroup.style.display = "none";
+                    // buttonGroup.style.display = "none";
                     document.getElementById('next').style.display = 'block'
+                    document.querySelectorAll('.choose button').forEach(function(button) {
+                        button.classList.remove('active');
+                    })
                 }
-
-        
                 resetModal();
-        
-                casher.style.display = "block";
-        
-                dialogText.onclick = function () {
-                    // this.style.display = "none";
-                    buttonGroup.style.display = "block";
-                    document.getElementById('next').style.display = 'none'
-                };
-        
-                span.onclick = function () {
-                    casher.style.display = "none";
-                    resetModal();
-                    this._onDialogClosed();
-                }.bind(this);
-        
+                casher.style.display = "block";        
 
                 option1.onclick = function () {
-                    console.log("첫 번째 선택지 선택됨");
+                    recordButton.onclick();
                     choose_answer = option1.textContent;
                     message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
                     sendMessageToClova(message)
-                    dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "안녕? 나는 선생님이란다. 학교에 온걸 환영해!";
-                    speak(dialogText.innerHTML);
-                    dialogText.onclick = function () {
-                        casher.style.display = "none";
-                        resetModal();
-                        this._onDialogClosed();
-                    }.bind(this);
+                    // speak(dialogText.innerHTML);
+                    // dialogText.onclick = function () {
+                        console.log(score)
+                        document.getElementById('next').onclick = function () {
+                            casher.style.display = "none";
+                            buttonGroup.style.display = "none";
+                            resetModal();
+                            this._onDialogClosed();
+                        }.bind(this);
+                    // }.bind(this);
                 }.bind(this);
         
                 option2.onclick = function () {
-                    console.log("두 번째 선택지 선택됨");
                     dialogText.style.display = "block";
-                    buttonGroup.style.display = "none";
+                    // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "어머..낯을가리는 아이인가?";
                     dialogText.onclick = function () {
-                        casher.style.display = "none";
+                        score = score - 20;
                         resetModal();
-                        this._onDialogClosed();
                     }.bind(this);
                 }.bind(this);
         
                 option3.onclick = function () {
-                    console.log("세 번째 선택지 선택됨");
                     dialogText.style.display = "block";
-                    buttonGroup.style.display = "none";
+                    // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "나는 선생님이란다.";
                     dialogText.onclick = function () {
-                        casher.style.display = "none";
+                        score = score - 20;
                         resetModal();
-                        this._onDialogClosed();
                     }.bind(this);
                 }.bind(this);
-        
-                window.onclick = function (event) {
-                    if (event.target == casher) {
-                        casher.style.display = "none";
-                        resetModal();
-                        this._onDialogClosed();
-                    }
-                }.bind(this);
+
             } else if (npcType == 'game_friend') {
                 game_name = "GameB"
                 var modal = document.getElementById("myModal");
@@ -1983,48 +1969,7 @@ export function initThreeJS(){
                     };
                 }.bind(this);
 
-            } else if (npcType == 'npc3') {
-    
-                // 대화 내용 업데이트
-                dialogText.innerHTML = "안녕? 나는 npc3야.";
-    
-                // 각 선택지 업데이트
-                function resetModal() {
-                    option1.innerHTML = "안녕하세요";
-                    option2.innerHTML = "와 AI다!?";
-                    option3.innerHTML = "집에가고싶어요";
-                    dialogText.style.display = "block";  // 텍스트를 보이게 함
-                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
-                }
-    
-                // 초기 상태로 모달 재설정
-                resetModal();
-    
-                casher.style.display = "block";
-    
-                // 각 선택지 클릭 시 동작
-                option1.onclick = function () {
-                    console.log("첫 번째 선택지 선택됨");
-                    casher.style.display = "none";
-                    resetModal();
-                    this._onDialogClosed();
-                }.bind(this);
-    
-                option2.onclick = function () {
-                    console.log("두 번째 선택지 선택됨");
-                    casher.style.display = "none";
-                    resetModal();
-                    this._onDialogClosed();
-                };
-    
-                option3.onclick = function () {
-                    console.log("세 번째 선택지 선택됨");
-                    casher.style.display = "none";
-                    resetModal();
-                    this._onDialogClosed();
-                }.bind(this);
-    
-            } else if (npcType == 'friend_hurt') {
+            }else if (npcType == 'friend_hurt') {
     
                 // 대화 내용 업데이트
                 dialogText.innerHTML = "넘어져서 주져 앉아있다. 무릎에 상처가 났다..";
@@ -2094,11 +2039,13 @@ export function initThreeJS(){
                 option1.onclick = function () {
                     if (scene1 == 0) {
                         console.log("첫 번째 선택지 선택됨");
+                        document.querySelectorAll('.choose button').forEach(function(button) {
+                            button.classList.remove('active');
+                        })
                         dialogText.style.display = "block";
                         buttonGroup.style.display = "none";
                         dialogText.innerHTML = "....응? 뭐라고?";
                         resetModal2();
-                        this._onDialogClosed();
                         
                         scene1++;
                     } else {
@@ -2145,10 +2092,10 @@ export function initThreeJS(){
                 gameAButton.setAttribute('data-path', 'Library_12/index.html'); // data-path 속성 설정
     
                 // 닫기 버튼 클릭 시 모달 닫기
-                span.onclick = function () {
-                    modal.style.display = "none";
-                    this._onDialogClosed();
-                }.bind(this);
+                // span.onclick = function () {
+                //     modal.style.display = "none";
+                //     this._onDialogClosed();
+                // }.bind(this);
     
                 // 선택지 1 클릭 시 동작
                 document.getElementById("option1").onclick = function () {
@@ -2335,17 +2282,34 @@ export function initThreeJS(){
         
         // 감지된 객체 처리
         let collidedWithTeleport = false;
+        let isOnNavMesh = false;
         
         for (let i = 0; i < intersectsDown.length; i++) {
             const intersectedObject = intersectsDown[i].object;
+            if (intersectedObject.name === 'NavMesh') {
+                console.log('NavMesh 탐지')
+                isOnNavMesh = true;
+                break;
+            }
             if (intersectedObject.name === 'teleport') {
                 collidedWithTeleport = true;
                 break;
+            } else if (intersectedObject.name === 'teleport001') {
+                if (this._currentSceneIndex == 1)
+                    this._switchScene(4)
+                else if (this._currentSceneIndex == 2) {
+                    this._switchScene(5)
+                } else
+                    console.log(this._currentSceneIndex)
             }
         }
-        
         for (let i = 0; i < intersectsUp.length; i++) {
             const intersectedObject = intersectsUp[i].object;
+            if (intersectedObject.userData.name === 'NavMesh') {
+                console.log('NavMesh 탐지')
+                isOnNavMesh = true;
+                break;
+            }
             if (intersectedObject.name === 'teleport') {
                 collidedWithTeleport = true;
                 break;
@@ -2357,7 +2321,13 @@ export function initThreeJS(){
                 }else
                 console.log(this._currentSceneIndex)
             }
-        }
+                }
+                if (!isOnNavMesh) { 
+                    // console.log('범위를 이탈합니다');
+    //                 this._speed = 0;
+    // this._maxSpeed = 0;
+    // this._acceleration = 0;
+                }
                 // 충돌 상태에 따른 콘솔 로그 처리
                 if (collidedWithTeleport && !this._hasCollidedWithTeleport) {
                     console.log('Teleport 오브젝트가 플레이어 아래에 감지되었습니다.');
@@ -2446,7 +2416,7 @@ export function initThreeJS(){
                 if (this._support) {
                     this._support.lookAt(this._model.position);
                     const distance = this._support.position.distanceTo(this._model.position);
-                    if (distance > 150) {
+                    if (distance > 250) {
                         const step = 3.5;
                         const direction = new THREE.Vector3().subVectors(this._model.position, this._support.position).normalize();
                         this._support.position.addScaledVector(direction, step);

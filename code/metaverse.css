@@ -1074,14 +1074,45 @@ z-index: 2;
     /* 애니메이션 효과 추가 */
 
 }
-.choose button:active{
+.choose button.active{
   background-image: url(data/btn_clicked.png);
 transform: scale(1.2);
   /* 버튼을 1.2배 확대 */
 }
 .choose button:hover{
-  /* background-image: url(data/btn_clicked.png); */
-  transform: scale(1.2);
+  background-image: url(data/btn_clicked.png);
+  /* transform: scale(1.2); */
+}
+#recording{
+  
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-image: url(data/recordbg.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  padding: 3px 32px;
+  /* width: 360px; */
+  height: 53px;
+  font-size: 26px;
+}
+.blinking {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 .next_btn{
   all: unset;

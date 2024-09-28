@@ -54,16 +54,19 @@ document.addEventListener('DOMContentLoaded', function() {
     let mediaRecorder;
     let audioChunks = [];
     let recognition;
+    let recordingDiv = document.getElementById("recording"); // id가 recording인 div
 
     recordButton.onclick = function() {
         if (mediaRecorder && mediaRecorder.state === "recording") {
             mediaRecorder.stop();
             recordButton.textContent = "녹음 시작";
+            resetRecordingDiv(); // 녹음 종료 시 상태를 복원
         } else {
             navigator.mediaDevices.getUserMedia({ audio: true })
             .then(stream => {
                 mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
                 mediaRecorder.start();
+                recordingDiv.style.display = 'flex'
                 recordButton.textContent = "녹음 중지";
 
                 audioChunks = [];
@@ -74,7 +77,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 mediaRecorder.onstop = function() {
                     const audioBlob = new Blob(audioChunks, { 'type': 'audio/wav' });
                     sendAudioToServer(audioBlob);
+                    resetRecordingDiv(); // 녹음 종료 시 상태를 복원
                 };
+
+                // 1초 후에 recordingDiv의 상태를 변경
+                setTimeout(function() {
+                    recordingDiv.innerHTML = ""; // 공백으로 변경
+                    recordingDiv.style.backgroundImage = "url('data/recording.png')"; // 배경 이미지 교체
+                    recordingDiv.classList.add("blinking"); // 점등하는 애니메이션 추가
+                }, 1000);
 
                 // 음성 인식 설정
                 if ('webkitSpeechRecognition' in window) {
@@ -97,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             mediaRecorder.stop();
                             recordButton.textContent = "녹음 시작";
                             recognition.stop();
+                            resetRecordingDiv(); // 음성 인식이 끝나면 상태를 복원
                         } else {
                             interimTranscript += event.results[i][0].transcript;
                         }
@@ -107,6 +119,16 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     };
+
+    // 녹음이 종료되었을 때 recordingDiv의 상태를 복원하는 함수
+    function resetRecordingDiv() {
+        recordingDiv.innerHTML = "정답을 소리내어 말해보세요.";
+        recordingDiv.style.backgroundImage = "url(data/recordbg.png"; // 원래 배경으로 복원
+        recordingDiv.classList.remove("blinking"); // 점등 애니메이션 제거
+        recordingDiv.style.display='none'
+    }
+
+
 
     function sendAudioToServer(audioBlob) {
         const formData = new FormData();
@@ -138,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         if (closestButton) {
-            closestButton.click(); // 가장 가까운 버튼을 프로그래매틱하게 클릭
+            // closestButton.click(); // 가장 가까운 버튼을 프로그래매틱하게 클릭
             alert("클릭된 버튼: " + closestButton.innerHTML); // 콘솔에 클릭된 버튼의 텍스트를 로그
         } else {
             console.error("가장 가까운 버튼을 찾을 수 없습니다.");

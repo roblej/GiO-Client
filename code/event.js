@@ -204,20 +204,28 @@ const button1 = document.getElementById('select1');
 const button2 = document.getElementById('select2');
 const button3 = document.getElementById('select3');
 
-// 각 버튼에 클릭 이벤트 추가
-button1.addEventListener('click', function() {
-    button1.classList.toggle('active'); // 'active' 클래스 토글
+document.querySelectorAll('.choose button').forEach(function(button) {
+  button.addEventListener('click', function() {
+    // 다른 버튼들의 active 클래스를 제거
+    document.querySelectorAll('.choose button').forEach(function(btn) {
+      btn.classList.remove('active');
+    });
+    
+    // 클릭한 버튼에 active 클래스 추가
+    button.classList.add('active');
+  });
 });
+// thiscasher의 display 값을 확인하고 active 클래스를 해제하는 부분
+const casher = document.getElementById('thiscasher');
+if (casher && window.getComputedStyle(casher).display === 'none') {
+  // 모든 버튼의 active 클래스 제거
+  document.querySelectorAll('.choose button').forEach(function(button) {
+    button.classList.remove('active');
+  });
+}
 
-button2.addEventListener('click', function() {
-    button2.classList.toggle('active'); // 'active' 클래스 토글
-});
 
-button3.addEventListener('click', function() {
-    button3.classList.toggle('active'); // 'active' 클래스 토글
-});
-
-
+export let tutorial = 'false'
         // DOMContentLoaded 이벤트 확인
         document.addEventListener('DOMContentLoaded', function () {
             console.log('DOMContentLoaded 이벤트가 실행되었습니다.'); // 이벤트가 실행되었는지 확인
@@ -228,7 +236,7 @@ button3.addEventListener('click', function() {
           const tori_text_box = document.querySelector('.tori_text_box')
           const confirmbtn = document.querySelector('.namebox button')
 
-            if (tuto_btn && tori_text) {
+            if (tuto_btn && tori_text && tutorial =='true') {
                 console.log('요소가 존재함'); // 요소가 제대로 선택되었는지 확인
                 // 클릭 이벤트 리스너 추가
                 tuto_btn.addEventListener('click', function () {
