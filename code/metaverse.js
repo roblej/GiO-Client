@@ -317,30 +317,30 @@ export function initThreeJS(){
             plane.position.y = 0;
                 this._scene.add(plane);
                 const rgbeLoader = new RGBELoader();
-// index에 따른 HDR 텍스처 설정
-    let hdrPath;
-    if (index === 0) { // 학교의 경우
-        hdrPath = './data/sky_edit3.hdr';
-    } else if (index === 1) { // 마을회관 외부의 경우
-        hdrPath = './data/sky_edit3.hdr';
-    } else if (index === 2) { // 도서관 외부의 경우
-        hdrPath = './data/sky_edit3.hdr';
-    } else if (index === 3) { // 공원의 경우
-        hdrPath = './data/sky_edit3.hdr';
-    } else if (index === 4) { // 마을회관 내부의 경우
-        hdrPath = './data/inside_.hdr';
-    } else if (index === 5) { // 도서관 내부의 경우
-        hdrPath = './data/inside_.hdr';
-    }
+        // index에 따른 HDR 텍스처 설정
+            let hdrPath;
+            if (index === 0) { // 학교의 경우
+                hdrPath = './data/sky_edit3.hdr';
+            } else if (index === 1) { // 마을회관 외부의 경우
+                hdrPath = './data/sky_edit3.hdr';
+            } else if (index === 2) { // 도서관 외부의 경우
+                hdrPath = './data/sky_edit3.hdr';
+            } else if (index === 3) { // 공원의 경우
+                hdrPath = './data/sky_edit3.hdr';
+            } else if (index === 4) { // 마을회관 내부의 경우
+                hdrPath = './data/inside_.hdr';
+            } else if (index === 5) { // 도서관 내부의 경우
+                hdrPath = './data/inside_.hdr';
+            }
 
-    // 선택된 HDR 로드
-    rgbeLoader.load(hdrPath, (texture) => {
-        texture.mapping = THREE.EquirectangularReflectionMapping;
-        this._scene.background = texture;  // 배경으로 HDR 설정
-        console.log(`HDR 텍스처 (${hdrPath})가 로드되었습니다.`);
-    }, undefined, (error) => {
-        console.error(`HDR 텍스처 로드 실패 (${hdrPath}):`, error);
-    });
+            // 선택된 HDR 로드
+            rgbeLoader.load(hdrPath, (texture) => {
+                texture.mapping = THREE.EquirectangularReflectionMapping;
+                this._scene.background = texture;  // 배경으로 HDR 설정
+                console.log(`HDR 텍스처 (${hdrPath})가 로드되었습니다.`);
+            }, undefined, (error) => {
+                console.error(`HDR 텍스처 로드 실패 (${hdrPath}):`, error);
+            });
                 
                 plane.receiveShadow = true;
                 this._worldOctree.fromGraphNode(plane);
