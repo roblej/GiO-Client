@@ -27,8 +27,6 @@
 
 </head>
 <body>
-    <!-- 볼륨 조절 슬라이더 -->
-    <input type="range" id="volumeSlider" min="0" max="100" value="50";>
 
     <div id="positionLabel" style="position: absolute; top: 10px; right: 10px; color: white; font-family: Arial; font-size: 16px; z-index: 99999;"></div>
     <div id="BtnMaps">
@@ -208,7 +206,7 @@
                     <div class="index">
                         <img src="data/mypageimage/mypageim/bookmark_green.png" class="indexDefault index1 indexSelect">
                         <img src="data/mypageimage/mypageim/bookmark_pink.png" class="indexDefault index2 indexMove" style="z-index: -1;" onclick="showStickerTab()">
-                        <img src="data/mypageimage/mypageim/bookmark_blue.png" class="indexDefault index3 indexMove" style="z-index: -2;">
+                        <img src="data/mypageimage/mypageim/bookmark_blue.png" class="indexDefault index3 indexMove" style="z-index: -2;" onclick="showDataTab()">
                         <img src="data/mypageimage/mypageim/bookmark_yellow.png" class="indexDefault index4 indexMove" style="z-index: -3;" onclick="showSettingTab()">
                     </div>
                     <img src="data/mypageimage/mypageim/close_btn.png" class="closeIndex indexDefault indexMove" onclick="closeModal()">
@@ -266,7 +264,7 @@
                                     <p id="optioninfo">개인정보, 환경설정을 할 수 있어요.</p>
                                 </div>
                             </div>
-                            <div id="data" class="selectOption">
+                            <div id="data" class="selectOption" onclick="showDataTab()">
                                 <div id="textBox">
                                     <p id="optionTitle">데이터</p>
                                     <p id="optioninfo">활동, 대화 점수를 확인할 수 있어요.</p>
@@ -295,19 +293,91 @@
                 <!--스티커북창-->
                 <div id="StickerTab" class="tabcontent">
                     <div class="index">
-                        <img src="data/mypageimage/mypageim/bookmark_green.png" class="indexDefault index1 indexMove">
+                        <img src="data/mypageimage/mypageim/bookmark_green.png" class="indexDefault index1 indexMove" onclick="openModal()">
                         <img src="data/mypageimage/mypageim/bookmark_pink.png" class="indexDefault index2 indexSelect" style="z-index: -1;">
-                        <img src="data/mypageimage/mypageim/bookmark_blue.png" class="indexDefault index3 indexMove" style="z-index: -2;">
+                        <img src="data/mypageimage/mypageim/bookmark_blue.png" class="indexDefault index3 indexMove" style="z-index: -2;" onclick="showDataTab()">
                         <img src="data/mypageimage/mypageim/bookmark_yellow.png" class="indexDefault index4 indexMove" style="z-index: -3;" onclick="showSettingTab()">
                     </div>
                     <img src="data/mypageimage/mypageim/close_btn.png" class="closeIndex indexDefault indexMove" onclick="closeModal()">
                     <div id="note">
                         <div class="pageTitleGroup">
-                            <img src="data/mypageimage/mypageim/sticker_back.png">
+                            <img src="data/mypageimage/mypageim/sticker_back.png" onclick="openModal()">
                             <div class="pageTitle" style="background-image: url('data/mypageimage/mypageim/stickerbook_titile.png');">
                                 <p>스티커북</p>
                             </div>
                         </div>
+
+                        <div id="mainSContent">
+                            <div id="rightBox">
+                                <div id="imgBackground">
+                                    <img src="data/mypageimage/mypageim/sticker_00_00.png">
+                                </div>
+                                <div id="stickerTextbox">
+                                    <p id="itemText">파란 공</p>
+                                </div>
+                            </div>
+                            <div id="leftBox">
+                                <div id="infoTextbox">
+                                    <p id="infoText">친구의 공을 주웠어. <br> 다음에도 만나면 공놀이를 할 수 있으면 좋겠다.</p>
+                                </div>
+                                <div id="change" class="changeButton">
+                                    <img src="data/mypageimage/mypageim/sticker_change_icon.png" width="26px" height="31px">
+                                    <p class="fontSetting">변경</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="subSContent">
+                            <img id="star" src="data/mypageimage/mypageim/sticker_star_icon.png">
+                            <img id="cloud" src="data/mypageimage/mypageim/sticker_cloud_icon.png">
+                            <div id="subBackground">
+                                <div id="line"> <!--라인 > 공, 물음표 > 흰바탕 순-->
+                                    <div id="lineContent"> <!--라인 자투리 뺀 순수 콘택츠 영역 -->
+                                        <div id="white-background"></div>
+                                        <div class="ball-questionMark" id="mark1" onclick="selectItem(1)">
+                                            <img src="data/mypageimage/mypageim/sticker_00_01.png">
+                                        </div> <!--공이미지 넣을 것-->
+                                        <div class="ball-questionMark" id="mark2" onclick="selectItem(2)">
+                                            <img src="data/mypageimage/mypageim/question_01_icon.png">
+                                        </div> <!--물음표이미지 넣을 것-->
+                                        <div class="ball-questionMark" id="mark3" onclick="selectItem(3)">
+                                            <img src="data/mypageimage/mypageim/question_01_icon.png">
+                                        </div> <!--물음표이미지 넣을 것-->
+                                        <div class="ball-questionMark" id="mark4" onclick="selectItem(4)">
+                                            <img src="data/mypageimage/mypageim/question_01_icon.png">
+                                        </div> <!--물음표이미지 넣을 것-->
+                                        <div class="ball-questionMark" id="mark5" onclick="selectItem(5)">
+                                            <img src="data/mypageimage/mypageim/question_01_icon.png">
+                                        </div> <!--물음표이미지 넣을 것-->
+                                        <div class="ball-questionMark" id="mark6" onclick="selectItem(6)">
+                                            <img src="data/mypageimage/mypageim/question_01_icon.png">
+                                        </div> <!--물음표이미지 넣을 것-->
+                                        <div class="ball-questionMark" id="mark7" onclick="selectItem(7)">
+                                            <img src="data/mypageimage/mypageim/question_01_icon.png">
+                                        </div> <!--물음표이미지 넣을 것-->
+                                        <div class="ball-questionMark" id="mark8" onclick="selectItem(8)">
+                                            <img src="data/mypageimage/mypageim/question_01_icon.png">
+                                        </div> <!--물음표이미지 넣을 것-->
+                                        <div class="ball-questionMark" id="mark9" onclick="selectItem(9)">
+                                            <img src="data/mypageimage/mypageim/question_01_icon.png">
+                                        </div> <!--물음표이미지 넣을 것-->
+                                        <div class="ball-questionMark" id="mark10" onclick="selectItem(10)">
+                                            <img src="data/mypageimage/mypageim/question_01_icon.png">
+                                        </div> <!--물음표이미지 넣을 것-->
+                                        <div class="ball-questionMark" id="mark11" onclick="selectItem(11)">
+                                            <img src="data/mypageimage/mypageim/question_01_icon.png">
+                                        </div> <!--물음표이미지 넣을 것-->
+                                        <div class="ball-questionMark" id="mark12" onclick="selectItem(12)">
+                                            <img src="data/mypageimage/mypageim/question_01_icon.png">
+                                        </div> <!--물음표이미지 넣을 것-->
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+
+
+
+
+                        
                     </div>
                     <img src="data/mypageimage/mypageim/pencil.png" id="pencil">
 
@@ -321,50 +391,84 @@
 
 
 
-
-
-
-
-
-
                 <!--설정창-->
                 <div id="SettingTab" class="tabcontent">
                     <div class="index">
-                        <img src="data/mypageimage/mypageim/bookmark_green.png" class="indexDefault index1 indexMove">
+                        <img src="data/mypageimage/mypageim/bookmark_green.png" class="indexDefault index1 indexMove" onclick="openModal()">
                         <img src="data/mypageimage/mypageim/bookmark_pink.png" class="indexDefault index2 indexMove" style="z-index: -1;" onclick="showStickerTab()">
-                        <img src="data/mypageimage/mypageim/bookmark_blue.png" class="indexDefault index3 indexMove" style="z-index: -2;">
+                        <img src="data/mypageimage/mypageim/bookmark_blue.png" class="indexDefault index3 indexMove" style="z-index: -2;" onclick="showDataTab()">
                         <img src="data/mypageimage/mypageim/bookmark_yellow.png" class="indexDefault index4 indexSelect" style="z-index: -3;">
                     </div>
                     <img src="data/mypageimage/mypageim/close_btn.png" class="closeIndex indexDefault indexMove" onclick="closeModal()">
                     <div id="note">
                         <div class="pageTitleGroup">
-                            <img src="data/mypageimage/mypageim/system_back.png">
+                            <img src="data/mypageimage/mypageim/system_back.png" onclick="openModal()">
                             <div class="pageTitle" style="background-image: url('data/mypageimage/mypageim/system_titile.png');">
                                 <p>설정</p>
                             </div>
                         </div>
 
                         <div id="settingInput">
-                            <div id="rightPannel">
-                                <form id="settingForm">
+                            <div id="rightPannel" class="pannelSetting" style="margin-left: 64px;">
+                                <form class="settingForm">
                                     <div class="inputBox">
-                                        <h4 class="titleLabel">이름</h4>
-                                        <input type="text" id="name" name="name" required style="width: 140px;">
+                                        <label for="name" class="titleLabel required">이름</label>
+                                        <input type="text" id="name" name="name" class="writeBox" required>
                                     </div>
                                     <div class="inputBox">
-                                        <h4>닉네임</h4>
-                                        <input type="text" placeholder="예시) 홍길동" style="width: 140px;">
+                                        <label for="nicname" class="titleLabel required">닉네임</label>
+                                        <input type="text" id="nicname" name="nicname" class="writeBox" required>
                                     </div>
                                     <div class="inputBox">
-                                        <h4>아이디</h4>
-                                        <input type="text" placeholder="예시) 홍길동" style="width: 140px;">
+                                        <label for="id" class="titleLabel required">아이디</label>
+                                        <input type="text" id="id" name="id" class="writeBox" required>
+                                    </div>
+                                    <div class="inputBox">
+                                        <label for="password" class="titleLabel required">비밀번호</label>
+                                        <input type="password" id="password" name="password" class="writeBox" required>
+                                    </div>
+                                    <div class="inputBox">
+                                        <label for="passwordtest" class="titleLabel required">비밀번호 확인</label>
+                                        <input type="password" id="passwordtest" name="passwordtest" class="writeBox" required>
                                     </div>
                                 </form>
                             </div>
 
 
 
-                            <div id="leftPannel"></div>
+                            <div id="leftPannel" class="pannelSetting" style="margin-right: 63px;">
+                                <form class="settingForm">
+                                    <div class="inputBox">
+                                        <label for="email" class="titleLabel required">이메일</label>
+                                        <input type="email" id="email" name="email" class="writeBox" required>
+                                    </div>
+                                    <div class="inputBox">
+                                        <label for="birthdate" class="titleLabel">생년월일</label>
+                                        <input type="date" id="birthdate" name="birthdate" class="writeBox">
+                                    </div>
+                                    <div class="inputBox">
+                                        <label for="gender2" class="titleLabel required">성별</label>
+                                        <div id="gender-options">
+                                            <input type="radio" id="male2" name="gender2" value="male" class="settingGender">
+                                            <label for="male" class="settingGenderBut">남자</label>
+                                            <input type="radio" id="female2" name="gender2" value="female" class="settingGender">
+                                            <label for="female" class="settingGenderBut">여자</label>
+                                        </div>
+                                    </div>
+                                    <div class="inputBox">
+                                        <label for="educator" class="titleLabel">교육자</label>
+                                        <input type="text" id="educator" name="educator" class="writeBox">
+                                    </div>
+                                    <div class="inputBox">
+                                        <label for="passwordtest" class="titleLabel">소리크기</label>
+                                        <div class="slider-wrapper">  
+                                            <span id="slider-value">80%</span>
+                                            <!-- 볼륨 조절 슬라이더 -->
+                                            <input type="range" id="volumeSlider" min="0" max="100" value="80"; oninput="updateSlider(this.value)">                         
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
 
 
                             
@@ -388,37 +492,147 @@
 
 
 
+                <!--데이터창-->
+                <div id="DataTab" class="tabcontent">
+                    <div class="index">
+                        <img src="data/mypageimage/mypageim/bookmark_green.png" class="indexDefault index1 indexMove" onclick="openModal()">
+                        <img src="data/mypageimage/mypageim/bookmark_pink.png" class="indexDefault index2 indexMove" style="z-index: -1;" onclick="showStickerTab()">
+                        <img src="data/mypageimage/mypageim/bookmark_blue.png" class="indexDefault index3 indexSelect" style="z-index: -2;">
+                        <img src="data/mypageimage/mypageim/bookmark_yellow.png" class="indexDefault index4 indexMove" style="z-index: -3;" onclick="showSettingTab()">
+                    </div>
+                    <img src="data/mypageimage/mypageim/close_btn.png" class="closeIndex indexDefault indexMove" onclick="closeModal()">
+                    <div id="note">
+                        <div class="pageTitleGroup">
+                            <img src="data/mypageimage/mypageim/data_back.png" onclick="openModal()">
+                            <div class="pageTitle" style="background-image: url('data/mypageimage/mypageim/data_titile.png');">
+                                <p>데이터</p>
+                            </div>
+                        </div>
 
+                        <div id="dataContent">
+                            <img src="data/mypageimage/mypageim/active_data_btn.png" onclick="showActiveTab()">
+                            <img src="data/mypageimage/mypageim/dialogue_data_btn.png" onclick="showTalkTab()">
+                        </div>
+                    </div>
+                    <img src="data/mypageimage/mypageim/pencil.png" id="pencil">
 
-
-
-
-
-
-                <div id="DataTab" class="tabcontent data">
-                    <img src="data/mypageimage/mypageim/02.png" alt="">
-                    <img id="activebtn" src="data/mypageimage/mypageim/activedata_btn00.png" alt="" onclick="showActiveTab()">
-                    <img id="talkbtn" src="data/mypageimage/mypageim/talkdata_btn00.png" alt="" onclick="showTalkTab()">
-                    <img id="closesticker2" src="data/mypageimage/mypageim/pageout_btn.png" alt="" onclick="closeModal()">
                 </div>
-                <div id="ActiveTab" class="tabcontent data">
-                    <img src="data/mypageimage/mypageim/03.png" alt="">
-                    <img id="schoolbtn" src="data/mypageimage/mypageim/school00.png" alt="" onclick="showSchoolTab()">
-                    <img id="closesticker3" src="data/mypageimage/mypageim/pageout_btn.png" alt="" onclick="closeModal()">
+
+                <!-------------------------------------------------------------------------------------------->
+                <div id="ActiveTab" class="tabcontent">
+                    <div class="index">
+                        <img src="data/mypageimage/mypageim/bookmark_green.png" class="indexDefault index1 indexMove" onclick="openModal()">
+                        <img src="data/mypageimage/mypageim/bookmark_pink.png" class="indexDefault index2 indexMove" style="z-index: -1;" onclick="showStickerTab()">
+                        <img src="data/mypageimage/mypageim/bookmark_blue.png" class="indexDefault index3 indexSelect" style="z-index: -2;">
+                        <img src="data/mypageimage/mypageim/bookmark_yellow.png" class="indexDefault index4 indexMove" style="z-index: -3;" onclick="showSettingTab()">
+                    </div>
+                    <img src="data/mypageimage/mypageim/close_btn.png" class="closeIndex indexDefault indexMove" onclick="closeModal()">
+                    <div id="note">
+                        <div class="pageTitleGroup">
+                            <img src="data/mypageimage/mypageim/data_back.png" onclick="showDataTab()">
+                            <div class="pageTitle" style="background-image: url('data/mypageimage/mypageim/data_titile.png');">
+                                <p>데이터</p>
+                            </div>
+                        </div>
+
+                        <div class="act-communitDataContent">
+                            <img class="act-communitTitle" src="data/mypageimage/mypageim/active_data_title.png">
+                            <div class="act-communitContent">
+                                <img src="data/mypageimage/mypageim/active_data_00_btn.png" onclick="showSchoolTab()">
+                                <img src="data/mypageimage/mypageim/active_data_01_btn.png">
+                                <img src="data/mypageimage/mypageim/active_data_02_btn.png">
+                                <img src="data/mypageimage/mypageim/active_data_03_btn.png">
+                            </div>
+                        </div>
+
+                        <p class="writeDate"> 가장 최근 활동한 날짜의 점수가 표시됩니다.</p>
+                    </div>
+                    <img src="data/mypageimage/mypageim/pencil.png" id="pencil">
+
                 </div>
-                <div id="TalkTab" class="tabcontent data">
-                    <img src="data/mypageimage/mypageim/05.png" alt="">
-                    <img id="communicationbtn" src="data/mypageimage/mypageim/communication00.png" alt="" onclick="showCommunicationTab()">
-                    <img id="closesticker4" src="data/mypageimage/mypageim/pageout_btn.png" alt="" onclick="closeModal()">
+
+                <div id="SchoolTab" class="tabcontent">
+                    <div class="index">
+                        <img src="data/mypageimage/mypageim/bookmark_green.png" class="indexDefault index1 indexMove" onclick="openModal()">
+                        <img src="data/mypageimage/mypageim/bookmark_pink.png" class="indexDefault index2 indexMove" style="z-index: -1;" onclick="showStickerTab()">
+                        <img src="data/mypageimage/mypageim/bookmark_blue.png" class="indexDefault index3 indexSelect" style="z-index: -2;">
+                        <img src="data/mypageimage/mypageim/bookmark_yellow.png" class="indexDefault index4 indexMove" style="z-index: -3;" onclick="showSettingTab()">
+                    </div>
+                    <img src="data/mypageimage/mypageim/close_btn.png" class="closeIndex indexDefault indexMove" onclick="closeModal()">
+                    <div id="note">
+                        <div class="pageTitleGroup">
+                            <img src="data/mypageimage/mypageim/data_back.png" onclick="showActiveTab()">
+                            <img class="subTitle" src="data/mypageimage/mypageim/active_data_theme.png">
+                        </div>
+
+                        <img class="subContent" src="data/mypageimage/mypageim/active_data_img.png">
+                    </div>
+                    <img src="data/mypageimage/mypageim/pencil.png" id="pencil">
+
                 </div>
-                <div id="SchoolTab" class="tabcontent data">
-                    <img src="data/mypageimage/mypageim/04.png" alt="">
-                    <img id="closesticker5" src="data/mypageimage/mypageim/pageout_btn.png" alt="" onclick="closeModal()">
+
+
+
+
+
+
+
+                <div id="TalkTab" class="tabcontent">
+                    <div class="index">
+                        <img src="data/mypageimage/mypageim/bookmark_green.png" class="indexDefault index1 indexMove" onclick="openModal()">
+                        <img src="data/mypageimage/mypageim/bookmark_pink.png" class="indexDefault index2 indexMove" style="z-index: -1;" onclick="showStickerTab()">
+                        <img src="data/mypageimage/mypageim/bookmark_blue.png" class="indexDefault index3 indexSelect" style="z-index: -2;">
+                        <img src="data/mypageimage/mypageim/bookmark_yellow.png" class="indexDefault index4 indexMove" style="z-index: -3;" onclick="showSettingTab()">
+                    </div>
+                    <img src="data/mypageimage/mypageim/close_btn.png" class="closeIndex indexDefault indexMove" onclick="closeModal()">
+                    <div id="note">
+                        <div class="pageTitleGroup">
+                            <img src="data/mypageimage/mypageim/data_back.png" onclick="showDataTab()">
+                            <div class="pageTitle" style="background-image: url('data/mypageimage/mypageim/data_titile.png');">
+                                <p>데이터</p>
+                            </div>
+                        </div>
+
+                        <div class="act-communitDataContent">
+                            <img class="act-communitTitle" src="data/mypageimage/mypageim/dialogue_data_title.png">
+                            <div class="act-communitContent">
+                                <img src="data/mypageimage/mypageim/dialogue_data_00_btn.png" onclick="showCommunicationTab()">
+                                <img src="data/mypageimage/mypageim/dialogue_data_01_btn.png">
+                                <img src="data/mypageimage/mypageim/dialogue_data_02_btn.png">
+                                <img src="data/mypageimage/mypageim/dialogue_data_03_btn.png">
+                            </div>
+                        </div>
+
+                        <p class="writeDate"> 가장 최근 활동한 날짜의 점수가 표시됩니다.</p>
+                    </div>
+                    <img src="data/mypageimage/mypageim/pencil.png" id="pencil">
+
                 </div>
-                <div id="CommunicationTab" class="tabcontent data">
-                    <img src="data/mypageimage/mypageim/06.png" alt="">
-                    <img id="closesticker6" src="data/mypageimage/mypageim/pageout_btn.png" alt="" onclick="closeModal()">
+
+
+
+                <div id="CommunicationTab" class="tabcontent">
+                    <div class="index">
+                        <img src="data/mypageimage/mypageim/bookmark_green.png" class="indexDefault index1 indexMove" onclick="openModal()">
+                        <img src="data/mypageimage/mypageim/bookmark_pink.png" class="indexDefault index2 indexMove" style="z-index: -1;" onclick="showStickerTab()">
+                        <img src="data/mypageimage/mypageim/bookmark_blue.png" class="indexDefault index3 indexSelect" style="z-index: -2;">
+                        <img src="data/mypageimage/mypageim/bookmark_yellow.png" class="indexDefault index4 indexMove" style="z-index: -3;" onclick="showSettingTab()">
+                    </div>
+                    <img src="data/mypageimage/mypageim/close_btn.png" class="closeIndex indexDefault indexMove" onclick="closeModal()">
+                    <div id="note">
+                        <div class="pageTitleGroup">
+                            <img src="data/mypageimage/mypageim/data_back.png" onclick="showTalkTab()">
+                            <img class="subTitle" src="data/mypageimage/mypageim/dialogue_data_theme.png">
+                        </div>
+
+                        <img class="subContent" src="data/mypageimage/mypageim/dialogue_data_img.png">
+                    </div>
+                    <img src="data/mypageimage/mypageim/pencil.png" id="pencil">
+
                 </div>
+
+
+
 
             </div>
             <script>
@@ -453,25 +667,14 @@
                     resetToInitialState();  // 모달을 닫을 때 초기화 상태로 설정
                 }
 
-                
-
-                /*
-                function showStickerTab() {
-                    updateTabHistory('StickerTab');
-                    var images = document.querySelectorAll('.image-container img'); //mypageMain로 바꿔야함
-                    images.forEach(function(img) {
-                        if (img.id !== 'bgim') {
-                            img.classList.add('hidden');
-                        }
-                    });
-
-                    openTab(null, 'StickerTab');
-                }
-                    */
+              
             
 
 
                 // 내가만들어서 수정중--------------------------------------------------------------
+
+                
+                
                 function showStickerTab() {
                     updateTabHistory('StickerTab');
                     var elements = document.querySelectorAll('#mypageMain *'); //mypageMain로 바꿔야함
@@ -483,7 +686,6 @@
                     openTab(null, 'StickerTab');
                 }
                 
-
 
 
                 function showSettingTab() {
@@ -497,68 +699,172 @@
                     openTab(null, 'SettingTab');
                 }
 
+                const genderButtons = document.querySelectorAll('.settingGenderBut');
+                // 각 라벨에 클릭 이벤트 추가
+                genderButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        // 기존에 선택된 버튼 색상 초기화
+                        genderButtons.forEach(btn => btn.style.backgroundColor = '');
+                    
+                        // 클릭된 버튼의 배경색을 변경
+                        button.style.backgroundColor = '#FFDE4F';
+                    });
+                });
 
 
-                //-------------------------------------------------------------------------------------
+                // 슬라이더 배경을 초기화하는 함수
+                function initializeSlider() {
+                  const slider = document.getElementById("volumeSlider");
+                  const value = slider.value;
+  
+                  // 슬라이더 배경을 초기 값으로 설정
+                  slider.style.background = `linear-gradient(to right, #FFDE4F ${value}%, white ${value}%)`;
+
+                  // 슬라이더 값 텍스트 업데이트
+                  document.getElementById("slider-value").innerText = value + "%";
+                }
+
+                // 슬라이더 값이 변경될 때 호출되는 함수
+                function updateSlider(value) {
+                  document.getElementById("slider-value").innerText = value + "%";
+                  const slider = document.getElementById("volumeSlider");
+  
+                  // 슬라이더 트랙 배경 업데이트
+                  slider.style.background = `linear-gradient(to right, #FFDE4F ${value}%, white ${value}%)`;
+                }
+
+                // 페이지가 로드되었을 때 초기 슬라이더 값을 설정
+                window.onload = function() {
+                  initializeSlider();
+                };
+
+
+
+
+
+
+
 
                 function showDataTab() {
                     updateTabHistory('DataTab');
-                    var images = document.querySelectorAll('.image-container img');
-                    images.forEach(function(img) {
-                        if (img.id !== 'bgim') {
-                            img.classList.add('hidden');
-                        }
+                    var elements = document.querySelectorAll('#mypageMain *'); //mypageMain로 바꿔야함
+                    // 모든 요소 순회하면서 숨김 처리
+                    elements.forEach(function(element) {
+                        element.classList.add('hidden'); // 숨김 처리
                     });
 
                     openTab(null, 'DataTab');
                 }
+
                 function showActiveTab() {
-                    updateTabHistory('ActiveTab');
-                    var images = document.querySelectorAll('.image-container img');
-                    images.forEach(function(img) {
-                        if (img.id !== 'bgim') {
-                            img.classList.add('hidden');
-                        }
-                    });
+                updateTabHistory('ActiveTab');
+                var elements = document.querySelectorAll('#mypageMain *'); //mypageMain로 바꿔야함
+                // 모든 요소 순회하면서 숨김 처리
+                elements.forEach(function(element) {
+                    element.classList.add('hidden'); // 숨김 처리
+                });
 
                     openTab(null, 'ActiveTab');
                 }
 
-                function showSchoolTab() {
-                    updateTabHistory('SchoolTab');
-                    var images = document.querySelectorAll('.image-container img');
-                    images.forEach(function(img) {
-                        if (img.id !== 'bgim') {
-                            img.classList.add('hidden');
-                        }
-                    });
-
-                    openTab(null, 'SchoolTab');
-                }
-
                 function showTalkTab() {
-                    updateTabHistory('TalkTab');
-                    var images = document.querySelectorAll('.image-container img');
-                    images.forEach(function(img) {
-                        if (img.id !== 'bgim') {
-                            img.classList.add('hidden');
-                        }
-                    });
+                updateTabHistory('TalkTab');
+                var elements = document.querySelectorAll('#mypageMain *'); //mypageMain로 바꿔야함
+                // 모든 요소 순회하면서 숨김 처리
+                elements.forEach(function(element) {
+                    element.classList.add('hidden'); // 숨김 처리
+                });
 
                     openTab(null, 'TalkTab');
                 }
 
+                function showSchoolTab() {
+                updateTabHistory('SchoolTab');
+                var elements = document.querySelectorAll('#mypageMain *'); //mypageMain로 바꿔야함
+                // 모든 요소 순회하면서 숨김 처리
+                elements.forEach(function(element) {
+                    element.classList.add('hidden'); // 숨김 처리
+                });
+
+                    openTab(null, 'SchoolTab');
+                }
+
                 function showCommunicationTab() {
-                    updateTabHistory('CommunicationTab');
-                    var images = document.querySelectorAll('.image-container img');
-                    images.forEach(function(img) {
-                        if (img.id !== 'bgim') {
-                            img.classList.add('hidden');
-                        }
-                    });
+                updateTabHistory('CommunicationTab');
+                var elements = document.querySelectorAll('#mypageMain *'); //mypageMain로 바꿔야함
+                // 모든 요소 순회하면서 숨김 처리
+                elements.forEach(function(element) {
+                    element.classList.add('hidden'); // 숨김 처리
+                });
 
                     openTab(null, 'CommunicationTab');
                 }
+
+
+
+
+
+                // 스티커북 js
+
+                // 물음표 클릭 시 호출되는 함수
+                function selectItem(index) {
+                  // 이미지와 텍스트를 저장하는 객체
+                  const items = {
+                    1: {
+                      imgSrc: "data/mypageimage/mypageim/sticker_00_00.png",
+                      itemText: "파란 공",
+                      infoText: "친구의 공을 주웠어.<br>다음에도 만나면 공놀이를 할 수 있으면 좋겠다."
+                    },
+                    2: {
+                      imgSrc: "data/mypageimage/mypageim/question_00_icon.png",
+                      itemText: "???",
+                      infoText: "다른 장소로 이동해볼까?"
+                    },
+                    3: {
+                      imgSrc: "data/mypageimage/mypageim/question_00_icon.png",
+                      itemText: "???",
+                      infoText: "도서관에서 어린 친구가 도움이 필요한 것 같아."
+                    },
+                    4: {
+                      imgSrc: "data/mypageimage/mypageim/question_00_icon.png",
+                      itemText: "???",
+                      infoText: "마을회관에서 누군가 <br>나에게 자랑하고 싶은게 <br>있나봐."
+                    },
+                  };
+              
+                  // 클릭한 아이템에 맞는 데이터를 가져옴
+                  const selectedItem = items[index];
+
+                  // imgBackground 안의 이미지를 변경
+                  const imgElement = document.querySelector("#imgBackground img");
+                  imgElement.src = selectedItem.imgSrc;
+
+                  // itemText의 텍스트를 변경
+                  document.getElementById("itemText").innerText = selectedItem.itemText;
+
+                  // infoText의 텍스트를 변경
+                  document.getElementById("infoText").innerHTML = selectedItem.infoText;
+
+
+
+
+                  // 볼륨 js
+                  // 흰색배경창 이동 js
+                  // 각 칸의 위치에 맞춰 흰색 배경의 위치를 계산
+                  const whiteBackground = document.getElementById('white-background');
+  
+                  // 각 칸의 위치 계산
+                  const targetPosition = 85 * (index - 1); // 각 칸의 너비가 85px이므로 칸 수에 따라 이동
+
+                  // 흰색 배경 이동
+                  whiteBackground.style.left = `${targetPosition}px`;
+                }
+
+
+
+                //-------------------------------------------------------------------------------------
+
+
 
                 function updateTabHistory(currentTab) {
                     if (tabHistory[tabHistory.length - 1] !== currentTab) {
