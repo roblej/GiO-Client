@@ -53,7 +53,7 @@ export function initThreeJS(){
             this._scenes = [];
             this._currentSceneIndex = 0;
             this._model = null; // 플레이어 모델을 저장할 변수
-            this.originPosition = new THREE.Vector3();
+            this.originalPosition = new THREE.Vector3(); // 원래 위치 저장을 위한 속성
 
             const listener = new THREE.AudioListener();
             this._listener = listener
@@ -138,7 +138,7 @@ export function initThreeJS(){
                 this._controls.enablePan = false;
                 this._controls.enableDamping = true;
         
-                this._controls.minDistance = 250;  // 카메라가 대상에 가장 가까울 수 있는 거리
+                this._controls.minDistance = 500;  // 카메라가 대상에 가장 가까울 수 있는 거리
                 this._controls.maxDistance = 500;  // 카메라가 대상에서 가장 멀어질 수 있는 거리
         
                 // this._controls.minPolarAngle = Math.PI / 4;   // 카메라가 아래로 45도 이상 내려가지 못하게 설정
@@ -233,9 +233,24 @@ export function initThreeJS(){
                 );
                 
                 // NPC의 위치에서 y값 120을 높인 위치에 카메라를 배치합니다
-                const cameraHeight = 130;
-                const distance = 200; // 카메라와 NPC 사이의 거리
+                let distance = 200; // 카메라와 NPC 사이의 거리
+                let cameraHeight = 130;
                 
+                if (npc.userData.type === 'teacher') {
+                    distance = 200;
+                    cameraHeight = 130;
+                } else if (npc.userData.type === 'friend_hurt') {
+                    distance = 300;
+                    cameraHeight = 150;
+                } else if (npc.userData.type === 'book_friend') {
+                    distance = 200;
+                    cameraHeight = 110;
+                } else if (npc.userData.type === 'grandmother_child') {
+                    distance = 200;
+                    cameraHeight = 110;
+                }
+
+
                 // 카메라의 위치를 NPC의 위치에서 거리를 두고, y값을 cameraHeight로 설정합니다
                 const direction = new THREE.Vector3();
                 direction.subVectors(npcPosition, modelPosition).normalize(); // NPC를 바라보는 방향
@@ -248,6 +263,18 @@ export function initThreeJS(){
                 // 새로운 카메라를 사용하도록 설정합니다
                 this._camera = newCamera;
                 
+                // 카메라와 NPC 사이의 거리 계산
+                const distanceToNPC = newCamera.position.distanceTo(npcPosition);
+                console.log("Distance to NPC:", distanceToNPC); // 거리 출력
+
+                // 거리 조건에 따라 모델 가시성 설정
+                if (distanceToNPC < 200) {
+                    this._model.visible = false; // 가시성을 끕니다
+                    console.log("Model visibility set to false."); // 디버그 로그 추가
+                } else {
+                    this._model.visible = true; // 가시성을 켭니다
+                    console.log("Model visibility set to true."); // 디버그 로그 추가
+                }
                 // 카메라와 타겟이 제대로 설정되었는지 디버그 로그 추가
                 console.log("New camera position:", this._camera.position);
                 console.log("Camera looking at:", npcPosition);
@@ -561,8 +588,10 @@ _processAnimation() {
                         npc.userData.animationsMap = animationsMap;
                         npc.userData.mixer = mixer;
                         // 'idle' 애니메이션 재생
-                        if (animationsMap['Idle']) {
-                            const idleAction = animationsMap['Idle'];
+
+                        if (animationsMap['Idle.001']) {
+                            const idleAction = animationsMap['Idle.001'];
+
                             idleAction.play();
                         }
                         npc.position.set(-706, 0, -3827);
@@ -1178,7 +1207,7 @@ _processAnimation() {
                 const idleAction = animationsMap['idle'];
                 idleAction.play();
             }
-            npc.position.set(45, 0, -98);
+            npc.position.set(-356, 0, 776);
             npc.scale.set(50, 50, 50);
             const box = (new THREE.Box3).setFromObject(npc);
             // npc.position.y = (box.max.y - box.min.y) /2;
@@ -1194,7 +1223,7 @@ _processAnimation() {
             npcs.push(npc);
             this._npc = npc;
                 });
-                                loader.load("./data/map/Library/Character/library_searching_idle.glb", (gltf) => { // 책을 꺼내는 아이
+                                loader.load("./data/map/Library/Character/library_searching_idle.glb", (gltf) => { // 책을 찾는 아이(컴퓨터 쓰는애)
             const npc = gltf.scene;
             this._scene.add(npc);
     
@@ -1236,11 +1265,11 @@ _processAnimation() {
                 new THREE.Vector3(0, height - diameter / 2, 0),
                 diameter / 2
             );
-            // npc.rotation.y = Math.PI;
-            npcs.push(npc);
+            npc.rotation.y = Math.PI * 1.4;
+            // npcs.push(npc);
             this._npc = npc;
             });
-                            loader.load("./data/map/Library/Character/library_glasses_idle.glb", (gltf) => { // 책을 꺼내는 아이
+                            loader.load("./data/map/Library/Character/library_glasses_idle.glb", (gltf) => { // 안경을 떨어트린 학생
             const npc = gltf.scene;
             this._scene.add(npc);
     
@@ -1282,11 +1311,11 @@ _processAnimation() {
                 new THREE.Vector3(0, height - diameter / 2, 0),
                 diameter / 2
             );
-            // npc.rotation.y = Math.PI;
-            npcs.push(npc);
+            npc.rotation.y = Math.PI / 2;
+            // npcs.push(npc);
             this._npc = npc;
             });
-            loader.load("./data/map/Library/Character/library_reading_sit.glb", (gltf) => { // 책을 꺼내는 아이
+            loader.load("./data/map/Library/Character/library_reading_sit.glb", (gltf) => { // 앉아서 책 읽는 학생
             const npc = gltf.scene;
             this._scene.add(npc);
     
@@ -1328,11 +1357,11 @@ _processAnimation() {
                 new THREE.Vector3(0, height - diameter / 2, 0),
                 diameter / 2
             );
-            // npc.rotation.y = Math.PI;
-            npcs.push(npc);
+            npc.rotation.y = Math.PI * 1.4;
+            // npcs.push(npc);
             this._npc = npc;
             });
-            loader.load("./data/map/Library/Character/library_gameNPC_idle.glb", (gltf) => { // 책을 꺼내는 아이
+            loader.load("./data/map/Library/Character/library_gameNPC_idle.glb", (gltf) => { // 도서관 게임 NPC
             const npc = gltf.scene;
             this._scene.add(npc);
     
@@ -1590,6 +1619,23 @@ _clearScene(scene) {
                 // this._raycaster.ray.origin.copy(this._model.position); // 플레이어 위치로 광선 시작점 설정
                 // this._raycaster.near = 0;
                 // this._raycaster.far = maxDistance;
+
+                function teleportPlayer(teleportPosition) {
+                    // 현재 플레이어의 위치 저장
+                    this.originalPosition.copy(this._model.position); // 클래스 속성에 저장
+                    
+                    // 플레이어를 특정 위치로 순간 이동
+                    this._model.position.copy(teleportPosition);
+                        
+                    console.log("Player teleported to:", teleportPosition);
+                
+                    // 물리 엔진 상태 초기화가 필요한 경우
+                    if (this._model._capsule) {
+                        this._model._capsule.start.copy(teleportPosition);
+                        this._model._capsule.end.copy(teleportPosition).y += this._model._capsule.radius * 2;
+                        console.log("캡슐 위치 초기화:", this._model._capsule.start, this._model._capsule.end);
+                    }
+                }
             
                 // 클릭된 객체 확인
                 const intersects = this._raycaster.intersectObjects(this._scene.children, true);
@@ -1600,8 +1646,32 @@ _clearScene(scene) {
                         console.log('Clicked object:', selectedObject); // 클릭된 객체 정보 로그
                         if (selectedObject.name === 'teleport') {
                             console.log("teleport");
-                        }
+                        } else if (selectedObject.userData.type === 'teacher') {
+                        teleportPlayer.call(this, new THREE.Vector3(705, 4.07, -46));
+                        } else if (selectedObject.userData.type === 'friend_crash') {
+                        teleportPlayer.call(this, new THREE.Vector3(451, 4.07, -2760));
+                        } else if (selectedObject.userData.type === 'rector') {
+                        teleportPlayer.call(this, new THREE.Vector3(-846, 4.07, -3546));
+                        } else if (selectedObject.userData.type === 'game_friend') {
+                        teleportPlayer.call(this, new THREE.Vector3(-1138, 4.07, -2236));
+                        } else if (selectedObject.userData.type === 'book_friend') {
+                        teleportPlayer.call(this, new THREE.Vector3(-260, 6.99, 507.71));
+                        } else if (selectedObject.userData.type === 'library_searching') {
+                        teleportPlayer.call(this, new THREE.Vector3(613, 6.99, 328.37));
+                        } else if (selectedObject.userData.type === 'glass') {
+                        teleportPlayer.call(this, new THREE.Vector3(455, 6.99, 758.80));
+                        } else if (selectedObject.userData.type === 'read') {
+                        teleportPlayer.call(this, new THREE.Vector3(593.05, 6.99, 1471.86));
+                        } else if (selectedObject.userData.type === '부녀회장') {
+                        teleportPlayer.call(this, new THREE.Vector3(-676, 6.99, 459));
+                        } else if (selectedObject.userData.type === 'grandmother_child') {
+                        teleportPlayer.call(this, new THREE.Vector3(-446.25, 6.99, 349));
+                        } else if (selectedObject.userData.type === '할머니') {
+                        teleportPlayer.call(this, new THREE.Vector3(-611, 6.99, 642));
                         
+                    }
+                        
+
 
                         // if (selectedObject.userData.animationsMap) {
                         //     const animationsMap = selectedObject.userData.animationsMap;
@@ -1612,6 +1682,7 @@ _clearScene(scene) {
                         // } else {
                         //     console.log('animationsMap is undefined for this object');
                         // }
+
                         if (selectedObject.userData && selectedObject.userData.isNPC) {
                             console.log('NPC clicked, focusing on NPC'); // NPC 클릭 여부 확인하는 로그
                             console.log(selectedObject)
@@ -1667,12 +1738,28 @@ _clearScene(scene) {
             var message =`대화 상대가 ${npcType.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent},${option2.textContent},${option3.textContent}가 있다.그리고 아이가 고른 선택지는 ${choose_answer}이다.`
             var count = 0;
 
+
              // _currentNPCAnimations를 사용
             if (this._currentNPCAnimations) {
                 console.log("Animations available:", this._currentNPCAnimations);
             } else {
                 console.error("No animations available for this NPC.");
             }
+
+            function resetplayerposition() {
+                this._model.position.copy(this.originalPosition);
+                            
+                console.log("Player teleported to:", this.originalPosition);
+
+                // 물리 엔진 상태 초기화가 필요한 경우 여기서 추가
+                if (this._model._capsule) {
+                    this._model._capsule.start.copy(this.originalPosition);
+                    this._model._capsule.end.copy(this.originalPosition).y += this._model._capsule.radius * 2;
+                    console.log("캡슐 위치 초기화:", this._model._capsule.start, this._model._capsule.end);
+                }
+            }
+
+
             function listKoreanVoices() {
                 if ('speechSynthesis' in window) {
                     const voices = window.speechSynthesis.getVoices();
@@ -1844,6 +1931,7 @@ _clearScene(scene) {
                     sendMessageToClova(message)
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "안녕? 나는 선생님이란다. 학교에 온걸 환영해!";
+
                     // speak(dialogText.innerHTML);
                     // dialogText.onclick = function () {
                         console.log(score)
@@ -1852,8 +1940,10 @@ _clearScene(scene) {
                             buttonGroup.style.display = "none";
                             resetModal();
                             this._onDialogClosed();
+                            resetplayerposition.call(this);
                         }.bind(this);
                     // }.bind(this);
+
                 }.bind(this);
         
                 option2.onclick = function () {
@@ -1895,43 +1985,53 @@ _clearScene(scene) {
                     }.bind(this);
                 }.bind(this);
 
+
             } else if (npcType == 'game_friend') {
-                game_name = "GameB"
+                game_name = "GameB";
                 var modal = document.getElementById("myModal");
                 var span = document.getElementsByClassName("close")[0];
                 modal.style.display = "block";
                 var gameAButton = document.getElementById("Game");
                 gameAButton.setAttribute('data-path', 'BallMiniGame/index.html'); // data-path 속성 설정
-    
+            
                 // 닫기 버튼 클릭 시 모달 닫기
                 span.onclick = function () {
                     modal.style.display = "none";
-                    this._onDialogClosed();
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    resetplayerposition.call(this);
                 }.bind(this);
-    
+            
+                // "좋아!" 버튼 클릭 시 동작
+                gameAButton.onclick = function () {
+                    console.log("게임 선택됨");
+                    modal.style.display = "none";
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    resetplayerposition.call(this);
+                }.bind(this);
+            
+                // "다음에 하자" 버튼 클릭 시 모달 닫기
+                document.getElementById("close1").onclick = function () {
+                    modal.style.display = "none";
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    resetplayerposition.call(this);
+                }.bind(this);
+            
                 // 선택지 1 클릭 시 동작
                 document.getElementById("option1").onclick = function () {
                     console.log("선택지 1 선택됨");
                     modal.style.display = "none";
-                    this._onDialogClosed();
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    resetplayerposition.call(this);
                 }.bind(this);
-    
-                // 선택지 2 클릭 시 동작
-                document.getElementById("option2").onclick = function () {
-                    console.log("선택지 2 선택됨");
-                    modal.style.display = "none";
-                    this._onDialogClosed();
-                }.bind(this);
-    
+            
                 // 모달 창 바깥 영역 클릭 시 모달 닫기
                 window.onclick = function (event) {
                     if (event.target == modal) {
                         modal.style.display = "none";
-                        this._onDialogClosed();
+                        this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                        resetplayerposition.call(this);
                     }
                 }.bind(this);
-    
-                // break; // 첫 번째 교차 객체만 처리하고 루프 종료
             } else if (npcType == 'friend_crash') {
     
                 // 대화 내용 업데이트
@@ -1957,6 +2057,7 @@ _clearScene(scene) {
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "어? 아...미안";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
     
                 option2.onclick = function () {
@@ -1965,6 +2066,7 @@ _clearScene(scene) {
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "...";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
     
                 option3.onclick = function () {
@@ -1973,6 +2075,7 @@ _clearScene(scene) {
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "아야! 너 뭐야?";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
 
             } else if (npcType == 'rector') {
@@ -2000,6 +2103,7 @@ _clearScene(scene) {
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "머리가 없는게 아니다. 내가 나아갈 뿐";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
 
                 }.bind(this);
     
@@ -2012,6 +2116,7 @@ _clearScene(scene) {
                         casher.style.display = "none";
                         resetModal();
                         this._onDialogClosed();
+                        resetplayerposition.call(this);
                     };
                 }.bind(this);
     
@@ -2024,10 +2129,12 @@ _clearScene(scene) {
                         casher.style.display = "none";
                         resetModal();
                         this._onDialogClosed();
+                        resetplayerposition.call(this);
                     };
                 }.bind(this);
 
             }else if (npcType == 'friend_hurt') {
+
     
                 // 대화 내용 업데이트
                 dialogText.innerHTML = "넘어져서 주져 앉아있다. 무릎에 상처가 났다..";
@@ -2054,6 +2161,7 @@ _clearScene(scene) {
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "뭐야? 구경났어?";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
     
                 option2.onclick = function () {
@@ -2062,6 +2170,7 @@ _clearScene(scene) {
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "괜찮아. 혼자 양호실에 갈게. 걱정해줘서 고마워.";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
     
                 option3.onclick = function () {
@@ -2070,6 +2179,7 @@ _clearScene(scene) {
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = ".....";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
 
             } else if (npcType == 'grandfather') {
@@ -2112,6 +2222,7 @@ _clearScene(scene) {
                         buttonGroup.style.display = "none";
                         dialogText.innerHTML = "어 그래.. 안녕하구나";
                         this._onDialogClosed();
+                        resetplayerposition.call(this);
                     }
                 }.bind(this);
 
@@ -2131,6 +2242,7 @@ _clearScene(scene) {
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "잘 안들린단다 얘야";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
     
                 option3.onclick = function () {
@@ -2139,6 +2251,7 @@ _clearScene(scene) {
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "어린노무자식이 싸가지없게!";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
             } else if (npcType === "town_chief") {
 
@@ -2178,6 +2291,357 @@ _clearScene(scene) {
                 }.bind(this);
     
                 // break; // 첫 번째 교차 객체만 처리하고 루프 종료
+            } else if (npcType == 'book_friend') {
+    
+                // 대화 내용 업데이트
+                dialogText.innerHTML = "키가 작아서 책을 못 꺼내고 있다.";
+    
+                // 각 선택지 업데이트
+                function resetModal() {
+                    option1.innerHTML = "저 책 꺼내는거 도와줄까?";
+                    option2.innerHTML = "너 키가 작네?";
+                    option3.innerHTML = "(일단 갈길을 간다.)";
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                }
+    
+                // 초기 상태로 모달 재설정
+                resetModal();
+    
+                casher.style.display = "block";
+    
+                option1.onclick = function () {
+                    console.log("첫 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "와 정말 감사합니다!(어린이가 원하는 책을 꺼내준다)";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+    
+                option2.onclick = function () {
+                    console.log("두 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "기분 나빠!";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+    
+                option3.onclick = function () {
+                    console.log("세 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "...";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+            } else if (npcType == 'library_searching') {
+    
+                // 대화 내용 업데이트
+                dialogText.innerHTML = "독서 검색대를 사용하려고 하는데 이미 이용하고 있는 사람이 있다.";
+    
+                // 각 선택지 업데이트
+                function resetModal() {
+                    option1.innerHTML = "(뒤에서 기다린다.)";
+                    option2.innerHTML = "빨리 하면 안될까요?";
+                    option3.innerHTML = "제가 먼저 검색대 써도 될까요?";
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                }
+    
+                // 초기 상태로 모달 재설정
+                resetModal();
+    
+                casher.style.display = "block";
+    
+                option1.onclick = function () {
+                    console.log("첫 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "아, 이제 저는 다 썼어요.";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+    
+                option2.onclick = function () {
+                    console.log("두 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "네? 잠시만요..허..";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+    
+                option3.onclick = function () {
+                    console.log("세 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "예? 금방해요. 잠시만요.";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+            } else if (npcType == 'read') {
+    
+                // 대화 내용 업데이트
+                dialogText.innerHTML = "재밌어 보이는 만화책을 읽고 있다. 한번 보고싶다.";
+    
+                // 각 선택지 업데이트
+                function resetModal() {
+                    option1.innerHTML = "책 빨리 반납해주세요. 저도 읽고 싶어요.";
+                    option2.innerHTML = "그거 나 줬으면 좋겠다.";
+                    option3.innerHTML = "(조용히 제목을 보고 책을 찾으러 가자.)";
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                }
+    
+                // 초기 상태로 모달 재설정
+                resetModal();
+    
+                casher.style.display = "block";
+    
+                option1.onclick = function () {
+                    console.log("첫 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "네? 아직 제가 읽고 있는 걸요? 그리고 이 책은 저쪽 책장에 가면 더 있어요...";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+    
+                option2.onclick = function () {
+                    console.log("두 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "네? 아..이 책과 같은 책은 저쪽에 가면 찾을 수 있어요..";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+    
+                option3.onclick = function () {
+                    console.log("세 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "...";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+            } else if (npcType == 'glass') {
+    
+                // 대화 내용 업데이트
+                dialogText.innerHTML = "안경과 필통을 떨어트려서 곤란해하는 학생이 있다.";
+    
+                // 각 선택지 업데이트
+                function resetModal() {
+                    option1.innerHTML = "도와드릴까요?";
+                    option2.innerHTML = "(피해서 갈길을 간다.)";
+                    option3.innerHTML = "";
+                    option2.style.display = 'block';
+                    option3.style.display = 'none';
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                }
+    
+                // 초기 상태로 모달 재설정
+                resetModal();
+    
+                casher.style.display = "block";
+                var scene1 = 0
+                // 각 선택지 클릭 시 동작
+                option1.onclick = function () {
+                    if (scene1 == 0) {
+                        console.log("첫 번째 선택지 선택됨");
+                        dialogText.style.display = "block";
+                        buttonGroup.style.display = "none";
+                        dialogText.innerHTML = "부탁드릴게요. 안경을 찾아주세요.";
+                        resetModal2();
+                        
+                        // this._onDialogClosed();
+                        
+                        scene1++;
+                    } else {
+                        console.log("첫 번째 선택지 선택됨");
+                        dialogText.style.display = "block";
+                        buttonGroup.style.display = "none";
+                        dialogText.innerHTML = "정말 감사합니다!";
+                        // this._onDialogClosed();
+                    }
+                }.bind(this);
+
+                function resetModal2() {
+                    option1.innerHTML = "(안경을 찾아주고 물건 줍는걸 도와준다.)";
+                    option2.innerHTML = "(안경을 주워주고 갈 길을 간다.)";
+                    option3.innerHTML = "....";
+                    option2.style.display = 'block';
+                    option3.style.display = 'none';
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                    count = 0;
+                    option1.onclick = function () {
+                        console.log("두 번째 선택지 선택됨");
+                        dialogText.style.display = "block";
+                        buttonGroup.style.display = "none";
+                        dialogText.innerHTML = "정말 감사합니다!";
+                        this._onDialogClosed();
+                        resetplayerposition.call(this);
+                    }.bind(this);
+                    option2.onclick = function () {
+                        console.log("두 번째 선택지 선택됨");
+                        dialogText.style.display = "block";
+                        buttonGroup.style.display = "none";
+                        dialogText.innerHTML = "감사합니다.";
+                        this._onDialogClosed();
+                        resetplayerposition.call(this);
+                    }.bind(this);
+                    this._onDialogClosed();
+                }
+                option2.onclick = function () {
+                    console.log("두 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "...";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+
+            } else if (npcType == '부녀회장') {
+    
+                // 대화 내용 업데이트
+                dialogText.innerHTML = "안녕..아이쿠!";
+    
+                // 각 선택지 업데이트
+                function resetModal() {
+                    option1.innerHTML = "물 튀었잖아요, 사과하세요!";
+                    option2.innerHTML = "괜찮아요, 많이 안튀었는걸요.";
+                    option3.innerHTML = "아 짜증나! 물 튀기잖아요!";
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                }
+    
+                // 초기 상태로 모달 재설정
+                resetModal();
+    
+                casher.style.display = "block";
+    
+                option1.onclick = function () {
+                    console.log("첫 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "어어..미안하구나. 물이 옷에 많이 묻었니?";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+    
+                option2.onclick = function () {
+                    console.log("두 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "정말 미안하구나. 아줌마가 실수했어. 다음에는 조심하도록 하마.";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+    
+                option3.onclick = function () {
+                    console.log("세 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "어어..미안하구나. 물이 옷에 많이 묻었니?";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+
+            } else if (npcType == '할머니') {
+    
+                // 대화 내용 업데이트
+                dialogText.innerHTML = "아가, 저쪽에 할아버지 계시니?";
+    
+                // 각 선택지 업데이트
+                function resetModal() {
+                    option1.innerHTML = "응.";
+                    option2.innerHTML = "잘 모르겠어요.";
+                    option3.innerHTML = "네, 저쪽방에 계세요!";
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                }
+    
+                // 초기 상태로 모달 재설정
+                resetModal();
+    
+                casher.style.display = "block";
+    
+                option1.onclick = function () {
+                    console.log("첫 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "으응, 그래서 어디 계시는데?";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+    
+                option2.onclick = function () {
+                    console.log("두 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "그려? 한번 들어가봐야겠구나.";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+    
+                option3.onclick = function () {
+                    console.log("세 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "아이고, 그래? 한참을 찾았지 뭐니.";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+            } else if (npcType == 'grandmother_child') {
+    
+                // 대화 내용 업데이트
+                dialogText.innerHTML = "내가 접은 학 이쁘지?";
+    
+                // 각 선택지 업데이트
+                function resetModal() {
+                    option1.innerHTML = "아니. 이 부분은 너무 구겨졌어.";
+                    option2.innerHTML = "내가 더 잘 해. 줘 봐!";
+                    option3.innerHTML = "잘 만들었다. 다음에 내 것도 접어줄래?";
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                }
+    
+                // 초기 상태로 모달 재설정
+                resetModal();
+    
+                casher.style.display = "block";
+    
+                option1.onclick = function () {
+                    console.log("첫 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "뭐? 그치만 열심히 접었는데..";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+    
+                option2.onclick = function () {
+                    console.log("두 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "앗, 내가 접은건데!!";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+    
+                option3.onclick = function () {
+                    console.log("세 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "좋아! 나중에 접어줄게.";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+                
+
             } else if(npcType == 'warning'){
                 console.log('warning')
             } else if(npcType == 'fountain'){
@@ -2548,13 +3012,15 @@ _clearScene(scene) {
                 }
 
                 // NPC와의 상호작용
-const minDistance = 500; // NPC들이 바라볼 최소 거리 설정
-    this._npcs.forEach((npc) => {
-        const distance = npc.position.distanceTo(this._model.position);
-        if (distance < minDistance) {
-            // 목표 방향 설정 (NPC의 높이에 맞춰 y축 고정)
-            const targetPosition = this._model.position.clone();
-            targetPosition.y = npc.position.y;  // NPC의 높이만 고려하여 Y축 회전만 하도록 설정
+
+const minDistance = 400; // NPC들이 바라볼 최소 거리 설정
+this._npcs.forEach((npc) => {
+    const distance = npc.position.distanceTo(this._model.position);
+    if (distance < minDistance) {
+        // 목표 방향 설정 (NPC의 높이에 맞춰 y축 고정)
+        const targetPosition = this._model.position.clone();
+        targetPosition.y = npc.position.y;  // NPC의 높이만 고려하여 Y축 회전만 하도록 설정
+
 
             // NPC의 현재 회전 상태 저장
             const currentQuaternion = npc.quaternion.clone();
