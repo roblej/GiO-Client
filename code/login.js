@@ -1,5 +1,5 @@
 export let globalId = "";
-export let gender = "female";
+export let gender = "";
 const loginModal = document.getElementById('loginModal');
 const loginForm = document.getElementById('loginForm');
 const signupForm = document.getElementById('signupForm');
@@ -97,7 +97,8 @@ loginForm.addEventListener('submit', function(event) {
     console.log('로그인 시도:', id, password);
 
     // Fetch API를 사용하여 서버에 로그인 요청을 보냅니다.
-    fetch('https://gio.pe.kr:444/login', {
+    fetch('http://localhost:3000/login', {
+    // fetch('https://gio.pe.kr:444/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -112,6 +113,7 @@ loginForm.addEventListener('submit', function(event) {
         if (data.message === '로그인 성공') {
             console.log('로그인 성공');
             globalId = id
+            gender = data.gender
             loginModal.style.display = 'none'; // 로그인 모달을 숨깁니다.
             loadThreeJS(); // 로그인 성공 후 three.js 로드
         } else {
@@ -162,7 +164,8 @@ signupForm.addEventListener('submit', function(event) {
     console.log('회원가입 시도:', id, password, name, gender, birthdate, email);
 
     // Fetch API를 사용하여 서버에 회원가입 요청 전송
-    fetch('https://gio.pe.kr:444/register', {
+    fetch('http://localhost:3000/register', {
+    // fetch('https://gio.pe.kr:444/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

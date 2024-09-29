@@ -28,6 +28,20 @@
 
 body{
     overflow: hidden;
+    font-family: 'Pretendard-Regular';
+    font-weight: 400;
+}
+/* 필요에 따라 추가적인 텍스트 요소 */
+h1,
+h2,
+h3,
+p,
+div,
+span,
+input,
+button {
+  font-family: 'Pretendard-Regular';
+  font-weight: 500;
 }
 #webgl-container {
     position: absolute;
@@ -165,25 +179,26 @@ img {
   position: absolute;
   display: none;
   z-index: 1000011111111;
-  width: 1000px;
+  width: 1300px;
   height: 1000px;
   background-image: url(data/tutorial/talk_tu.png);
-  background-size: contain;
+  background-size: 1000px;
   background-repeat: no-repeat;
   background-position: bottom;
+  background-position-x: 200px;
   right: 0px;
   bottom: -100px;
 }
 .tori_help p{
   position: absolute;
   font-size: 32px;
-  left: 70px;
+  left: 300px;
   bottom: 500px;
 
 }
 .tori_help .next_btn{
   position: absolute;
-  left: 450px;
+  left: 650px;
   top: 490px;
   animation: map_next 2s infinite;
 }
@@ -233,7 +248,8 @@ img {
   display: none;
   /* 필요에 따라 주석 해제 가능 */
 }
-#BtnMaps ::before{
+#shadow{
+  display: none;
   content: "";
   width: 100%;
   height: 100%;
@@ -284,42 +300,69 @@ img {
   /* border: 1px solid; */
   border-radius: 30px 30px 0 0;
   background-size: contain;
+  background-position: bottom;
   background-repeat: no-repeat;
   border: 1px solid transparent;
+  transition: transform 0.2s ease;
 }
 
 #buttonScene0{
   left: 190px;
-  top: 170px;
+  top: 96px;
 
 }
 #buttonScene0:hover{
   background-image: url(data/mappage/school_select.png) !important;
-
+  transform: scale(1.2);
+  /* transform-origin: bottom; */
+    /* 바닥을 기준으로 확대 */
 }
 #buttonScene1{
   left: 600px;
   top: 163px;
 }
+#buttonScene1:hover {
+  background-image: url(data/mappage/town_select.png) !important;
+  transform: scale(1.2);
+  /* transform-origin: bottom; */
+  /* 바닥을 기준으로 확대 */
+}
 #buttonScene2{
   left: 1025px;
-  top: 311px
+  top: 312px
+}
+#buttonScene2:hover {
+  background-image: url(data/mappage/library_select.png) !important;
+  transform: scale(1.2);
+  /* transform-origin: bottom; */
+  /* 바닥을 기준으로 확대 */
 }
 #buttonScene3{
   left: 1500px;
-  top: 80px;
+  top: 81px;
+}
+#buttonScene3:hover {
+  background-image: url(data/mappage/park_select.png) !important;
+  transform: scale(1.2);
+  /* transform-origin: bottom; */
+  /* 바닥을 기준으로 확대 */
 }
 #buttonNo{
-  position: absolute;
+  content: "";
+  position: fixed;
   top:100px;
-  right: 200px;
-  width: 92px !important;
+  right: 50px;
+  width: 60px !important;
   height: 60px !important;
-  border: 1px solid transparent;
-  border-radius: 30px !important;
+  /* border: 1px solid transparent; */
+  /* border-radius: 30px !important; */
   padding: 5px !important;
   margin: auto !important;
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
+  background-image: url(data/mappage/btnClose.png) !important;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 .SceneTag{
   border: 1px solid transparent;
@@ -554,14 +597,20 @@ input[type="range"]::-moz-range-thumb {
 }
 #loginContent h2{
   margin: 0px 52px;
-    position: relative;
-    top: 15px;
-    white-space: nowrap;
+  position: relative;
+  top: 15px;
+  white-space: nowrap;
+  font-weight: bold;
 }
 #intro h3,#intro h4{
   white-space: nowrap;
   position: relative;
   left: -500px;
+  margin: 6px;
+}
+#intro h3{
+  font-weight: bold;
+  margin: 13px;
 }
 #loginContent h2:hover{
   box-shadow: 1px 1px 20px #ddd;
@@ -638,9 +687,9 @@ input[type="radio"] {
   padding: 10px 20px;
   margin: 5px;
   width: 26px;
-  border: 1px solid #faf4da;
+  border: 1px solid #FFFFFD;
   border-radius: 30px;
-  background-color: #faf4da;
+  background-color: #FFFFFD;
   cursor: pointer;
   transition: background-color 0.3s;
   font-size: 16px;
@@ -906,7 +955,7 @@ input[type="radio"]:checked+.genderbutton {
 #loginForm input,#signupForm input{
   border: 1px solid transparent;
   border-radius: 30px;
-  background-color: #faf4da;
+  background-color: #FFFFFD;
   height: 36px;
   width: 230px;
   padding-left: 30px;
@@ -946,6 +995,9 @@ input[type="radio"]:checked+.genderbutton {
   background-color: transparent;
   border: none;
   color: #989898;
+  display: flex;
+  margin-left: 20px;
+  justify-content: left;
 
 }
 #loginBtns{
