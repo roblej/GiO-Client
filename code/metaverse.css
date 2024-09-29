@@ -28,6 +28,20 @@
 
 body{
     overflow: hidden;
+    font-family: 'Pretendard-Regular';
+    font-weight: 400;
+}
+/* 필요에 따라 추가적인 텍스트 요소 */
+h1,
+h2,
+h3,
+p,
+div,
+span,
+input,
+button {
+  font-family: 'Pretendard-Regular';
+  font-weight: 500;
 }
 #webgl-container {
     position: absolute;
@@ -42,6 +56,167 @@ img {
   -moz-user-drag: none;
   -o-user-drag: none;
   user-drag: none;
+}
+#tutorial{
+  display: none;
+}
+.map_intro{
+  position: fixed;
+    /* Stay in place */
+    /* Sit on top */
+    left: 0;
+    top: 0;
+  width: 1920px;
+  height: 1080px;
+  background-image: url(data/tutorial/tutorialbg.png);
+  z-index: 99999999;
+    background-size: 1920px 1080px;
+      background-repeat: no-repeat;
+      /* 이미지 반복 방지 */
+      background-position-y: -88px;
+      overflow: hidden;
+      /* 경계를 벗어난 부분 숨김 */
+}
+.tori{
+  content: "";
+  background-image: url(data/tutorial/tutorialNpc.png);
+  width: 504px;
+  height: 448px;
+  position: absolute;
+  left:50%;
+  transform: translateX(-50%);
+  top: 100px;
+}
+.tori_text_box{
+  background-image: url(data/textbg.png);
+  width: 1362px;
+  height: 280px;
+  background-size: contain;
+  background-repeat: no-repeat;
+    position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 200px;
+      font-size: 26px;
+      padding: 30px;
+  bottom: 150px;
+  /* display: none; */
+}
+.tori_tag{
+  width: 200px !important;
+  text-align: center;
+  background-color: #FF8A8A !important;
+  color: #FFFEFA;
+  padding: 20px 61.5px !important;
+  margin: 0 !important;
+}
+.tori_text{
+  position: absolute;
+  left: 50px;
+  top:70px !important;
+}
+.tori_next{
+  position: absolute;
+  bottom: 100px ;
+  animation: tori_next 2s infinite !important;
+  z-index: 99999999999999 !important;
+}
+@keyframes tori_next {
+  0% {
+    bottom: 100px;
+    /* 초기 위치 */
+  }
+
+  50% {
+    bottom: 105px;
+    /* 아래로 이동 */
+  }
+
+  100% {
+    bottom: 100px;
+    /* 다시 위로 */
+  }
+}
+.namebox{
+  position: absolute;
+  width: 960px;
+  height: 460px;
+  background-image: url(data/tutorial/namebox.png);
+  left: 50%;
+  top: 20%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  display: none;
+}
+#name_intro{
+  margin-top: 50px;
+  margin-bottom: 100px;
+  font-weight: bold;
+  font-size: 40px;
+}
+#name_input{
+  font-size: 32px;
+  border: 1px solid #FFEFAB;
+  border-radius: 40px;
+  padding: 10px;
+  width: 600px;
+  text-align: center;
+  background-color: #FFEFAB;
+  margin-bottom: 42px;
+}
+.namebox button{
+  font-size: 32px;
+  width: 250px;
+  height: 70px;
+  background-color: #FFCE00;
+  border: 1px solid #FFCE00;
+  border-radius: 40px;
+}
+.tori_help{
+  position: absolute;
+  display: none;
+  z-index: 1000011111111;
+  width: 1300px;
+  height: 1000px;
+  background-image: url(data/tutorial/talk_tu.png);
+  background-size: 1000px;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-position-x: 200px;
+  right: 0px;
+  bottom: -100px;
+}
+.tori_help p{
+  position: absolute;
+  font-size: 32px;
+  left: 300px;
+  bottom: 500px;
+
+}
+.tori_help .next_btn{
+  position: absolute;
+  left: 650px;
+  top: 490px;
+  animation: map_next 2s infinite;
+}
+@keyframes map_next {
+  0% {
+    top: 490px;
+    /* 초기 위치 */
+  }
+
+  50% {
+    top: 500px;
+    /* 아래로 이동 */
+  }
+
+  100% {
+    top: 490px;
+    /* 다시 위로 */
+  }
 }
 #BtnMaps {
   width: 100%;
@@ -73,6 +248,19 @@ img {
   display: none;
   /* 필요에 따라 주석 해제 가능 */
 }
+#shadow{
+  display: none;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-image: url(data/tutorial/map_help_bg.png);
+  background-position-y: -100px;
+    position: absolute;
+      /* 필요 시 position을 명시 */
+      top: 0;
+      left: 0;
+      pointer-events: none;
+}
 #BtnMaps h1{
   position: absolute;
   width: 454px;
@@ -100,47 +288,81 @@ img {
   }
 }
 #BtnMaps button{
+  background: none;
   position: absolute;
-  padding: 30px;
+  /* padding: 30px; */
   font-size: 35px;
   font-weight: bold;
   margin: 10px;
   margin-top: 200px;
   width: 262px;
   height: 242px;
-  border: 1px solid;
+  /* border: 1px solid; */
   border-radius: 30px 30px 0 0;
-  background-size: cover;
+  background-size: contain;
+  background-position: bottom;
+  background-repeat: no-repeat;
   border: 1px solid transparent;
+  transition: transform 0.2s ease;
 }
 
 #buttonScene0{
-  left: 200px;
-  top: 95px;
+  left: 190px;
+  top: 96px;
+
+}
+#buttonScene0:hover{
+  background-image: url(data/mappage/school_select.png) !important;
+  transform: scale(1.2);
+  /* transform-origin: bottom; */
+    /* 바닥을 기준으로 확대 */
 }
 #buttonScene1{
   left: 600px;
   top: 163px;
 }
+#buttonScene1:hover {
+  background-image: url(data/mappage/town_select.png) !important;
+  transform: scale(1.2);
+  /* transform-origin: bottom; */
+  /* 바닥을 기준으로 확대 */
+}
 #buttonScene2{
   left: 1025px;
-  top: 311px
+  top: 312px
+}
+#buttonScene2:hover {
+  background-image: url(data/mappage/library_select.png) !important;
+  transform: scale(1.2);
+  /* transform-origin: bottom; */
+  /* 바닥을 기준으로 확대 */
 }
 #buttonScene3{
   left: 1500px;
-  top: 80px;
+  top: 81px;
+}
+#buttonScene3:hover {
+  background-image: url(data/mappage/park_select.png) !important;
+  transform: scale(1.2);
+  /* transform-origin: bottom; */
+  /* 바닥을 기준으로 확대 */
 }
 #buttonNo{
-  position: absolute;
+  content: "";
+  position: fixed;
   top:100px;
-  right: 200px;
-  width: 92px !important;
+  right: 50px;
+  width: 60px !important;
   height: 60px !important;
-  border: 1px solid transparent;
-  border-radius: 30px !important;
+  /* border: 1px solid transparent; */
+  /* border-radius: 30px !important; */
   padding: 5px !important;
   margin: auto !important;
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
+  background-image: url(data/mappage/btnClose.png) !important;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 .SceneTag{
   border: 1px solid transparent;
@@ -189,8 +411,9 @@ img {
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
 }
-.textModal{
-  bottom: -100px;
+.textModal p{
+  position: absolute;
+  bottom: 120px;
 }
 /* metaverse.css */
 
@@ -292,26 +515,33 @@ img {
   position: absolute;
   /* width: 55vw; */
   /* right: 35vw; */
+  height: 200px;
   top : 0px;
   left:250px;
   padding: 0 52px;
   border: none;
   display: flex;
-  justify-content:baseline;
+  /* justify-content:baseline; */
   align-items: center;
   background-color: none;
   margin: 0 250px 0 0 !important;
 }
 #loginContent h2{
   margin: 0px 52px;
-    position: relative;
-    top: 15px;
-    white-space: nowrap;
+  position: relative;
+  top: 15px;
+  white-space: nowrap;
+  font-weight: bold;
 }
 #intro h3,#intro h4{
   white-space: nowrap;
   position: relative;
   left: -500px;
+  margin: 6px;
+}
+#intro h3{
+  font-weight: bold;
+  margin: 13px;
 }
 #loginContent h2:hover{
   box-shadow: 1px 1px 20px #ddd;
@@ -388,9 +618,9 @@ input[type="radio"] {
   padding: 10px 20px;
   margin: 5px;
   width: 26px;
-  border: 1px solid #faf4da;
+  border: 1px solid #FFFFFD;
   border-radius: 30px;
-  background-color: #faf4da;
+  background-color: #FFFFFD;
   cursor: pointer;
   transition: background-color 0.3s;
   font-size: 16px;
@@ -433,6 +663,7 @@ input[type="radio"]:checked+.genderbutton {
   text-align: center;
   z-index: 1000;
   color: #373737;
+  
 }
 #loginModal::before {
   content: "";
@@ -655,7 +886,7 @@ input[type="radio"]:checked+.genderbutton {
 #loginForm input,#signupForm input{
   border: 1px solid transparent;
   border-radius: 30px;
-  background-color: #faf4da;
+  background-color: #FFFFFD;
   height: 36px;
   width: 230px;
   padding-left: 30px;
@@ -695,6 +926,9 @@ input[type="radio"]:checked+.genderbutton {
   background-color: transparent;
   border: none;
   color: #989898;
+  display: flex;
+  margin-left: 20px;
+  justify-content: left;
 
 }
 #loginBtns{
@@ -715,33 +949,61 @@ input[type="radio"]:checked+.genderbutton {
 #recordButton{
   /* display: none; */
 }
+#gameModal{
+  
+}
 #game-content{
-  width: 80%;
-  height: 70%;
+width: 1786.667px;
+  height: 772px;
+  flex-shrink: 0;
+  border-radius: 26.667px;
+  background: #FFFEFA;
   bottom: -20%;
   border: none;
-  /* background-color: none; */
 }
 .Speech1 {
-  background-color: #ffffff;
-  opacity: 90%;
+  /* background-color: #ffffff; */
+  background-image: url(./data/textbg.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  /* opacity: 90%; */
   position: fixed;
   bottom: 50px;
   right: 18%;
   /* margin: 15% auto; 15% from the top and centered */
   padding: 30px 30px;
   /* padding-top: 0px; */
-  border: 1px solid rgba(0, 0, 0, 0.0);
-  border-radius: 35px;
+  /* border: 5px solid rgba(255, 254, 250, 0.5); */
+  border-radius: 26px;
   width: 60%; /* Could be more or less, depending on screen size */
   height: 200px;
-  font-size: 35px;
+  font-size: 32px;
+  z-index: 99999;
 }
+/* .Speech1::before{
+  content: "";
+    position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+  width: 1352px;
+    height: 257px;
+    flex-shrink: 0;
+    border-radius: 26px;
+opacity: 0.9;
+background: #FFFEFA;
+
+filter: blur(1px);
+z-index: 2;
+} */
 #speechText{
-  margin: 0;;
-}#buttonGroup{
+  margin: 0;
+  /* position: absolute; */
+  bottom: 150px !important;
+  z-index: 999;
 }
-#helper{
+
+#helper_text{
   border: 1px solid #ffffff;
   background-color: white;
   border-radius: 15px;
@@ -766,9 +1028,9 @@ input[type="radio"]:checked+.genderbutton {
   gap: 20px;
   /* top: -600px; */
   /* right: -80%; */
-  width: 650px;
+  width: 612px;
   height: 500px;
-  width: 500px;
+  /* width: 500px; */
   /* top: 100px; */
   position: absolute;
   right: -200px;
@@ -776,18 +1038,102 @@ input[type="radio"]:checked+.genderbutton {
   justify-content: flex-end;
 }
 .choose button{
-  font-size: 35px;
-  padding: 10px 35px;
+  background: none;
+  width: 612px;
+  text-align: left;
+    /* 모든 기본 스타일을 초기화 */
+  font-size: 26px;
+  padding: 10px 90px;
+  /* padding-left: 90px; */
+  
   border: 1px solid rgba(0, 0, 0, 0.0);
   border-radius: 20px;
+  background-image: url(data/btnbg.png);
+  background-size: 100% auto;
+    /* 가로는 자동, 세로는 100%로 설정 */ 
+  background-repeat: no-repeat; /* 반복되지 않도록 설정 */
+  background-position: center; /* 가로 중앙에 배치 */
+  transition: transform 0.2s ease;
+    /* 애니메이션 효과 추가 */
 
+}
+.choose button.active{
+  background-image: url(data/btn_clicked.png);
+transform: scale(1.2);
+  /* 버튼을 1.2배 확대 */
+}
+.choose button:hover{
+  background-image: url(data/btn_clicked.png);
+  /* transform: scale(1.2); */
+}
+#recording{
+  
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-image: url(data/recordbg.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  padding: 3px 32px;
+  /* width: 360px; */
+  height: 53px;
+  font-size: 26px;
+}
+.blinking {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+.next_btn{
+  all: unset;
+  position: absolute;
+  content: '';
+  width: 37px;
+  height: 33px;
+  background-image: url(data/next.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  right: 50px;
+  bottom: 60px;
+  animation: next_move 2s infinite;
+  }
+  
+@keyframes next_move {
+  0% {
+    bottom: 60px;
+    /* 초기 위치 */
+  }
+
+  50% {
+    bottom: 65px;
+    /* 아래로 이동 */
+  }
+
+  100% {
+    bottom: 60px;
+    /* 다시 위로 */
+  }
 }
 .npc_name{
   border: 1px solid rgba(0, 0, 0, 0.0);
   border-radius: 50px;
-  background-color: #4CAF50;
-  padding: 20px 80px;
-  width: 200px;
+  background-color: #ffce00;
+  padding: 17.5px 85px;
+  width: 300px;
   height: 30px;
   position: relative;
   top: -50px;

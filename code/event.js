@@ -198,3 +198,84 @@ const buttons = document.querySelectorAll('#BtnMaps button');
             }
         });
     });
+
+// 각 버튼을 선택
+const button1 = document.getElementById('select1');
+const button2 = document.getElementById('select2');
+const button3 = document.getElementById('select3');
+
+document.querySelectorAll('.choose button').forEach(function(button) {
+  button.addEventListener('click', function() {
+    // 다른 버튼들의 active 클래스를 제거
+    document.querySelectorAll('.choose button').forEach(function(btn) {
+      btn.classList.remove('active');
+    });
+    
+    // 클릭한 버튼에 active 클래스 추가
+    button.classList.add('active');
+  });
+});
+// thiscasher의 display 값을 확인하고 active 클래스를 해제하는 부분
+const casher = document.getElementById('thiscasher');
+if (casher && window.getComputedStyle(casher).display === 'none') {
+  // 모든 버튼의 active 클래스 제거
+  document.querySelectorAll('.choose button').forEach(function(button) {
+    button.classList.remove('active');
+  });
+}
+
+
+export let tutorial = 'false'
+        // DOMContentLoaded 이벤트 확인
+document.addEventListener('DOMContentLoaded', function () {
+  console.log('DOMContentLoaded 이벤트가 실행되었습니다.'); // 이벤트가 실행되었는지 확인
+
+  const tuto_btn = document.getElementsByClassName('tori_next')[0]; // 첫 번째 버튼 선택
+  const tori_text = document.querySelector('.tori_text'); // 올바른 클래스 선택
+  const tori = document.querySelector('.tori')
+  const tori_text_box = document.querySelector('.tori_text_box')
+  const confirmbtn = document.querySelector('.namebox button')
+
+  if (tuto_btn && tori_text && tutorial == 'true') {
+    console.log('요소가 존재함'); // 요소가 제대로 선택되었는지 확인
+
+    // 첫 번째 클릭 이벤트 리스너
+    tuto_btn.addEventListener('click', function () {
+      tori_text.innerHTML = '내 이름은 토리! 너와 함께 GiO를 다니기 위해 찾아왔어!';
+
+      // 두 번째 클릭 이벤트 리스너 (이벤트 중첩)
+      tuto_btn.addEventListener('click', function () {
+        tori.style.display = 'none';
+        tori_text_box.style.display = 'none';
+        document.querySelector('.namebox').style.display = 'flex';
+
+        // 이름 확인 버튼 클릭 이벤트 리스너
+        confirmbtn.addEventListener('click', function () {
+          console.log('이름 확인 버튼 클릭됨');
+
+          // 입력된 이름 가져오기
+          const name = document.getElementById("name_input").value;
+
+          // namebox 숨기고, 토리 텍스트 박스와 토리 다시 표시
+          document.querySelector('.namebox').style.display = 'none';
+          tori_text_box.style.display = 'block';
+          tori.style.display = 'block';
+
+          // 입력된 이름을 텍스트에 반영
+          tori_text.innerHTML = `아하? 너의 이름은 ${name}구나! 좋아! GiO 세계에 온 걸 환영해!<br>네가 GiO에 적응할 수 있도록 최선을 다할게. 우선 학교에 가볼까?`;
+
+          // 맵 관련 버튼 표시
+          tuto_btn.addEventListener('click', function () {
+            document.querySelector('.map_intro').style.display = 'none';
+            document.getElementById("BtnMaps").style.display = "flex";
+            document.getElementById("shadow").style.display = "block";
+            document.querySelector('.tori_help').style.display = 'block';
+          });
+        });
+      });
+    });
+
+  } else {
+    console.log('요소가 제대로 선택되지 않았습니다.');
+  }
+});

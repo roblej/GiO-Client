@@ -1,5 +1,5 @@
 export let globalId = "";
-
+export let gender = "";
 const loginModal = document.getElementById('loginModal');
 const loginForm = document.getElementById('loginForm');
 const signupForm = document.getElementById('signupForm');
@@ -97,6 +97,7 @@ loginForm.addEventListener('submit', function(event) {
     console.log('로그인 시도:', id, password);
 
     // Fetch API를 사용하여 서버에 로그인 요청을 보냅니다.
+    // fetch('http://localhost:3000/login', {
     fetch('https://gio.pe.kr:444/login', {
         method: 'POST',
         headers: {
@@ -112,6 +113,7 @@ loginForm.addEventListener('submit', function(event) {
         if (data.message === '로그인 성공') {
             console.log('로그인 성공');
             globalId = id
+            gender = data.gender
             loginModal.style.display = 'none'; // 로그인 모달을 숨깁니다.
             loadThreeJS(); // 로그인 성공 후 three.js 로드
         } else {
@@ -126,18 +128,43 @@ loginForm.addEventListener('submit', function(event) {
 
 signupForm.addEventListener('submit', function(event) {
     event.preventDefault();
+
     const id = signupForm.id.value;
     const password = signupForm.password.value;
     const confirmPassword = signupForm.confirmPassword.value;
+    const name = signupForm.querySelector('input[placeholder="예시) 홍길동"]').value;
+    const gender = signupForm.querySelector('input[name="gender"]:checked')?.value;
+    const year = signupForm.querySelector('input[placeholder="년(4자)"]').value;
+    const month = signupForm.querySelector('input[placeholder="월"]').value;
+    const day = signupForm.querySelector('input[placeholder="일"]').value;
+    const email = signupForm.querySelector('input[type="email"]').value;
 
+    // 비밀번호 일치 여부 확인
     if (password !== confirmPassword) {
         alert('비밀번호가 일치하지 않습니다.');
         return;
     }
 
-    console.log('회원가입 시도:', id, password);
+    // 필수 입력값 확인
+    if (!name || !gender || !year || !month || !day || !id || !password || !confirmPassword || !email) {
+        alert('모든 필수 입력값을 입력해주세요.');
+        return;
+    }
+
+    // 비밀번호 길이 및 포맷 확인 (6~12자의 영문, 숫자)
+    const passwordRegex = /^[A-Za-z0-9]{6,12}$/;
+    if (!passwordRegex.test(password)) {
+        alert('비밀번호는 6~12자의 영문, 숫자만 사용 가능합니다.');
+        return;
+    }
+
+    // 생년월일 합치기
+    const birthdate = `${year}-${month}-${day}`;
+
+    console.log('회원가입 시도:', id, password, name, gender, birthdate, email);
 
     // Fetch API를 사용하여 서버에 회원가입 요청 전송
+    // fetch('http://localhost:3000/register', {
     fetch('https://gio.pe.kr:444/register', {
         method: 'POST',
         headers: {
@@ -145,7 +172,11 @@ signupForm.addEventListener('submit', function(event) {
         },
         body: JSON.stringify({
             id: id,
-            password: password
+            password: password,
+            name: name,
+            gender: gender,
+            birthdate: birthdate,
+            email: email
         })
     })
     .then(response => {
@@ -159,56 +190,34 @@ signupForm.addEventListener('submit', function(event) {
     })
     .then(data => {
         console.log('회원가입 성공:', data);
-        // alert('회원가입 성공!');
-        document.getElementById('signupForm').style.display='none'
-        document.getElementById('signupComplete').style.display = 'flex'
+        // 회원가입 성공 UI 변경
+        document.getElementById('signupForm').style.display='none';
+        document.getElementById('signupComplete').style.display = 'flex';
+        
         // 회원가입 성공 후 stickers 테이블에 row 추가
-    return fetch('https://gio.pe.kr:444/addStickerRow', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            id: id
-        })
+        return fetch('https://gio.pe.kr:444/addStickerRow', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: id
+            })
+        });
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('스티커 row 추가 성공');
+        } else {
+            throw new Error('스티커 row 추가 중 오류 발생');
+        }
+    })
+    .catch(error => {
+        console.error('에러 발생:', error);
+        alert(error.message);
     });
-})
-.then(response => {
-    if (response.ok) {
-        return response.json(); // 성공 시 JSON 데이터로 파싱
-    } else {
-        throw new Error('스티커 row 추가 중 오류 발생'); // 기타 오류 처리
-    }
-})
-.then(data => {
-    console.log('스티커 row 추가 성공:', data);
-    // process 테이블에 row 추가
-    return fetch('https://gio.pe.kr:444/addProcessRow', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            id: id
-        })
-    });
-})
-.then(response => {
-    if (response.ok) {
-        return response.json(); // 성공 시 JSON 데이터로 파싱
-    } else {
-        throw new Error('진행도 row 추가 중 오류 발생'); // 기타 오류 처리
-    }
-})
-.then(data => {
-    console.log('진행도 row 추가 성공:', data);
-    // switchToLogin(); // 로그인 화면으로 전환
-})
-.catch(error => {
-    console.error('회원가입 실패 또는 추가 중 오류 발생:', error);
-    alert(error.message); // 에러 메시지 표시
 });
-});
+
 
 
 function loadThreeJS() {
