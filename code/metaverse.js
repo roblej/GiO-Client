@@ -1426,7 +1426,7 @@ _processAnimation() {
                     const axisHelper = new THREE.AxesHelper(1000);
                     // this._scene.add(axisHelper)
                     const boxHelper = new THREE.BoxHelper(model);
-                    this._scene.add(boxHelper);
+                    // this._scene.add(boxHelper);
                     // this._boxHelper = boxHelper;
                     this._model = model;
         

@@ -97,8 +97,8 @@ loginForm.addEventListener('submit', function(event) {
     console.log('로그인 시도:', id, password);
 
     // Fetch API를 사용하여 서버에 로그인 요청을 보냅니다.
-    fetch('http://localhost:3000/login', {
-    // fetch('https://gio.pe.kr:444/login', {
+    // fetch('http://localhost:3000/login', {
+    fetch('https://gio.pe.kr:444/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -164,8 +164,8 @@ signupForm.addEventListener('submit', function(event) {
     console.log('회원가입 시도:', id, password, name, gender, birthdate, email);
 
     // Fetch API를 사용하여 서버에 회원가입 요청 전송
-    fetch('http://localhost:3000/register', {
-    // fetch('https://gio.pe.kr:444/register', {
+    // fetch('http://localhost:3000/register', {
+    fetch('https://gio.pe.kr:444/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
