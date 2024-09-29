@@ -236,6 +236,9 @@ export function initThreeJS(){
                 } else if (npc.userData.type === 'book_friend') {
                     distance = 200;
                     cameraHeight = 110;
+                } else if (npc.userData.type === 'grandmother_child') {
+                    distance = 200;
+                    cameraHeight = 110;
                 }
 
 
@@ -1190,7 +1193,7 @@ export function initThreeJS(){
                 new THREE.Vector3(0, height - diameter / 2, 0),
                 diameter / 2
             );
-            // npc.rotation.y = Math.PI;
+            npc.rotation.y = Math.PI * 1.4;
             // npcs.push(npc);
             this._npc = npc;
             });
@@ -1236,7 +1239,7 @@ export function initThreeJS(){
                 new THREE.Vector3(0, height - diameter / 2, 0),
                 diameter / 2
             );
-            // npc.rotation.y = Math.PI;
+            npc.rotation.y = Math.PI / 2;
             // npcs.push(npc);
             this._npc = npc;
             });
@@ -1282,7 +1285,7 @@ export function initThreeJS(){
                 new THREE.Vector3(0, height - diameter / 2, 0),
                 diameter / 2
             );
-            // npc.rotation.y = Math.PI;
+            npc.rotation.y = Math.PI * 1.4;
             // npcs.push(npc);
             this._npc = npc;
             });
@@ -1565,6 +1568,18 @@ export function initThreeJS(){
                         teleportPlayer.call(this, new THREE.Vector3(-1138, 4.07, -2236));
                         } else if (selectedObject.userData.type === 'book_friend') {
                         teleportPlayer.call(this, new THREE.Vector3(-260, 6.99, 507.71));
+                        } else if (selectedObject.userData.type === 'library_searching') {
+                        teleportPlayer.call(this, new THREE.Vector3(613, 6.99, 328.37));
+                        } else if (selectedObject.userData.type === 'glass') {
+                        teleportPlayer.call(this, new THREE.Vector3(455, 6.99, 758.80));
+                        } else if (selectedObject.userData.type === 'read') {
+                        teleportPlayer.call(this, new THREE.Vector3(593.05, 6.99, 1471.86));
+                        } else if (selectedObject.userData.type === '부녀회장') {
+                        teleportPlayer.call(this, new THREE.Vector3(-676, 6.99, 459));
+                        } else if (selectedObject.userData.type === 'grandmother_child') {
+                        teleportPlayer.call(this, new THREE.Vector3(-446.25, 6.99, 349));
+                        } else if (selectedObject.userData.type === '할머니') {
+                        teleportPlayer.call(this, new THREE.Vector3(-611, 6.99, 642));
                         
                     }
                         
@@ -1915,6 +1930,7 @@ export function initThreeJS(){
                 span.onclick = function () {
                     modal.style.display = "none";
                     this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    resetplayerposition.call(this);
                 }.bind(this);
             
                 // "좋아!" 버튼 클릭 시 동작
@@ -1922,12 +1938,14 @@ export function initThreeJS(){
                     console.log("게임 선택됨");
                     modal.style.display = "none";
                     this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    resetplayerposition.call(this);
                 }.bind(this);
             
                 // "다음에 하자" 버튼 클릭 시 모달 닫기
                 document.getElementById("close1").onclick = function () {
                     modal.style.display = "none";
                     this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    resetplayerposition.call(this);
                 }.bind(this);
             
                 // 선택지 1 클릭 시 동작
@@ -1935,6 +1953,7 @@ export function initThreeJS(){
                     console.log("선택지 1 선택됨");
                     modal.style.display = "none";
                     this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    resetplayerposition.call(this);
                 }.bind(this);
             
                 // 모달 창 바깥 영역 클릭 시 모달 닫기
@@ -1942,6 +1961,7 @@ export function initThreeJS(){
                     if (event.target == modal) {
                         modal.style.display = "none";
                         this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                        resetplayerposition.call(this);
                     }
                 }.bind(this);
             } else if (npcType == 'friend_crash') {
@@ -1969,6 +1989,7 @@ export function initThreeJS(){
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "어? 아...미안";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
     
                 option2.onclick = function () {
@@ -1977,6 +1998,7 @@ export function initThreeJS(){
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "...";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
     
                 option3.onclick = function () {
@@ -1985,6 +2007,7 @@ export function initThreeJS(){
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "아야! 너 뭐야?";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
 
             } else if (npcType == 'rector') {
@@ -2012,6 +2035,7 @@ export function initThreeJS(){
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "머리가 없는게 아니다. 내가 나아갈 뿐";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
 
                 }.bind(this);
     
@@ -2024,6 +2048,7 @@ export function initThreeJS(){
                         casher.style.display = "none";
                         resetModal();
                         this._onDialogClosed();
+                        resetplayerposition.call(this);
                     };
                 }.bind(this);
     
@@ -2036,6 +2061,7 @@ export function initThreeJS(){
                         casher.style.display = "none";
                         resetModal();
                         this._onDialogClosed();
+                        resetplayerposition.call(this);
                     };
                 }.bind(this);
 
@@ -2064,6 +2090,7 @@ export function initThreeJS(){
                     casher.style.display = "none";
                     resetModal();
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
     
                 option2.onclick = function () {
@@ -2071,6 +2098,7 @@ export function initThreeJS(){
                     casher.style.display = "none";
                     resetModal();
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 };
     
                 option3.onclick = function () {
@@ -2078,6 +2106,7 @@ export function initThreeJS(){
                     casher.style.display = "none";
                     resetModal();
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
     
             } else if (npcType == 'friend_hurt') {
@@ -2107,6 +2136,7 @@ export function initThreeJS(){
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "뭐야? 구경났어?";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
     
                 option2.onclick = function () {
@@ -2115,6 +2145,7 @@ export function initThreeJS(){
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "괜찮아. 혼자 양호실에 갈게. 걱정해줘서 고마워.";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
     
                 option3.onclick = function () {
@@ -2123,6 +2154,7 @@ export function initThreeJS(){
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = ".....";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
 
             } else if (npcType == 'grandfather') {
@@ -2155,6 +2187,7 @@ export function initThreeJS(){
                         dialogText.innerHTML = "....응? 뭐라고?";
                         resetModal2();
                         this._onDialogClosed();
+                        resetplayerposition.call(this);
                         
                         scene1++;
                     } else {
@@ -2163,6 +2196,7 @@ export function initThreeJS(){
                         buttonGroup.style.display = "none";
                         dialogText.innerHTML = "어 그래.. 안녕하구나";
                         this._onDialogClosed();
+                        resetplayerposition.call(this);
                     }
                 }.bind(this);
 
@@ -2182,6 +2216,7 @@ export function initThreeJS(){
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "잘 안들린단다 얘야";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
     
                 option3.onclick = function () {
@@ -2190,6 +2225,7 @@ export function initThreeJS(){
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "어린노무자식이 싸가지없게!";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
             } else if (npcType === "town_chief") {
 
@@ -2254,6 +2290,7 @@ export function initThreeJS(){
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "와 정말 감사합니다!(어린이가 원하는 책을 꺼내준다)";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
     
                 option2.onclick = function () {
@@ -2262,6 +2299,7 @@ export function initThreeJS(){
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "기분 나빠!";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
     
                 option3.onclick = function () {
@@ -2270,6 +2308,7 @@ export function initThreeJS(){
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "...";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
             } else if (npcType == 'library_searching') {
     
@@ -2296,6 +2335,7 @@ export function initThreeJS(){
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "아, 이제 저는 다 썼어요.";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
     
                 option2.onclick = function () {
@@ -2304,6 +2344,7 @@ export function initThreeJS(){
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "네? 잠시만요..허..";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
     
                 option3.onclick = function () {
@@ -2312,6 +2353,7 @@ export function initThreeJS(){
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "예? 금방해요. 잠시만요.";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
             } else if (npcType == 'read') {
     
@@ -2338,6 +2380,7 @@ export function initThreeJS(){
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "네? 아직 제가 읽고 있는 걸요? 그리고 이 책은 저쪽 책장에 가면 더 있어요...";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
     
                 option2.onclick = function () {
@@ -2346,6 +2389,7 @@ export function initThreeJS(){
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "네? 아..이 책과 같은 책은 저쪽에 가면 찾을 수 있어요..";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
     
                 option3.onclick = function () {
@@ -2354,6 +2398,7 @@ export function initThreeJS(){
                     buttonGroup.style.display = "none";
                     dialogText.innerHTML = "...";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
             } else if (npcType == 'glass') {
     
@@ -2384,6 +2429,7 @@ export function initThreeJS(){
                         buttonGroup.style.display = "none";
                         dialogText.innerHTML = "부탁드릴게요. 안경을 찾아주세요.";
                         resetModal2();
+                        
                         // this._onDialogClosed();
                         
                         scene1++;
@@ -2401,25 +2447,172 @@ export function initThreeJS(){
                     option2.innerHTML = "(안경을 주워주고 갈 길을 간다.)";
                     option3.innerHTML = "....";
                     option2.style.display = 'block';
-                    option3.style.display = 'block';
+                    option3.style.display = 'none';
                     dialogText.style.display = "block";  // 텍스트를 보이게 함
                     buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
                     count = 0;
+                    option1.onclick = function () {
+                        console.log("두 번째 선택지 선택됨");
+                        dialogText.style.display = "block";
+                        buttonGroup.style.display = "none";
+                        dialogText.innerHTML = "정말 감사합니다!";
+                        this._onDialogClosed();
+                        resetplayerposition.call(this);
+                    }.bind(this);
+                    option2.onclick = function () {
+                        console.log("두 번째 선택지 선택됨");
+                        dialogText.style.display = "block";
+                        buttonGroup.style.display = "none";
+                        dialogText.innerHTML = "감사합니다.";
+                        this._onDialogClosed();
+                        resetplayerposition.call(this);
+                    }.bind(this);
+                    this._onDialogClosed();
                 }
                 option2.onclick = function () {
                     console.log("두 번째 선택지 선택됨");
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "감사합니다.";
+                    dialogText.innerHTML = "...";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+
+            } else if (npcType == '부녀회장') {
+    
+                // 대화 내용 업데이트
+                dialogText.innerHTML = "안녕..아이쿠!";
+    
+                // 각 선택지 업데이트
+                function resetModal() {
+                    option1.innerHTML = "물 튀었잖아요, 사과하세요!";
+                    option2.innerHTML = "괜찮아요, 많이 안튀었는걸요.";
+                    option3.innerHTML = "아 짜증나! 물 튀기잖아요!";
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                }
+    
+                // 초기 상태로 모달 재설정
+                resetModal();
+    
+                casher.style.display = "block";
+    
+                option1.onclick = function () {
+                    console.log("첫 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "어어..미안하구나. 물이 옷에 많이 묻었니?";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+    
+                option2.onclick = function () {
+                    console.log("두 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "정말 미안하구나. 아줌마가 실수했어. 다음에는 조심하도록 하마.";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
     
                 option3.onclick = function () {
                     console.log("세 번째 선택지 선택됨");
                     dialogText.style.display = "block";
                     buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "어린노무자식이 싸가지없게!";
+                    dialogText.innerHTML = "어어..미안하구나. 물이 옷에 많이 묻었니?";
                     this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+
+            } else if (npcType == '할머니') {
+    
+                // 대화 내용 업데이트
+                dialogText.innerHTML = "아가, 저쪽에 할아버지 계시니?";
+    
+                // 각 선택지 업데이트
+                function resetModal() {
+                    option1.innerHTML = "응.";
+                    option2.innerHTML = "잘 모르겠어요.";
+                    option3.innerHTML = "네, 저쪽방에 계세요!";
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                }
+    
+                // 초기 상태로 모달 재설정
+                resetModal();
+    
+                casher.style.display = "block";
+    
+                option1.onclick = function () {
+                    console.log("첫 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "으응, 그래서 어디 계시는데?";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+    
+                option2.onclick = function () {
+                    console.log("두 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "그려? 한번 들어가봐야겠구나.";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+    
+                option3.onclick = function () {
+                    console.log("세 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "아이고, 그래? 한참을 찾았지 뭐니.";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+            } else if (npcType == 'grandmother_child') {
+    
+                // 대화 내용 업데이트
+                dialogText.innerHTML = "내가 접은 학 이쁘지?";
+    
+                // 각 선택지 업데이트
+                function resetModal() {
+                    option1.innerHTML = "아니. 이 부분은 너무 구겨졌어.";
+                    option2.innerHTML = "내가 더 잘 해. 줘 봐!";
+                    option3.innerHTML = "잘 만들었다. 다음에 내 것도 접어줄래?";
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                }
+    
+                // 초기 상태로 모달 재설정
+                resetModal();
+    
+                casher.style.display = "block";
+    
+                option1.onclick = function () {
+                    console.log("첫 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "뭐? 그치만 열심히 접었는데..";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+    
+                option2.onclick = function () {
+                    console.log("두 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "앗, 내가 접은건데!!";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+    
+                option3.onclick = function () {
+                    console.log("세 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "좋아! 나중에 접어줄게.";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
                 }.bind(this);
                 
 
