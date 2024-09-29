@@ -1056,42 +1056,22 @@ input[type="radio"]:checked+.genderbutton {
 }
 
 
-#stickerbook {
-  background-image: url("data/mypageimage/mypageim/stickerbook_btn.png");
-}
-
-#data {
-  background-image: url("data/mypageimage/mypageim/data_btn.png");
-}
-
-#system {
-  background-image: url("data/mypageimage/mypageim/system_btn.png");
-}
-
 #buttonOption {
   position: relative;
   cursor: default;
 }
 
-#textBox {
-  width: 201px;
-  height: 60px;
-  margin-top: 19px;
-  width: auto;
-  text-align: center;
+.selectOption img { /* hover 뒤 애니메이션 */
+  transform: scale(1.0);
+  transition: transform .5s; /* 시간 설정 */
 }
 
-#optionTitle {
-  font-family: 'HakgyoansimDunggeunmisoTTF-B';
-  font-size: 32px;
-  margin: 0px;
+.selectOption img:hover {    /* hover 시 애니메이션 */
+  transform: scale(1.1);   /* 이미지 확대 */
+  transition: transform .5s;  /* 시간 설정 */
 }
 
-#optioninfo {
-  font-family: 'Pretendard-Regular';
-  font-size: 15px;
-  margin-top: 8px;
-}
+
 
 #twoButton {
   position: absolute;
@@ -1584,40 +1564,6 @@ input[type="range"]::-moz-range-thumb {
   left: 102px;
   border-radius: 50px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
