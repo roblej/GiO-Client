@@ -191,9 +191,9 @@ img {
 }
 .tori_help p{
   position: absolute;
-  font-size: 26px;
+  font-size: 24px;
   left: 530px;
-  top:330px
+  top: 330px;
 
 }
 .tori_help .next_btn{
@@ -1044,7 +1044,7 @@ z-index: 2;
   text-align: left;
     /* 모든 기본 스타일을 초기화 */
   font-size: 26px;
-  padding: 10px 90px;
+  padding: 10px 50px 10px 80px;
   /* padding-left: 90px; */
   height: 60px;
   border: 1px solid rgba(0, 0, 0, 0.0);
