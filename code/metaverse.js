@@ -5,7 +5,7 @@ import { DRACOLoader} from "../jsm/loaders/DRACOLoader.js";
 import { Octree } from "../jsm/math/Octree.js";
 import { Capsule } from "../jsm/math/Capsule.js";
 import { OrbitControls } from "../jsm/controls/OrbitControls.js";
-import { onMouseMove } from './event.js';
+import { onMouseMove, getTalkTutorial, setTalkTutorial, getSTTutorial, getDTTutorial, setDTTutorial, getFnTutorial, setFnTutorial, getTpTutorial } from './event.js';
 import { sendMessageToClova } from './record.js';
 import { getSticker } from './event.js';
 // import {stickerNumber} from './event.js';
@@ -13,12 +13,14 @@ import {updateSticker} from './event.js'
 import { globalId } from './login.js';
 import { RGBELoader } from '../jsm/loaders/RGBELoader.js';
 import { gender } from './login.js';
-import { tutorial } from './event.js';
+import { log_map_tutorial } from './event.js';
 import { talkBtnPromise, getTalkBtn } from './record.js';
+// import { openModal } from './mypage.js';
 // THREE.GLTFLoader
 export var game_name = "";
 
-export function initThreeJS(){
+export function initThreeJS() {
+
     console.log("function complete")
     const loadingPage = document.getElementById('loadingPage');
     const tutorialPage = document.getElementById('tutorial')
@@ -41,6 +43,9 @@ export function initThreeJS(){
             this._mixers = []; // 클래스의 생성자 또는 초기화 부분에 추가
             this._isRunning = true;  // 최초 로딩 시 run 상태로 시작
             this._shiftPressed = false;  // Shift 키의 눌림 상태 관리
+            this._isTutorialShown = false;  // 튜토리얼이 이미 표시되었는지 추적하는 플래그
+            this._isTpTutirialShown = false; //맵이동 튜토리얼이 이미 표시되었는지 추적하는 플래그
+            this._isTaklTutorialShown = false; //최초 선생님 가까이 갔을때 추적하는 플래그
 
             const loader = new THREE.TextureLoader();
             
@@ -89,7 +94,7 @@ export function initThreeJS(){
             this._setupOctree();
 
             this._loadPlayerModel(); // 플레이어 모델 로드
-            this._switchScene(5);
+            this._switchScene(0);
             this._animate();
         
             this._camera.add(listener)
@@ -414,9 +419,18 @@ _processAnimation() {
 
                         this._worldOctree.fromGraphNode(map);
                         loadingPage.style.display = 'none'; // 로딩 페이지 숨김
-                        if (tutorial == 'true') {
+                        if (log_map_tutorial == 'true') {
                             tutorialPage.style.display = ' block';
                         }
+                        if (log_map_tutorial == 'false' && getTalkTutorial() === 'true') {
+                            document.querySelector('.left').style.display = 'block';
+                            document.querySelector('.left p').innerHTML = '학교에 도착했어!<br>교문 앞에 계신 선생님께 가보자!'
+                            document.querySelector('.left .next_btn').onclick = function() {
+                                document.querySelector('.left').style.display = 'none';
+                            };
+
+                            
+                    }
                         
                     }, undefined, function (error) {
                         console.error(error);
@@ -543,6 +557,7 @@ _processAnimation() {
                         // 애니메이션 믹서 설정
                         npc.userData.animationsMap = animationsMap;
                         npc.userData.mixer = mixer;
+                        npc.userData.name = 'teacher'
                         // 'idle' 애니메이션 재생
                         if (animationsMap['idle']) {
                             const idleAction = animationsMap['idle'];
@@ -1894,7 +1909,7 @@ _clearScene(scene) {
             span.onclick = function () {
                 casher.style.display = "none";
                 count = 0;
-                resetModal();
+                // resetModal();
                 document.querySelectorAll('.choose button').forEach(function(button) {
                     button.classList.remove('active');
                 })
@@ -1942,9 +1957,25 @@ _clearScene(scene) {
                 }
                 resetModal();
                 casher.style.display = "block";        
+                if (getTalkTutorial() === 'true') {
+                    document.querySelector('.left').style.display = 'none'
+                    document.querySelector('.tori_help').style.display = 'block'
+                    document.querySelector('.tori_help p').innerHTML = '선생님께서 너에게 인사를 하셨어!<br>어떤 반응을 하면 좋을까?'
+                    document.querySelector('.tori_help .next_btn').onclick = function() {
+                        document.querySelector('.tori_help').style.display = 'none';
+                        dialogText.onclick();
+                    }
 
+                }
                 option1.onclick = function () {
-                    recordButton.onclick()
+                    if (getTalkTutorial() === 'true') {
+                        document.querySelector('.tori_help').style.display = 'block'
+                        document.querySelector('.tori_help p').innerHTML = '잘했어!<br>이제 네가 선택한 말을<br>따라 해볼까?'
+                        document.querySelector('.tori_help .next_btn').onclick = function () {
+                            document.querySelector('.tori_help').style.display = 'none';
+                            recordButton.onclick()
+                        }
+                    } else recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option1.textContent;
                         // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
@@ -1956,6 +1987,16 @@ _clearScene(scene) {
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "그래, 난 이학교의 선생님이야. 앞으로 잘 지내보자";
                             console.log(score);
+
+                            if (getTalkTutorial() === 'true') {
+                                document.querySelector('.tori_help').style.display = 'block'
+                                document.querySelector('.tori_help p').innerHTML = '정말 잘했어!<br>이렇게 다른 사람들과도 대화할 수 있어!<br>다른 사람들과도 대화를 해보자!<br>분명 다들 너와 대화해보고 싶을거야~'
+                                document.querySelector('.tori_help .next_btn').onclick = function () {
+                                    document.querySelector('.tori_help').style.display = 'none';
+                                    setTalkTutorial('false')
+                                }
+                            }
+
 
                             // const idleAction = this._currentNPCAnimations['idle'];
                             const idleanAction = this._currentNPCAnimations['idle_rightAnswer'];
@@ -1977,7 +2018,9 @@ _clearScene(scene) {
                                 console.error("One or both animations not found in the animationsMap.");
                             }
 
+
                             document.getElementById('next').onclick = function () {
+                                console.log('this:', this); // this가 무엇을 가리키는지 확인
                                 casher.style.display = "none";
                                 buttonGroup.style.display = "none";
                                 resetModal();
@@ -2063,51 +2106,115 @@ _clearScene(scene) {
                 }.bind(this);
 
             } else if (npcType == 'game_friend') {
-                game_name = "GameB";
-                var modal = document.getElementById("myModal");
-                var span = document.getElementsByClassName("close")[0];
-                modal.style.display = "block";
-                var gameAButton = document.getElementById("Game");
-                gameAButton.setAttribute('data-path', 'BallMiniGame/index.html'); // data-path 속성 설정
-            
-                // 닫기 버튼 클릭 시 모달 닫기
-                span.onclick = function () {
-                    modal.style.display = "none";
-                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
-                    resetplayerposition.call(this);
+                let score = 100;
+                function resetModal() {
+                    dialogText.innerHTML = "공 놀이하던 친구가 공을 떨어뜨렸다. 주워서 던져 달라고 부른다";
+                    option1.innerHTML = "너가 알아서 주워";
+                    option2.innerHTML = "그래! 자 잘 받아!";
+                    option3.innerHTML = "(그냥 가자)";
+                    dialogText.style.display = "block";
+                    document.getElementById('next').style.display = 'block'
+                    document.querySelectorAll('.choose button').forEach(function(button) {
+                        button.classList.remove('active');
+                    })
+                }
+                resetModal();
+                casher.style.display = "block";        
+
+                option1.onclick = function () {
+                    // dialogText.style.display = "block";
+                    // buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "뭐? 말이 좀 심하지 않아?";
+
+                        tori_help.style.display = 'block'
+                    tori_help_p.innerHTML = " 틀렸을때의 문구<br><br>"
+                    
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
+                        score = score - 20;
+                        resetModal();
+                    }.bind(this);
                 }.bind(this);
-            
-                // "좋아!" 버튼 클릭 시 동작
-                gameAButton.onclick = function () {
-                    console.log("게임 선택됨");
-                    modal.style.display = "none";
-                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
-                    resetplayerposition.call(this);
-                }.bind(this);
-            
-                // "다음에 하자" 버튼 클릭 시 모달 닫기
-                document.getElementById("close1").onclick = function () {
-                    modal.style.display = "none";
-                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
-                    resetplayerposition.call(this);
-                }.bind(this);
-            
-                // 선택지 1 클릭 시 동작
-                document.getElementById("option1").onclick = function () {
-                    console.log("선택지 1 선택됨");
-                    modal.style.display = "none";
-                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
-                    resetplayerposition.call(this);
-                }.bind(this);
-            
-                // 모달 창 바깥 영역 클릭 시 모달 닫기
-                window.onclick = function (event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                        this._onDialogClosed(); // 모달 닫기 후 카메라 복원
-                        resetplayerposition.call(this);
+                option2.onclick = function () {
+                    recordButton.onclick()
+                    talkBtnPromise.then(() => {
+                        let choose_answer = option2.textContent;
+                        let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+
+                        console.log(choose_answer);
+                        console.log(getTalkBtn());
+
+                        if (getTalkBtn() === choose_answer) {
+                            buttonGroup.style.display = "none";
+                            dialogText.innerHTML = "오 공 던지는 솜씨가 제법인걸?";
+                            console.log(score);
+                            document.getElementById('next').onclick = function () {
+                                casher.style.display = "none";
+                                buttonGroup.style.display = "none";
+                                resetModal();
+                                this._onDialogClosed();
+                                resetplayerposition.call(this);
+                                if (getSTTutorial() === 'true') {
+                                    document.getElementById('getsticker').style.display = 'block'
+                                    document.querySelector('#getsticker #get').onclick = function () {
+                                        document.querySelector('.left').style.display = 'block';
+                                        document.querySelector('.left p').innerHTML = '이게 뭐지? 스티커를 얻었어!<br>무슨 스티커일까? 확인해보자!'
+                                        document.querySelector('.left .next_btn').onclick = function () {
+                                            document.querySelector('.left p').innerHTML = '오른쪽 위에 생긴<br>버튼을 눌러볼래?'
+                                            document.getElementById('mypagebtn').style.display = 'block'
+                                            // document.getElementById('mypagebtn').style.display = 'block'
+                                            // document.querySelector('.tori_help .next_btn').onclick = function () {
+                                            //     document.querySelector('.tori_help').style.display = 'none';
+                                            // }
+                                        }
+                                    }
+                                    
+                                }
+                            }.bind(this);
+                        } else {
+                            option2.onclick();
+                            // 선택이 맞지 않으면 다시 실행
+                        }
+                    });
+                }.bind(this)
+                
+        
+                option3.onclick = function () {
+                    // dialogText.style.display = "block";
+                    // buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "저기! 내 말 안들렸어?";
+                    //여기부터 애니메이션 예시
+                    const oh1Action = this._currentNPCAnimations['oh1'];
+                    const oh2Action = this._currentNPCAnimations['oh2'];
+                    
+                    if (oh1Action && oh2Action) {
+                        oh1Action
+                        .reset()   // 상태 초기화
+                        .setEffectiveWeight(1) // 동작할 가중치 설정
+                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                        .play();   // 재생 시작
+                        
+                        oh2Action
+                        .reset()
+                        .setEffectiveWeight(1)
+                        .setLoop(THREE.LoopOnce, 1)
+                        .play();
+                        console.log("Playing animations simultaneously.");
+                    } else {
+                        console.error("One or both animations not found in the animationsMap.");
                     }
+                    //여기까지
+                    // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
+                        tori_help.style.display = 'block'
+                        tori_help_p.innerHTML = " 틀렸을때의 문구<br><br>"
+
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
+                        score = score - 20;
+                        resetModal();
+                    }.bind(this);
                 }.bind(this);
+
             } else if (npcType == 'friend_crash') {
     
                 let score = 100;
@@ -2549,44 +2656,95 @@ _clearScene(scene) {
                     this._onDialogClosed();
                     resetplayerposition.call(this);
                 }.bind(this);
-            } else if (npcType === "town_chief") {
-
-                game_name = "GameA"
+            } else if (npcType === "library_game") {
+                game_name = "Library";
                 var modal = document.getElementById("myModal");
                 var span = document.getElementsByClassName("close")[0];
                 modal.style.display = "block";
                 var gameAButton = document.getElementById("Game");
-                gameAButton.setAttribute('data-path', 'Library_12/index.html'); // data-path 속성 설정
-    
+                gameAButton.setAttribute('data-path', 'libtest01/index.html'); // data-path 속성 설정
+                var close = document.getElementById('closeGameModal')
+                function resetModalGame() {
+                    document.querySelectorAll('.GameBtn').forEach(function(button) {
+                        button.classList.remove('active');
+                    })
+                }
                 // 닫기 버튼 클릭 시 모달 닫기
-                // span.onclick = function () {
-                //     modal.style.display = "none";
-                //     this._onDialogClosed();
-                // }.bind(this);
-    
+                close.onclick = function () {
+                    modal.style.display = "none";
+                    resetModalGame();
+                    if (getDTTutorial() === 'true') {
+                        document.querySelector('.left').style.display = 'block'
+                        document.querySelector('.left p').innerHTML = '멋진 플레이였어!<br>방금 너의 활약을 마이페이지에서<br>다시 해볼 수 있어!'
+                        const originalOnClick = document.querySelector('#mypagebtn').onclick;
+                        document.querySelector('#mypagebtn').onclick = function () {
+                            if (originalOnClick) originalOnClick(); // 기존의 기능을 수행
+                            document.querySelector('.left').style.display = 'none'
+                            setTimeout(() => {
+                                document.querySelector('.left').style.display = 'block'
+                                document.querySelector('.left p').innerHTML = '데이터를 눌러 확인해보자!'
+                                const originalOnClick2 = document.querySelector('#data').onclick;
+                                document.querySelector('#data').onclick = function () {
+                                    if (originalOnClick2) originalOnClick2(); // 기존의 기능을 수행
+                                    document.querySelector('.left').style.display = 'none'
+                                    setTimeout(() => {
+                                        document.querySelector('.tori_help').style.display = 'block'
+                                        document.querySelector('.tori_help p').innerHTML = '데이터는 활동 데이터와<br>대화 데이터 둘로 나뉘어!'
+                                        document.querySelector('.tori_help .next_btn').onclick = function () {
+                                            document.querySelector('.tori_help p').innerHTML = '방금 획득한 활동 점수는<br>활동데이터에서 볼 수 있고,'
+                                            document.querySelector('.tori_help .next_btn').onclick = function () {
+                                                document.querySelector('.tori_help p').innerHTML = '사람들과 나눈 대화는<br>대화 데이터에서 확인할 수 있어!'
+                                                document.querySelector('.tori_help .next_btn').onclick = function () {
+                                                    document.querySelector('.tori_help p').innerHTML = '보고 싶은 데이터를<br>한번 클릭해봐!'
+                                                    document.querySelector('.tori_help .next_btn').onclick = function () {
+                                                        document.querySelector('.tori_help').style.display = 'none'
+                                                        setDTTutorial('false');
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }, 500);
+                                }
+                }, 500); // 0.1초 지연 후 대화창 띄우기 (필요에 따라 
+                        }
+                    }
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    // resetplayerposition.call(this);
+                }.bind(this);
+            
+                // "좋아!" 버튼 클릭 시 동작
+                gameAButton.onclick = function () {
+                    console.log("게임 선택됨");
+                    modal.style.display = "none";
+                    resetModalGame();
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    // resetplayerposition.call(this);
+                }.bind(this);
+            
+                // "다음에 하자" 버튼 클릭 시 모달 닫기
+                document.getElementById("GameNo").onclick = function () {
+                    modal.style.display = "none";
+                    resetModalGame();
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    // resetplayerposition.call(this);
+                }.bind(this);
+            
                 // 선택지 1 클릭 시 동작
                 document.getElementById("option1").onclick = function () {
                     console.log("선택지 1 선택됨");
                     modal.style.display = "none";
-                    this._onDialogClosed();
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    // resetplayerposition.call(this);
                 }.bind(this);
-    
-                // 선택지 2 클릭 시 동작
-                document.getElementById("option2").onclick = function () {
-                    console.log("선택지 2 선택됨");
-                    modal.style.display = "none";
-                    this._onDialogClosed();
-                }.bind(this);
-    
+            
                 // 모달 창 바깥 영역 클릭 시 모달 닫기
                 window.onclick = function (event) {
                     if (event.target == modal) {
                         modal.style.display = "none";
-                        this._onDialogClosed();
+                        this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                        // resetplayerposition.call(this);
                     }
                 }.bind(this);
-    
-                // break; // 첫 번째 교차 객체만 처리하고 루프 종료
             } else if (npcType == 'book_friend') {
     
                let score = 100;
@@ -3320,10 +3478,46 @@ _clearScene(scene) {
             _bOnTheGround = true;
             _fallingAcceleration = 0;
             _fallingSpeed = 0;
-        
-        update(time) {
-            time *= 0.001;
-            if (!this._previousTime) this._previousTime = time;
+
+update(time) {
+    time *= 0.001;
+    if (!this._previousTime) this._previousTime = time;
+
+    if (!this._isTpTutirialShown && getTalkTutorial() === 'false' && getTpTutorial() === 'true' && document.getElementById('pageModal').style.display == 'none') {
+        setTimeout(() => {
+            document.querySelector('.tori_help').style.display = 'block';
+            document.querySelector('.tori_help p').innerHTML = '버스정류장으로 가서 버스를 타고<br>다른 곳으로 이동해볼까?';
+            this._isTpTutirialShown = true;  // 튜토리얼이 한 번 표시되면 플래그를 true로 설정
+            document.querySelector('.tori_help .next_btn').onclick = function () {
+                document.querySelector('.tori_help p').innerHTML = '가고 싶은 곳으로 이동해보자!';
+                document.querySelector('.tori_help .next_btn').onclick = function () {
+                document.querySelector('.tori_help').style.display = 'none';
+            }
+            }
+        }, 500);
+    }
+
+    // 튜토리얼이 이미 표시되었는지 확인하여 중복 실행을 방지
+    if (!this._isTutorialShown && getDTTutorial() === 'false' && getFnTutorial() === 'true' && document.getElementById('pageModal').style.display == 'none') {
+        setTimeout(() => {
+            document.querySelector('.left').style.display = 'block';
+            document.querySelector('.left p').innerHTML = '어때? GiO세계가<br>맘에 들어?';
+            this._isTutorialShown = true;  // 튜토리얼이 한 번 표시되면 플래그를 true로 설정
+
+            document.querySelector('.left .next_btn').onclick = function () {
+                document.querySelector('.left p').innerHTML = '앞으로 GiO에서<br>더 많은 사람들과 대화할 수<br>있을거야! 옆에서 도와줄게!';
+                
+                document.querySelector('.left .next_btn').onclick = function () {
+                    document.querySelector('.left p').innerHTML = '자! GiO를<br>계속 즐겨볼까?';
+
+                    document.querySelector('.left .next_btn').onclick = function () {
+                        document.querySelector('.left').style.display = 'none';
+                        setFnTutorial('false');
+                    };
+                };
+            };
+        }, 500);
+    }
 
             this._controls.update();
             
@@ -3581,11 +3775,40 @@ _clearScene(scene) {
                 }
 
                 // NPC와의 상호작용
+                let meet_teacher = false; // 클래스 밖에 선언하여 상태를 유지
+                let help_shown = false; // tori_help가 이미 보여졌는지 추적
 
 const minDistance = 400; // NPC들이 바라볼 최소 거리 설정
 this._npcs.forEach((npc) => {
     const distance = npc.position.distanceTo(this._model.position);
     if (distance < minDistance) {
+            if (!this._isTaklTutorialShown && log_map_tutorial=='false' && getTalkTutorial() === 'true' && getTpTutorial() === 'true') {
+
+            document.querySelector('.left').style.display = 'block';
+            document.querySelector('.left p').innerHTML = '선생님을 마주보고<br>마우스로 클릭해 대화를 나눠보자.';
+            this._isTaklTutorialShown = true;  // 튜토리얼이 한 번 표시되면 플래그를 true로 설정
+            document.querySelector('.left .next_btn').onclick = function () {
+                document.querySelector('.left').style.display = 'none';
+            }
+    }
+    //     if (npc.userData.name === 'teacher' && talk_tutorial === 'true' && !help_shown) {
+    //         meet_teacher = true;
+    //         help_shown = true; // 도움말이 표시되었음을 기록
+
+    //         console.log('teacher');
+    //         document.querySelector('.tori_help p').innerHTML = '선생님을 마주보고<br>마우스로 클릭해 대화를 나눠보자.';
+    //         document.querySelector('.tori_help').style.display = 'block';
+
+    //         // 이벤트 리스너가 여러 번 등록되지 않도록 기존 이벤트 제거 후 추가
+    //         const nextBtn = document.querySelector('.tori_help .next_btn');
+    //         nextBtn.onclick = null; // 기존 이벤트 리스너 제거
+    //         nextBtn.onclick = function() {
+    //             console.log('test');
+    //             document.querySelector('.tori_help').style.display = 'none';
+    //             // 이미 도움말이 표시되었으므로 다시 표시되지 않도록 함
+    //             // 필요한 경우 추가 로직을 여기에 작성
+    //     }
+    // }
         // 목표 방향 설정 (NPC의 높이에 맞춰 y축 고정)
         const targetPosition = this._model.position.clone();
         targetPosition.y = npc.position.y;  // NPC의 높이만 고려하여 Y축 회전만 하도록 설정
@@ -3606,7 +3829,7 @@ this._npcs.forEach((npc) => {
             // 선형 보간(SLERP)을 사용하여 부드럽게 회전
             const slerpFactor = 0.1;  // 회전 속도를 조절하는 값 (0~1 사이 값)
             npc.quaternion.slerp(targetQuaternion, slerpFactor);
-        }
+    }
 });
 
 

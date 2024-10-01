@@ -225,7 +225,44 @@ if (casher && window.getComputedStyle(casher).display === 'none') {
 }
 
 
-export let tutorial = 'false'
+export let log_map_tutorial = 'true'
+let talk_tutorial = 'true';
+let sticker_tutorial = 'true'
+let tp_tutorial = 'true'
+let data_tutorial = 'true'
+let final_tutorial = 'true'
+
+export function getTpTutorial() {
+  return tp_tutorial;
+}
+export function setTpTutorial(value) {
+  tp_tutorial = value;
+}
+export function getFnTutorial() {
+  return final_tutorial;
+}
+export function setFnTutorial(value) {
+  final_tutorial = value;
+}
+export function getSTTutorial() {
+  return sticker_tutorial;
+}
+export function setSTTutorial(value) {
+  sticker_tutorial = value;
+}
+export function getDTTutorial() {
+  return data_tutorial;
+}
+export function setDTTutorial(value) {
+  data_tutorial = value;
+}
+export function getTalkTutorial() {
+    return talk_tutorial;
+}
+
+export function setTalkTutorial(value) {
+    talk_tutorial = value;
+}
         // DOMContentLoaded 이벤트 확인
 document.addEventListener('DOMContentLoaded', function () {
   console.log('DOMContentLoaded 이벤트가 실행되었습니다.'); // 이벤트가 실행되었는지 확인
@@ -235,8 +272,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const tori = document.querySelector('.tori')
   const tori_text_box = document.querySelector('.tori_text_box')
   const confirmbtn = document.querySelector('.namebox button')
-
-  if (tuto_btn && tori_text && tutorial == 'true') {
+  if (getSTTutorial() === 'false') {
+    document.querySelector('#mypagebtn').style.display = 'block'
+  }
+  if (tuto_btn && tori_text && log_map_tutorial == 'true') {
     console.log('요소가 존재함'); // 요소가 제대로 선택되었는지 확인
 
     // 첫 번째 클릭 이벤트 리스너
@@ -270,6 +309,8 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById("BtnMaps").style.display = "flex";
             document.getElementById("shadow").style.display = "block";
             document.querySelector('.tori_help').style.display = 'block';
+
+            log_map_tutorial = 'false'
           });
         });
       });
