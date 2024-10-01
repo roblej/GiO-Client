@@ -1647,7 +1647,7 @@ _clearScene(scene) {
                         if (selectedObject.name === 'teleport') {
                             console.log("teleport");
                         } else if (selectedObject.userData.type === 'teacher') {
-                        teleportPlayer.call(this, new THREE.Vector3(705, 4.07, -46));
+                        teleportPlayer.call(this, new THREE.Vector3(676, 4.07, -117));
                         } else if (selectedObject.userData.type === 'friend_crash') {
                         teleportPlayer.call(this, new THREE.Vector3(451, 4.07, -2760));
                         } else if (selectedObject.userData.type === 'rector') {
