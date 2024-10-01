@@ -14,9 +14,9 @@ import { globalId } from './login.js';
 import { RGBELoader } from '../jsm/loaders/RGBELoader.js';
 import { gender } from './login.js';
 import { tutorial } from './event.js';
+import { talkBtnPromise, getTalkBtn } from './record.js';
 // THREE.GLTFLoader
 export var game_name = "";
-
 
 export function initThreeJS(){
     console.log("function complete")
@@ -1733,6 +1733,9 @@ _clearScene(scene) {
             var buttonGroup = document.getElementById("buttonGroup"); // 버튼 그룹을 감싸고 있는 div의 ID를 가정
             var button = document.querySelector("#buttonGroup button")
             var recordButton = document.getElementById('recordButton')
+            var tori_help = document.querySelector('.tori_help')
+            var tori_next = document.querySelector('.tori_help .next_btn')
+            var tori_help_p = document.querySelector('.tori_help p')
             var choose_answer
             
             var message =`대화 상대가 ${npcType.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent},${option2.textContent},${option3.textContent}가 있다.그리고 아이가 고른 선택지는 ${choose_answer}이다.`
@@ -1839,9 +1842,9 @@ _clearScene(scene) {
                             buttonGroup.style.display = "flex"; // 버튼 그룹 표시
                             count++;
                             // if (npcType != 'game_friend' && npcType != '할머니' && document.getElementsByClassName('GameBtn').length === 0){
-                            if (npcType = 'game_friend' || npcType == '할머니' || document.getElementsByClassName('GameBtn').length === 0) {
+                            // if (npcType = 'game_friend' || npcType == '할머니' || document.getElementsByClassName('GameBtn').length === 0) {
                                     
-                                } else recordButton.onclick();
+                            //     } else recordButton.onclick();
                         // }
 
                             // 클릭 이벤트 비활성화
@@ -1894,20 +1897,19 @@ _clearScene(scene) {
                 npc_name[i].innerHTML = npcType;
             }
             speechText.onclick = function () {;
-                buttonGroup.style.display = "block";
+                buttonGroup.style.display = "flex";
                 // document.getElementById('next').style.display = 'none'
             }
             dialogText.onclick = function () {
-                buttonGroup.style.display = "block";
+                buttonGroup.style.display = "flex";
                 // document.getElementById('next').style.display = 'none'
                 };
 
             if (npcType === 'teacher') {
-        
-                // dialogText.innerHTML = "안녕? 새로 온 학생이니?";
                 // speak(dialogText.innerHTML);
                 // listKoreanVoices();
                 // testKoreanVoices();
+
                 let score = 100;
                 function resetModal() {
                     dialogText.innerHTML = "안녕? 새로 온 학생이니?";
@@ -1915,7 +1917,6 @@ _clearScene(scene) {
                     option2.innerHTML = "(무시하고 갈 길을 간다.)";
                     option3.innerHTML = "누구세요?";
                     dialogText.style.display = "block";
-                    // buttonGroup.style.display = "none";
                     document.getElementById('next').style.display = 'block'
                     document.querySelectorAll('.choose button').forEach(function(button) {
                         button.classList.remove('active');
@@ -1925,61 +1926,83 @@ _clearScene(scene) {
                 casher.style.display = "block";        
 
                 option1.onclick = function () {
-                    recordButton.onclick();
-                    choose_answer = option1.textContent;
-                    message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
-                    sendMessageToClova(message)
-                    // buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "안녕? 나는 선생님이란다. 학교에 온걸 환영해!";
+                    recordButton.onclick()
+                    talkBtnPromise.then(() => {
+                        let choose_answer = option1.textContent;
+                        let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
-                    // speak(dialogText.innerHTML);
-                    // dialogText.onclick = function () {
-                        console.log(score)
-                        document.getElementById('next').onclick = function () {
-                            casher.style.display = "none";
+                        console.log(choose_answer);
+                        console.log(getTalkBtn());
+
+                        if (getTalkBtn() === choose_answer) {
                             buttonGroup.style.display = "none";
-                            resetModal();
-                            this._onDialogClosed();
-                            resetplayerposition.call(this);
-                        }.bind(this);
-                    // }.bind(this);
+                            dialogText.innerHTML = "안녕? 나는 선생님이란다. 학교에 온걸 환영해!";
+                            console.log(score);
 
-                }.bind(this);
-        
+                            document.getElementById('next').onclick = function () {
+                                casher.style.display = "none";
+                                buttonGroup.style.display = "none";
+                                resetModal();
+                                this._onDialogClosed();
+                                resetplayerposition.call(this);
+                            }.bind(this);
+                        } else {
+                            option1.onclick();
+                            // 선택이 맞지 않으면 다시 실행
+                        }
+                    });
+                }.bind(this)
+                
                 option2.onclick = function () {
-                    dialogText.style.display = "block";
+                    // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "어머..낯을가리는 아이인가?";
-                    dialogText.onclick = function () {
+                    // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
+                    setTimeout(function () {
+                        tori_help.style.display = 'block'
+                        tori_help_p.innerHTML = " 틀렸을때의 문구<br><br>"
+
+                    }, 2000); // 1초 대기 후 확인 (필요에 따라 시간 조정)
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
                         score = score - 20;
                         resetModal();
                     }.bind(this);
                 }.bind(this);
         
                 option3.onclick = function () {
-                    dialogText.style.display = "block";
+                    // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "나는 선생님이란다.";
-                            const oh1Action = this._currentNPCAnimations['oh1'];
-                            const oh2Action = this._currentNPCAnimations['oh2'];
+                    //여기부터 애니메이션 예시
+                    const oh1Action = this._currentNPCAnimations['oh1'];
+                    const oh2Action = this._currentNPCAnimations['oh2'];
+                    
+                    if (oh1Action && oh2Action) {
+                        oh1Action
+                        .reset()   // 상태 초기화
+                        .setEffectiveWeight(1) // 동작할 가중치 설정
+                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                        .play();   // 재생 시작
+                        
+                        oh2Action
+                        .reset()
+                        .setEffectiveWeight(1)
+                        .setLoop(THREE.LoopOnce, 1)
+                        .play();
+                        console.log("Playing animations simultaneously.");
+                    } else {
+                        console.error("One or both animations not found in the animationsMap.");
+                    }
+                    //여기까지
+                    // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
+                    setTimeout(function () {
+                        tori_help.style.display = 'block'
+                        tori_help_p.innerHTML = " 틀렸을때의 문구<br><br>"
 
-                            if (oh1Action && oh2Action) {
-                                oh1Action
-                                        .reset()   // 상태 초기화
-                                        .setEffectiveWeight(1) // 동작할 가중치 설정
-                                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
-                                        .play();   // 재생 시작
-
-                                    oh2Action
-                                        .reset()
-                                        .setEffectiveWeight(1)
-                                        .setLoop(THREE.LoopOnce, 1)
-                                        .play();
-                            console.log("Playing animations simultaneously.");
-                            } else {
-                            console.error("One or both animations not found in the animationsMap.");
-                            }
-                    dialogText.onclick = function () {
+                    }, 2000); // 1초 대기 후 확인 (필요에 따라 시간 조정)
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
                         score = score - 20;
                         resetModal();
                     }.bind(this);

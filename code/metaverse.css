@@ -313,7 +313,7 @@ img {
 }
 #buttonScene0:hover{
   background-image: url(data/mappage/school_select.png) !important;
-  transform: scale(1.2);
+  transform: scale(1.1);
   /* transform-origin: bottom; */
     /* 바닥을 기준으로 확대 */
 }
@@ -323,7 +323,7 @@ img {
 }
 #buttonScene1:hover {
   background-image: url(data/mappage/town_select.png) !important;
-  transform: scale(1.2);
+  transform: scale(1.1);
   /* transform-origin: bottom; */
   /* 바닥을 기준으로 확대 */
 }
@@ -333,7 +333,7 @@ img {
 }
 #buttonScene2:hover {
   background-image: url(data/mappage/library_select.png) !important;
-  transform: scale(1.2);
+  transform: scale(1.1);
   /* transform-origin: bottom; */
   /* 바닥을 기준으로 확대 */
 }
@@ -343,7 +343,7 @@ img {
 }
 #buttonScene3:hover {
   background-image: url(data/mappage/park_select.png) !important;
-  transform: scale(1.2);
+  transform: scale(1.1);
   /* transform-origin: bottom; */
   /* 바닥을 기준으로 확대 */
 }
@@ -946,6 +946,7 @@ input[type="radio"]:checked+.genderbutton {
   /* background-color: rgb(0,0,0); Fallback color */
   background-color: rgba(0,0,0,0.0); /* Black w/ opacity */
 }
+
 #recordButton{
   /* display: none; */
 }
@@ -1045,11 +1046,11 @@ z-index: 2;
   font-size: 26px;
   padding: 10px 90px;
   /* padding-left: 90px; */
-  
+  height: 60px;
   border: 1px solid rgba(0, 0, 0, 0.0);
   border-radius: 20px;
   background-image: url(data/btnbg.png);
-  background-size: 100% auto;
+  background-size: contain;
     /* 가로는 자동, 세로는 100%로 설정 */ 
   background-repeat: no-repeat; /* 반복되지 않도록 설정 */
   background-position: center; /* 가로 중앙에 배치 */

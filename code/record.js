@@ -1,3 +1,27 @@
+let talk_btn = "";
+let talkBtnPromiseResolve;
+
+export let talkBtnPromise = new Promise((resolve) => {
+    talkBtnPromiseResolve = resolve;  // 초기 Promise를 생성
+});
+
+export function setTalkBtn(value) {
+    talk_btn = value;
+    talkBtnPromiseResolve();  // 현재 Promise를 resolve
+    resetTalkBtnPromise();    // 새로운 Promise로 초기화
+}
+
+export function getTalkBtn() {
+    return talk_btn;
+}
+
+// 새로운 talkBtnPromise를 초기화하는 함수
+function resetTalkBtnPromise() {
+    talkBtnPromise = new Promise((resolve) => {
+        talkBtnPromiseResolve = resolve;  // 새로운 Promise 생성 및 resolve 저장
+    });
+}
+
 // 자소 분리 함수
 function decomposeHangul(syllable) {
     const CHO = ["ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"];
@@ -140,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
-            alert("인식된 텍스트: " + data.transcript);
+            // alert("인식된 텍스트: " + data.transcript);
             selectClosestButton(data.transcript);
         })
         .catch(error => console.error("Error:", error));
@@ -161,7 +185,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (closestButton) {
             // closestButton.click(); // 가장 가까운 버튼을 프로그래매틱하게 클릭
-            alert("클릭된 버튼: " + closestButton.innerHTML); // 콘솔에 클릭된 버튼의 텍스트를 로그
+            // alert("클릭된 버튼: " + closestButton.innerHTML); // 콘솔에 클릭된 버튼의 텍스트를 로그
+            setTalkBtn(closestButton.innerHTML)
+            console.log(talk_btn)
         } else {
             console.error("가장 가까운 버튼을 찾을 수 없습니다.");
         }
