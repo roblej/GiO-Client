@@ -1050,6 +1050,16 @@ input[type="radio"]:checked+.genderbutton {
 #gameModal{
   
 }
+#unityGame{
+  position: absolute;
+  top: 75px;
+  width: 80%;
+}
+#closeGameModal{
+  position: absolute;
+  right: 50px;
+  z-index: 99999999999;
+}
 #game-content{
 /* width: 1786.667px; */
   height: 900px;
