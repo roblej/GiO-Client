@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'Pretendard-Regular';
   src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-  font-weight: 400;
+  font-weight: 500;
   font-style: normal;
 }
 
@@ -18,18 +18,21 @@
   font-weight: 700;
   font-style: normal;
 }
-
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 
 
 * {
     outline : none;
     /* margin: 0; */
+    user-drag: none;
+          /* 구 브라우저용 */
+    -webkit-user-drag: none;
+          /* 크롬, 사파리 */
 }
 
 body{
     overflow: hidden;
-    font-family: 'Pretendard-Regular';
-    font-weight: 400;
+    font-family: 'Pretendard', sans-serif;
 }
 /* 필요에 따라 추가적인 텍스트 요소 */
 h1,
@@ -40,7 +43,7 @@ div,
 span,
 input,
 button {
-  font-family: 'Pretendard-Regular';
+  font-family: 'Pretendard';
   font-weight: 500;
 }
 #webgl-container {
@@ -97,23 +100,30 @@ img {
       left: 50%;
       transform: translateX(-50%);
       bottom: 200px;
-      font-size: 26px;
+      font-size: 32px;
       padding: 30px;
   bottom: 150px;
+  color: #373737;
+  line-height: 1.65;
   /* display: none; */
 }
 .tori_tag{
-  width: 200px !important;
+  width: 180px !important;
   text-align: center;
   background-color: #FF8A8A !important;
   color: #FFFEFA;
   padding: 20px 61.5px !important;
   margin: 0 !important;
+  line-height: 1;
+  top: -65px !important;
+  
 }
 .tori_text{
   position: absolute;
+  margin-left:32px;
   left: 50px;
   top:70px !important;
+  font-weight: 500;
 }
 .tori_next{
   position: absolute;
@@ -189,34 +199,104 @@ img {
   right: 0px;
   bottom: -100px;
 }
-.tori_help p{
-  position: absolute;
-  font-size: 32px;
-  left: 550px;
-  bottom: 500px;
-
+.left{
+  left: 0 !important;
+  width: 900px;
+  background-image: url(data/tutorial/talk_tu_left.png);
+  background-position-x: -150px;
+  bottom: -50px !important;
 }
-.tori_help .next_btn{
-  position: absolute;
-  left: 850px;
-  top: 490px;
-  animation: map_next 2s infinite;
+.left p{
+  left: 380px !important;
+  top: 350px !important;
 }
-@keyframes map_next {
+.left .next_btn{
+  position: absolute;
+  top: 580px;
+  left: 730px !important;
+animation: map_next_left 2s infinite !important;
+}
+@keyframes map_next_left {
   0% {
-    top: 490px;
+    top: 580px;
     /* 초기 위치 */
   }
 
   50% {
-    top: 500px;
+    top: 590px;
     /* 아래로 이동 */
   }
 
   100% {
-    top: 490px;
+    top: 580px;
     /* 다시 위로 */
   }
+}
+.tori_help p{
+  position: absolute;
+  font-size: 24px;
+  left: 530px;
+  top:330px;
+  color: #7E5001;
+  font-weight: 600;
+  line-height: 1.65;
+}
+.tori_help .next_btn{
+  position: absolute;
+  left: 910px;
+  top: 550px;
+  animation: map_next 2s infinite;
+}
+@keyframes map_next {
+  0% {
+    top: 480px;
+    /* 초기 위치 */
+  }
+
+  50% {
+    top: 490px;
+    /* 아래로 이동 */
+  }
+
+  100% {
+    top: 480px;
+    /* 다시 위로 */
+  }
+}
+#mypagebtn{
+  all : unset;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-image:url(data/mypageimage/mypageim/mypagebtn.png);
+  background-size: contain;
+  width: 50px;
+  height: 50px;
+  display: none;
+}
+#getsticker{
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: rgba(55, 55, 55, 0.5);
+}
+#get{
+  position: absolute;
+  width: 620px;
+  height: 503px;
+  background-image: url(data/mypageimage/mypageim/getballsticker.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 200px;
+
+
 }
 #BtnMaps {
   width: 100%;
@@ -500,10 +580,11 @@ img {
   100% { transform: rotate(360deg); }
 }
 
-#intro{
-  position:relative;
-  top: 230px;
-  left: -600px;
+#intro {
+  position: absolute;
+  top: 270px;
+  left: 630px;
+  /* 부모 요소의 왼쪽 끝에 위치 */
   color: #373737;
 }
 #loadingPage h1 {
@@ -516,8 +597,8 @@ img {
   /* width: 55vw; */
   /* right: 35vw; */
   height: 200px;
-  top : 0px;
-  left:250px;
+  top : 30px;
+  left:180px;
   padding: 0 52px;
   border: none;
   display: flex;
@@ -528,6 +609,7 @@ img {
 }
 #loginContent h2{
   margin: 0px 52px;
+  margin-left: 80px;
   position: relative;
   top: 15px;
   white-space: nowrap;
@@ -538,10 +620,18 @@ img {
   position: relative;
   left: -500px;
   margin: 6px;
+  /* margin-left: 0; */
+  /* padding-left: 0; */
+  display: flex;
+  justify-content: flex-start;
+}
+#intro h4{
+  font-weight: 500;
 }
 #intro h3{
   font-weight: bold;
-  margin: 13px;
+  /* margin: 13px; */
+  margin-bottom: 19px;
 }
 #loginContent h2:hover{
   box-shadow: 1px 1px 20px #ddd;
@@ -954,13 +1044,17 @@ input[type="radio"]:checked+.genderbutton {
   
 }
 #game-content{
-width: 1786.667px;
-  height: 772px;
+/* width: 1786.667px; */
+  height: 900px;
   flex-shrink: 0;
   border-radius: 26.667px;
   background: #FFFEFA;
-  bottom: -20%;
+  bottom: -29.5%;
   border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row-reverse;
 }
 .Speech1 {
   /* background-color: #ffffff; */
@@ -999,9 +1093,12 @@ z-index: 2;
 } */
 #speechText{
   margin: 0;
+  margin-left: 40px;
   /* position: absolute; */
   bottom: 150px !important;
   z-index: 999;
+  font-weight: 500;
+  color: #373737;
 }
 
 #helper_text{

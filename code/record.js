@@ -1,27 +1,3 @@
-let talk_btn = "";
-let talkBtnPromiseResolve;
-
-export let talkBtnPromise = new Promise((resolve) => {
-    talkBtnPromiseResolve = resolve;  // 초기 Promise를 생성
-});
-
-export function setTalkBtn(value) {
-    talk_btn = value;
-    talkBtnPromiseResolve();  // 현재 Promise를 resolve
-    resetTalkBtnPromise();    // 새로운 Promise로 초기화
-}
-
-export function getTalkBtn() {
-    return talk_btn;
-}
-
-// 새로운 talkBtnPromise를 초기화하는 함수
-function resetTalkBtnPromise() {
-    talkBtnPromise = new Promise((resolve) => {
-        talkBtnPromiseResolve = resolve;  // 새로운 Promise 생성 및 resolve 저장
-    });
-}
-
 // 자소 분리 함수
 function decomposeHangul(syllable) {
     const CHO = ["ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"];
@@ -68,6 +44,30 @@ function levenshtein(a, b) {
 
     return matrix[decompA.length][decompB.length];
 }
+let talk_btn = "";
+let talkBtnPromiseResolve;
+
+export let talkBtnPromise = new Promise((resolve) => {
+    talkBtnPromiseResolve = resolve;  // 초기 Promise를 생성
+});
+
+export function setTalkBtn(value) {
+    talk_btn = value;
+    talkBtnPromiseResolve();  // 현재 Promise를 resolve
+    resetTalkBtnPromise();    // 새로운 Promise로 초기화
+}
+
+export function getTalkBtn() {
+    return talk_btn;
+}
+
+// 새로운 talkBtnPromise를 초기화하는 함수
+function resetTalkBtnPromise() {
+    talkBtnPromise = new Promise((resolve) => {
+        talkBtnPromiseResolve = resolve;  // 새로운 Promise 생성 및 resolve 저장
+    });
+}
+
 
 // 기존 코드 유지
 let recordButton = document.getElementById("recordButton");
