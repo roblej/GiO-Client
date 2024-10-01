@@ -94,7 +94,7 @@ export function initThreeJS() {
             this._setupOctree();
 
             this._loadPlayerModel(); // 플레이어 모델 로드
-            this._switchScene(5);
+            this._switchScene(0);
             this._animate();
         
             this._camera.add(listener)
