@@ -199,12 +199,19 @@ img {
   right: 0px;
   bottom: -100px;
 }
+
 .left{
   left: 0 !important;
   width: 900px;
   background-image: url(data/tutorial/talk_tu_left.png);
   background-position-x: -150px;
   bottom: -50px !important;
+}
+.tori_help p{
+  position: absolute;
+  font-size: 24px;
+  left: 530px;
+  top: 330px;
 }
 .left p{
   left: 380px !important;
@@ -1141,7 +1148,7 @@ z-index: 2;
   text-align: left;
     /* 모든 기본 스타일을 초기화 */
   font-size: 26px;
-  padding: 10px 90px;
+  padding: 10px 50px 10px 80px;
   /* padding-left: 90px; */
   height: 60px;
   border: 1px solid rgba(0, 0, 0, 0.0);
