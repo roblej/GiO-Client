@@ -421,11 +421,19 @@ _processAnimation() {
                     }, undefined, function (error) {
                         console.error(error);
                     });
-                    loader.load("./data/map/School/Character/rude_idle.glb", (gltf) => { // 몸통박치기!!
+                    loader.load("./data/map/School/Character/rude_Anim.glb", (gltf) => { // 몸통박치기!!
                         const npc = gltf.scene;
                         this._scene.add(npc);
                     
             
+                        // 애니메이션 믹서 설정
+                        const mixer = new THREE.AnimationMixer(npc);
+                        this._mixers.push(mixer);
+                        const animationsMap = {};
+                        gltf.animations.forEach((clip) => {
+                            console.log(clip.name);
+                            animationsMap[clip.name] = mixer.clipAction(clip);
+                        });
                         npc.traverse(child => {
                             if (child instanceof THREE.Mesh) {
                                 child.castShadow = true;
@@ -434,15 +442,8 @@ _processAnimation() {
                             }
                             if (child.isMesh) {
                                 child.userData.type = 'friend_crash';
+                                child.userData.anim = animationsMap
                             }
-                        });
-                        // 애니메이션 믹서 설정
-                        const mixer = new THREE.AnimationMixer(npc);
-                        this._mixers.push(mixer);
-                        const animationsMap = {};
-                        gltf.animations.forEach((clip) => {
-                            // console.log(clip.name);
-                            animationsMap[clip.name] = mixer.clipAction(clip);
                         });
                         npc.userData.animationsMap = animationsMap;
                         npc.userData.mixer = mixer;
@@ -467,11 +468,19 @@ _processAnimation() {
                         npcs.push(npc);
                         this._npc = npc;
                     });
-                    loader.load("./data/map/School/Character/schoolgirl_sit.glb", (gltf) => { // 다쳐서 넘어진 친구
+                    loader.load("./data/map/School/Character/schoolgirl_Anim.glb", (gltf) => { // 다쳐서 넘어진 친구
                         const npc = gltf.scene;
                         this._scene.add(npc);
                 
         
+                        // 애니메이션 믹서 설정
+                        const mixer = new THREE.AnimationMixer(npc);
+                        this._mixers.push(mixer);
+                        const animationsMap = {};
+                        gltf.animations.forEach((clip) => {
+                            console.log(clip.name);
+                            animationsMap[clip.name] = mixer.clipAction(clip);
+                        });
                         npc.traverse(child => {
                             if (child instanceof THREE.Mesh) {
                                 child.castShadow = true;
@@ -480,15 +489,8 @@ _processAnimation() {
                             }
                             if (child.isMesh) {
                                 child.userData.type = 'friend_hurt';
+                                child.userData.anim = animationsMap
                             }
-                        });
-                        // 애니메이션 믹서 설정
-                        const mixer = new THREE.AnimationMixer(npc);
-                        this._mixers.push(mixer);
-                        const animationsMap = {};
-                        gltf.animations.forEach((clip) => {
-                            console.log(clip.name);
-                            animationsMap[clip.name] = mixer.clipAction(clip);
                         });
                         npc.userData.animationsMap = animationsMap;
                         npc.userData.mixer = mixer;
@@ -566,7 +568,7 @@ _processAnimation() {
                         const npc = gltf.scene;
                         this._scene.add(npc);
             
-                                // 애니메이션 믹서 설정
+                        // 애니메이션 믹서 설정
                         const mixer = new THREE.AnimationMixer(npc);
                         this._mixers.push(mixer);
                         const animationsMap = {};
@@ -612,29 +614,30 @@ _processAnimation() {
                         npcs.push(npc);
                         this._npc = npc;
                     });
-                    loader.load("./data/map/School/Character/ballgamenpc_idle.glb", (gltf) => { //공놀이하는 친구
+                    loader.load("./data/map/School/Character/ballgamenpc_Anim.glb", (gltf) => { //공놀이하는 친구
                         const npc = gltf.scene;
                         this._scene.add(npc);
             
         
-                        npc.traverse(child => {
-                            if (child instanceof THREE.Mesh) {
-                                child.castShadow = true;
-                                child.receiveShadow = true;
-                                child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
-                            }
-                            if (child.isMesh) {
-                                child.userData.type = 'game_friend';
-                            }
-                        });
-                        // 애니메이션 믹서 설정
-                        const mixer = new THREE.AnimationMixer(npc);
-                        this._mixers.push(mixer);
-                        const animationsMap = {};
-                        gltf.animations.forEach((clip) => {
-                            // console.log(clip.name);
-                            animationsMap[clip.name] = mixer.clipAction(clip);
-                        });
+                         // 애니메이션 믹서 설정
+                         const mixer = new THREE.AnimationMixer(npc);
+                         this._mixers.push(mixer);
+                         const animationsMap = {};
+                         gltf.animations.forEach((clip) => {
+                             console.log(clip.name);
+                             animationsMap[clip.name] = mixer.clipAction(clip);
+                         });
+                         npc.traverse(child => {
+                             if (child instanceof THREE.Mesh) {
+                                 child.castShadow = true;
+                                 child.receiveShadow = true;
+                                 child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
+                             }
+                             if (child.isMesh) {
+                                 child.userData.type = 'game_friend';
+                                 child.userData.anim = animationsMap
+                             }
+                         });
                         npc.userData.animationsMap = animationsMap;
                         npc.userData.mixer = mixer;
                         // 'idle' 애니메이션 재생
@@ -750,11 +753,19 @@ _processAnimation() {
             }, undefined, function(error) {
                 console.error(error);
             });
-            loader.load("./data/map/Park/Character/park_female_idle.glb", (gltf) => { // 물건을 떨어뜨린 사람
+            loader.load("./data/map/Park/Character/park_female_Anim.glb", (gltf) => { // 물건을 떨어뜨린 사람
                 const npc = gltf.scene;
                 this._scene.add(npc);
         
 
+                // 애니메이션 믹서 설정
+                const mixer = new THREE.AnimationMixer(npc);
+                this._mixers.push(mixer);
+                const animationsMap = {};
+                gltf.animations.forEach((clip) => {
+                    console.log(clip.name);
+                    animationsMap[clip.name] = mixer.clipAction(clip);
+                });
                 npc.traverse(child => {
                     if (child instanceof THREE.Mesh) {
                         child.castShadow = true;
@@ -763,15 +774,8 @@ _processAnimation() {
                     }
                     if (child.isMesh) {
                         child.userData.type = 'fall_item';
+                        child.userData.anim = animationsMap
                     }
-                });
-                // 애니메이션 믹서 설정
-                const mixer = new THREE.AnimationMixer(npc);
-                this._mixers.push(mixer);
-                const animationsMap = {};
-                gltf.animations.forEach((clip) => {
-                    // console.log(clip.name);
-                    animationsMap[clip.name] = mixer.clipAction(clip);
                 });
                 npc.userData.animationsMap = animationsMap;
                 npc.userData.mixer = mixer;
@@ -796,11 +800,19 @@ _processAnimation() {
                 npcs.push(npc);
                 this._npc = npc;
             });
-            loader.load("./data/map/Park/Character/park_man_idle.glb", (gltf) => { // 산책하는 아저씨
+            loader.load("./data/map/Park/Character/park_man_Anim.glb", (gltf) => { // 산책하는 아저씨
             const npc = gltf.scene;
             this._scene.add(npc);
     
 
+            // 애니메이션 믹서 설정
+            const mixer = new THREE.AnimationMixer(npc);
+            this._mixers.push(mixer);
+            const animationsMap = {};
+            gltf.animations.forEach((clip) => {
+                console.log(clip.name);
+                animationsMap[clip.name] = mixer.clipAction(clip);
+            });
             npc.traverse(child => {
                 if (child instanceof THREE.Mesh) {
                     child.castShadow = true;
@@ -808,16 +820,9 @@ _processAnimation() {
                     child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
                 }
                 if (child.isMesh) {
-                    child.userData.type = 'grandfather';
+                    child.userData.type = 'fall_item_man';
+                    child.userData.anim = animationsMap
                 }
-            });
-            // 애니메이션 믹서 설정
-            const mixer = new THREE.AnimationMixer(npc);
-            this._mixers.push(mixer);
-            const animationsMap = {};
-            gltf.animations.forEach((clip) => {
-                // console.log(clip.name);
-                animationsMap[clip.name] = mixer.clipAction(clip);
             });
             npc.userData.animationsMap = animationsMap;
             npc.userData.mixer = mixer;
@@ -847,6 +852,14 @@ _processAnimation() {
         this._scene.add(npc);
 
 
+        // 애니메이션 믹서 설정
+        const mixer = new THREE.AnimationMixer(npc);
+        this._mixers.push(mixer);
+        const animationsMap = {};
+        gltf.animations.forEach((clip) => {
+            console.log(clip.name);
+            animationsMap[clip.name] = mixer.clipAction(clip);
+        });
         npc.traverse(child => {
             if (child instanceof THREE.Mesh) {
                 child.castShadow = true;
@@ -855,15 +868,8 @@ _processAnimation() {
             }
             if (child.isMesh) {
                 child.userData.type = 'park_game';
+                child.userData.anim = animationsMap
             }
-        });
-        // 애니메이션 믹서 설정
-        const mixer = new THREE.AnimationMixer(npc);
-        this._mixers.push(mixer);
-        const animationsMap = {};
-        gltf.animations.forEach((clip) => {
-            // console.log(clip.name);
-            animationsMap[clip.name] = mixer.clipAction(clip);
         });
         npc.userData.animationsMap = animationsMap;
         npc.userData.mixer = mixer;
@@ -918,11 +924,19 @@ _processAnimation() {
             }, undefined, function(error) {
                 console.error(error);
             });
-            loader.load("./data/map/Town_building/Character/town_grandpa_sit.glb", (gltf) => { // 할아버지
+            loader.load("./data/map/Town_building/Character/town_grandpa_Anim.glb", (gltf) => { // 할아버지
                 const npc = gltf.scene;
                 this._scene.add(npc);
         
 
+                // 애니메이션 믹서 설정
+                const mixer = new THREE.AnimationMixer(npc);
+                this._mixers.push(mixer);
+                const animationsMap = {};
+                gltf.animations.forEach((clip) => {
+                    console.log(clip.name);
+                    animationsMap[clip.name] = mixer.clipAction(clip);
+                });
                 npc.traverse(child => {
                     if (child instanceof THREE.Mesh) {
                         child.castShadow = true;
@@ -931,15 +945,8 @@ _processAnimation() {
                     }
                     if (child.isMesh) {
                         child.userData.type = 'grandfather';
+                        child.userData.anim = animationsMap
                     }
-                });
-                // 애니메이션 믹서 설정
-                const mixer = new THREE.AnimationMixer(npc);
-                this._mixers.push(mixer);
-                const animationsMap = {};
-                gltf.animations.forEach((clip) => {
-                    // console.log(clip.name);
-                    animationsMap[clip.name] = mixer.clipAction(clip);
                 });
                 npc.userData.animationsMap = animationsMap;
                 npc.userData.mixer = mixer;
@@ -964,11 +971,19 @@ _processAnimation() {
                 npcs.push(npc);
                 this._npc = npc;
             });
-            loader.load("./data/map/Town_building/Character/town_lady_idle.glb", (gltf) => { //부녀회장
+            loader.load("./data/map/Town_building/Character/town_lady_Anim.glb", (gltf) => { //부녀회장
                     const npc = gltf.scene;
                     this._scene.add(npc);
             
 
+                    // 애니메이션 믹서 설정
+                    const mixer = new THREE.AnimationMixer(npc);
+                    this._mixers.push(mixer);
+                    const animationsMap = {};
+                    gltf.animations.forEach((clip) => {
+                        console.log(clip.name);
+                        animationsMap[clip.name] = mixer.clipAction(clip);
+                    });
                     npc.traverse(child => {
                         if (child instanceof THREE.Mesh) {
                             child.castShadow = true;
@@ -977,15 +992,8 @@ _processAnimation() {
                         }
                         if (child.isMesh) {
                             child.userData.type = '부녀회장';
+                            child.userData.anim = animationsMap
                         }
-                    });
-                    // 애니메이션 믹서 설정
-                    const mixer = new THREE.AnimationMixer(npc);
-                    this._mixers.push(mixer);
-                    const animationsMap = {};
-                    gltf.animations.forEach((clip) => {
-                        // console.log(clip.name);
-                        animationsMap[clip.name] = mixer.clipAction(clip);
                     });
                     npc.userData.animationsMap = animationsMap;
                     npc.userData.mixer = mixer;
@@ -1010,11 +1018,19 @@ _processAnimation() {
                     npcs.push(npc);
                     this._npc = npc;
             });
-            loader.load("./data/map/Town_building/Character/town_grandma_idle.glb", (gltf) => { //할머니
+            loader.load("./data/map/Town_building/Character/town_grandma_Anim.glb", (gltf) => { //할머니
                     const npc = gltf.scene;
                     this._scene.add(npc);
             
 
+                    // 애니메이션 믹서 설정
+                    const mixer = new THREE.AnimationMixer(npc);
+                    this._mixers.push(mixer);
+                    const animationsMap = {};
+                    gltf.animations.forEach((clip) => {
+                        console.log(clip.name);
+                        animationsMap[clip.name] = mixer.clipAction(clip);
+                    });
                     npc.traverse(child => {
                         if (child instanceof THREE.Mesh) {
                             child.castShadow = true;
@@ -1023,15 +1039,8 @@ _processAnimation() {
                         }
                         if (child.isMesh) {
                             child.userData.type = '할머니';
+                            child.userData.anim = animationsMap
                         }
-                    });
-                    // 애니메이션 믹서 설정
-                    const mixer = new THREE.AnimationMixer(npc);
-                    this._mixers.push(mixer);
-                    const animationsMap = {};
-                    gltf.animations.forEach((clip) => {
-                        // console.log(clip.name);
-                        animationsMap[clip.name] = mixer.clipAction(clip);
                     });
                     npc.userData.animationsMap = animationsMap;
                     npc.userData.mixer = mixer;
@@ -1056,11 +1065,19 @@ _processAnimation() {
                     npcs.push(npc);
                     this._npc = npc;
             });
-            loader.load("./data/map/Town_building/Character/town_granddaughter_idle.glb", (gltf) => { //종이접기하는 손녀
+            loader.load("./data/map/Town_building/Character/town_granddaughter_Anim.glb", (gltf) => { //종이접기하는 손녀
                     const npc = gltf.scene;
                     this._scene.add(npc);
             
 
+                    // 애니메이션 믹서 설정
+                    const mixer = new THREE.AnimationMixer(npc);
+                    this._mixers.push(mixer);
+                    const animationsMap = {};
+                    gltf.animations.forEach((clip) => {
+                        console.log(clip.name);
+                        animationsMap[clip.name] = mixer.clipAction(clip);
+                    });
                     npc.traverse(child => {
                         if (child instanceof THREE.Mesh) {
                             child.castShadow = true;
@@ -1069,15 +1086,8 @@ _processAnimation() {
                         }
                         if (child.isMesh) {
                             child.userData.type = 'grandmother_child';
+                            child.userData.anim = animationsMap
                         }
-                    });
-                    // 애니메이션 믹서 설정
-                    const mixer = new THREE.AnimationMixer(npc);
-                    this._mixers.push(mixer);
-                    const animationsMap = {};
-                    gltf.animations.forEach((clip) => {
-                        // console.log(clip.name);
-                        animationsMap[clip.name] = mixer.clipAction(clip);
                     });
                     npc.userData.animationsMap = animationsMap;
                     npc.userData.mixer = mixer;
@@ -1107,6 +1117,14 @@ _processAnimation() {
                 this._scene.add(npc);
         
 
+                // 애니메이션 믹서 설정
+                const mixer = new THREE.AnimationMixer(npc);
+                this._mixers.push(mixer);
+                const animationsMap = {};
+                gltf.animations.forEach((clip) => {
+                    console.log(clip.name);
+                    animationsMap[clip.name] = mixer.clipAction(clip);
+                });
                 npc.traverse(child => {
                     if (child instanceof THREE.Mesh) {
                         child.castShadow = true;
@@ -1115,15 +1133,8 @@ _processAnimation() {
                     }
                     if (child.isMesh) {
                         child.userData.type = 'town_chief';
+                        child.userData.anim = animationsMap
                     }
-                });
-                // 애니메이션 믹서 설정
-                const mixer = new THREE.AnimationMixer(npc);
-                this._mixers.push(mixer);
-                const animationsMap = {};
-                gltf.animations.forEach((clip) => {
-                    // console.log(clip.name);
-                    animationsMap[clip.name] = mixer.clipAction(clip);
                 });
                 npc.userData.animationsMap = animationsMap;
                 npc.userData.mixer = mixer;
@@ -1177,11 +1188,19 @@ _processAnimation() {
             }, undefined, function(error) {
                 console.error(error);
             });
-                loader.load("./data/map/Library/Character/smallboy_idle.glb", (gltf) => { // 책을 꺼내는 아이
+                loader.load("./data/map/Library/Character/sboy_anim.glb", (gltf) => { // 책을 꺼내는 아이
             const npc = gltf.scene;
             this._scene.add(npc);
     
 
+            // 애니메이션 믹서 설정
+            const mixer = new THREE.AnimationMixer(npc);
+            this._mixers.push(mixer);
+            const animationsMap = {};
+            gltf.animations.forEach((clip) => {
+                console.log(clip.name);
+                animationsMap[clip.name] = mixer.clipAction(clip);
+            });
             npc.traverse(child => {
                 if (child instanceof THREE.Mesh) {
                     child.castShadow = true;
@@ -1190,15 +1209,8 @@ _processAnimation() {
                 }
                 if (child.isMesh) {
                     child.userData.type = 'book_friend';
+                    child.userData.anim = animationsMap
                 }
-            });
-            // 애니메이션 믹서 설정
-            const mixer = new THREE.AnimationMixer(npc);
-            this._mixers.push(mixer);
-            const animationsMap = {};
-            gltf.animations.forEach((clip) => {
-                // console.log(clip.name);
-                animationsMap[clip.name] = mixer.clipAction(clip);
             });
             npc.userData.animationsMap = animationsMap;
             npc.userData.mixer = mixer;
@@ -1223,29 +1235,30 @@ _processAnimation() {
             npcs.push(npc);
             this._npc = npc;
                 });
-                                loader.load("./data/map/Library/Character/library_searching_idle.glb", (gltf) => { // 책을 찾는 아이(컴퓨터 쓰는애)
+            loader.load("./data/map/Library/Character/library_teen_anim.glb", (gltf) => { // 책을 찾는 아이(컴퓨터 쓰는애)
             const npc = gltf.scene;
             this._scene.add(npc);
     
 
-            npc.traverse(child => {
-                if (child instanceof THREE.Mesh) {
-                    child.castShadow = true;
-                    child.receiveShadow = true;
-                    child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
-                }
-                if (child.isMesh) {
-                    child.userData.type = 'library_searching';
-                }
-            });
-            // 애니메이션 믹서 설정
-            const mixer = new THREE.AnimationMixer(npc);
-            this._mixers.push(mixer);
-            const animationsMap = {};
-            gltf.animations.forEach((clip) => {
-                // console.log(clip.name);
-                animationsMap[clip.name] = mixer.clipAction(clip);
-            });
+           // 애니메이션 믹서 설정
+           const mixer = new THREE.AnimationMixer(npc);
+           this._mixers.push(mixer);
+           const animationsMap = {};
+           gltf.animations.forEach((clip) => {
+               console.log(clip.name);
+               animationsMap[clip.name] = mixer.clipAction(clip);
+           });
+           npc.traverse(child => {
+               if (child instanceof THREE.Mesh) {
+                   child.castShadow = true;
+                   child.receiveShadow = true;
+                   child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
+               }
+               if (child.isMesh) {
+                   child.userData.type = 'library_searching';
+                   child.userData.anim = animationsMap
+               }
+           });
             npc.userData.animationsMap = animationsMap;
             npc.userData.mixer = mixer;
             // 'idle' 애니메이션 재생
@@ -1269,11 +1282,19 @@ _processAnimation() {
             // npcs.push(npc);
             this._npc = npc;
             });
-                            loader.load("./data/map/Library/Character/library_glasses_idle.glb", (gltf) => { // 안경을 떨어트린 학생
+            loader.load("./data/map/Library/Character/Library_student_anim.glb", (gltf) => { // 안경을 떨어트린 학생
             const npc = gltf.scene;
             this._scene.add(npc);
     
 
+            // 애니메이션 믹서 설정
+            const mixer = new THREE.AnimationMixer(npc);
+            this._mixers.push(mixer);
+            const animationsMap = {};
+            gltf.animations.forEach((clip) => {
+                console.log(clip.name);
+                animationsMap[clip.name] = mixer.clipAction(clip);
+            });
             npc.traverse(child => {
                 if (child instanceof THREE.Mesh) {
                     child.castShadow = true;
@@ -1282,15 +1303,8 @@ _processAnimation() {
                 }
                 if (child.isMesh) {
                     child.userData.type = 'glass';
+                    child.userData.anim = animationsMap
                 }
-            });
-            // 애니메이션 믹서 설정
-            const mixer = new THREE.AnimationMixer(npc);
-            this._mixers.push(mixer);
-            const animationsMap = {};
-            gltf.animations.forEach((clip) => {
-                // console.log(clip.name);
-                animationsMap[clip.name] = mixer.clipAction(clip);
             });
             npc.userData.animationsMap = animationsMap;
             npc.userData.mixer = mixer;
@@ -1315,11 +1329,19 @@ _processAnimation() {
             // npcs.push(npc);
             this._npc = npc;
             });
-            loader.load("./data/map/Library/Character/library_reading_sit.glb", (gltf) => { // 앉아서 책 읽는 학생
+            loader.load("./data/map/Library/Character/library_readG_anim.glb", (gltf) => { // 앉아서 책 읽는 학생
             const npc = gltf.scene;
             this._scene.add(npc);
     
 
+            // 애니메이션 믹서 설정
+            const mixer = new THREE.AnimationMixer(npc);
+            this._mixers.push(mixer);
+            const animationsMap = {};
+            gltf.animations.forEach((clip) => {
+                console.log(clip.name);
+                animationsMap[clip.name] = mixer.clipAction(clip);
+            });
             npc.traverse(child => {
                 if (child instanceof THREE.Mesh) {
                     child.castShadow = true;
@@ -1328,15 +1350,8 @@ _processAnimation() {
                 }
                 if (child.isMesh) {
                     child.userData.type = 'read';
+                    child.userData.anim = animationsMap
                 }
-            });
-            // 애니메이션 믹서 설정
-            const mixer = new THREE.AnimationMixer(npc);
-            this._mixers.push(mixer);
-            const animationsMap = {};
-            gltf.animations.forEach((clip) => {
-                // console.log(clip.name);
-                animationsMap[clip.name] = mixer.clipAction(clip);
             });
             npc.userData.animationsMap = animationsMap;
             npc.userData.mixer = mixer;
@@ -1366,24 +1381,25 @@ _processAnimation() {
             this._scene.add(npc);
     
 
-            npc.traverse(child => {
-                if (child instanceof THREE.Mesh) {
-                    child.castShadow = true;
-                    child.receiveShadow = true;
-                    child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
-                }
-                if (child.isMesh) {
-                    child.userData.type = 'library_game';
-                }
-            });
-            // 애니메이션 믹서 설정
-            const mixer = new THREE.AnimationMixer(npc);
-            this._mixers.push(mixer);
-            const animationsMap = {};
-            gltf.animations.forEach((clip) => {
-                // console.log(clip.name);
-                animationsMap[clip.name] = mixer.clipAction(clip);
-            });
+           // 애니메이션 믹서 설정
+           const mixer = new THREE.AnimationMixer(npc);
+           this._mixers.push(mixer);
+           const animationsMap = {};
+           gltf.animations.forEach((clip) => {
+               console.log(clip.name);
+               animationsMap[clip.name] = mixer.clipAction(clip);
+           });
+           npc.traverse(child => {
+               if (child instanceof THREE.Mesh) {
+                   child.castShadow = true;
+                   child.receiveShadow = true;
+                   child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
+               }
+               if (child.isMesh) {
+                   child.userData.type = 'library_game';
+                   child.userData.anim = animationsMap
+               }
+           });
             npc.userData.animationsMap = animationsMap;
             npc.userData.mixer = mixer;
             // 'idle' 애니메이션 재생
@@ -1765,15 +1781,15 @@ _clearScene(scene) {
 
             function listKoreanVoices() {
                 if ('speechSynthesis' in window) {
-                    const voices = window.speechSynthesis.getVoices();
+                    // const voices = window.speechSynthesis.getVoices();
             
                     // 한국어 음성만 필터링
                     const koreanVoices = voices.filter(voice => voice.lang === 'ko-KR');
             
                     // 한국어 음성 목록 출력
-                    koreanVoices.forEach((voice, index) => {
-                        console.log(`${index + 1}. 이름: ${voice.name}, 언어: ${voice.lang}, 기본 목소리: ${voice.default}`);
-                    });
+                    // koreanVoices.forEach((voice, index) => {
+                    //     console.log(`${index + 1}. 이름: ${voice.name}, 언어: ${voice.lang}, 기본 목소리: ${voice.default}`);
+                    // });
             
                     if (koreanVoices.length === 0) {
                         console.log('한국어 음성을 찾을 수 없습니다.');
@@ -1789,10 +1805,10 @@ _clearScene(scene) {
             };
             function testKoreanVoices() {
                 if ('speechSynthesis' in window) {
-                    const voices = window.speechSynthesis.getVoices();
+                    // const voices = window.speechSynthesis.getVoices();
             
                     // 한국어 음성만 필터링
-                    const koreanVoices = voices.filter(voice => voice.lang === 'ko-KR');
+                    // const koreanVoices = voices.filter(voice => voice.lang === 'ko-KR');
             
                     if (koreanVoices.length === 0) {
                         console.log('한국어 음성을 찾을 수 없습니다.');
@@ -1800,14 +1816,14 @@ _clearScene(scene) {
                     }
             
                     // 각 음성을 "안녕하세요"로 테스트
-                    koreanVoices.forEach((voice, index) => {
-                        const utterance = new SpeechSynthesisUtterance("안녕하세요");
-                        utterance.voice = voice;  // 각 음성을 할당
-                        console.log(`${index + 1}. 이름: ${voice.name}, 언어: ${voice.lang}`);
+                    // koreanVoices.forEach((voice, index) => {
+                    //     const utterance = new SpeechSynthesisUtterance("안녕하세요");
+                    //     utterance.voice = voice;  // 각 음성을 할당
+                    //     console.log(`${index + 1}. 이름: ${voice.name}, 언어: ${voice.lang}`);
             
-                        // 음성 출력
-                        window.speechSynthesis.speak(utterance);
-                    });
+                    //     // 음성 출력
+                    //     window.speechSynthesis.speak(utterance);
+                    // });
                 } else {
                     console.log('TTS 기능이 지원되지 않는 브라우저입니다.');
                 }
@@ -1821,8 +1837,8 @@ _clearScene(scene) {
             
             function speak(text) {
                 if ('speechSynthesis' in window) {
-                    const utterance = new SpeechSynthesisUtterance(text);
-                    window.speechSynthesis.speak(utterance);
+                        // const utterance = new SpeechSynthesisUtterance(text);
+                        // window.speechSynthesis.speak(utterance);
                 } else {
                     console.log('TTS 기능이 지원되지 않는 브라우저입니다.');
                 }
@@ -1914,8 +1930,8 @@ _clearScene(scene) {
                 function resetModal() {
                     dialogText.innerHTML = "안녕? 새로 온 학생이니?";
                     option1.innerHTML = "네, 맞아요. 안녕하세요?";
-                    option2.innerHTML = "(무시하고 갈 길을 간다.)";
-                    option3.innerHTML = "누구세요?";
+                    option2.innerHTML = "누구세요?";
+                    option3.innerHTML = "어..";
                     dialogText.style.display = "block";
                     document.getElementById('next').style.display = 'block'
                     document.querySelectorAll('.choose button').forEach(function(button) {
@@ -1929,15 +1945,35 @@ _clearScene(scene) {
                     recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option1.textContent;
-                        let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
 
                         if (getTalkBtn() === choose_answer) {
                             buttonGroup.style.display = "none";
-                            dialogText.innerHTML = "안녕? 나는 선생님이란다. 학교에 온걸 환영해!";
+                            dialogText.innerHTML = "그래, 난 이학교의 선생님이야. 앞으로 잘 지내보자";
                             console.log(score);
+
+                            const idleAction = this._currentNPCAnimations['idle'];
+                            const idleanAction = this._currentNPCAnimations['idle_rightAnswer'];
+                            
+                            if (idleAction && idleanAction) {
+                                idleAction
+                                .reset()   // 상태 초기화
+                                .setEffectiveWeight(1) // 동작할 가중치 설정
+                                .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                                .play();   // 재생 시작
+                                
+                                idleanAction
+                                .reset()
+                                .setEffectiveWeight(1)
+                                .setLoop(THREE.LoopOnce, 1)
+                                .play();
+                                console.log("Playing animations simultaneously.");
+                            } else {
+                                console.error("One or both animations not found in the animationsMap.");
+                            }
 
                             document.getElementById('next').onclick = function () {
                                 casher.style.display = "none";
@@ -1956,10 +1992,30 @@ _clearScene(scene) {
                 option2.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "어머..낯을가리는 아이인가?";
+                    dialogText.innerHTML = "나는 3학년 2반 선생님이란다.";
 
-                        tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = " 틀렸을때의 문구<br><br>"
+                    const oh1Action = this._currentNPCAnimations['oh1'];
+                            const oh2Action = this._currentNPCAnimations['oh2'];
+                            
+                            if (oh1Action && oh2Action) {
+                                oh1Action
+                                .reset()   // 상태 초기화
+                                .setEffectiveWeight(1) // 동작할 가중치 설정
+                                .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                                .play();   // 재생 시작
+                                
+                                oh2Action
+                                .reset()
+                                .setEffectiveWeight(1)
+                                .setLoop(THREE.LoopOnce, 1)
+                                .play();
+                                console.log("Playing animations simultaneously.");
+                            } else {
+                                console.error("One or both animations not found in the animationsMap.");
+                            }
+
+                    // tori_help.style.display = 'block'
+                    // tori_help_p.innerHTML = " 틀렸을때의 문구<br><br>"
                     
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
@@ -1995,7 +2051,7 @@ _clearScene(scene) {
                     //여기까지
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                         tori_help.style.display = 'block'
-                        tori_help_p.innerHTML = " 틀렸을때의 문구<br><br>"
+                        tori_help_p.innerHTML = " 다른 사람이 인사를 건넸을 때는 먼저 인사를 하고,<br>그 후에 궁금한 점을 물어보는 것이 자연스럽고<br> 예의바른 대화 방식이야.<br>다시 해보자."
 
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
@@ -2052,103 +2108,258 @@ _clearScene(scene) {
                 }.bind(this);
             } else if (npcType == 'friend_crash') {
     
-                // 대화 내용 업데이트
-                dialogText.innerHTML = "운동장을 걷다가 어깨를 부딪쳤다. 사과를 안하고 지나갔다.";
-    
-                // 각 선택지 업데이트
+                let score = 100;
                 function resetModal() {
+                    dialogText.innerHTML = "운동장을 걷다가 어깨를 부딪쳤다. 사과를 안하고 지나갔다.";
                     option1.innerHTML = "야! 너 왜 부딪혔는데 사과 안해?";
-                    option2.innerHTML = "(기분 나쁜데... 그래도 이번엔 그냥 지나가자.)";
+                    option2.innerHTML = " (기분 나쁜데... 그래도 이번엔 그냥 지나가자.)";
                     option3.innerHTML = "(쫓아가서 어깨를 다시 부딪힌다.)";
-                    dialogText.style.display = "block";  // 텍스트를 보이게 함
-                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                    dialogText.style.display = "block";
+                    document.getElementById('next').style.display = 'block'
+                    document.querySelectorAll('.choose button').forEach(function(button) {
+                        button.classList.remove('active');
+                    })
                 }
-    
-                // 초기 상태로 모달 재설정
                 resetModal();
-    
-                casher.style.display = "block";
-    
+                casher.style.display = "block";        
+
+
                 option1.onclick = function () {
-                    console.log("첫 번째 선택지 선택됨");
-                    dialogText.style.display = "block";
-                    buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "어? 아...미안";
-                    this._onDialogClosed();
-                    resetplayerposition.call(this);
+                    // dialogText.style.display = "block";
+                    // buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "몰라! 난 바쁘다고!";
+
+                    //여기부터 애니메이션 예시
+                    const shoutAction = this._currentNPCAnimations['shout'];
+                    const idleAction = this._currentNPCAnimations['idle'];///
+                    
+                    if (shoutAction && idleAction) {
+                        shoutAction
+                        .reset()   // 상태 초기화
+                        .setEffectiveWeight(1) // 동작할 가중치 설정
+                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                        .play();   // 재생 시작
+                        
+                        idleAction
+                        .reset()
+                        .setEffectiveWeight(1)
+                        .setLoop(THREE.LoopOnce, 1)
+                        .play();
+                        console.log("Playing animations simultaneously.");
+                    } else {
+                        console.error("One or both animations not found in the animationsMap.");
+                    }
+                    //여기까지
+
+                    tori_help.style.display = 'block'
+                    tori_help_p.innerHTML = "가끔은 멋지게 상황을 넘기면 편할 때도 많아.<br> 물론 사과를 받으면 좋겠지만,<br>크게 다치거나 하지 않았으니까 그럴 수도<br> 있지 하고 넘기는 것도 필요해. <br>다시 해보자.<br><br>"
+                    
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
+                        score = score - 20;
+                        resetModal();
+                    }.bind(this);
                 }.bind(this);
-    
+        
                 option2.onclick = function () {
-                    console.log("두 번째 선택지 선택됨");
-                    dialogText.style.display = "block";
-                    buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "...";
-                    this._onDialogClosed();
-                    resetplayerposition.call(this);
-                }.bind(this);
-    
+                    recordButton.onclick()
+                    talkBtnPromise.then(() => {
+                        let choose_answer = option2.textContent;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+
+                        console.log(choose_answer);
+                        console.log(getTalkBtn());
+
+                        if (getTalkBtn() === choose_answer) {
+                            buttonGroup.style.display = "none";
+                            dialogText.innerHTML = "...";
+                            tori_help.style.display = 'block'
+                            tori_help_p.innerHTML = "어어? 쟤는 먼저 와서 부딪혀 놓고..<br>그나저나 사과 안하는 쟤는 나빴지만,<br>멋지게 참아주었잖아? 대단한걸? <br><br>"
+                            
+                            console.log(score);
+
+                            
+
+                            document.getElementById('next').onclick = function () {
+                                casher.style.display = "none";
+                                buttonGroup.style.display = "none";
+                                resetModal();
+                                this._onDialogClosed();
+                                resetplayerposition.call(this);
+                            }.bind(this);
+                        } else {
+                            option2.onclick();
+                            // 선택이 맞지 않으면 다시 실행
+                        }
+                    });
+                }.bind(this)
+                
+
                 option3.onclick = function () {
-                    console.log("세 번째 선택지 선택됨");
-                    dialogText.style.display = "block";
-                    buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "아야! 너 뭐야?";
-                    this._onDialogClosed();
-                    resetplayerposition.call(this);
+                    // dialogText.style.display = "block";
+                    // buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "야! 뭐하는 거야!";
+
+                    //여기부터 애니메이션 예시
+                    const shoutAction = this._currentNPCAnimations['shout'];
+                    const idleAction = this._currentNPCAnimations['idle'];///
+                    
+                    if (shoutAction && idleAction) {
+                        shoutAction
+                        .reset()   // 상태 초기화
+                        .setEffectiveWeight(1) // 동작할 가중치 설정
+                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                        .play();   // 재생 시작
+                        
+                        idleAction
+                        .reset()
+                        .setEffectiveWeight(1)
+                        .setLoop(THREE.LoopOnce, 1)
+                        .play();
+                        console.log("Playing animations simultaneously.");
+                    } else {
+                        console.error("One or both animations not found in the animationsMap.");
+                    }
+                    //여기까지
+
+
+                    // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
+                        tori_help.style.display = 'block'
+                        tori_help_p.innerHTML = "가끔은 멋지게 상황을 넘기면 편할 때도 많아.<br> 물론 사과를 받으면 좋겠지만,<br>크게 다치거나 하지 않았으니까 그럴 수도<br> 있지 하고 넘기는 것도 필요해. <br>다시 해보자.<br><br>"
+
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
+                        score = score - 20;
+                        resetModal();
+                    }.bind(this);
                 }.bind(this);
 
             } else if (npcType == 'rector') {
     
-                // 대화 내용 업데이트
-                dialogText.innerHTML = "교장선생님이다.";
-    
-                // 각 선택지 업데이트
+                let score = 100;
                 function resetModal() {
+                    dialogText.innerHTML = "안녕. 어서오렴";
                     option1.innerHTML = "교장선생님은 왜 머리가 없으세요?";
                     option2.innerHTML = "안녕하세요!";
-                    option3.innerHTML = "(무시하고 지나간다)";
-                    dialogText.style.display = "block";  // 텍스트를 보이게 함
-                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                    option3.innerHTML = "(무시하고 쳐다본다.)";
+                    dialogText.style.display = "block";
+                    document.getElementById('next').style.display = 'block'
+                    document.querySelectorAll('.choose button').forEach(function(button) {
+                        button.classList.remove('active');
+                    })
                 }
-    
-                // 초기 상태로 모달 재설정
                 resetModal();
-    
-                casher.style.display = "block";
-    
-                option1.onclick = function () {
-                    console.log("첫 번째 선택지 선택됨");
-                    dialogText.style.display = "block";
-                    buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "머리가 없는게 아니다. 내가 나아갈 뿐";
-                    this._onDialogClosed();
-                    resetplayerposition.call(this);
+                casher.style.display = "block";        
 
+
+                option1.onclick = function () {
+                    // dialogText.style.display = "block";
+                    // buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "뭐..?";
+
+                    //여기부터 애니메이션 예시
+                    const sup1Action = this._currentNPCAnimations['Suprised01'];
+                    const sup2Action = this._currentNPCAnimations['Suprised02'];///
+                    
+                    if (sup1Action && sup2Action) {
+                        sup1Action
+                        .reset()   // 상태 초기화
+                        .setEffectiveWeight(1) // 동작할 가중치 설정
+                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                        .play();   // 재생 시작
+                        
+                        sup2Action
+                        .reset()
+                        .setEffectiveWeight(1)
+                        .setLoop(THREE.LoopOnce, 1)
+                        .play();
+                        console.log("Playing animations simultaneously.");
+                    } else {
+                        console.error("One or both animations not found in the animationsMap.");
+                    }
+                    //여기까지
+
+                    tori_help.style.display = 'block'
+                    tori_help_p.innerHTML = "사람의 외모에 대해 이야기하는 것은 <br>상대방의 기분을 상하게 할 수 있어. <br>다시 해보자.<br><br>"
+                    
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
+                        score = score - 20;
+                        resetModal();
+                    }.bind(this);
                 }.bind(this);
-    
+        
                 option2.onclick = function () {
-                    console.log("두 번째 선택지 선택됨");
-                    dialogText.style.display = "block";
-                    buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "안녕, 오늘도 좋은 하루 보내렴";
-                    clicktext.onclick = function () {
-                        casher.style.display = "none";
-                        resetModal();
-                        this._onDialogClosed();
-                        resetplayerposition.call(this);
-                    };
-                }.bind(this);
-    
+                    recordButton.onclick()
+                    talkBtnPromise.then(() => {
+                        let choose_answer = option2.textContent;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+
+                        console.log(choose_answer);
+                        console.log(getTalkBtn());
+
+                        if (getTalkBtn() === choose_answer) {
+                            buttonGroup.style.display = "none";
+                            dialogText.innerHTML = "...";
+                            tori_help.style.display = 'block'
+                            tori_help_p.innerHTML = "어어? 쟤는 먼저 와서 부딪혀 놓고..<br>그나저나 사과 안하는 쟤는 나빴지만,<br>멋지게 참아주었잖아? 대단한걸? <br><br>"
+                            
+                            console.log(score);
+
+                            
+
+                            document.getElementById('next').onclick = function () {
+                                casher.style.display = "none";
+                                buttonGroup.style.display = "none";
+                                resetModal();
+                                this._onDialogClosed();
+                                resetplayerposition.call(this);
+                            }.bind(this);
+                        } else {
+                            option2.onclick();
+                            // 선택이 맞지 않으면 다시 실행
+                        }
+                    });
+                }.bind(this)
+                
+
                 option3.onclick = function () {
-                    console.log("세 번째 선택지 선택됨");
-                    dialogText.style.display = "block";
-                    buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "...";
-                    clicktext.onclick = function () {
-                        casher.style.display = "none";
+                    // dialogText.style.display = "block";
+                    // buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "야! 뭐하는 거야!";
+
+                    //여기부터 애니메이션 예시
+                    const shoutAction = this._currentNPCAnimations['shout'];
+                    const idleAction = this._currentNPCAnimations['idle'];///
+                    
+                    if (shoutAction) {
+                        shoutAction
+                        .reset()   // 상태 초기화
+                        .setEffectiveWeight(1) // 동작할 가중치 설정
+                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                        .play();   // 재생 시작
+                        
+                        idleAction
+                        .reset()
+                        .setEffectiveWeight(1)
+                        .setLoop(THREE.LoopOnce, 1)
+                        .play();
+                        console.log("Playing animations simultaneously.");
+                    } else {
+                        console.error("One or both animations not found in the animationsMap.");
+                    }
+                    //여기까지
+
+
+                    // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
+                        tori_help.style.display = 'block'
+                        tori_help_p.innerHTML = "가끔은 멋지게 상황을 넘기면 편할 때도 많아.<br> 물론 사과를 받으면 좋겠지만,<br>크게 다치거나 하지 않았으니까 그럴 수도<br> 있지 하고 넘기는 것도 필요해. <br>다시 해보자.<br><br>"
+
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
+                        score = score - 20;
                         resetModal();
-                        this._onDialogClosed();
-                        resetplayerposition.call(this);
-                    };
+                    }.bind(this);
                 }.bind(this);
 
             }else if (npcType == 'friend_hurt') {

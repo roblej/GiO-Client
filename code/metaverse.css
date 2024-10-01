@@ -191,9 +191,9 @@ img {
 }
 .tori_help p{
   position: absolute;
-  font-size: 32px;
-  left: 550px;
-  bottom: 500px;
+  font-size: 26px;
+  left: 530px;
+  top:330px
 
 }
 .tori_help .next_btn{
