@@ -1543,6 +1543,22 @@ _processAnimation() {
 
 _switchScene(index) {
     // 오디오 상태 체크 및 재생 로직
+    if (this._listener.context.state === 'suspended') {
+        this._listener.context.resume();
+    }
+
+    // 소리가 이미 재생 중이라면 중단하고 새로 불러오기
+    if (this._sound.isPlaying) {
+        this._sound.stop();
+    }
+
+    // 새 소리를 불러오고 재생
+    this._audioLoader.load('./data/Playtime_LOOP.WAV', (buffer) => {
+        this._sound.setBuffer(buffer);
+        this._sound.setLoop(true);
+        this._sound.setVolume(this._initialVolume); // 초기 볼륨 적용
+        this._sound.play();
+    });
 
     // 씬이 배열 범위 내에 있는지 확인
     if (index < 0 || index >= this._scenes.length) {
