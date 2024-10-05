@@ -94,7 +94,7 @@ export function initThreeJS() {
             this._setupOctree();
 
             this._loadPlayerModel(); // 플레이어 모델 로드
-            this._switchScene(0);
+            this._switchScene(3);
             this._animate();
         
             this._camera.add(listener)
@@ -970,7 +970,7 @@ _processAnimation() {
                     const idleAction = animationsMap['sit'];
                     idleAction.play();
                 }
-                npc.position.set(-909, 40, 10);
+                npc.position.set(-909, 10, 10);
                 npc.scale.set(50, 50, 50);
                 const box = (new THREE.Box3).setFromObject(npc);
                 // npc.position.y = (box.max.y - box.min.y) /2;
@@ -3387,8 +3387,94 @@ _clearScene(scene) {
 
             } else if(npcType == 'warning'){
                 console.log('warning')
+                 // 대화 내용 업데이트
+                 dialogText.innerHTML = "내가 접은 학 이쁘지?";
+    
+                 // 각 선택지 업데이트
+                 function resetModal() {
+                     option1.innerHTML = "아니. 이 부분은 너무 구겨졌어.";
+                     option2.innerHTML = "내가 더 잘 해. 줘 봐!";
+                     option3.innerHTML = "잘 만들었다. 다음에 내 것도 접어줄래?";
+                     dialogText.style.display = "block";  // 텍스트를 보이게 함
+                     buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                 }
+     
+                 // 초기 상태로 모달 재설정
+                 resetModal();
+     
+                 casher.style.display = "block";
+     
+                 option1.onclick = function () {
+                     console.log("첫 번째 선택지 선택됨");
+                     dialogText.style.display = "block";
+                     buttonGroup.style.display = "none";
+                     dialogText.innerHTML = "뭐? 그치만 열심히 접었는데..";
+                     this._onDialogClosed();
+                     resetplayerposition.call(this);
+                 }.bind(this);
+     
+                 option2.onclick = function () {
+                     console.log("두 번째 선택지 선택됨");
+                     dialogText.style.display = "block";
+                     buttonGroup.style.display = "none";
+                     dialogText.innerHTML = "앗, 내가 접은건데!!";
+                     this._onDialogClosed();
+                     resetplayerposition.call(this);
+                 }.bind(this);
+     
+                 option3.onclick = function () {
+                     console.log("세 번째 선택지 선택됨");
+                     dialogText.style.display = "block";
+                     buttonGroup.style.display = "none";
+                     dialogText.innerHTML = "좋아! 나중에 접어줄게.";
+                     this._onDialogClosed();
+                     resetplayerposition.call(this);
+                 }.bind(this);
             } else if(npcType == 'fountain'){
                 console.log('fountain')
+                 // 대화 내용 업데이트
+                 dialogText.innerHTML = "내가 접은 학 이쁘지?";
+    
+                 // 각 선택지 업데이트
+                 function resetModal() {
+                     option1.innerHTML = "아니. 이 부분은 너무 구겨졌어.";
+                     option2.innerHTML = "내가 더 잘 해. 줘 봐!";
+                     option3.innerHTML = "잘 만들었다. 다음에 내 것도 접어줄래?";
+                     dialogText.style.display = "block";  // 텍스트를 보이게 함
+                     buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                 }
+     
+                 // 초기 상태로 모달 재설정
+                 resetModal();
+     
+                 casher.style.display = "block";
+     
+                 option1.onclick = function () {
+                     console.log("첫 번째 선택지 선택됨");
+                     dialogText.style.display = "block";
+                     buttonGroup.style.display = "none";
+                     dialogText.innerHTML = "뭐? 그치만 열심히 접었는데..";
+                     this._onDialogClosed();
+                     resetplayerposition.call(this);
+                 }.bind(this);
+     
+                 option2.onclick = function () {
+                     console.log("두 번째 선택지 선택됨");
+                     dialogText.style.display = "block";
+                     buttonGroup.style.display = "none";
+                     dialogText.innerHTML = "앗, 내가 접은건데!!";
+                     this._onDialogClosed();
+                     resetplayerposition.call(this);
+                 }.bind(this);
+     
+                 option3.onclick = function () {
+                     console.log("세 번째 선택지 선택됨");
+                     dialogText.style.display = "block";
+                     buttonGroup.style.display = "none";
+                     dialogText.innerHTML = "좋아! 나중에 접어줄게.";
+                     this._onDialogClosed();
+                     resetplayerposition.call(this);
+                 }.bind(this);
             }
     
             if (npcType === "tp") {
