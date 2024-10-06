@@ -220,20 +220,40 @@ signupForm.addEventListener('submit', function(event) {
 
 
 
+function requestMicrophonePermission() {
+    return navigator.mediaDevices.getUserMedia({ audio: true })
+        .then((stream) => {
+            console.log('Microphone permission granted');
+            // You can use the stream here if necessary
+            return true;
+        })
+        .catch((error) => {
+            console.error('Microphone permission denied:', error);
+            return false;
+        });
+}
+
 function loadThreeJS() {
-    const script1 = document.createElement('script');
-    script1.type = 'module';
-    script1.src = 'metaverse.js';
-    script1.onload = () => {
-        console.log('metaverse.js loaded');
-        if (window.initThreeJS) {
-            window.initThreeJS(); // initThreeJS 함수를 호출
-        } else {
-            console.error('initThreeJS function not found in metaverse.js');
+    requestMicrophonePermission().then((hasPermission) => {
+        if (!hasPermission) {
+            console.error('Cannot proceed without microphone permission');
+            return;
         }
-    };
-    script1.onerror = () => {
-        console.error('Failed to load metaverse.js');
-    };
-    document.body.appendChild(script1);
+        
+        const script1 = document.createElement('script');
+        script1.type = 'module';
+        script1.src = 'metaverse.js';
+        script1.onload = () => {
+            console.log('metaverse.js loaded');
+            if (window.initThreeJS) {
+                window.initThreeJS(); // initThreeJS 함수를 호출
+            } else {
+                console.error('initThreeJS function not found in metaverse.js');
+            }
+        };
+        script1.onerror = () => {
+            console.error('Failed to load metaverse.js');
+        };
+        document.body.appendChild(script1);
+    });
 }

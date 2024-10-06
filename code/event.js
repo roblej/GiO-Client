@@ -177,6 +177,16 @@ window.addEventListener('message', function(event) {
             .then(data => console.log(data)) // 응답 데이터 처리
             .catch(error => console.error('Error:', error)); // 에러 처리
 
+  }
+   // close 타입 처리
+    if (event.data.type === 'close' && event.data.value === true) {
+        var closeButton = document.getElementById('closeGameModal');
+        if (closeButton) {
+            console.log("closeGameModal 버튼 클릭");
+            closeButton.click(); // closeGameModal 버튼 클릭 트리거
+        } else {
+            console.log("closeGameModal 버튼을 찾을 수 없습니다.");
+        }
     }
 }, false);
   
@@ -225,12 +235,12 @@ if (casher && window.getComputedStyle(casher).display === 'none') {
 }
 
 
-export let log_map_tutorial = 'true'
-let talk_tutorial = 'true';
-let sticker_tutorial = 'true'
-let tp_tutorial = 'true'
-let data_tutorial = 'true'
-let final_tutorial = 'true'
+export let log_map_tutorial = 'false'
+let talk_tutorial = 'false';
+let sticker_tutorial = 'false'
+let tp_tutorial = 'false'
+let data_tutorial = 'false'
+let final_tutorial = 'false'
 
 export function getTpTutorial() {
   return tp_tutorial;

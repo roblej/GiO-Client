@@ -1543,7 +1543,19 @@ _processAnimation() {
 
 _switchScene(index) {
     // 오디오 상태 체크 및 재생 로직
+    if (this._listener.context.state === 'suspended') {
+                this._listener.context.resume();
+            }
 
+            // sound가 이미 재생 중인지 확인
+    if (!this._sound.isPlaying) {
+        this._audioLoader.load('./data/GiO_bgm.mp3', (buffer) => {
+            this._sound.setBuffer(buffer);
+            this._sound.setLoop(true);
+            this._sound.setVolume(this._initialVolume); // 초기 볼륨 적용
+            this._sound.play();
+        });
+    }
     // 씬이 배열 범위 내에 있는지 확인
     if (index < 0 || index >= this._scenes.length) {
         console.error('잘못된 씬 인덱스입니다.');
@@ -1758,6 +1770,7 @@ _clearScene(scene) {
             var npc_name = document.getElementsByClassName("npc_name");
             var casher = document.getElementById("thiscasher");
             var span = document.getElementsByClassName("close")[1];
+            var span0 = document.getElementsByClassName("close")[0];
             var dialogText = document.querySelector("#thiscasher .Speech1 p");
             var clicktext = document.getElementsByClassName("Speech1")
             var option1 = document.getElementById("select1");
@@ -1907,6 +1920,15 @@ _clearScene(scene) {
 
             // 닫기 버튼 클릭 시 모달 닫기
             span.onclick = function () {
+                casher.style.display = "none";
+                count = 0;
+                // resetModal();
+                document.querySelectorAll('.choose button').forEach(function(button) {
+                    button.classList.remove('active');
+                })
+                this._onDialogClosed();
+            }.bind(this);
+            span0.onclick = function () {
                 casher.style.display = "none";
                 count = 0;
                 // resetModal();
@@ -2125,9 +2147,27 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "뭐? 말이 좀 심하지 않아?";
-
+                    const ugh1Action = this._currentNPCAnimations['ugh1'];
+                    const ugh2Action = this._currentNPCAnimations['ugh2'];
+                    
+                    if (ugh1Action && ugh2Action) {
+                        ugh1Action
+                        .reset()   // 상태 초기화
+                        .setEffectiveWeight(1) // 동작할 가중치 설정
+                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                        .play();   // 재생 시작
+                        
+                        ugh2Action
+                        .reset()
+                        .setEffectiveWeight(1)
+                        .setLoop(THREE.LoopOnce, 1)
+                        .play();
+                        console.log("Playing animations simultaneously.");
+                    } else {
+                        console.error("One or both animations not found in the animationsMap.");
+                    }
                         tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = " 틀렸을때의 문구<br><br>"
+                    tori_help_p.innerHTML = "네 앞에 떨어진 공인데, 주워 줘도 좋을 것 같아.<br>친구와 친해 질 수도 있는 기회 일지도 몰라!<br>한번 다시 해볼까?."
                     
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
@@ -2184,17 +2224,17 @@ _clearScene(scene) {
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "저기! 내 말 안들렸어?";
                     //여기부터 애니메이션 예시
-                    const oh1Action = this._currentNPCAnimations['oh1'];
-                    const oh2Action = this._currentNPCAnimations['oh2'];
+                                        const ugh1Action = this._currentNPCAnimations['ugh1'];
+                    const ugh2Action = this._currentNPCAnimations['ugh2'];
                     
-                    if (oh1Action && oh2Action) {
-                        oh1Action
+                    if (ugh1Action && ugh2Action) {
+                        ugh1Action
                         .reset()   // 상태 초기화
                         .setEffectiveWeight(1) // 동작할 가중치 설정
                         .setLoop(THREE.LoopOnce, 1) // 1번만 재생
                         .play();   // 재생 시작
                         
-                        oh2Action
+                        ugh2Action
                         .reset()
                         .setEffectiveWeight(1)
                         .setLoop(THREE.LoopOnce, 1)
@@ -2206,7 +2246,7 @@ _clearScene(scene) {
                     //여기까지
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                         tori_help.style.display = 'block'
-                        tori_help_p.innerHTML = " 틀렸을때의 문구<br><br>"
+                        tori_help_p.innerHTML = " 저 친구가 너를 부르고 있어.<br>그냥 가지말고 다시 가보자!"
 
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
@@ -2288,7 +2328,7 @@ _clearScene(scene) {
                             console.log(score);
 
 
-                            document.getElementById('next').onclick = function () {
+                            document.getElementById('next_btn').onclick = function () {
                                 casher.style.display = "none";
                                 buttonGroup.style.display = "none";
                                 resetModal();
@@ -2662,7 +2702,7 @@ _clearScene(scene) {
                 var span = document.getElementsByClassName("close")[0];
                 modal.style.display = "block";
                 var gameAButton = document.getElementById("Game");
-                gameAButton.setAttribute('data-path', 'libtest01/index.html'); // data-path 속성 설정
+                gameAButton.setAttribute('data-path', 'lib1/index.html'); // data-path 속성 설정
                 var close = document.getElementById('closeGameModal')
                 function resetModalGame() {
                     document.querySelectorAll('.GameBtn').forEach(function(button) {
@@ -2723,6 +2763,7 @@ _clearScene(scene) {
             
                 // "다음에 하자" 버튼 클릭 시 모달 닫기
                 document.getElementById("GameNo").onclick = function () {
+                    console.log('close')
                     modal.style.display = "none";
                     resetModalGame();
                     this._onDialogClosed(); // 모달 닫기 후 카메라 복원
@@ -3389,7 +3430,7 @@ _clearScene(scene) {
         }
             // 플레이어 캐릭터의 y축 아래로 Raycast를 발사하여 teleport 오브젝트와의 충돌을 감지하는 함수
 
-            _setupCamera(){
+  _setupCamera(){
                 const camera = new THREE.PerspectiveCamera(
                     60,
                     window.innerWidth / window.innerHeight,
@@ -3401,18 +3442,18 @@ _clearScene(scene) {
                 this._originalCamera = camera; // 추가된 코드: 원래 카메라 저장
             }
         
-            _addPointLight(x, y, z, helperColor) {
-                const color = 0xffffff;
-                const intensity = 900000;
+            // _addPointLight(x, y, z, helperColor) {
+            //     const color = 0x0038FF;
+            //     const intensity = 10;
             
-                const pointLight = new THREE.PointLight(color, intensity, 2000);
-                pointLight.position.set(x, y, z);
+            //     const pointLight = new THREE.PointLight(color, intensity, 100);
+            //     pointLight.position.set(-665.43, 100, -18.17);
             
-                this._scene.add(pointLight);
+            //     this._scene.add(pointLight);
             
-                const pointLightHelper = new THREE.PointLightHelper(pointLight, 10, helperColor);
-                this._scene.add(pointLightHelper);
-            }
+            //     const pointLightHelper = new THREE.PointLightHelper(pointLight, 10, 0xff0000);
+            //     this._scene.add(pointLightHelper);
+            // }
         
         _setupLight() {
             const ambientLight = new THREE.AmbientLight(0xffffff, 2);
@@ -3422,22 +3463,34 @@ _clearScene(scene) {
                 scene.add(ambientLight.clone());
             });
 
-            const shadowLight = new THREE.DirectionalLight(0xffffff, 2);
-            shadowLight.position.set(-1000, 1200, -2350);
-            shadowLight.target.position.set(50, 0, -1000);
+            const skyColor = 0xffffbb;  // 하늘색 (Sky)
+            const groundColor = 0x080820;  // 땅 색 (Ground)
+            const hemiLightIntensity = 1.5;
+            const hemisphereLight = new THREE.HemisphereLight(skyColor, groundColor, hemiLightIntensity);
+            this._scenes.forEach((scene) => {
+                scene.add(hemisphereLight.clone());
+            });
+
+            const shadowLight = new THREE.DirectionalLight(0xFFEFCF, 1.5);
+            shadowLight.position.set(1400, 2000, -1000);
+            shadowLight.target.position.set(0, 0, 0);
             shadowLight.castShadow = true;
-            shadowLight.shadow.mapSize.width = 1024;
-            shadowLight.shadow.mapSize.height = 1024;
+            shadowLight.shadow.mapSize.width = 2048;
+            shadowLight.shadow.mapSize.height = 2048;
             shadowLight.shadow.camera.top = shadowLight.shadow.camera.right = 5000;
             shadowLight.shadow.camera.bottom = shadowLight.shadow.camera.left = -5000;
-            shadowLight.shadow.camera.near = 100;
+            shadowLight.shadow.camera.near = 0.5;
             shadowLight.shadow.camera.far = 5000;
+
+            shadowLight.shadow.bias = -0.0005;
             shadowLight.shadow.radius = 2;
 
             // 모든 씬에 대해 반복문을 사용하여 방향성 조명을 추가
             this._scenes.forEach((scene) => {
                 scene.add(shadowLight.clone());
             });
+
+            // this._addPointLight(-665.43, 50, -18.17, 0x0038FF);
         }
             
             _previousDirectionOffset = 0;
