@@ -94,7 +94,7 @@ export function initThreeJS() {
             this._setupOctree();
 
             this._loadPlayerModel(); // 플레이어 모델 로드
-            this._switchScene(3);
+            this._switchScene(0);
             this._animate();
         
             this._camera.add(listener)
@@ -1738,6 +1738,8 @@ _clearScene(scene) {
                         teleportPlayer.call(this, new THREE.Vector3(6773, 6.99, -2626));
                         } else if (selectedObject.userData.type === 'fall_item_man') {
                         teleportPlayer.call(this, new THREE.Vector3(5993, 6.99, -7393));
+                        } else if (selectedObject.userData.type === 'library_game') {
+                        teleportPlayer.call(this, new THREE.Vector3(602, 7.25, 435.57));
                         
                     }
                         
@@ -3314,7 +3316,128 @@ _clearScene(scene) {
                         resetModal();
                     }.bind(this);
                 }.bind(this);
+
+                option2.onclick = function () {
+                    recordButton.onclick()
+                    talkBtnPromise.then(() => {
+                        let choose_answer = option2.textContent;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+
+                        console.log(choose_answer);
+                        console.log(getTalkBtn());
+
+                        if (getTalkBtn() === choose_answer) {
+                            buttonGroup.style.display = "none";
+                            dialogText.innerHTML = "정말 미안하구나. 아줌마가 실수했어. 다음에는 조심하도록 하마.";
+                            console.log(score);
+
+                            const rhig1Action = this._currentNPCAnimations['rightA'];
+        
+                            if (rhig1Action) {
+                                rhig1Action
+                                .reset()   // 상태 초기화
+                                .setEffectiveWeight(1) // 동작할 가중치 설정
+                                .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                                .play();   // 재생 시작
+                                
+                                console.log("Playing animations simultaneously.");
+                            } else {
+                                console.error("One or both animations not found in the animationsMap.");
+                            }
+                        
+                            
+                            document.getElementById('next').onclick = function () {
+                                casher.style.display = "none";
+                                buttonGroup.style.display = "none";
+                                resetModal();
+                                this._onDialogClosed();
+                                resetplayerposition.call(this);
+                            }.bind(this);
+                        } else {
+                            option2.onclick();
+                            // 선택이 맞지 않으면 다시 실행
+                        }
+                    });
+                }.bind(this)
+
+               
+
+                option3.onclick = function () {
+                    // dialogText.style.display = "block";
+                    // buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "어어.. 미안하구나. 물이 옷에 많이 묻었니?";
+
+                    const wron1Action = this._currentNPCAnimations['wrongA'];
+
+                    if (wron1Action) {
+                        wron1Action
+                        .reset()   // 상태 초기화
+                        .setEffectiveWeight(1) // 동작할 가중치 설정
+                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                        .play();   // 재생 시작
+                        console.log("Playing animations simultaneously.");
+                    } else {
+                        console.error("One or both animations not found in the animationsMap.");
+                    }
+                    tori_help.style.display = 'block'
+                    tori_help_p.innerHTML = "실수를 했다고 소리를 지르거나<br>상대방의 작은 실수에 크게 화를 내면<br>상대방과의 사이가 멀어질 수 있어.<br>상대방의 작은 실수도 너그럽게 받아들일 줄도 알아야 해.<br><br>다시 해보자.<br><br>"
+    
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
+                        score = score - 20;
+                        resetModal();
+                    }.bind(this);
+                }.bind(this);
                 
+               
+            } else if (npcType == '할머니') {
+
+                let score = 100;
+                function resetModal() {
+                    
+                    dialogText.innerHTML = "아가야, 할아버지 저쪽에 계시니?";
+                    option1.innerHTML = "응";
+                    option2.innerHTML = "잘 모르겠어요.";
+                    option3.innerHTML = "네, 저쪽방에 계세요!";
+                    dialogText.style.display = "block";
+                    document.getElementById('next').style.display = 'block'
+                    document.querySelectorAll('.choose button').forEach(function(button) {
+                        button.classList.remove('active');
+                    })
+                }
+                resetModal();
+                casher.style.display = "block";  
+
+                option1.onclick = function () {
+                    // dialogText.style.display = "block";
+                    // buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "으응, 그래서 어디 계시는데?";
+
+                    // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
+                    const wronn1Action = this._currentNPCAnimations['wrongA'];
+
+                    if (wronn1Action) {
+                        wronn1Action
+                        .reset()   // 상태 초기화
+                        .setEffectiveWeight(1) // 동작할 가중치 설정
+                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                        .play();   // 재생 시작
+                        
+                        console.log("Playing animations simultaneously.");
+                    } else {
+                        console.error("One or both animations not found in the animationsMap.");
+                    }
+                    tori_help.style.display = 'block'
+                    tori_help_p.innerHTML = "어른에게 대답할때는 존댓말을 써야지.<br>그리고 그 질문에는 더 구체적으로 대답해보는게 어때?<br>"
+    
+
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
+                        score = score - 20;
+                        resetModal();
+                    }.bind(this);
+                }.bind(this);
+
                 option2.onclick = function () {
                     recordButton.onclick()
                     talkBtnPromise.then(() => {
@@ -3402,125 +3525,8 @@ _clearScene(scene) {
                         }
                     });
                 }.bind(this)
-            } else if (npcType == '할머니') {
                 
-                dialogText.innerHTML = "할머니는 할아버지가 계신지 궁금하다.";
-                let score = 100;
-                function resetModal() {
-                    dialogText.innerHTML = "아가야, 할아버지 저쪽에 계시니?";
-                    option1.innerHTML = "응";
-                    option2.innerHTML = "잘 모르겠어요.";
-                    option3.innerHTML = "네, 저쪽방에 계세요!";
-                    dialogText.style.display = "block";
-                    document.getElementById('next').style.display = 'block'
-                    document.querySelectorAll('.choose button').forEach(function(button) {
-                        button.classList.remove('active');
-                    })
-                }
-                resetModal();
-                casher.style.display = "block";  
 
-                option1.onclick = function () {
-                    // dialogText.style.display = "block";
-                    // buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "으응, 그래서 어디 계시는데?";
-
-                    // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
-                    const wronn1Action = this._currentNPCAnimations['wrongA'];
-
-                    if (wronn1Action) {
-                        wronn1Action
-                        .reset()   // 상태 초기화
-                        .setEffectiveWeight(1) // 동작할 가중치 설정
-                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
-                        .play();   // 재생 시작
-                        
-                        console.log("Playing animations simultaneously.");
-                    } else {
-                        console.error("One or both animations not found in the animationsMap.");
-                    }
-                    tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "어른에게 대답할때는 존댓말을 써야지.<br>그리고 그 질문에는 더 구체적으로 대답해보는게 어때?<br>"
-    
-
-                    tori_next.onclick = function () {
-                    tori_help.style.display = 'none'
-                        score = score - 20;
-                        resetModal();
-                    }.bind(this);
-                }.bind(this);
-                
-                option2.onclick = function () {
-                    recordButton.onclick()
-                    talkBtnPromise.then(() => {
-                        let choose_answer = option2.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
-
-                        console.log(choose_answer);
-                        console.log(getTalkBtn());
-
-                        if (getTalkBtn() === choose_answer) {
-                            buttonGroup.style.display = "none";
-                            dialogText.innerHTML = "정말 미안하구나. 아줌마가 실수했어. 다음에는 조심하도록 하마.";
-                            console.log(score);
-
-                            const rhig1Action = this._currentNPCAnimations['rightA'];
-        
-                            if (rhig1Action) {
-                                rhig1Action
-                                .reset()   // 상태 초기화
-                                .setEffectiveWeight(1) // 동작할 가중치 설정
-                                .setLoop(THREE.LoopOnce, 1) // 1번만 재생
-                                .play();   // 재생 시작
-                                
-                                console.log("Playing animations simultaneously.");
-                            } else {
-                                console.error("One or both animations not found in the animationsMap.");
-                            }
-                        
-                            
-                            document.getElementById('next').onclick = function () {
-                                casher.style.display = "none";
-                                buttonGroup.style.display = "none";
-                                resetModal();
-                                this._onDialogClosed();
-                                resetplayerposition.call(this);
-                            }.bind(this);
-                        } else {
-                            option2.onclick();
-                            // 선택이 맞지 않으면 다시 실행
-                        }
-                    });
-                }.bind(this)
-
-               
-
-                option3.onclick = function () {
-                    // dialogText.style.display = "block";
-                    // buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "어어.. 미안하구나. 물이 옷에 많이 묻었니?";
-
-                    const wron1Action = this._currentNPCAnimations['wrongA'];
-
-                    if (wron1Action) {
-                        wron1Action
-                        .reset()   // 상태 초기화
-                        .setEffectiveWeight(1) // 동작할 가중치 설정
-                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
-                        .play();   // 재생 시작
-                        console.log("Playing animations simultaneously.");
-                    } else {
-                        console.error("One or both animations not found in the animationsMap.");
-                    }
-                    tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "실수를 했다고 소리를 지르거나<br>상대방의 작은 실수에 크게 화를 내면<br>상대방과의 사이가 멀어질 수 있어.<br>상대방의 작은 실수도 너그럽게 받아들일 줄도 알아야 해.<br><br>다시 해보자.<br><br>"
-    
-                    tori_next.onclick = function () {
-                    tori_help.style.display = 'none'
-                        score = score - 20;
-                        resetModal();
-                    }.bind(this);
-                }.bind(this);
             } else if (npcType == 'grandmother_child') {
     
                 dialogText.innerHTML = "종이 접기를 하는 6살 할머니 손녀, 모양새가 예쁘지 않다.";
