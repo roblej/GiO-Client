@@ -253,7 +253,16 @@ export function initThreeJS() {
                 } else if (npc.userData.type === 'grandmother_child') {
                     distance = 200;
                     cameraHeight = 110;
-                }
+                } else if (npc.userData.type === 'fountain') {
+                    distance = 1000;
+                    cameraHeight = 250;
+                } else if (npc.userData.type === 'warning') {
+                    distance = 500;
+                    cameraHeight = 250;
+                } else if (npc.userData.type === 'park_game') {
+                    distance = 180;
+                    cameraHeight = 130;
+                } 
 
 
                 // 카메라의 위치를 NPC의 위치에서 거리를 두고, y값을 cameraHeight로 설정합니다
@@ -756,10 +765,12 @@ _processAnimation() {
                         // 투명도 설정
                         child.visible = false;  // NavMesh를 보이지 않게 함
                     }
-                    if(child.name === "Fountain" || child.name ==='Cylinder003')
+                    if(child.name === "Fountain_1") {
+                        child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
                         child.userData.type = 'fountain';
-                    else if(child.name === "Warning"){
+                    } else if(child.name === "Warning"){
                         child.userData.type = 'warning';
+                        child.userData.isNPC = true; // 추가한 코드 NPC 속성 추가
                     }
                 });
 
@@ -1717,6 +1728,16 @@ _clearScene(scene) {
                         teleportPlayer.call(this, new THREE.Vector3(-446.25, 6.99, 349));
                         } else if (selectedObject.userData.type === '할머니') {
                         teleportPlayer.call(this, new THREE.Vector3(-611, 6.99, 642));
+                        } else if (selectedObject.userData.type === 'fountain') {
+                        teleportPlayer.call(this, new THREE.Vector3(3357, 6.99, 153.46));
+                        } else if (selectedObject.userData.type === 'warning') {
+                        teleportPlayer.call(this, new THREE.Vector3(3303, 6.99, -4114));
+                        } else if (selectedObject.userData.type === 'park_game') {
+                        teleportPlayer.call(this, new THREE.Vector3(4782, 6.99, -826));
+                        } else if (selectedObject.userData.type === 'fall_item') {
+                        teleportPlayer.call(this, new THREE.Vector3(6773, 6.99, -2626));
+                        } else if (selectedObject.userData.type === 'fall_item_man') {
+                        teleportPlayer.call(this, new THREE.Vector3(5993, 6.99, -7393));
                         
                     }
                         
@@ -2576,7 +2597,7 @@ _clearScene(scene) {
                                 resetplayerposition.call(this);
                             }.bind(this);
                         } else {
-                            option1.onclick();
+                            option2.onclick();
                             // 선택이 맞지 않으면 다시 실행
                         }
                     });
@@ -2986,7 +3007,7 @@ _clearScene(scene) {
                                 resetplayerposition.call(this);
                             }.bind(this);
                         } else {
-                            option1.onclick();
+                            option3.onclick();
                             // 선택이 맞지 않으면 다시 실행
                         }
                     });
@@ -3103,7 +3124,7 @@ _clearScene(scene) {
                                 resetplayerposition.call(this);
                             }.bind(this);
                         } else {
-                            option1.onclick();
+                            option3.onclick();
                             // 선택이 맞지 않으면 다시 실행
                         }
                     });
@@ -3249,100 +3270,544 @@ _clearScene(scene) {
 
             } else if (npcType == '부녀회장') {
     
-                // 대화 내용 업데이트
-                dialogText.innerHTML = "안녕..아이쿠!";
-    
-                // 각 선택지 업데이트
+                let score = 100;
                 function resetModal() {
+                    dialogText.innerHTML = "근처 화분에 물을 주고 계신다. 물이 조금 튀었다.";
                     option1.innerHTML = "물 튀었잖아요, 사과하세요!";
-                    option2.innerHTML = "괜찮아요, 많이 안튀었는걸요.";
+                    option2.innerHTML = "괜찮아요, 많이 안튀었는걸요";
                     option3.innerHTML = "아 짜증나! 물 튀기잖아요!";
-                    dialogText.style.display = "block";  // 텍스트를 보이게 함
-                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                    dialogText.style.display = "block";
+                    document.getElementById('next').style.display = 'block'
+                    document.querySelectorAll('.choose button').forEach(function(button) {
+                        button.classList.remove('active');
+                    })
                 }
-    
-                // 초기 상태로 모달 재설정
                 resetModal();
-    
-                casher.style.display = "block";
-    
-                option1.onclick = function () {
-                    console.log("첫 번째 선택지 선택됨");
-                    dialogText.style.display = "block";
-                    buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "어어..미안하구나. 물이 옷에 많이 묻었니?";
-                    this._onDialogClosed();
-                    resetplayerposition.call(this);
-                }.bind(this);
-    
-                option2.onclick = function () {
-                    console.log("두 번째 선택지 선택됨");
-                    dialogText.style.display = "block";
-                    buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "정말 미안하구나. 아줌마가 실수했어. 다음에는 조심하도록 하마.";
-                    this._onDialogClosed();
-                    resetplayerposition.call(this);
-                }.bind(this);
-    
-                option3.onclick = function () {
-                    console.log("세 번째 선택지 선택됨");
-                    dialogText.style.display = "block";
-                    buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "어어..미안하구나. 물이 옷에 많이 묻었니?";
-                    this._onDialogClosed();
-                    resetplayerposition.call(this);
-                }.bind(this);
+                casher.style.display = "block";  
 
+                option1.onclick = function () {
+                    // dialogText.style.display = "block";
+                    // buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "어어.. 미안하구나. 물이 옷에 많이 묻었니?";
+
+                    // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
+                    const wron1Action = this._currentNPCAnimations['wrongA'];
+
+                    if (wron1Action) {
+                        wron1Action
+                        .reset()   // 상태 초기화
+                        .setEffectiveWeight(1) // 동작할 가중치 설정
+                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                        .play();   // 재생 시작
+                        
+                        console.log("Playing animations simultaneously.");
+                    } else {
+                        console.error("One or both animations not found in the animationsMap.");
+                    }
+                    tori_help.style.display = 'block'
+                    tori_help_p.innerHTML = "상대방에게 화를 내면서 사과를 요구하면 <br>상대방과의 사이가 멀어질 수 있어.<br>상대방도 실수를 저질러 당황했을 거야.<br>그렇기 때문에 우리는 상대방의 작은 실수는 <br>너그럽게 받아들일 줄도 알아야 해.<br><br>다시 해보자.<br><br>"
+    
+
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
+                        score = score - 20;
+                        resetModal();
+                    }.bind(this);
+                }.bind(this);
+                
+                option2.onclick = function () {
+                    recordButton.onclick()
+                    talkBtnPromise.then(() => {
+                        let choose_answer = option2.textContent;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+
+                        console.log(choose_answer);
+                        console.log(getTalkBtn());
+
+                        if (getTalkBtn() === choose_answer) {
+                            buttonGroup.style.display = "none";
+                            dialogText.innerHTML = "그려? 한번 들어가봐야겠구나.";
+                            console.log(score);
+
+                            const righ1Action = this._currentNPCAnimations['rightA'];
+        
+                            if (righ1Action) {
+                                righ1Action
+                                .reset()   // 상태 초기화
+                                .setEffectiveWeight(1) // 동작할 가중치 설정
+                                .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                                .play();   // 재생 시작
+                                
+                                console.log("Playing animations simultaneously.");
+                            } else {
+                                console.error("One or both animations not found in the animationsMap.");
+                            }
+                        
+                            
+                            document.getElementById('next').onclick = function () {
+                                casher.style.display = "none";
+                                buttonGroup.style.display = "none";
+                                resetModal();
+                                this._onDialogClosed();
+                                resetplayerposition.call(this);
+                            }.bind(this);
+                        } else {
+                            option2.onclick();
+                            // 선택이 맞지 않으면 다시 실행
+                        }
+                    });
+                }.bind(this)
+
+               
+
+                option3.onclick = function () {
+                    recordButton.onclick()
+                    talkBtnPromise.then(() => {
+                        let choose_answer = option3.textContent;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+
+                        console.log(choose_answer);
+                        console.log(getTalkBtn());
+
+                        if (getTalkBtn() === choose_answer) {
+                            buttonGroup.style.display = "none";
+                            dialogText.innerHTML = "아이고, 그래? 한참을 찾았지 뭐니.";
+                            console.log(score);
+
+                            const righ1Action = this._currentNPCAnimations['rightA'];
+        
+                            if (righ1Action) {
+                                righ1Action
+                                .reset()   // 상태 초기화
+                                .setEffectiveWeight(1) // 동작할 가중치 설정
+                                .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                                .play();   // 재생 시작
+                                
+                                console.log("Playing animations simultaneously.");
+                            } else {
+                                console.error("One or both animations not found in the animationsMap.");
+                            }
+                        
+                            
+                            document.getElementById('next').onclick = function () {
+                                casher.style.display = "none";
+                                buttonGroup.style.display = "none";
+                                resetModal();
+                                this._onDialogClosed();
+                                resetplayerposition.call(this);
+                            }.bind(this);
+                        } else {
+                            option3.onclick();
+                            // 선택이 맞지 않으면 다시 실행
+                        }
+                    });
+                }.bind(this)
             } else if (npcType == '할머니') {
-    
-                // 대화 내용 업데이트
-                dialogText.innerHTML = "아가, 저쪽에 할아버지 계시니?";
-    
-                // 각 선택지 업데이트
+                
+                dialogText.innerHTML = "할머니는 할아버지가 계신지 궁금하다.";
+                let score = 100;
                 function resetModal() {
-                    option1.innerHTML = "응.";
+                    dialogText.innerHTML = "아가야, 할아버지 저쪽에 계시니?";
+                    option1.innerHTML = "응";
                     option2.innerHTML = "잘 모르겠어요.";
                     option3.innerHTML = "네, 저쪽방에 계세요!";
-                    dialogText.style.display = "block";  // 텍스트를 보이게 함
-                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                    dialogText.style.display = "block";
+                    document.getElementById('next').style.display = 'block'
+                    document.querySelectorAll('.choose button').forEach(function(button) {
+                        button.classList.remove('active');
+                    })
                 }
-    
-                // 초기 상태로 모달 재설정
                 resetModal();
-    
-                casher.style.display = "block";
-    
+                casher.style.display = "block";  
+
                 option1.onclick = function () {
-                    console.log("첫 번째 선택지 선택됨");
-                    dialogText.style.display = "block";
-                    buttonGroup.style.display = "none";
+                    // dialogText.style.display = "block";
+                    // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "으응, 그래서 어디 계시는데?";
-                    this._onDialogClosed();
-                    resetplayerposition.call(this);
-                }.bind(this);
+
+                    // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
+                    const wronn1Action = this._currentNPCAnimations['wrongA'];
+
+                    if (wronn1Action) {
+                        wronn1Action
+                        .reset()   // 상태 초기화
+                        .setEffectiveWeight(1) // 동작할 가중치 설정
+                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                        .play();   // 재생 시작
+                        
+                        console.log("Playing animations simultaneously.");
+                    } else {
+                        console.error("One or both animations not found in the animationsMap.");
+                    }
+                    tori_help.style.display = 'block'
+                    tori_help_p.innerHTML = "어른에게 대답할때는 존댓말을 써야지.<br>그리고 그 질문에는 더 구체적으로 대답해보는게 어때?<br>"
     
+
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
+                        score = score - 20;
+                        resetModal();
+                    }.bind(this);
+                }.bind(this);
+                
                 option2.onclick = function () {
-                    console.log("두 번째 선택지 선택됨");
-                    dialogText.style.display = "block";
-                    buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "그려? 한번 들어가봐야겠구나.";
-                    this._onDialogClosed();
-                    resetplayerposition.call(this);
-                }.bind(this);
-    
+                    recordButton.onclick()
+                    talkBtnPromise.then(() => {
+                        let choose_answer = option2.textContent;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+
+                        console.log(choose_answer);
+                        console.log(getTalkBtn());
+
+                        if (getTalkBtn() === choose_answer) {
+                            buttonGroup.style.display = "none";
+                            dialogText.innerHTML = "정말 미안하구나. 아줌마가 실수했어. 다음에는 조심하도록 하마.";
+                            console.log(score);
+
+                            const rhig1Action = this._currentNPCAnimations['rightA'];
+        
+                            if (rhig1Action) {
+                                rhig1Action
+                                .reset()   // 상태 초기화
+                                .setEffectiveWeight(1) // 동작할 가중치 설정
+                                .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                                .play();   // 재생 시작
+                                
+                                console.log("Playing animations simultaneously.");
+                            } else {
+                                console.error("One or both animations not found in the animationsMap.");
+                            }
+                        
+                            
+                            document.getElementById('next').onclick = function () {
+                                casher.style.display = "none";
+                                buttonGroup.style.display = "none";
+                                resetModal();
+                                this._onDialogClosed();
+                                resetplayerposition.call(this);
+                            }.bind(this);
+                        } else {
+                            option2.onclick();
+                            // 선택이 맞지 않으면 다시 실행
+                        }
+                    });
+                }.bind(this)
+
+               
+
                 option3.onclick = function () {
-                    console.log("세 번째 선택지 선택됨");
-                    dialogText.style.display = "block";
-                    buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "아이고, 그래? 한참을 찾았지 뭐니.";
-                    this._onDialogClosed();
-                    resetplayerposition.call(this);
+                    // dialogText.style.display = "block";
+                    // buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "어어.. 미안하구나. 물이 옷에 많이 묻었니?";
+
+                    const wron1Action = this._currentNPCAnimations['wrongA'];
+
+                    if (wron1Action) {
+                        wron1Action
+                        .reset()   // 상태 초기화
+                        .setEffectiveWeight(1) // 동작할 가중치 설정
+                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                        .play();   // 재생 시작
+                        console.log("Playing animations simultaneously.");
+                    } else {
+                        console.error("One or both animations not found in the animationsMap.");
+                    }
+                    tori_help.style.display = 'block'
+                    tori_help_p.innerHTML = "실수를 했다고 소리를 지르거나<br>상대방의 작은 실수에 크게 화를 내면<br>상대방과의 사이가 멀어질 수 있어.<br>상대방의 작은 실수도 너그럽게 받아들일 줄도 알아야 해.<br><br>다시 해보자.<br><br>"
+    
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
+                        score = score - 20;
+                        resetModal();
+                    }.bind(this);
                 }.bind(this);
             } else if (npcType == 'grandmother_child') {
     
+                dialogText.innerHTML = "종이 접기를 하는 6살 할머니 손녀, 모양새가 예쁘지 않다.";
+                let score = 100;
+                function resetModal() {
+                    dialogText.innerHTML = "내가 접은 학 이쁘지?";
+                    option1.innerHTML = "아니, 여기가 너무 구겨졌어.";
+                    option2.innerHTML = "내가 더 잘 해. 줘 봐!";
+                    option3.innerHTML = "잘 만들었다. 다음에 내 것도 접어줄래?";
+                    dialogText.style.display = "block";
+                    document.getElementById('next').style.display = 'block'
+                    document.querySelectorAll('.choose button').forEach(function(button) {
+                        button.classList.remove('active');
+                    })
+                }
+                resetModal();
+                casher.style.display = "block";  
+
+                option1.onclick = function () {
+                    // dialogText.style.display = "block";
+                    // buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "뭐? 그치만 열심히 접었는데..";
+
+                    // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
+                    const wronng1Action = this._currentNPCAnimations['wrongA'];
+
+                    if (wronng1Action) {
+                        wronng1Action
+                        .reset()   // 상태 초기화
+                        .setEffectiveWeight(1) // 동작할 가중치 설정
+                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                        .play();   // 재생 시작
+                        
+                        console.log("Playing animations simultaneously.");
+                    } else {
+                        console.error("One or both animations not found in the animationsMap.");
+                    }
+                    tori_help.style.display = 'block'
+                    tori_help_p.innerHTML = "다름 사람이 열심히 한 결과물에<br>잘못된 점을 먼저 짚는 것은<br>상대방을 기분 상하게 할 수 있어.<br><br>다르게 대답해보자.<br>"
+    
+
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
+                        score = score - 20;
+                        resetModal();
+                    }.bind(this);
+                }.bind(this);
+
+                option2.onclick = function () {
+                    // dialogText.style.display = "block";
+                    // buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "앗, 내가 접은건데!";
+
+                    const wronng1Action = this._currentNPCAnimations['wrongA'];
+
+                    if (wronng1Action) {
+                        wronng1Action
+                        .reset()   // 상태 초기화
+                        .setEffectiveWeight(1) // 동작할 가중치 설정
+                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                        .play();   // 재생 시작
+                        console.log("Playing animations simultaneously.");
+                    } else {
+                        console.error("One or both animations not found in the animationsMap.");
+                    }
+                    tori_help.style.display = 'block'
+                    tori_help_p.innerHTML = "다른 사람의 물건을 동의도 없이 가져가도 안되고<br>네가 잘할 수 있다고 해서<br>부탁도 없이 나서는건 좋지 않아.<br><br>다시 해보자.<br><br>"
+    
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
+                        score = score - 20;
+                        resetModal();
+                    }.bind(this);
+                }.bind(this);
+                
+                option3.onclick = function () {
+                    recordButton.onclick()
+                    talkBtnPromise.then(() => {
+                        let choose_answer = option3.textContent;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+
+                        console.log(choose_answer);
+                        console.log(getTalkBtn());
+
+                        if (getTalkBtn() === choose_answer) {
+                            buttonGroup.style.display = "none";
+                            dialogText.innerHTML = "좋아! 나중에 접어줄게.";
+                            console.log(score);
+
+                            const rhightt1Action = this._currentNPCAnimations['rightA'];
+        
+                            if (rightt1Action) {
+                                rhightt1Action
+                                .reset()   // 상태 초기화
+                                .setEffectiveWeight(1) // 동작할 가중치 설정
+                                .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                                .play();   // 재생 시작
+                                
+                                console.log("Playing animations simultaneously.");
+                            } else {
+                                console.error("One or both animations not found in the animationsMap.");
+                            }
+                        
+                            
+                            document.getElementById('next').onclick = function () {
+                                casher.style.display = "none";
+                                buttonGroup.style.display = "none";
+                                resetModal();
+                                this._onDialogClosed();
+                                resetplayerposition.call(this);
+                            }.bind(this);
+                        } else {
+                            option3.onclick();
+                            // 선택이 맞지 않으면 다시 실행
+                        }
+                    });
+                }.bind(this)
+
+               
+            // 공원
+
+
+            } else if(npcType == 'warning'){
+                // dialogText.innerHTML = "종이 접기를 하는 6살 할머니 손녀, 모양새가 예쁘지 않다.";
+                let score = 100;
+                function resetModal() {
+                    dialogText.innerHTML = "오리가 사는 호숫가에 오리 먹이 판매 100원 표지판이 있다.";
+                    option1.innerHTML = "(오리에게 100원을 준다.)";
+                    option2.innerHTML = "(오리 먹이가 100원에 판매된다.)";
+                    option3.innerHTML = "(주변의 잔디를 뜯어서 주자.)";
+                    dialogText.style.display = "block";
+                    document.getElementById('next').style.display = 'block'
+                    document.querySelectorAll('.choose button').forEach(function(button) {
+                        button.classList.remove('active');
+                    })
+                }
+                resetModal();
+                casher.style.display = "block";  
+
+                option1.onclick = function () {
+                    // dialogText.style.display = "block";
+                    // buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "...";
+
+                    // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
+                    
+                    tori_help.style.display = 'block'
+                    tori_help_p.innerHTML = "오리는 100원을 먹을 수 없어!<br><br>다시 생각해보자.<br>"
+    
+
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
+                        score = score - 20;
+                        resetModal();
+                    }.bind(this);
+                }.bind(this);
+
+                option2.onclick = function () {
+                    recordButton.onclick()
+                    talkBtnPromise.then(() => {
+                        let choose_answer = option2.textContent;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+
+                        console.log(choose_answer);
+                        console.log(getTalkBtn());
+
+                        if (getTalkBtn() === choose_answer) {
+                            buttonGroup.style.display = "none";
+                            dialogText.innerHTML = "...";
+                            console.log(score);
+
+                            tori_help.style.display = 'block'
+                            tori_help_p.innerHTML = "우리 오리먹이를 사서 오리한테 줘볼까?"
+                            
+                            document.getElementById('next').onclick = function () {
+                                casher.style.display = "none";
+                                buttonGroup.style.display = "none";
+                                resetModal();
+                                this._onDialogClosed();
+                                resetplayerposition.call(this);
+                            }.bind(this);
+                        } else {
+                            option2.onclick();
+                            // 선택이 맞지 않으면 다시 실행
+                        }
+                    });
+                }.bind(this)
+
+                option3.onclick = function () {
+                    // dialogText.style.display = "block";
+                    // buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "...";
+
+                    tori_help.style.display = 'block'
+                    tori_help_p.innerHTML = "공원의 잔디는 함부로 뜯으면 안돼!<br>식물을 훼손하는 짓은 좋은 행동이 아니야."
+    
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
+                        score = score - 20;
+                        resetModal();
+                    }.bind(this);
+                }.bind(this);
+
+            } else if(npcType == 'fountain'){
+                let score = 100;
+                function resetModal() {
+                    dialogText.innerHTML = "안내: 분수대 안에 동전을 던지지 마세요.";
+                    option1.innerHTML = "분수대 안에 들어가서 물장구 치자.";
+                    option2.innerHTML = "와, 분수대가 멋지고 시원하다.";
+                    option3.innerHTML = "물수제비 해볼까? 돌을 던져보자.";
+                    dialogText.style.display = "block";
+                    document.getElementById('next').style.display = 'block'
+                    document.querySelectorAll('.choose button').forEach(function(button) {
+                        button.classList.remove('active');
+                    })
+                }
+                resetModal();
+                casher.style.display = "block";  
+
+                option1.onclick = function () {
+                    // dialogText.style.display = "block";
+                    // buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "...";
+
+                    // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
+                    
+                    tori_help.style.display = 'block'
+                    tori_help_p.innerHTML = "이 분수대는 조경용이지<br>안에서 놀라고 만들어진 곳이 아니야.<br> 다시 생각해보자.<br>"
+    
+
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
+                        score = score - 20;
+                        resetModal();
+                    }.bind(this);
+                }.bind(this);
+
+                option2.onclick = function () {
+                    recordButton.onclick()
+                    talkBtnPromise.then(() => {
+                        let choose_answer = option2.textContent;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+
+                        console.log(choose_answer);
+                        console.log(getTalkBtn());
+
+                        if (getTalkBtn() === choose_answer) {
+                            buttonGroup.style.display = "none";
+                            dialogText.innerHTML = "...";
+                            console.log(score);
+
+                            tori_help.style.display = 'block'
+                            tori_help_p.innerHTML = "우리 오리먹이를 사서 오리한테 줘볼까?"
+                            
+                            document.getElementById('next').onclick = function () {
+                                casher.style.display = "none";
+                                buttonGroup.style.display = "none";
+                                resetModal();
+                                this._onDialogClosed();
+                                resetplayerposition.call(this);
+                            }.bind(this);
+                        } else {
+                            option2.onclick();
+                            // 선택이 맞지 않으면 다시 실행
+                        }
+                    });
+                }.bind(this)
+
+                option3.onclick = function () {
+                    // dialogText.style.display = "block";
+                    // buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "...";
+
+                    tori_help.style.display = 'block'
+                    tori_help_p.innerHTML = "공원의 잔디는 함부로 뜯으면 안돼!<br>식물을 훼손하는 짓은 좋은 행동이 아니야."
+    
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
+                        score = score - 20;
+                        resetModal();
+                    }.bind(this);
+                }.bind(this);
+
+            } else if(npcType == 'fall_item'){
                 // 대화 내용 업데이트
                 dialogText.innerHTML = "내가 접은 학 이쁘지?";
-    
+
                 // 각 선택지 업데이트
                 function resetModal() {
                     option1.innerHTML = "아니. 이 부분은 너무 구겨졌어.";
@@ -3383,99 +3848,51 @@ _clearScene(scene) {
                     this._onDialogClosed();
                     resetplayerposition.call(this);
                 }.bind(this);
-                
+            } else if(npcType == 'fall_item_man'){ // 물건 떨군 맨
+                // 대화 내용 업데이트
+                dialogText.innerHTML = "내가 접은 학 이쁘지?";
 
-            } else if(npcType == 'warning'){
-                console.log('warning')
-                 // 대화 내용 업데이트
-                 dialogText.innerHTML = "내가 접은 학 이쁘지?";
+                // 각 선택지 업데이트
+                function resetModal() {
+                    option1.innerHTML = "아니. 이 부분은 너무 구겨졌어.";
+                    option2.innerHTML = "내가 더 잘 해. 줘 봐!";
+                    option3.innerHTML = "잘 만들었다. 다음에 내 것도 접어줄래?";
+                    dialogText.style.display = "block";  // 텍스트를 보이게 함
+                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                }
     
-                 // 각 선택지 업데이트
-                 function resetModal() {
-                     option1.innerHTML = "아니. 이 부분은 너무 구겨졌어.";
-                     option2.innerHTML = "내가 더 잘 해. 줘 봐!";
-                     option3.innerHTML = "잘 만들었다. 다음에 내 것도 접어줄래?";
-                     dialogText.style.display = "block";  // 텍스트를 보이게 함
-                     buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
-                 }
-     
-                 // 초기 상태로 모달 재설정
-                 resetModal();
-     
-                 casher.style.display = "block";
-     
-                 option1.onclick = function () {
-                     console.log("첫 번째 선택지 선택됨");
-                     dialogText.style.display = "block";
-                     buttonGroup.style.display = "none";
-                     dialogText.innerHTML = "뭐? 그치만 열심히 접었는데..";
-                     this._onDialogClosed();
-                     resetplayerposition.call(this);
-                 }.bind(this);
-     
-                 option2.onclick = function () {
-                     console.log("두 번째 선택지 선택됨");
-                     dialogText.style.display = "block";
-                     buttonGroup.style.display = "none";
-                     dialogText.innerHTML = "앗, 내가 접은건데!!";
-                     this._onDialogClosed();
-                     resetplayerposition.call(this);
-                 }.bind(this);
-     
-                 option3.onclick = function () {
-                     console.log("세 번째 선택지 선택됨");
-                     dialogText.style.display = "block";
-                     buttonGroup.style.display = "none";
-                     dialogText.innerHTML = "좋아! 나중에 접어줄게.";
-                     this._onDialogClosed();
-                     resetplayerposition.call(this);
-                 }.bind(this);
-            } else if(npcType == 'fountain'){
-                console.log('fountain')
-                 // 대화 내용 업데이트
-                 dialogText.innerHTML = "내가 접은 학 이쁘지?";
+                // 초기 상태로 모달 재설정
+                resetModal();
     
-                 // 각 선택지 업데이트
-                 function resetModal() {
-                     option1.innerHTML = "아니. 이 부분은 너무 구겨졌어.";
-                     option2.innerHTML = "내가 더 잘 해. 줘 봐!";
-                     option3.innerHTML = "잘 만들었다. 다음에 내 것도 접어줄래?";
-                     dialogText.style.display = "block";  // 텍스트를 보이게 함
-                     buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
-                 }
-     
-                 // 초기 상태로 모달 재설정
-                 resetModal();
-     
-                 casher.style.display = "block";
-     
-                 option1.onclick = function () {
-                     console.log("첫 번째 선택지 선택됨");
-                     dialogText.style.display = "block";
-                     buttonGroup.style.display = "none";
-                     dialogText.innerHTML = "뭐? 그치만 열심히 접었는데..";
-                     this._onDialogClosed();
-                     resetplayerposition.call(this);
-                 }.bind(this);
-     
-                 option2.onclick = function () {
-                     console.log("두 번째 선택지 선택됨");
-                     dialogText.style.display = "block";
-                     buttonGroup.style.display = "none";
-                     dialogText.innerHTML = "앗, 내가 접은건데!!";
-                     this._onDialogClosed();
-                     resetplayerposition.call(this);
-                 }.bind(this);
-     
-                 option3.onclick = function () {
-                     console.log("세 번째 선택지 선택됨");
-                     dialogText.style.display = "block";
-                     buttonGroup.style.display = "none";
-                     dialogText.innerHTML = "좋아! 나중에 접어줄게.";
-                     this._onDialogClosed();
-                     resetplayerposition.call(this);
-                 }.bind(this);
-            }
+                casher.style.display = "block";
+    
+                option1.onclick = function () {
+                    console.log("첫 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "뭐? 그치만 열심히 접었는데..";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+    
+                option2.onclick = function () {
+                    console.log("두 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "앗, 내가 접은건데!!";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+    
+                option3.onclick = function () {
+                    console.log("세 번째 선택지 선택됨");
+                    dialogText.style.display = "block";
+                    buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "좋아! 나중에 접어줄게.";
+                    this._onDialogClosed();
+                    resetplayerposition.call(this);
+                }.bind(this);
+            } 
     
             if (npcType === "tp") {
                 // 캐릭터의 새 위치 설정
