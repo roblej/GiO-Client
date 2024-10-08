@@ -116,6 +116,8 @@ import {getSTTutorial} from './event.js';
 
                         document.querySelector('.left .next_btn').onclick = function () {
                             document.querySelector('.left p').innerHTML = '스티커북을 눌러<br> 확인해보자!'
+                            document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/209.png')";
+
 
                              // 17.mp3 중지, 18.mp3 재생
                             audioElement.pause();
@@ -142,9 +144,11 @@ import {getSTTutorial} from './event.js';
                                 const audioElement19 = document.createElement('audio');
                                 audioElement.src = './data/audio/19.mp3';  // 19.mp3 파일 경로
                                 audioElement.play();
-
+                                  
+                                document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/214.png')";
                                 document.querySelector('.tori_help .next_btn').onclick = function () {
                                         document.querySelector('.tori_help p').innerHTML = '<파란 공> 스티커 외에<br>다른 스티커도 획득 할 수 있어!'
+                                  document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/215.png')";
                                         
                                         // 19.mp3 중지, 20.mp3 재생
                                         audioElement.pause();
@@ -173,6 +177,7 @@ import {getSTTutorial} from './event.js';
                                                 document.querySelector('.tori_help').style.display = 'none'
                                                 document.querySelector('.left').style.display = 'block'
                                                 document.querySelector('.left p').innerHTML = '이 스티커는 다른 장소로<br>이동하면 얻을 수 있는<br>스티커같아.'
+                                                document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/218.png')";
                                                 
                                                 // 21.mp3 중지, 22.mp3 재생
                                                 audioElement.pause();
@@ -196,6 +201,7 @@ import {getSTTutorial} from './event.js';
                                                     audioElement.play();
                                                     document.querySelector('.left .next_btn').onclick = function () {
                                                         document.querySelector('.left p').innerHTML = '노란색 X 책갈피를 누르면<br>마이페이지를 나갈 수 있어!'
+                                                        document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/220.png')";
                                                         setSTTutorial('false');
                                                         
                                                         // 23.mp3 중지, 24.mp3 재생
