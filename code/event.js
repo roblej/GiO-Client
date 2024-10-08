@@ -320,41 +320,48 @@ document.addEventListener('DOMContentLoaded', function () {
       tuto_btn.addEventListener('click', function () {
         audioElement.pause();
         audioElement.currentTime = 0; // 음성을 처음부터 재생하도록 설정
-        tori.style.display = 'none';
-        tori_text_box.style.display = 'none';
-        document.querySelector('.namebox').style.display = 'flex';
+        tori_text.innerHTML = '너와 GiO를 다니기 전에 너의 이름을 알고 싶어! 이름을 알려줄래?';
+        audioElement.src = './data/audio/3.mp3';  // 2.wav 파일로 변경
+        audioElement.play();
+        tuto_btn.addEventListener('click', function () {
+          audioElement.pause();
+          audioElement.currentTime = 0; // 음성을 처음부터 재생하도록 설정
+          tori.style.display = 'none';
+          tori_text_box.style.display = 'none';
+          document.querySelector('.namebox').style.display = 'flex';
 
-        // 이름 확인 버튼 클릭 이벤트 리스너
-        confirmbtn.addEventListener('click', function () {
-          console.log('이름 확인 버튼 클릭됨');
+          // 이름 확인 버튼 클릭 이벤트 리스너
+          confirmbtn.addEventListener('click', function () {
+            console.log('이름 확인 버튼 클릭됨');
 
-          // 입력된 이름 가져오기
-          const name = document.getElementById("name_input").value;
+            // 입력된 이름 가져오기
+            const name = document.getElementById("name_input").value;
 
-          // namebox 숨기고, 토리 텍스트 박스와 토리 다시 표시
-          document.querySelector('.namebox').style.display = 'none';
-          tori_text_box.style.display = 'block';
-          tori.style.display = 'block';
+            // namebox 숨기고, 토리 텍스트 박스와 토리 다시 표시
+            document.querySelector('.namebox').style.display = 'none';
+            tori_text_box.style.display = 'block';
+            tori.style.display = 'block';
 
-          // 입력된 이름을 텍스트에 반영
-          tori_text.innerHTML = `아하? 너의 이름은 ${name}구나! 좋아! GiO 세계에 온 걸 환영해!<br>네가 GiO에 적응할 수 있도록 최선을 다할게. 우선 학교에 가볼까?`;
+            // 입력된 이름을 텍스트에 반영
+            tori_text.innerHTML = `아하? 너의 이름은 ${name}구나! 좋아! GiO 세계에 온 걸 환영해!<br>네가 GiO에 적응할 수 있도록 최선을 다할게. 우선 학교에 가볼까?`;
 
-          // 첫 번째 음성 파일 4.mp3 설정 및 재생
-          audioElement.src = './data/audio/4.mp3';
-          audioElement.play();
+            // 첫 번째 음성 파일 4.mp3 설정 및 재생
+            audioElement.src = './data/audio/4.mp3';
+            audioElement.play();
 
-          // 맵 관련 버튼 표시
-          tuto_btn.addEventListener('click', function () {
-            document.querySelector('.map_intro').style.display = 'none';
-            document.getElementById("BtnMaps").style.display = "flex";
-            document.getElementById("shadow").style.display = "block";
-            document.querySelector('.tori_help').style.display = 'block';
-            
-            log_map_tutorial = 'false'
-            audioElement.pause(); // 이전에 재생 중인 음성을 멈춤
-            audioElement.currentTime = 0; // 음성을 처음부터 재생하도록 설정
-            audioElement.src = './data/audio/6.mp3'; // 6.mp3 설정
-            audioElement.play(); // 6.mp3 재생
+            // 맵 관련 버튼 표시
+            tuto_btn.addEventListener('click', function () {
+              document.querySelector('.map_intro').style.display = 'none';
+              document.getElementById("BtnMaps").style.display = "flex";
+              document.getElementById("shadow").style.display = "block";
+              document.querySelector('.tori_help').style.display = 'block';
+              
+              log_map_tutorial = 'false'
+              audioElement.pause(); // 이전에 재생 중인 음성을 멈춤
+              audioElement.currentTime = 0; // 음성을 처음부터 재생하도록 설정
+              audioElement.src = './data/audio/6.mp3'; // 6.mp3 설정
+              audioElement.play(); // 6.mp3 재생
+            });
           });
         });
       });
