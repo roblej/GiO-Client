@@ -93,7 +93,7 @@ export function initThreeJS() {
             this._setupOctree();
 
             this._loadPlayerModel(); // 플레이어 모델 로드
-            this._switchScene(0);
+            this._switchScene(4);
             this._animate();
         
             this._camera.add(listener)
@@ -2713,74 +2713,163 @@ _clearScene(scene) {
                 }.bind(this);
             } else if (npcType == 'grandfather') {
     
-                // 대화 내용 업데이트
-                dialogText.innerHTML = "(귀가 잘 안들리는 할아버지이시다.)";
-    
-                // 각 선택지 업데이트
+                let score = 100;
+
                 function resetModal() {
-                    option1.innerHTML = "안녕하세요.";
-                    option2.innerHTML = "";
-                    option3.innerHTML = "";
-                    option2.style.display = 'none';
-                    option3.style.display = 'none';
-                    dialogText.style.display = "block";  // 텍스트를 보이게 함
-                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                    dialogText.innerHTML = "(귀가 잘 안들리는 할아버지이시다.)";  // 초기 대화 내용
+                    option1.innerHTML = "안녕하세요.";  // 첫 번째 선택지
+                    option2.style.display = 'none';  // 두 번째 선택지는 숨김
+                    option3.style.display = 'none';  // 세 번째 선택지도 숨김
+                    dialogText.style.display = "block";  // 대화창을 보이게 설정
+                    document.getElementById('next').style.display = 'block';  // 'next' 버튼 보이기
+                    document.querySelectorAll('.choose button').forEach(function(button) {
+                        button.classList.remove('active');
+                    });
+                    buttonGroup.style.display = "none";  // 버튼 그룹은 초기엔 숨김
                 }
-    
-                // 초기 상태로 모달 재설정
+
                 resetModal();
-    
                 casher.style.display = "block";
-                var scene1 = 0
-                // 각 선택지 클릭 시 동작
+
+                let scene1 = 0;
+
                 option1.onclick = function () {
-                    if (scene1 == 0) {
-                        console.log("첫 번째 선택지 선택됨");
+                    if (scene1 === 0) {
                         document.querySelectorAll('.choose button').forEach(function(button) {
                             button.classList.remove('active');
-                        })
-                        dialogText.style.display = "block";
-                        buttonGroup.style.display = "none";
-                        dialogText.innerHTML = "....응? 뭐라고?";
-                        resetModal2();
-                        
-                        scene1++;
+                        });
+                        // 첫 번째 대화 내용과 선택지 변화
+                        dialogText.innerHTML = "....응? 뭐라고?";  // 할아버지의 응답
+                        option1.innerHTML = "(큰목소리로) 안녕하세요!!";
+                        option2.innerHTML = "아 할아버지 귀가 안들리시나봐.";
+                        option3.innerHTML = "(큰목소리로) 안녕이라고!";
+                        option2.style.display = 'block';  // 두 번째 선택지 보이기
+                        option3.style.display = 'block';  // 세 번째 선택지 보이기
+                        scene1++;  // scene 상태 증가
                     } else {
-                        console.log("첫 번째 선택지 선택됨");
-                        dialogText.style.display = "block";
-                        buttonGroup.style.display = "none";
-                        dialogText.innerHTML = "어 그래.. 안녕하구나";
-                        this._onDialogClosed();
-                        resetplayerposition.call(this);
+                        // 두 번째 대화 내용
+                    recordButton.onclick()
+                    talkBtnPromise.then(() => {
+                        let choose_answer = option1.textContent;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+
+                        console.log(choose_answer);
+                        console.log(getTalkBtn());
+
+                        if (getTalkBtn() === choose_answer) {
+                            buttonGroup.style.display = "none";
+                            dialogText.innerHTML = "정말 미안하구나. 아줌마가 실수했어. 다음에는 조심하도록 하마.";
+                            console.log(score);
+                            
+                            document.getElementById('next').onclick = function () {
+                                casher.style.display = "none";
+                                buttonGroup.style.display = "none";
+                                resetModal();
+                                this._onDialogClosed();
+                                resetplayerposition.call(this);
+                            }.bind(this);
+                        } else {
+                            option1.onclick();
+                            // 선택이 맞지 않으면 다시 실행
+                        }
+                    });
                     }
                 }.bind(this);
 
                 function resetModal2() {
-                    option1.innerHTML = "(큰목소리로) 안녕하세요!!.";
-                    option2.innerHTML = "(같은 목소리로) 안녕하세요.";
+                    option1.innerHTML = "안녕하세요!!";  // 첫 번째 선택지
+                    option2.innerHTML = "아 할아버지 귀가 안들리시나봐.";
                     option3.innerHTML = "(큰목소리로) 안녕이라고!";
-                    option2.style.display = 'block';
-                    option3.style.display = 'block';
-                    dialogText.style.display = "block";  // 텍스트를 보이게 함
-                    buttonGroup.style.display = "none";  // 버튼 그룹을 숨김
+                    option2.style.display = 'block';  // 두 번째 선택지 보이기
+                    option3.style.display = 'block';  // 세 번째 선택지 보이기
+                    dialogText.style.display = "block";  // 대화창을 보이게 설정
+                    document.getElementById('next').style.display = 'block';  // 'next' 버튼 보이기
+                    document.querySelectorAll('.choose button').forEach(function(button) {
+                        button.classList.remove('active');
+                    });
+                    // buttonGroup.style.display = "none";  // 버튼 그룹은 초기엔 숨김
                     count = 0;
                 }
+
                 option2.onclick = function () {
-                    console.log("두 번째 선택지 선택됨");
-                    dialogText.style.display = "block";
-                    buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "잘 안들린단다 얘야";
-                    this._onDialogClosed();
-                    resetplayerposition.call(this);
+                    // dialogText.style.display = "block";
+                    // buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "으응? 뭐라고?";
+                    //여기부터 애니메이션 예시
+                    const wrrrrongg1Action = this._currentNPCAnimations['wrongA1'];
+                    const wrrrrongg2Action = this._currentNPCAnimations['wrongB'];
+        
+                    if (wrrrrongg1Action && wrrrrongg2Action) {
+                        wrrrrongg1Action
+                        .reset()   // 상태 초기화
+                        .setEffectiveWeight(1) // 동작할 가중치 설정
+                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                        .play();   // 재생 시작
+                        
+                        wrrrrongg2Action
+                        .reset()   // 상태 초기화
+                        .setEffectiveWeight(1) // 동작할 가중치 설정
+                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                        .play();   // 재생 시작
+                        console.log("Playing animations simultaneously.");
+                    } else {
+                        console.error("One or both animations not found in the animationsMap.");
+                    }
+                    //여기까지
+                    // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
+                    tori_help.style.display = 'block'
+                    tori_help_p.innerHTML = "귀가 안좋으시다고 그런식으로 말하면<br>예의에 어긋나는 말이야.<br><br>다시 해보자."
+                    const audioElement = document.createElement('audio');
+                    audioElement.src = './data/audio/학습지도15.mp3';  // 학습지도15.mp3 파일 경로
+                    audioElement.play();  // 학습지도15.mp3 파일 재생
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
+                        score = score - 20;
+                        resetModal2();
+                        audioElement.pause();
+                        audioElement.currentTime = 0;
+                    }.bind(this);
                 }.bind(this);
-    
+
                 option3.onclick = function () {
-                    console.log("세 번째 선택지 선택됨");
-                    dialogText.style.display = "block";
-                    buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "어린노무자식이 싸가지없게!";
-                    this._onDialogClosed();
-                    resetplayerposition.call(this);
+                    // dialogText.style.display = "block";
+                    // buttonGroup.style.display = "none";
+                    dialogText.innerHTML = "아이쿠 녀석, 그래 안녕~";
+                    //여기부터 애니메이션 예시
+
+                    const wrrrrongg1Action = this._currentNPCAnimations['wrongA1'];
+                    const wrrrrongg3Action = this._currentNPCAnimations['wrongA2'];
+
+                    if (wrrrrongg1Action && wrrrrongg3Action) {
+                        wrrrrongg1Action
+                        .reset()   // 상태 초기화
+                        .setEffectiveWeight(1) // 동작할 가중치 설정
+                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                        .play();   // 재생 시작
+                        
+                        wrrrrongg3Action
+                        .reset()   // 상태 초기화
+                        .setEffectiveWeight(1) // 동작할 가중치 설정
+                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                        .play();   // 재생 시작
+                        console.log("Playing animations simultaneously.");
+                    } else {
+                        console.error("One or both animations not found in the animationsMap.");
+                    }
+                    //여기까지
+                    // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
+                    tori_help.style.display = 'block'
+                    tori_help_p.innerHTML = "어르신분들께 예의를 갖추어야 해. <br>소리를 잘 못 들으신다고 타박하듯이 <br>이야기하면 상대방이 곤란해할 수 있어. <br><br>다시 해보자.<br><br>"
+                    const audioElement = document.createElement('audio');
+                    audioElement.src = './data/audio/학습지도16.mp3';  // 학습지도16.mp3 파일 경로
+                    audioElement.play();  // 학습지도16.mp3 파일 재생
+                    tori_next.onclick = function () {
+                    tori_help.style.display = 'none'
+                        score = score - 20;
+                        resetModal2();
+                        audioElement.pause();
+                        audioElement.currentTime = 0;
+                    }.bind(this);
                 }.bind(this);
             } else if (npcType === "library_game") {
                 game_name = "Library";
