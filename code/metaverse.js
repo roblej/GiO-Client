@@ -457,6 +457,7 @@ _processAnimation() {
                             if (child.isMesh) {
                                 child.userData.type = 'friend_crash';
                                 child.userData.anim = animationsMap
+                                child.userData.name = '지나가는 친구'
                             }
                         });
                         npc.userData.animationsMap = animationsMap;
@@ -504,6 +505,7 @@ _processAnimation() {
                             if (child.isMesh) {
                                 child.userData.type = 'friend_hurt';
                                 child.userData.anim = animationsMap
+                                child.userData.name = '주저 앉아있는 친구'
                             }
                         });
                         npc.userData.animationsMap = animationsMap;
@@ -552,6 +554,7 @@ _processAnimation() {
                             if (child.isMesh) {
                                 child.userData.type = 'teacher';
                                 child.userData.anim = animationsMap
+                                child.userData.name = '선생님'
                             }
                         });
                         // 애니메이션 믹서 설정
@@ -600,6 +603,7 @@ _processAnimation() {
                             if (child.isMesh) {
                                 child.userData.type = 'rector';
                                 child.userData.anim = animationsMap
+                                child.userData.name = '교장선생님'
                             }
                         });
                         npc.userData.animationsMap = animationsMap;
@@ -651,6 +655,7 @@ _processAnimation() {
                              if (child.isMesh) {
                                  child.userData.type = 'game_friend';
                                  child.userData.anim = animationsMap
+                                 child.userData.name = '공놀이를 하던 친구'
                              }
                          });
                         npc.userData.animationsMap = animationsMap;
@@ -754,12 +759,16 @@ _processAnimation() {
                     }
                     if (child.isMesh && child.name === 'NavMesh') {  // 특정 이름의 Mesh를 찾음
                         // 투명도 설정
-                        child.visible = false;  // NavMesh를 보이지 않게 함
+                        // child.visible = false;  // NavMesh를 보이지 않게 함
                     }
-                    if(child.name === "Fountain" || child.name ==='Cylinder003')
+                    if (child.name === "Fountain" || child.name === 'Cylinder003') {
+                        
                         child.userData.type = 'fountain';
+                        child.userData.name = '분수대';
+                    }
                     else if(child.name === "Warning"){
                         child.userData.type = 'warning';
+                        child.userData.name = '경고표지판'
                     }
                 });
 
@@ -790,6 +799,7 @@ _processAnimation() {
                     if (child.isMesh) {
                         child.userData.type = 'fall_item';
                         child.userData.anim = animationsMap
+                        child.userData.name = '물건을 떨어뜨린 사람'
                     }
                 });
                 npc.userData.animationsMap = animationsMap;
@@ -837,6 +847,7 @@ _processAnimation() {
                 if (child.isMesh) {
                     child.userData.type = 'fall_item_man';
                     child.userData.anim = animationsMap
+                    child.userData.name = '산책중인 아저씨'
                 }
             });
             npc.userData.animationsMap = animationsMap;
@@ -884,6 +895,7 @@ _processAnimation() {
             if (child.isMesh) {
                 child.userData.type = 'park_game';
                 child.userData.anim = animationsMap
+                child.userData.name = '화가'
             }
         });
         npc.userData.animationsMap = animationsMap;
@@ -961,6 +973,7 @@ _processAnimation() {
                     if (child.isMesh) {
                         child.userData.type = 'grandfather';
                         child.userData.anim = animationsMap
+                        child.userData.name = '할아버지'
                     }
                 });
                 npc.userData.animationsMap = animationsMap;
@@ -1008,6 +1021,7 @@ _processAnimation() {
                         if (child.isMesh) {
                             child.userData.type = '부녀회장';
                             child.userData.anim = animationsMap
+                            child.userData.name = '부녀회장'
                         }
                     });
                     npc.userData.animationsMap = animationsMap;
@@ -1055,6 +1069,7 @@ _processAnimation() {
                         if (child.isMesh) {
                             child.userData.type = '할머니';
                             child.userData.anim = animationsMap
+                            child.userData.name = '할머니'
                         }
                     });
                     npc.userData.animationsMap = animationsMap;
@@ -1102,6 +1117,7 @@ _processAnimation() {
                         if (child.isMesh) {
                             child.userData.type = 'grandmother_child';
                             child.userData.anim = animationsMap
+                            child.userData.name = '할머니의 손녀'
                         }
                     });
                     npc.userData.animationsMap = animationsMap;
@@ -1149,6 +1165,7 @@ _processAnimation() {
                     if (child.isMesh) {
                         child.userData.type = 'town_chief';
                         child.userData.anim = animationsMap
+                        child.userData.name = '이장'
                     }
                 });
                 npc.userData.animationsMap = animationsMap;
@@ -1225,6 +1242,7 @@ _processAnimation() {
                 if (child.isMesh) {
                     child.userData.type = 'book_friend';
                     child.userData.anim = animationsMap
+                    child.userData.name = '책을 꺼내는 어린이'
                 }
             });
             npc.userData.animationsMap = animationsMap;
@@ -1272,6 +1290,7 @@ _processAnimation() {
                if (child.isMesh) {
                    child.userData.type = 'library_searching';
                    child.userData.anim = animationsMap
+                   child.userData.name = '독서검색대를 이용하는 사람'
                }
            });
             npc.userData.animationsMap = animationsMap;
@@ -1319,6 +1338,7 @@ _processAnimation() {
                 if (child.isMesh) {
                     child.userData.type = 'glass';
                     child.userData.anim = animationsMap
+                    child.userData.name = '안경을 떨어뜨린 학생'
                 }
             });
             npc.userData.animationsMap = animationsMap;
@@ -1366,6 +1386,7 @@ _processAnimation() {
                 if (child.isMesh) {
                     child.userData.type = 'read';
                     child.userData.anim = animationsMap
+                    child.userData.name = '책 읽는 사람'
                 }
             });
             npc.userData.animationsMap = animationsMap;
@@ -1413,6 +1434,7 @@ _processAnimation() {
                if (child.isMesh) {
                    child.userData.type = 'library_game';
                    child.userData.anim = animationsMap
+                   child.userData.name = '사서'
                }
            });
             npc.userData.animationsMap = animationsMap;
@@ -1733,7 +1755,8 @@ _clearScene(scene) {
                             console.log(selectedObject)
                             const animationsMap = selectedObject.userData.anim;
                             this._currentNPCAnimations = animationsMap;
-
+                            const name = selectedObject.userData.name;
+                            this._name = name;
                             this._focusOnNPC(selectedObject);
                             // this._showNpcDialog(selectedObject);
                             // const embarrassed01Action = animationsMap['embarrassed01'];
@@ -1949,7 +1972,7 @@ _clearScene(scene) {
             // }.bind(this);
 
             for (var i = 0; i < npc_name.length; i++) {
-                npc_name[i].innerHTML = npcType;
+                npc_name[i].innerHTML = this._name;
             }
             speechText.onclick = function () {;
                 buttonGroup.style.display = "flex";
@@ -2082,7 +2105,9 @@ _clearScene(scene) {
                             }
 
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "상대방이 인사 했을 때는 너도 인사를 해야해. <br>다른 사람을 대하는 기본적인 예의야. <br><br>다시 해보자.<br><br>"
+                    if (getTalkTutorial() === 'true') {
+                        tori_help_p.innerHTML = "음... 방금 네 행동은<br>선생님께 실례되는 행동이야.<br>선생님과 제대로 마주보고, 인사드려야 해.<br>다시 해볼까?"
+                    }else tori_help_p.innerHTML = "상대방이 인사 했을 때는 너도 인사를 해야해. <br>다른 사람을 대하는 기본적인 예의야. <br><br>다시 해보자.<br><br>"
                     
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
@@ -2118,7 +2143,9 @@ _clearScene(scene) {
                     //여기까지
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                         tori_help.style.display = 'block'
-                        tori_help_p.innerHTML = " 다른 사람이 인사를 건넸을 때는<br>먼저 인사를 하고, 그 후에 궁금한 점을 <br>물어보는 것이 자연스럽고 예의바른 <br>대화 방식이야.<br><br>다시 해보자."
+                        if (getTalkTutorial() === 'true') {
+                        tori_help_p.innerHTML = "음... 방금 네 행동은<br>선생님께 실례되는 행동이야.<br>선생님과 제대로 마주보고, 인사드려야 해.<br>다시 해볼까?"
+                    }else tori_help_p.innerHTML = " 다른 사람이 인사를 건넸을 때는<br>먼저 인사를 하고, 그 후에 궁금한 점을 <br>물어보는 것이 자연스럽고 예의바른 <br>대화 방식이야.<br><br>다시 해보자."
 
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
@@ -2202,6 +2229,8 @@ _clearScene(scene) {
                                         document.querySelector('.left .next_btn').onclick = function () {
                                             document.querySelector('.left p').innerHTML = '오른쪽 위에 생긴<br>버튼을 눌러볼래?'
                                             document.getElementById('mypagebtn').style.display = 'block'
+                                            document.getElementById('shadow_mp').style.display = 'flex'
+
                                             // document.getElementById('mypagebtn').style.display = 'block'
                                             // document.querySelector('.tori_help .next_btn').onclick = function () {
                                             //     document.querySelector('.tori_help').style.display = 'none';
@@ -2702,7 +2731,7 @@ _clearScene(scene) {
                 var span = document.getElementsByClassName("close")[0];
                 modal.style.display = "block";
                 var gameAButton = document.getElementById("Game");
-                gameAButton.setAttribute('data-path', 'lib1/index.html'); // data-path 속성 설정
+                gameAButton.setAttribute('data-path', 'Library_fin/index.html'); // data-path 속성 설정
                 var close = document.getElementById('closeGameModal')
                 function resetModalGame() {
                     document.querySelectorAll('.GameBtn').forEach(function(button) {
@@ -2722,22 +2751,31 @@ _clearScene(scene) {
                             document.querySelector('.left').style.display = 'none'
                             setTimeout(() => {
                                 document.querySelector('.left').style.display = 'block'
+                                document.getElementById('shadow_mp').style.display = 'flex'
                                 document.querySelector('.left p').innerHTML = '데이터를 눌러 확인해보자!'
+                                document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/225.png')";
                                 const originalOnClick2 = document.querySelector('#data').onclick;
                                 document.querySelector('#data').onclick = function () {
                                     if (originalOnClick2) originalOnClick2(); // 기존의 기능을 수행
                                     document.querySelector('.left').style.display = 'none'
+                                    document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/shadow_bg.png')";
                                     setTimeout(() => {
                                         document.querySelector('.tori_help').style.display = 'block'
                                         document.querySelector('.tori_help p').innerHTML = '데이터는 활동 데이터와<br>대화 데이터 둘로 나뉘어!'
                                         document.querySelector('.tori_help .next_btn').onclick = function () {
+                                            document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/229.png')";
                                             document.querySelector('.tori_help p').innerHTML = '방금 획득한 활동 점수는<br>활동데이터에서 볼 수 있고,'
                                             document.querySelector('.tori_help .next_btn').onclick = function () {
-                                                document.querySelector('.tori_help p').innerHTML = '사람들과 나눈 대화는<br>대화 데이터에서 확인할 수 있어!'
-                                                document.querySelector('.tori_help .next_btn').onclick = function () {
-                                                    document.querySelector('.tori_help p').innerHTML = '보고 싶은 데이터를<br>한번 클릭해봐!'
-                                                    document.querySelector('.tori_help .next_btn').onclick = function () {
-                                                        document.querySelector('.tori_help').style.display = 'none'
+                                                document.querySelector('.left').style.display = 'block'
+                                                document.querySelector('.tori_help').style.display = 'none'
+                                                document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/227.png')";
+                                                document.querySelector('.left p').innerHTML = '사람들과 나눈 대화는<br>대화 데이터에서 확인할 수 있어!'
+                                                document.querySelector('.left .next_btn').onclick = function () {
+                                                    document.querySelector('.left p').innerHTML = '보고 싶은 데이터를<br>한번 클릭해봐!'
+                                                    document.querySelector('.left .next_btn').onclick = function () {
+                                                        document.querySelector('.left').style.display = 'none'
+                                                        document.getElementById('shadow_mp').style.display = 'none'
+                                                        document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/shadow_bg.png')";
                                                         setDTTutorial('false');
                                                     }
                                                 }
@@ -3537,6 +3575,10 @@ update(time) {
     if (!this._previousTime) this._previousTime = time;
 
     if (!this._isTpTutirialShown && getTalkTutorial() === 'false' && getTpTutorial() === 'true' && document.getElementById('pageModal').style.display == 'none') {
+        document.querySelector('.left').style.display = 'none'
+        document.querySelector('#getsticker').style.display = 'none'
+        document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/shadow_bg.png')";
+        document.getElementById('shadow_mp').style.display = 'none';
         setTimeout(() => {
             document.querySelector('.tori_help').style.display = 'block';
             document.querySelector('.tori_help p').innerHTML = '버스정류장으로 가서 버스를 타고<br>다른 곳으로 이동해볼까?';
@@ -3599,7 +3641,9 @@ update(time) {
                     this._bOnTheGround = false;
                 }
         // 플레이어 y축 아래로 Raycast 쏘기
-        const playerPosition = this._model.position.clone();
+                const playerPosition = this._model.position.clone();
+
+
         const downDirection = new THREE.Vector3(0, -1, 0); // 아래 방향
         const upDirection = new THREE.Vector3(0, 1, 0);   // 위 방향
         
@@ -3617,7 +3661,8 @@ update(time) {
         const intersectsDown = raycasterDown.intersectObjects(this._scene.children, true);
         // 위쪽 충돌 검사
         const intersectsUp = raycasterUp.intersectObjects(this._scene.children, true);
-        
+
+                
         // 감지된 객체 처리
         let collidedWithTeleport = false;
         let isOnNavMesh = false;
@@ -3678,7 +3723,7 @@ update(time) {
             if (intersectedObject.userData.name === 'NavMesh') {
                 // console.log('NavMesh 탐지')
                 isOnNavMesh = true;
-                lastValidPosition.copy(this._model.position);  // NavMesh 위에 있을 때 위치 저장
+                // lastValidPosition.copy(this._model.position);  // NavMesh 위에 있을 때 위치 저장
                 break;
             }
             if (intersectedObject.name === 'teleport') {
@@ -3816,6 +3861,88 @@ update(time) {
                     this._model.position.y + 80,
                     this._model.position.z,
                 );
+// 플레이어의 정면 방향으로 Raycast 쏘기
+const playerFront_wall = new THREE.Vector3(0, 0, 1); // 정면 방향 (카메라에 따라 맞춤 필요)
+playerFront_wall.applyQuaternion(this._model.quaternion); // 플레이어 회전에 따라 정면 벡터 회전 적용
+
+// Raycast 위치를 플레이어의 정면으로 이동
+const raycasterForward_wall = new THREE.Raycaster();
+const startPosition_wall = this._model.position.clone().add(playerFront_wall.multiplyScalar(50)); // 플레이어 앞쪽으로 1 단위
+const rayDirectionDown_wall = new THREE.Vector3(0, -1, 0); // y축 아래 방향으로 Raycast (지면 감지용)
+raycasterForward_wall.near = 0; // 시작 위치
+raycasterForward_wall.far = 100000; // 탐지 거리 대폭 늘림
+const rayDirectionForward_wall = playerFront_wall.clone().normalize(); // 플레이어가 바라보는 방향으로 Raycast (정면 감지용)
+const rayDirectionUp_wall = new THREE.Vector3(0, 1, 0); // y축 위 방향으로 Raycast (언덕 감지용)
+
+// Raycaster 설정
+raycasterForward_wall.set(startPosition_wall, rayDirectionDown_wall);
+const intersectsDown_wall = raycasterForward_wall.intersectObjects(this._scene.children, true);
+
+const raycasterUp_wall = new THREE.Raycaster();
+raycasterUp_wall.near = 0; // Ray 시작 위치에서부터 탐지
+raycasterUp_wall.far = 100000; // 최대 탐지 거리 (위 방향 길이를 늘림, 필요에 따라 조정 가능)
+raycasterUp_wall.set(startPosition_wall, rayDirectionUp_wall);
+const intersectsUp_wall = raycasterUp_wall.intersectObjects(this._scene.children, true);
+
+// Ray가 어디로 쏘아지는지 시각적으로 확인 (디버깅용)
+// const arrowHelper_wall = new THREE.ArrowHelper(rayDirectionDown_wall, startPosition_wall, 10, 0xff0000); // 아래 방향 (빨간색)
+// const arrowHelperForward_wall = new THREE.ArrowHelper(rayDirectionForward_wall, startPosition_wall, 10, 0x00ff00); // 정면 방향 (초록색)
+// const arrowHelperUp_wall = new THREE.ArrowHelper(rayDirectionUp_wall, startPosition_wall, 1000, 0x0000ff); // 위 방향 (파란색)
+// this._scene.add(arrowHelper_wall); // 씬에 추가하여 가시화
+// this._scene.add(arrowHelperForward_wall); // 정면 Ray 가시화
+// this._scene.add(arrowHelperUp_wall); // 위로 쏜 Ray 가시화
+
+// Raycast 결과 처리 (아래, 위, 정면 모두 탐지)
+                let isOnNavMesh_wall = false;
+                let originalSpeed = this._speed;
+                let originalMaxSpeed = this._maxSpeed;
+                let originalAcceleration = this._acceleration;
+
+
+// 아래쪽 탐지
+for (let i = 0; i < intersectsDown_wall.length; i++) {
+    const intersectedObject_wall = intersectsDown_wall[i].object;
+    if (intersectedObject_wall.userData.name === 'NavMesh') {
+        console.log('NavMesh 탐지 (아래)');
+        isOnNavMesh_wall = true;
+        break;
+    }
+}
+
+// 위쪽 탐지
+for (let i = 0; i < intersectsUp_wall.length; i++) {
+    const intersectedObject_wall = intersectsUp_wall[i].object;
+    if (intersectedObject_wall.userData.name === 'NavMesh') {
+        console.log('NavMesh 탐지 (위쪽)');
+        isOnNavMesh_wall = true;
+        break;
+    }
+}
+
+
+// NavMesh 위에 있지 않으면 속도를 0으로 설정
+if (!isOnNavMesh_wall) {
+    // 원래 속도를 저장 (한 번만 저장)
+    if (this._speed !== 0 || this._maxSpeed !== 0 || this._acceleration !== 0) {
+        originalSpeed = this._speed;
+        originalMaxSpeed = this._maxSpeed;
+        originalAcceleration = this._acceleration;
+    }
+
+    // 속도를 0으로 설정
+    this._speed = 0;
+    this._maxSpeed = 0;
+    this._acceleration = 0;
+} else {
+    // Raycast가 NavMesh를 감지하면 원래 속도를 복원
+    if (this._speed === 0 && this._maxSpeed === 0 && this._acceleration === 0) {
+        this._speed = originalSpeed;
+        this._maxSpeed = originalMaxSpeed;
+        this._acceleration = originalAcceleration;
+    }
+}
+
+
 
                 if (this._support) {
                     this._support.lookAt(this._model.position);

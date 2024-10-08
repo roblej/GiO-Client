@@ -100,6 +100,7 @@ import {getSTTutorial} from './event.js';
                         document.querySelector('.left p').innerHTML = '방금 얻은 스티커는<br>스티커북에서 확인 가능해!'
                         document.querySelector('.left .next_btn').onclick = function () {
                             document.querySelector('.left p').innerHTML = '스티커북을 눌러<br> 확인해보자!'
+                            document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/209.png')";
                             const originalOnClick = document.querySelector('#stickerbook').onclick;
                             document.querySelector('#stickerbook').onclick = function () {
                                 if (originalOnClick) originalOnClick(); // 기존의 기능을 수행
@@ -107,8 +108,10 @@ import {getSTTutorial} from './event.js';
                                 document.querySelector('.left').style.display = 'none';
                                 document.querySelector('.tori_help').style.display = 'block'
                                 document.querySelector('.tori_help p').innerHTML = '와~ 이것봐!<br><파란 공> 스티커야!<br>정말 멋지다!'
+                                document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/214.png')";
                                 document.querySelector('.tori_help .next_btn').onclick = function () {
-                                        document.querySelector('.tori_help p').innerHTML = '<파란 공> 스티커 외에<br>다른 스티커도 획득 할 수 있어!'
+                                    document.querySelector('.tori_help p').innerHTML = '<파란 공> 스티커 외에<br>다른 스티커도 획득 할 수 있어!'
+                                    document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/215.png')";
                                         document.querySelector('.tori_help .next_btn').onclick = function () {
                                             document.querySelector('.tori_help p').innerHTML = '<파란 공> 옆에 있는<br>물음표를 눌러볼래?'
                                             const originalOnClick2 = document.querySelector('#mark2').onclick;
@@ -117,10 +120,12 @@ import {getSTTutorial} from './event.js';
                                                 document.querySelector('.tori_help').style.display = 'none'
                                                 document.querySelector('.left').style.display = 'block'
                                                 document.querySelector('.left p').innerHTML = '이 스티커는 다른 장소로<br>이동하면 얻을 수 있는<br>스티커같아.'
+                                                document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/218.png')";
                                                 document.querySelector('.left .next_btn').onclick = function () {
                                                     document.querySelector('.left p').innerHTML = '마침 학교도 둘러봤으니<br>다른 장소로 이동을 해볼까?'
                                                     document.querySelector('.left .next_btn').onclick = function () {
                                                         document.querySelector('.left p').innerHTML = '노란색 X 책갈피를 누르면<br>마이페이지를 나갈 수 있어!'
+                                                        document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/220.png')";
                                                         setSTTutorial('false');
                                                         document.querySelector('.left .next_btn').onclick = function () {
                                                             document.querySelector('.left').style.display = 'none';

@@ -291,7 +291,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // 첫 번째 클릭 이벤트 리스너
     tuto_btn.addEventListener('click', function () {
       tori_text.innerHTML = '내 이름은 토리! 너와 함께 GiO를 다니기 위해 찾아왔어!';
-
       // 두 번째 클릭 이벤트 리스너 (이벤트 중첩)
       tuto_btn.addEventListener('click', function () {
         tori.style.display = 'none';
@@ -312,14 +311,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
           // 입력된 이름을 텍스트에 반영
           tori_text.innerHTML = `아하? 너의 이름은 ${name}구나! 좋아! GiO 세계에 온 걸 환영해!<br>네가 GiO에 적응할 수 있도록 최선을 다할게. 우선 학교에 가볼까?`;
-
+          
           // 맵 관련 버튼 표시
           tuto_btn.addEventListener('click', function () {
             document.querySelector('.map_intro').style.display = 'none';
             document.getElementById("BtnMaps").style.display = "flex";
             document.getElementById("shadow").style.display = "block";
             document.querySelector('.tori_help').style.display = 'block';
-
+            
             log_map_tutorial = 'false'
           });
         });
