@@ -282,17 +282,36 @@ document.addEventListener('DOMContentLoaded', function () {
   const tori = document.querySelector('.tori')
   const tori_text_box = document.querySelector('.tori_text_box')
   const confirmbtn = document.querySelector('.namebox button')
+  // 오디오 요소 생성
+  const welcomeAudio = document.createElement('audio');
+  document.body.appendChild(welcomeAudio); // body에 오디오 요소 추가
   if (getSTTutorial() === 'false') {
     document.querySelector('#mypagebtn').style.display = 'block'
+    // 첫 번째 텍스트와 음성 파일 설정
+    tori_text.innerHTML = '안녕! GiO 세계에 온걸 환영해!';
+    welcomeAudio.src = './data/audio/1.mp3';  // 처음 음성 파일 설정
+    welcomeAudio.play();  // 초기 음성 파일 재생
   }
+
+
   if (tuto_btn && tori_text && log_map_tutorial == 'true') {
     console.log('요소가 존재함'); // 요소가 제대로 선택되었는지 확인
 
+
+
     // 첫 번째 클릭 이벤트 리스너
     tuto_btn.addEventListener('click', function () {
+      welcomeAudio.pause();
       tori_text.innerHTML = '내 이름은 토리! 너와 함께 GiO를 다니기 위해 찾아왔어!';
+
+
+      // 두 번째 음성 파일 설정 및 재생
+      welcomeAudio.src = './data/audio/2.mp3';  // 2.wav 파일로 변경
+      welcomeAudio.play();
+
       // 두 번째 클릭 이벤트 리스너 (이벤트 중첩)
       tuto_btn.addEventListener('click', function () {
+        welcomeAudio.pause();
         tori.style.display = 'none';
         tori_text_box.style.display = 'none';
         document.querySelector('.namebox').style.display = 'flex';
@@ -311,7 +330,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
           // 입력된 이름을 텍스트에 반영
           tori_text.innerHTML = `아하? 너의 이름은 ${name}구나! 좋아! GiO 세계에 온 걸 환영해!<br>네가 GiO에 적응할 수 있도록 최선을 다할게. 우선 학교에 가볼까?`;
-          
+
+          // 첫 번째 음성 파일 4.mp3 설정 및 재생
+          welcomeAudio.src = './data/audio/4.mp3';
+          welcomeAudio.play();
+
+          // 4.mp3가 끝난 후 5.mp3 재생
+          welcomeAudio.addEventListener('ended', function () {
+              welcomeAudio.src = './data/audio/5.mp3';
+              welcomeAudio.play();
+          }, { once: true });
+
+
+
           // 맵 관련 버튼 표시
           tuto_btn.addEventListener('click', function () {
             document.querySelector('.map_intro').style.display = 'none';
@@ -320,10 +351,14 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('.tori_help').style.display = 'block';
             
             log_map_tutorial = 'false'
+            welcomeAudio.pause(); // 이전에 재생 중인 음성을 멈춤
+            welcomeAudio.src = './data/audio/6.mp3'; // 6.mp3 설정
+            welcomeAudio.play(); // 6.mp3 재생
           });
         });
       });
     });
+    
 
   } else {
     console.log('요소가 제대로 선택되지 않았습니다.');

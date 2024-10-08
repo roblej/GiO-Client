@@ -96,11 +96,38 @@ import {getSTTutorial} from './event.js';
                     document.querySelector('.left').style.display = 'block';
                     document.querySelector('.tori_help').style.display = 'none';
                     document.querySelector('.left p').innerHTML = '여긴 마이페이지야!<br>네가 GiO를 얼마나 탐험했는지<br>확인할 수 있어!'
+                    
+                    // 16.mp3 재생
+                    const audioElement = document.createElement('audio');
+                    audioElement.src = './data/audio/16.mp3';  // 16.mp3 파일 경로
+                    audioElement.play();
+
                     document.querySelector('.left .next_btn').onclick = function () {
                         document.querySelector('.left p').innerHTML = '방금 얻은 스티커는<br>스티커북에서 확인 가능해!'
+                        
+                        // 16.mp3 중지, 17.mp3 재생
+                        audioElement.pause();
+                        audioElement.currentTime = 0;
+
+                        // 17.mp3 재생
+                        const audioElement = document.createElement('audio');
+                        audioElement.src = './data/audio/17.mp3';  // 17.mp3 파일 경로
+                        audioElement.play();
+
                         document.querySelector('.left .next_btn').onclick = function () {
                             document.querySelector('.left p').innerHTML = '스티커북을 눌러<br> 확인해보자!'
                             document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/209.png')";
+
+
+                             // 17.mp3 중지, 18.mp3 재생
+                            audioElement.pause();
+                            audioElement.currentTime = 0;
+
+                            // 18.mp3 재생
+                            const audioElement = document.createElement('audio');
+                            audioElement.src = './data/audio/18.mp3';  // 18.mp3 파일 경로
+                            audioElement.play();
+
                             const originalOnClick = document.querySelector('#stickerbook').onclick;
                             document.querySelector('#stickerbook').onclick = function () {
                                 if (originalOnClick) originalOnClick(); // 기존의 기능을 수행
@@ -108,12 +135,42 @@ import {getSTTutorial} from './event.js';
                                 document.querySelector('.left').style.display = 'none';
                                 document.querySelector('.tori_help').style.display = 'block'
                                 document.querySelector('.tori_help p').innerHTML = '와~ 이것봐!<br><파란 공> 스티커야!<br>정말 멋지다!'
+
+                                 // 18.mp3 중지, 19.mp3 재생
+                                audioElement.pause();
+                                audioElement.currentTime = 0;
+
+                                // 19.mp3 재생
+                                const audioElement19 = document.createElement('audio');
+                                audioElement.src = './data/audio/19.mp3';  // 19.mp3 파일 경로
+                                audioElement.play();
+                                  
                                 document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/214.png')";
                                 document.querySelector('.tori_help .next_btn').onclick = function () {
-                                    document.querySelector('.tori_help p').innerHTML = '<파란 공> 스티커 외에<br>다른 스티커도 획득 할 수 있어!'
-                                    document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/215.png')";
+                                        document.querySelector('.tori_help p').innerHTML = '<파란 공> 스티커 외에<br>다른 스티커도 획득 할 수 있어!'
+                                  document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/215.png')";
+                                        
+                                        // 19.mp3 중지, 20.mp3 재생
+                                        audioElement.pause();
+                                        audioElement.currentTime = 0;
+                                        
+                                        // 20.mp3 재생
+                                        const audioElement20 = document.createElement('audio');
+                                        audioElement.src = './data/audio/20.mp3';  // 20.mp3 파일 경로
+                                        audioElement.play();
+
                                         document.querySelector('.tori_help .next_btn').onclick = function () {
                                             document.querySelector('.tori_help p').innerHTML = '<파란 공> 옆에 있는<br>물음표를 눌러볼래?'
+
+                                            // 20.mp3 중지, 21.mp3 재생
+                                            audioElement.pause();
+                                            audioElement.currentTime = 0;
+
+                                            // 21.mp3 재생
+                                            const audioElement = document.createElement('audio');
+                                            audioElement.src = './data/audio/21.mp3';  // 21.mp3 파일 경로
+                                            audioElement.play();
+
                                             const originalOnClick2 = document.querySelector('#mark2').onclick;
                                             document.querySelector('#mark2').onclick = function () {
                                                 if (originalOnClick2) originalOnClick2(); // 기존의 기능을 수행
@@ -121,15 +178,45 @@ import {getSTTutorial} from './event.js';
                                                 document.querySelector('.left').style.display = 'block'
                                                 document.querySelector('.left p').innerHTML = '이 스티커는 다른 장소로<br>이동하면 얻을 수 있는<br>스티커같아.'
                                                 document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/218.png')";
+                                                
+                                                // 21.mp3 중지, 22.mp3 재생
+                                                audioElement.pause();
+                                                audioElement.currentTime = 0;
+
+                                                // 22.mp3 재생
+                                                const audioElement = document.createElement('audio');
+                                                audioElement.src = './data/audio/22.mp3';  // 22.mp3 파일 경로
+                                                audioElement.play();
+
                                                 document.querySelector('.left .next_btn').onclick = function () {
                                                     document.querySelector('.left p').innerHTML = '마침 학교도 둘러봤으니<br>다른 장소로 이동을 해볼까?'
+                                                    
+                                                    // 22.mp3 중지, 23.mp3 재생
+                                                    audioElement.pause();
+                                                    audioElement.currentTime = 0;
+
+                                                    // 23.mp3 재생
+                                                    const audioElement = document.createElement('audio');
+                                                    audioElement.src = './data/audio/23.mp3';  // 23.mp3 파일 경로
+                                                    audioElement.play();
                                                     document.querySelector('.left .next_btn').onclick = function () {
                                                         document.querySelector('.left p').innerHTML = '노란색 X 책갈피를 누르면<br>마이페이지를 나갈 수 있어!'
                                                         document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/220.png')";
                                                         setSTTutorial('false');
+                                                        
+                                                        // 23.mp3 중지, 24.mp3 재생
+                                                        audioElement.pause();
+                                                        audioElement.currentTime = 0;
+
+                                                        // 24.mp3 재생
+                                                        const audioElement = document.createElement('audio');
+                                                        audioElement.src = './data/audio/24.mp3';  // 24.mp3 파일 경로
+                                                        audioElement.play();
+
                                                         document.querySelector('.left .next_btn').onclick = function () {
                                                             document.querySelector('.left').style.display = 'none';
                                                             document.querySelector('#getsticker').style.display = 'none'
+                                                            audioElement.pause();  // 24.mp3 음성 중지
                                                         }
 
                                                     }
