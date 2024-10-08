@@ -18,6 +18,7 @@ import { talkBtnPromise, getTalkBtn } from './record.js';
 // import { openModal } from './mypage.js';
 // THREE.GLTFLoader
 export var game_name = "";
+import { audioElement } from './event.js';
 
 export function initThreeJS() {
 
@@ -93,7 +94,7 @@ export function initThreeJS() {
             this._setupOctree();
 
             this._loadPlayerModel(); // 플레이어 모델 로드
-            this._switchScene(4);
+            this._switchScene(0);
             this._animate();
         
             this._camera.add(listener)
@@ -436,6 +437,8 @@ _processAnimation() {
                         if (log_map_tutorial == 'false' && getTalkTutorial() === 'true') {
                             document.querySelector('.left').style.display = 'block';
                             document.querySelector('.left p').innerHTML = '학교에 도착했어!<br>교문 앞에 계신 선생님께 가보자!'
+
+
                             const audioElement = document.createElement('audio');
                             audioElement.src = './data/audio/7.mp3';  // 7.mp3 파일 경로
                             audioElement.play();  // 7.mp3 파일 재생
@@ -1583,6 +1586,8 @@ _processAnimation() {
         }
 
 _switchScene(index) {
+    audioElement.pause();  // 6.mp3 음성 멈춤
+    audioElement.currentTime = 0;  // 음성을 처음부터 다시 재생할 수 있도록 시간 초기화
     // 오디오 상태 체크 및 재생 로직
     if (this._listener.context.state === 'suspended') {
         this._listener.context.resume();
@@ -1598,7 +1603,7 @@ _switchScene(index) {
         this._sound.setBuffer(buffer);
         this._sound.setLoop(true);
         this._sound.setVolume(this._initialVolume); // 초기 볼륨 적용
-        this._sound.play();
+        // this._sound.play();
     });
 
     // 씬이 배열 범위 내에 있는지 확인
@@ -2167,7 +2172,14 @@ _clearScene(scene) {
 
                     if (getTalkTutorial() === 'true') {
                         tori_help_p.innerHTML = "음... 방금 네 행동은<br>선생님께 실례되는 행동이야.<br>선생님과 제대로 마주보고, 인사드려야 해.<br>다시 해볼까?"
-                      //오디오넣기
+                        // 10.mp3 중지, 11.mp3 재생
+                        audioElement.pause();
+                        audioElement.currentTime = 0;
+
+                        const audioElement = document.createElement('audio');
+                        audioElement.src = './data/audio/11.mp3';  // 11.mp3 파일 경로
+                        audioElement.play();
+
                     }else {
                       tori_help_p.innerHTML = "상대방이 인사 했을 때는 너도 인사를 해야해. <br>다른 사람을 대하는 기본적인 예의야. <br><br>다시 해보자.<br><br>"
                     const audioElement = document.createElement('audio');
@@ -2215,7 +2227,14 @@ _clearScene(scene) {
                         tori_help.style.display = 'block'
                         if (getTalkTutorial() === 'true') {
                         tori_help_p.innerHTML = "음... 방금 네 행동은<br>선생님께 실례되는 행동이야.<br>선생님과 제대로 마주보고, 인사드려야 해.<br>다시 해볼까?"
-                          //오디오 넣기
+                        // 10.mp3 중지, 11.mp3 재생
+                        audioElement.pause();
+                        audioElement.currentTime = 0;
+
+                        const audioElement = document.createElement('audio');
+                        audioElement.src = './data/audio/11.mp3';  // 11.mp3 파일 경로
+                        audioElement.play();
+
                     }else{
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = " 다른 사람이 인사를 건넸을 때는<br>먼저 인사를 하고, 그 후에 궁금한 점을 <br>물어보는 것이 자연스럽고 예의바른 <br>대화 방식이야. 다시 해보자."
