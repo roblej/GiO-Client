@@ -2733,6 +2733,13 @@ _clearScene(scene) {
                 var gameAButton = document.getElementById("Game");
                 gameAButton.setAttribute('data-path', 'Library_fin/index.html'); // data-path 속성 설정
                 var close = document.getElementById('closeGameModal')
+
+                function resetModal() {
+                    document.querySelector('#myModal .Speech1 p').innerHTML = 'test';
+                    document.querySelector('#myModal .Speech1 #Game').innerHTML = 'test1';
+                    document.querySelector('#myModal .Speech1 #GameNo').innerHTML = 'test2';
+                }
+                resetModal();
                 function resetModalGame() {
                     document.querySelectorAll('.GameBtn').forEach(function(button) {
                         button.classList.remove('active');
@@ -3903,7 +3910,7 @@ const intersectsUp_wall = raycasterUp_wall.intersectObjects(this._scene.children
 for (let i = 0; i < intersectsDown_wall.length; i++) {
     const intersectedObject_wall = intersectsDown_wall[i].object;
     if (intersectedObject_wall.userData.name === 'NavMesh') {
-        console.log('NavMesh 탐지 (아래)');
+        // console.log('NavMesh 탐지 (아래)');
         isOnNavMesh_wall = true;
         break;
     }
@@ -3913,7 +3920,7 @@ for (let i = 0; i < intersectsDown_wall.length; i++) {
 for (let i = 0; i < intersectsUp_wall.length; i++) {
     const intersectedObject_wall = intersectsUp_wall[i].object;
     if (intersectedObject_wall.userData.name === 'NavMesh') {
-        console.log('NavMesh 탐지 (위쪽)');
+        // console.log('NavMesh 탐지 (위쪽)');
         isOnNavMesh_wall = true;
         break;
     }
@@ -3921,26 +3928,26 @@ for (let i = 0; i < intersectsUp_wall.length; i++) {
 
 
 // NavMesh 위에 있지 않으면 속도를 0으로 설정
-if (!isOnNavMesh_wall) {
-    // 원래 속도를 저장 (한 번만 저장)
-    if (this._speed !== 0 || this._maxSpeed !== 0 || this._acceleration !== 0) {
-        originalSpeed = this._speed;
-        originalMaxSpeed = this._maxSpeed;
-        originalAcceleration = this._acceleration;
-    }
+// if (!isOnNavMesh_wall) {
+//     // 원래 속도를 저장 (한 번만 저장)
+//     if (this._speed !== 0 || this._maxSpeed !== 0 || this._acceleration !== 0) {
+//         originalSpeed = this._speed;
+//         originalMaxSpeed = this._maxSpeed;
+//         originalAcceleration = this._acceleration;
+//     }
 
-    // 속도를 0으로 설정
-    this._speed = 0;
-    this._maxSpeed = 0;
-    this._acceleration = 0;
-} else {
-    // Raycast가 NavMesh를 감지하면 원래 속도를 복원
-    if (this._speed === 0 && this._maxSpeed === 0 && this._acceleration === 0) {
-        this._speed = originalSpeed;
-        this._maxSpeed = originalMaxSpeed;
-        this._acceleration = originalAcceleration;
-    }
-}
+//     // 속도를 0으로 설정
+//     this._speed = 0;
+//     this._maxSpeed = 0;
+//     this._acceleration = 0;
+// } else {
+//     // Raycast가 NavMesh를 감지하면 원래 속도를 복원
+//     if (this._speed === 0 && this._maxSpeed === 0 && this._acceleration === 0) {
+//         this._speed = originalSpeed;
+//         this._maxSpeed = originalMaxSpeed;
+//         this._acceleration = originalAcceleration;
+//     }
+// }
 
 
 
