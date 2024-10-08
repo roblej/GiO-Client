@@ -435,7 +435,7 @@ _processAnimation() {
                         resolve();
                         }).then(() => {
                             // 여기에 비동기적으로 실행할 코드를 작성합니다.
-                            if (!this._hasPlayAudio) {
+                            if (!this._hasPlayAudio && log_map_tutorial == 'true') {
                                 
                                 audioElement.src = './data/audio/1.mp3';  // 처음 음성 파일 설정
                                 audioElement.play();  // 초기 음성 파일 재생
@@ -2100,7 +2100,7 @@ _clearScene(scene) {
 
                         if (getTalkBtn() === choose_answer) {
                             buttonGroup.style.display = "none";
-                            dialogText.innerHTML = "그래, 난 이학교의 선생님이야. 앞으로 잘 지내보자";
+                            dialogText.innerHTML = "그래, 난 이 학교의 선생님이야. 앞으로 잘 지내보자";
                             console.log(score);
 
                             if (getTalkTutorial() === 'true') {
@@ -3356,7 +3356,7 @@ _clearScene(scene) {
                 option2.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "너 키가 작네?";
+                    dialogText.innerHTML = "...";
 
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "상황에 따라 상대방에게 건넬 수 있는 말이<br>다르다는 것을 이해해야 해! <br>갑자기 남의 신체를 이야기하는 것은 <br>자연스럽지 못한 것 같아. <br>다시 해보자.<br><br>"
@@ -3394,7 +3394,7 @@ _clearScene(scene) {
                 option3.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "아야....";
+                    dialogText.innerHTML = "...";
                     //여기부터 애니메이션 예시
                     
                     //여기까지
@@ -4473,7 +4473,7 @@ _clearScene(scene) {
                 option3.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "(모른 체하고 지나가자.)";
+                    dialogText.innerHTML = "...";
 
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "지갑이 떨어진 걸 보고도 모른 체하다니!<br>지갑을 잃어버려서 당황해 할 사람을 생각해봐.<br>속상해 할거야. <br><br>어떻게 해야할까?<br><br>"
@@ -4639,7 +4639,7 @@ _clearScene(scene) {
                 var span = document.getElementsByClassName("close")[0];
                 modal.style.display = "block";
                 var gameAButton = document.getElementById("Game");
-                gameAButton.setAttribute('data-path', 'Library_fin/index.html'); // data-path 속성 설정
+                gameAButton.setAttribute('data-path', 'Park_fin/index.html'); // data-path 속성 설정
                 var close = document.getElementById('closeGameModal')
 
                 function resetModal() {

@@ -241,6 +241,12 @@ let sticker_tutorial = 'true'
 let tp_tutorial = 'true'
 let data_tutorial = 'true'
 let final_tutorial = 'true'
+// export let log_map_tutorial = 'false'
+// let talk_tutorial = 'false';
+// let sticker_tutorial = 'false'
+// let tp_tutorial = 'false'
+// let data_tutorial = 'false'
+// let final_tutorial = 'false'
 
 export function getTpTutorial() {
   return tp_tutorial;
@@ -288,11 +294,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (getSTTutorial() === 'false') {
     document.querySelector('#mypagebtn').style.display = 'block'
-    // 첫 번째 텍스트와 음성 파일 설정
-    tori_text.innerHTML = '안녕! GiO 세계에 온걸 환영해!';
-    audioElement.src = './data/audio/1.mp3';  // 처음 음성 파일 설정
-    audioElement.play();  // 초기 음성 파일 재생  
-  
   };
 
   
