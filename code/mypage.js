@@ -1,7 +1,7 @@
 import { getSticker, setSTTutorial } from "./event.js";
 import { globalId } from "./login.js";
 import {getSTTutorial} from './event.js';
-
+import { audioElement } from "./event.js";
 // function openTab(evt, tabName) {
 //     var i, tabcontent, tablinks;
 //     tabcontent = document.getElementsByClassName("tabcontent");
@@ -98,7 +98,7 @@ import {getSTTutorial} from './event.js';
                     document.querySelector('.left p').innerHTML = '여긴 마이페이지야!<br>네가 GiO를 얼마나 탐험했는지<br>확인할 수 있어!'
                     
                     // 16.mp3 재생
-                    const audioElement = document.createElement('audio');
+
                     audioElement.src = './data/audio/16.mp3';  // 16.mp3 파일 경로
                     audioElement.play();
 
@@ -110,7 +110,7 @@ import {getSTTutorial} from './event.js';
                         audioElement.currentTime = 0;
 
                         // 17.mp3 재생
-                        const audioElement = document.createElement('audio');
+
                         audioElement.src = './data/audio/17.mp3';  // 17.mp3 파일 경로
                         audioElement.play();
 
@@ -124,7 +124,7 @@ import {getSTTutorial} from './event.js';
                             audioElement.currentTime = 0;
 
                             // 18.mp3 재생
-                            const audioElement = document.createElement('audio');
+
                             audioElement.src = './data/audio/18.mp3';  // 18.mp3 파일 경로
                             audioElement.play();
 
@@ -167,7 +167,6 @@ import {getSTTutorial} from './event.js';
                                             audioElement.currentTime = 0;
 
                                             // 21.mp3 재생
-                                            const audioElement = document.createElement('audio');
                                             audioElement.src = './data/audio/21.mp3';  // 21.mp3 파일 경로
                                             audioElement.play();
 
@@ -184,7 +183,7 @@ import {getSTTutorial} from './event.js';
                                                 audioElement.currentTime = 0;
 
                                                 // 22.mp3 재생
-                                                const audioElement = document.createElement('audio');
+
                                                 audioElement.src = './data/audio/22.mp3';  // 22.mp3 파일 경로
                                                 audioElement.play();
 
@@ -196,7 +195,7 @@ import {getSTTutorial} from './event.js';
                                                     audioElement.currentTime = 0;
 
                                                     // 23.mp3 재생
-                                                    const audioElement = document.createElement('audio');
+
                                                     audioElement.src = './data/audio/23.mp3';  // 23.mp3 파일 경로
                                                     audioElement.play();
                                                     document.querySelector('.left .next_btn').onclick = function () {
@@ -209,7 +208,7 @@ import {getSTTutorial} from './event.js';
                                                         audioElement.currentTime = 0;
 
                                                         // 24.mp3 재생
-                                                        const audioElement = document.createElement('audio');
+
                                                         audioElement.src = './data/audio/24.mp3';  // 24.mp3 파일 경로
                                                         audioElement.play();
 

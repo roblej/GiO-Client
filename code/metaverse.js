@@ -450,9 +450,8 @@ _processAnimation() {
                             document.querySelector('.left p').innerHTML = '학교에 도착했어!<br>교문 앞에 계신 선생님께 가보자!'
                             audioElement.currentTime = 0; // 음성을 처음부터 재생하도록 설정
 
-                            const audioElement1 = document.createElement('audio');
-                            audioElement1.src = './data/audio/7.mp3';  // 7.mp3 파일 경로
-                            audioElement1.play();  // 7.mp3 파일 재생
+                            audioElement.src = './data/audio/7.mp3';  // 7.mp3 파일 경로
+                            audioElement.play();  // 7.mp3 파일 재생
 
                             document.querySelector('.left .next_btn').onclick = function() {
                                 document.querySelector('.left').style.display = 'none';
@@ -2066,7 +2065,6 @@ _clearScene(scene) {
                     document.querySelector('.tori_help').style.display = 'block'
                     document.querySelector('.tori_help p').innerHTML = '선생님께서 너에게 인사를 하셨어!<br>어떤 반응을 하면 좋을까?'
                     // 오디오 요소 생성
-                    const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/10.mp3';  // 10.mp3 파일 경로
                     audioElement.play();  // 10.mp3 파일 재생
 
@@ -2083,7 +2081,6 @@ _clearScene(scene) {
                         document.querySelector('.tori_help').style.display = 'block'
                         document.querySelector('.tori_help p').innerHTML = '잘했어!<br>이제 네가 선택한 말을<br>따라 해볼까?'
                         // 오디오 요소 생성
-                        const audioElement = document.createElement('audio');
                         audioElement.src = './data/audio/12.mp3';  // 12.mp3 파일 경로
                         audioElement.play();  // 12.mp3 파일 재생
 
@@ -2110,7 +2107,6 @@ _clearScene(scene) {
                                 document.querySelector('.tori_help').style.display = 'block'
                                 document.querySelector('.tori_help p').innerHTML = '정말 잘했어!<br>이렇게 다른 사람들과도 대화할 수 있어!<br>다른 사람들과도 대화를 해보자!<br>분명 다들 너와 대화해보고 싶을거야~'
                                 // 오디오 요소 생성
-                                const audioElement = document.createElement('audio');
                                 audioElement.src = './data/audio/13.mp3';  // 13.mp3 파일 경로
                                 audioElement.play();  // 13.mp3 파일 재생
                                 document.querySelector('.tori_help .next_btn').onclick = function () {
@@ -2195,8 +2191,7 @@ _clearScene(scene) {
                         audioElement.play();
 
                     }else {
-                      tori_help_p.innerHTML = "상대방이 인사 했을 때는 너도 인사를 해야해. <br>다른 사람을 대하는 기본적인 예의야. <br><br>다시 해보자.<br><br>"
-                    const audioElement = document.createElement('audio');
+                        tori_help_p.innerHTML = "상대방이 인사 했을 때는 너도 인사를 해야해. <br>다른 사람을 대하는 기본적인 예의야. <br><br>다시 해보자.<br><br>"
                     audioElement.src = './data/audio/학습지도1.mp3';  // 학습지도1.mp3 파일 경로
                     audioElement.play();  // 학습지도1.mp3 파일 재생
                 }
@@ -2251,7 +2246,6 @@ _clearScene(scene) {
                     } else {
                         tori_help.style.display = 'block'
                         tori_help_p.innerHTML = " 다른 사람이 인사를 건넸을 때는<br>먼저 인사를 하고, 그 후에 궁금한 점을 <br>물어보는 것이 자연스럽고 예의바른 <br>대화 방식이야. 다시 해보자."
-
                         audioElement.src = './data/audio/학습지도2.mp3';  // 학습지도2.mp3 파일 경로
                         audioElement.play();  // 학습지도2.mp3 파일 재생
                     }
@@ -4933,19 +4927,18 @@ update(time) {
             
             // 25_1.mp3 재생
             const audioElement16 = document.createElement('audio');
-            audioElement16.src = './data/audio/25_1.mp3';  // 25_1.mp3 파일 경로
-            audioElement16.play();
+            audioElement.src = './data/audio/25_1.mp3';  // 25_1.mp3 파일 경로
+            audioElement.play();
             this._isTpTutirialShown = true;  // 튜토리얼이 한 번 표시되면 플래그를 true로 설정
             document.querySelector('.tori_help .next_btn').onclick = function () {
                 document.querySelector('.tori_help p').innerHTML = '가고 싶은 곳으로 이동해보자!';
                 // 25_1.mp3 중지, 25_2.mp3 재생
-                audioElement16.pause();
-                audioElement16.currentTime = 0;
+                audioElement.pause();
+                audioElement.currentTime = 0;
 
                 // 25_2.mp3 재생
-                const audioElement17 = document.createElement('audio');
-                audioElement17.src = './data/audio/25_2.mp3';  // 25_2.mp3 파일 경로
-                audioElement17.play();
+                audioElement.src = './data/audio/25_2.mp3';  // 25_2.mp3 파일 경로
+                audioElement.play();
 
                 document.querySelector('.tori_help .next_btn').onclick = function () {
                 document.querySelector('.tori_help').style.display = 'none';
@@ -4965,7 +4958,6 @@ update(time) {
             audioElement.currentTime = 0;
 
             // 32.mp3 재생
-            const audioElement = document.createElement('audio');
             audioElement.src = './data/audio/32.mp3';  // 32.mp3 파일 경로
             audioElement.play();
             
@@ -4979,7 +4971,6 @@ update(time) {
                 audioElement.currentTime = 0;
 
                 // 33.mp3 재생
-                const audioElement = document.createElement('audio');
                 audioElement.src = './data/audio/33.mp3';  // 33.mp3 파일 경로
                 audioElement.play();
 
@@ -4990,7 +4981,6 @@ update(time) {
                     audioElement.currentTime = 0;
 
                     // 34.mp3 재생
-                    const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/34.mp3';  // 34.mp3 파일 경로
                     audioElement.play();
 
