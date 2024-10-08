@@ -455,8 +455,8 @@ _processAnimation() {
 
                             document.querySelector('.left .next_btn').onclick = function() {
                                 document.querySelector('.left').style.display = 'none';
-                                audioElement1.pause();  // 7.mp3 음성 멈춤
-                                audioElement1.currentTime = 0;  // 음성을 처음부터 다시 재생할 수 있도록 시간 초기화
+                                audioElement.pause();  // 7.mp3 음성 멈춤
+                                audioElement.currentTime = 0;  // 음성을 처음부터 다시 재생할 수 있도록 시간 초기화
                             };
 
                             
@@ -2331,22 +2331,22 @@ _clearScene(scene) {
                                         document.querySelector('.left').style.display = 'block';
                                         document.querySelector('.left p').innerHTML = '이게 뭐지? 스티커를 얻었어!<br>무슨 스티커일까? 확인해보자!'
                                         // 14.mp3 파일 재생
-                                        const audioElement14 = document.createElement('audio');
-                                        audioElement14.src = './data/audio/14.mp3';  // 14.mp3 파일 경로
-                                        audioElement14.play();  // 14.mp3 재생
+                                        // const audioElement = document.createElement('audio');
+                                        audioElement.src = './data/audio/14.mp3';  // 14.mp3 파일 경로
+                                        audioElement.play();  // 14.mp3 재생
                                         document.querySelector('.left .next_btn').onclick = function () {
                                             document.querySelector('.left p').innerHTML = '오른쪽 위에 생긴<br>버튼을 눌러볼래?'
                                             document.getElementById('mypagebtn').style.display = 'block'
                                             document.getElementById('shadow_mp').style.display = 'flex'
 
                                             // 14.mp3 재생을 멈추고 15.mp3 재생
-                                            audioElement14.pause();  // 14.mp3 재생 중지
-                                            audioElement14.currentTime = 0;  // 처음으로 되돌림
+                                            audioElement.pause();  // 14.mp3 재생 중지
+                                            audioElement.currentTime = 0;  // 처음으로 되돌림
                                             
                                             // 15.mp3 파일 재생
-                                            const audioElement15 = document.createElement('audio');
-                                            audioElement15.src = './data/audio/15.mp3';  // 15.mp3 파일 경로
-                                            audioElement15.play();  // 15.mp3 재생
+                                            // const audioElement = document.createElement('audio');
+                                            audioElement.src = './data/audio/15.mp3';  // 15.mp3 파일 경로
+                                            audioElement.play();  // 15.mp3 재생
                                             // document.getElementById('mypagebtn').style.display = 'block'
                                             // document.querySelector('.tori_help .next_btn').onclick = function () {
                                             //     document.querySelector('.tori_help').style.display = 'none';
@@ -2447,7 +2447,7 @@ _clearScene(scene) {
 
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "가끔은 멋지게 상황을 넘기면 편할 때도 많아.<br> 물론 사과를 받으면 좋겠지만, 크게 다치거나<br>하지 않았으니까 그럴 수도 있지 하고<br>넘기는 것도 필요해. 다시 해보자.<br><br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도5.mp3';  // 학습지도5.mp3 파일 경로
                     audioElement.play();  // 학습지도5.mp3 파일 재생
 
@@ -2474,7 +2474,7 @@ _clearScene(scene) {
                             dialogText.innerHTML = "...";
                             tori_help.style.display = 'block'
                             tori_help_p.innerHTML = "어어? 쟤는 먼저 와서 부딪혀 놓고..<br>그나저나 사과 안하는 쟤는 나빴지만,<br>멋지게 참아주었잖아? 대단한걸? <br><br>"
-                            const audioElement = document.createElement('audio');
+                            // const audioElement = document.createElement('audio');
                             audioElement.src = './data/audio/학습지도6.mp3'; //  학습지도6.mp3 파일 경로
                             audioElement.play(); //  학습지도6.mp3 재생
 
@@ -2529,7 +2529,7 @@ _clearScene(scene) {
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "가끔은 멋지게 상황을 넘기면 편할 때도 많아.<br> 물론 사과를 받으면 좋겠지만, 크게 다치거나<br>하지 않았으니까 그럴 수도 있지 하고<br>넘기는 것도 필요해. 다시 해보자.<br><br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도5.mp3';  // 학습지도5.mp3 파일 경로
                     audioElement.play();  // 학습지도5.mp3 파일 재생
 
@@ -2589,7 +2589,7 @@ _clearScene(scene) {
 
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "사람의 외모에 대해 이야기하는 것은 <br>상대방의 기분을 상하게 할 수 있어. <br><br>다시 해보자.<br><br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도3.mp3';  // 학습지도3.mp3 파일 경로
                     audioElement.play();  // 학습지도3.mp3 파일 재생
 
@@ -2663,7 +2663,7 @@ _clearScene(scene) {
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "상대방이 인사 했을 때는 너도 인사를 해야해. <br>다른 사람을 대하는 기본적인 예의야.<br><br>다시 해보자."
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도4.mp3';  // 학습지도4.mp3 파일 경로
                     audioElement.play();  // 학습지도4.mp3 파일 재생
 
@@ -2702,7 +2702,7 @@ _clearScene(scene) {
 
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "아파하는 사람에게 그렇게 말하면<br> 자신을 구경거리로 생각하는것 처럼 보여서<br> 기분 나쁠 수 있어. <br>더 적합한 대처를 다시 생각해보자.<br><br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도7.mp3';  // 학습지도7.mp3 파일 경로
                     audioElement.play();  // 학습지도7.mp3 파일 재생
 
@@ -2795,7 +2795,7 @@ _clearScene(scene) {
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "다친 친구를 바로 앞에서 마주쳤는데, <br>그냥 지나가기보다는<br>다른 행동을 하는 것이 좋을 것 같아. <br><br>다시 해보자.<br><br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도8.mp3';  // 학습지도8.mp3 파일 경로
                     audioElement.play();  // 학습지도8.mp3 파일 재생
                     tori_next.onclick = function () {
@@ -2914,7 +2914,7 @@ _clearScene(scene) {
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "귀가 안좋으시다고 그런식으로 말하면<br>예의에 어긋나는 말이야.<br><br>다시 해보자."
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도15.mp3';  // 학습지도15.mp3 파일 경로
                     audioElement.play();  // 학습지도15.mp3 파일 재생
                     tori_next.onclick = function () {
@@ -2955,7 +2955,7 @@ _clearScene(scene) {
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "어르신분들께 예의를 갖추어야 해. <br>소리를 잘 못 들으신다고 타박하듯이 <br>이야기하면 상대방이 곤란해할 수 있어. <br><br>다시 해보자.<br><br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도16.mp3';  // 학습지도16.mp3 파일 경로
                     audioElement.play();  // 학습지도16.mp3 파일 재생
                     tori_next.onclick = function () {
@@ -2995,9 +2995,9 @@ _clearScene(scene) {
                         document.querySelector('.left p').innerHTML = '멋진 플레이였어!<br>방금 너의 활약을 마이페이지에서<br>다시 해볼 수 있어!'
                         
                         // 26.mp3 재생
-                        const audioElement16 = document.createElement('audio');
-                        audioElement16.src = './data/audio/26.mp3';  // 26.mp3 파일 경로
-                        audioElement16.play();
+                        // const audioElement16 = document.createElement('audio');
+                        audioElement.src = './data/audio/26.mp3';  // 26.mp3 파일 경로
+                        audioElement.play();
 
                         const originalOnClick = document.querySelector('#mypagebtn').onclick;
                         document.querySelector('#mypagebtn').onclick = function () {
@@ -3014,7 +3014,7 @@ _clearScene(scene) {
                                 audioElement.currentTime = 0;
 
                                 // 27.mp3 재생
-                                const audioElement = document.createElement('audio');
+                                // const audioElement = document.createElement('audio');
                                 audioElement.src = './data/audio/27.mp3';  // 27.mp3 파일 경로
                                 audioElement.play();
 
@@ -3032,7 +3032,7 @@ _clearScene(scene) {
                                         audioElement.currentTime = 0;
 
                                         // 28.mp3 재생
-                                        const audioElement = document.createElement('audio');
+                                        // const audioElement = document.createElement('audio');
                                         audioElement.src = './data/audio/28.mp3';  // 28.mp3 파일 경로
                                         audioElement.play();
 
@@ -3045,7 +3045,7 @@ _clearScene(scene) {
                                             audioElement.currentTime = 0;
 
                                             // 29.mp3 재생
-                                            const audioElement = document.createElement('audio');
+                                            // const audioElement = document.createElement('audio');
                                             audioElement.src = './data/audio/29.mp3';  // 29.mp3 파일 경로
                                             audioElement.play();
                                             
@@ -3060,18 +3060,18 @@ _clearScene(scene) {
                                                 audioElement.currentTime = 0;
 
                                                 // 30.mp3 재생
-                                                const audioElement = document.createElement('audio');
+                                                // const audioElement = document.createElement('audio');
                                                 audioElement.src = './data/audio/30.mp3';  // 30.mp3 파일 경로
                                                 audioElement.play();
                                                 document.querySelector('.left .next_btn').onclick = function () {
                                                     document.querySelector('.left p').innerHTML = '보고 싶은 데이터를<br>한번 클릭해봐!'
 
                                                     // 30.mp3 중지, 31.mp3 재생
-                                                    audioElement16.pause();
-                                                    audioElement16.currentTime = 0;
+                                                    audioElement.pause();
+                                                    audioElement.currentTime = 0;
 
                                                     // 31.mp3 재생
-                                                    const audioElement = document.createElement('audio');
+                                                    // const audioElement = document.createElement('audio');
                                                     audioElement.src = './data/audio/31.mp3';  // 3.mp3 파일 경로
                                                     audioElement.play();
                                                     document.querySelector('.left .next_btn').onclick = function () {
@@ -3156,9 +3156,9 @@ _clearScene(scene) {
                         document.querySelector('.left p').innerHTML = '멋진 플레이였어!<br>방금 너의 활약을 마이페이지에서<br>다시 해볼 수 있어!'
                         
                         // 26.mp3 재생
-                        const audioElement16 = document.createElement('audio');
-                        audioElement16.src = './data/audio/26.mp3';  // 26.mp3 파일 경로
-                        audioElement16.play();
+                        // const audioElement = document.createElement('audio');
+                        audioElement.src = './data/audio/26.mp3';  // 26.mp3 파일 경로
+                        audioElement.play();
 
                         const originalOnClick = document.querySelector('#mypagebtn').onclick;
                         document.querySelector('#mypagebtn').onclick = function () {
@@ -3175,7 +3175,7 @@ _clearScene(scene) {
                                 audioElement.currentTime = 0;
 
                                 // 27.mp3 재생
-                                const audioElement = document.createElement('audio');
+                                // const audioElement = document.createElement('audio');
                                 audioElement.src = './data/audio/27.mp3';  // 27.mp3 파일 경로
                                 audioElement.play();
 
@@ -3193,7 +3193,7 @@ _clearScene(scene) {
                                         audioElement.currentTime = 0;
 
                                         // 28.mp3 재생
-                                        const audioElement = document.createElement('audio');
+                                        // const audioElement = document.createElement('audio');
                                         audioElement.src = './data/audio/28.mp3';  // 28.mp3 파일 경로
                                         audioElement.play();
 
@@ -3206,7 +3206,7 @@ _clearScene(scene) {
                                             audioElement.currentTime = 0;
 
                                             // 29.mp3 재생
-                                            const audioElement = document.createElement('audio');
+                                            // const audioElement = document.createElement('audio');
                                             audioElement.src = './data/audio/29.mp3';  // 29.mp3 파일 경로
                                             audioElement.play();
                                             
@@ -3221,18 +3221,18 @@ _clearScene(scene) {
                                                 audioElement.currentTime = 0;
 
                                                 // 30.mp3 재생
-                                                const audioElement = document.createElement('audio');
+                                                // const audioElement = document.createElement('audio');
                                                 audioElement.src = './data/audio/30.mp3';  // 30.mp3 파일 경로
                                                 audioElement.play();
                                                 document.querySelector('.left .next_btn').onclick = function () {
                                                     document.querySelector('.left p').innerHTML = '보고 싶은 데이터를<br>한번 클릭해봐!'
 
                                                     // 30.mp3 중지, 31.mp3 재생
-                                                    audioElement16.pause();
-                                                    audioElement16.currentTime = 0;
+                                                    audioElement.pause();
+                                                    audioElement.currentTime = 0;
 
                                                     // 31.mp3 재생
-                                                    const audioElement = document.createElement('audio');
+                                                    // const audioElement = document.createElement('audio');
                                                     audioElement.src = './data/audio/31.mp3';  // 3.mp3 파일 경로
                                                     audioElement.play();
                                                     document.querySelector('.left .next_btn').onclick = function () {
@@ -3360,7 +3360,7 @@ _clearScene(scene) {
 
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "상황에 따라 상대방에게 건넬 수 있는 말이<br>다르다는 것을 이해해야 해! <br>갑자기 남의 신체를 이야기하는 것은 <br>자연스럽지 못한 것 같아. <br>다시 해보자.<br><br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도10.mp3';  // 학습지도10.mp3 파일 경로
                     audioElement.play();  // 학습지도10.mp3 파일 재생
                     const ag1Action = this._currentNPCAnimations['angry1'];
@@ -3401,7 +3401,7 @@ _clearScene(scene) {
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "저 친구가 책을 꺼내기 힘들어하는 것 같아.<br>우리가 도울 수 있을 것 같지 않니?<br><br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도11.mp3';  // 학습지도11.mp3 파일 경로
                     audioElement.play();  // 학습지도11.mp3 파일 재생
                     tori_next.onclick = function () {
@@ -3457,7 +3457,7 @@ _clearScene(scene) {
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "읽고 있는 책이 네 것도 아닌데 <br>그렇게 말하면 안돼.<br><br>더 좋은 방법을 생각해 보자.<br><br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도12.mp3';  // 학습지도12.mp3 파일 경로
                     audioElement.play();  // 학습지도12.mp3 파일 재생
 
@@ -3496,7 +3496,7 @@ _clearScene(scene) {
                     }
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "읽고 있는 책이 네 것도 아닌데 <br>달라고 하면 안돼. <br><br>더 좋은 방법을 생각해 보자. <br><br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도12.mp3';  // 학습지도12.mp3 파일 경로
                     audioElement.play();  // 학습지도12.mp3 파일 재생
                     tori_next.onclick = function () {
@@ -3596,7 +3596,7 @@ _clearScene(scene) {
                     }
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "안경을 주워준건 정말 좋은 행동이야. <br>하지만 안경뿐만 아니라 떨어진 다른 물건도 <br>같이 주워서 도와주는건 어떨까?<br><br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도9.mp3';  // 학습지도9.mp3 파일 경로
                     audioElement.play();  // 학습지도9.mp3 파일 재생
 
@@ -3752,7 +3752,7 @@ _clearScene(scene) {
                     }
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "저 분이 먼저 와서 이용하고 있는 건데 <br>재촉하는 것은 상대방의 기분을 상하게 해. <br><br>다르게 행동해보자.<br><br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도13.mp3';  // 학습지도13.mp3 파일 경로
                     audioElement.play();  // 학습지도13.mp3 파일 재생
                     tori_next.onclick = function () {
@@ -3790,7 +3790,7 @@ _clearScene(scene) {
                     }
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "저 분이 먼저 와서 이용하고 있는 건데, <br>타당한 이유도 없이 먼저 쓰게 <br>해달라고 하면 안돼. <br><br>다르게 행동해보자.<br><br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도14.mp3';  // 학습지도14.mp3 파일 경로
                     audioElement.play();  // 학습지도14.mp3 파일 재생
                     tori_next.onclick = function () {
@@ -3842,7 +3842,7 @@ _clearScene(scene) {
                     }
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "상대방도 실수를 저질러 당황했을 거야.<br>그렇기 때문에 우리는 상대방의 작은 실수는 <br>너그럽게 받아들일 줄도 알아야 해.<br><br>다시 해보자.<br><br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도17.mp3';  // 학습지도17.mp3 파일 경로
                     audioElement.play();  // 학습지도17.mp3 파일 재생
                     tori_next.onclick = function () {
@@ -3918,7 +3918,7 @@ _clearScene(scene) {
                     }
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "상대방의 작은 실수에 크게 화를 내면<br>상대방과의 사이가 멀어질 수 있어.<br>상대방의 작은 실수도 너그럽게<br> 받아들일 줄도 알아야 해. 다시 해보자.<br><br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도18.mp3';  // 학습지도18.mp3 파일 경로
                     audioElement.play();  // 학습지도18.mp3 파일 재생
                     tori_next.onclick = function () {
@@ -3970,7 +3970,7 @@ _clearScene(scene) {
                     }
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "어른에게 대답할때는 존댓말을 써야지.<br><br>그리고 그 질문에는 <br>더 구체적으로 대답해보는게 어때?<br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도19.mp3';  // 학습지도19.mp3 파일 경로
                     audioElement.play();  // 학습지도19.mp3 파일 재생
                     tori_next.onclick = function () {
@@ -4110,7 +4110,7 @@ _clearScene(scene) {
                     }
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "다름 사람이 열심히 한 결과물에<br>잘못된 점을 먼저 짚는 것은<br>상대방을 기분 상하게 할 수 있어.<br><br>다르게 대답해보자.<br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도20.mp3';  // 학습지도20.mp3 파일 경로
                     audioElement.play();  // 학습지도20.mp3 파일 재생
                     tori_next.onclick = function () {
@@ -4141,7 +4141,7 @@ _clearScene(scene) {
                     }
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "다른 사람의 물건을 동의도 없이<br> 가져가도 안되고 네가 잘할 수 있다고 해서<br>부탁도 없이 나서는건 좋지 않아.<br><br>다시 해보자.<br><br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도21.mp3';  // 학습지도21.mp3 파일 경로
                     audioElement.play();  // 학습지도21.mp3 파일 재생
                     tori_next.onclick = function () {
@@ -4226,7 +4226,7 @@ _clearScene(scene) {
                     
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "오리는 100원을 먹을 수 없어!<br><br>다시 생각해보자.<br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도24.mp3';  // 학습지도24.mp3 파일 경로
                     audioElement.play();  // 학습지도24.mp3 파일 재생
                     tori_next.onclick = function () {
@@ -4254,7 +4254,7 @@ _clearScene(scene) {
 
                             tori_help.style.display = 'block'
                             tori_help_p.innerHTML = "우리 오리먹이를 사서 오리한테 줘볼까?"
-                            const audioElement = document.createElement('audio');
+                            // const audioElement = document.createElement('audio');
                             audioElement.src = './data/audio/학습지도25.mp3';  // 학습지도25.mp3 파일 경로
                             audioElement.play();  // 학습지도25.mp3 파일 재생
                             
@@ -4281,7 +4281,7 @@ _clearScene(scene) {
 
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "공원의 잔디는 함부로 뜯으면 안돼!<br>식물을 훼손하는 짓은 좋은 행동이 아니야."
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도26.mp3';  // 학습지도26.mp3 파일 경로
                     audioElement.play();  // 학습지도26.mp3 파일 재생
                     tori_next.onclick = function () {
@@ -4318,7 +4318,7 @@ _clearScene(scene) {
                     
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "이 분수대는 조경용이지<br>안에서 놀라고 만들어진 곳이 아니야. <br>공공 시설에서는 규칙을 지켜야해.<br> 다시 생각해보자.<br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도29.mp3';  // 학습지도29.mp3 파일 경로
                     audioElement.play();  // 학습지도29.mp3 파일 재생
 
@@ -4347,7 +4347,7 @@ _clearScene(scene) {
 
                             tori_help.style.display = 'block'
                             tori_help_p.innerHTML = "그러네! 가까이 있으니까<br>마음까지 시원해지는 느낌이야."
-                            const audioElement = document.createElement('audio');
+                            // const audioElement = document.createElement('audio');
                             audioElement.src = './data/audio/학습지도30.mp3';  // 학습지도30.mp3 파일 경로
                             audioElement.play();  // 학습지도30.mp3 파일 재생
                             
@@ -4374,7 +4374,7 @@ _clearScene(scene) {
 
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "안돼!<br>여기 표지판에 동전을 던지지 말라고 했지만,<br>다른 물건도 던지면 안돼. <br><br>다르게 행동해보자."
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도31.mp3';  // 학습지도31.mp3 파일 경로
                     audioElement.play();  // 학습지도31.mp3 파일 재생
                     tori_next.onclick = function () {
@@ -4458,7 +4458,7 @@ _clearScene(scene) {
 
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = " 잠깐, 잠깐! 상대방이 떨어트린 물건을<br>멋대로 가져가는 것은 옳지 못한 행동이야! <br><br>자, 어떻게 해야할까?<br><br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도22.mp3';  // 학습지도22.mp3 파일 경로
                     audioElement.play();  // 학습지도22.mp3 파일 재생
                     tori_next.onclick = function () {
@@ -4477,7 +4477,7 @@ _clearScene(scene) {
 
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "지갑이 떨어진 걸 보고도 모른 체하다니!<br>지갑을 잃어버려서 당황해 할 사람을 생각해봐.<br>속상해 할거야. <br><br>어떻게 해야할까?<br><br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도23.mp3';  // 학습지도23.mp3 파일 경로
                     audioElement.play();  // 학습지도23.mp3 파일 재생
                     tori_next.onclick = function () {
@@ -4532,7 +4532,7 @@ _clearScene(scene) {
 
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "강아지에게 갑자기 달려가면<br>놀란 강아지에게 물릴 수도 있어서 위험해. <br><br>다시 생각 해보자<br><br>"
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도27.mp3';  // 학습지도27.mp3 파일 경로
                     audioElement.play();  // 학습지도27.mp3 파일 재생
                     tori_next.onclick = function () {
@@ -4621,7 +4621,7 @@ _clearScene(scene) {
                    }
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "갑자기 만지려고 하면 놀란 강아지에게<br>물릴 수도 있어서 위험해.<br><br>다시 생각 해보자."
-                    const audioElement = document.createElement('audio');
+                    // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도28.mp3';  // 학습지도28.mp3 파일 경로
                     audioElement.play();  // 학습지도28.mp3 파일 재생
                     tori_next.onclick = function () {
@@ -4662,9 +4662,9 @@ _clearScene(scene) {
                         document.querySelector('.left p').innerHTML = '멋진 플레이였어!<br>방금 너의 활약을 마이페이지에서<br>다시 해볼 수 있어!'
                         
                         // 26.mp3 재생
-                        const audioElement16 = document.createElement('audio');
-                        audioElement16.src = './data/audio/26.mp3';  // 26.mp3 파일 경로
-                        audioElement16.play();
+                        // const audioElement = document.createElement('audio');
+                        audioElement.src = './data/audio/26.mp3';  // 26.mp3 파일 경로
+                        audioElement.play();
 
                         const originalOnClick = document.querySelector('#mypagebtn').onclick;
                         document.querySelector('#mypagebtn').onclick = function () {
@@ -4681,7 +4681,7 @@ _clearScene(scene) {
                                 audioElement.currentTime = 0;
 
                                 // 27.mp3 재생
-                                const audioElement = document.createElement('audio');
+                                // const audioElement = document.createElement('audio');
                                 audioElement.src = './data/audio/27.mp3';  // 27.mp3 파일 경로
                                 audioElement.play();
 
@@ -4699,7 +4699,7 @@ _clearScene(scene) {
                                         audioElement.currentTime = 0;
 
                                         // 28.mp3 재생
-                                        const audioElement = document.createElement('audio');
+                                        // const audioElement = document.createElement('audio');
                                         audioElement.src = './data/audio/28.mp3';  // 28.mp3 파일 경로
                                         audioElement.play();
 
@@ -4712,7 +4712,7 @@ _clearScene(scene) {
                                             audioElement.currentTime = 0;
 
                                             // 29.mp3 재생
-                                            const audioElement = document.createElement('audio');
+                                            // const audioElement = document.createElement('audio');
                                             audioElement.src = './data/audio/29.mp3';  // 29.mp3 파일 경로
                                             audioElement.play();
                                             
@@ -4727,18 +4727,18 @@ _clearScene(scene) {
                                                 audioElement.currentTime = 0;
 
                                                 // 30.mp3 재생
-                                                const audioElement = document.createElement('audio');
+                                                // const audioElement = document.createElement('audio');
                                                 audioElement.src = './data/audio/30.mp3';  // 30.mp3 파일 경로
                                                 audioElement.play();
                                                 document.querySelector('.left .next_btn').onclick = function () {
                                                     document.querySelector('.left p').innerHTML = '보고 싶은 데이터를<br>한번 클릭해봐!'
 
                                                     // 30.mp3 중지, 31.mp3 재생
-                                                    audioElement16.pause();
-                                                    audioElement16.currentTime = 0;
+                                                    audioElement.pause();
+                                                    audioElement.currentTime = 0;
 
                                                     // 31.mp3 재생
-                                                    const audioElement = document.createElement('audio');
+                                                    // const audioElement = document.createElement('audio');
                                                     audioElement.src = './data/audio/31.mp3';  // 3.mp3 파일 경로
                                                     audioElement.play();
                                                     document.querySelector('.left .next_btn').onclick = function () {
@@ -4926,7 +4926,7 @@ update(time) {
             document.querySelector('.tori_help p').innerHTML = '버스정류장으로 가서 버스를 타고<br>다른 곳으로 이동해볼까?';
             
             // 25_1.mp3 재생
-            const audioElement16 = document.createElement('audio');
+            // const audioElement = document.createElement('audio');
             audioElement.src = './data/audio/25_1.mp3';  // 25_1.mp3 파일 경로
             audioElement.play();
             this._isTpTutirialShown = true;  // 튜토리얼이 한 번 표시되면 플래그를 true로 설정
@@ -5342,7 +5342,7 @@ this._npcs.forEach((npc) => {
             document.querySelector('.left p').innerHTML = '선생님을 마주보고<br>마우스로 클릭해 대화를 나눠보자.';
 
             // 오디오 요소 생성
-            const audioElement = document.createElement('audio');
+            // const audioElement = document.createElement('audio');
             audioElement.src = './data/audio/8.mp3';  // 8.mp3 파일 경로
             audioElement.play();  // 8.mp3 파일 재생
             this._isTaklTutorialShown = true;  // 튜토리얼이 한 번 표시되면 플래그를 true로 설정
