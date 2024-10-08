@@ -15,6 +15,7 @@ import { RGBELoader } from '../jsm/loaders/RGBELoader.js';
 import { gender } from './login.js';
 import { log_map_tutorial } from './event.js';
 import { talkBtnPromise, getTalkBtn } from './record.js';
+import { welcomeAudio } from './event.js';
 // import { openModal } from './mypage.js';
 // THREE.GLTFLoader
 export var game_name = "";
@@ -93,7 +94,7 @@ export function initThreeJS() {
             this._setupOctree();
 
             this._loadPlayerModel(); // 플레이어 모델 로드
-            this._switchScene(4);
+            this._switchScene(0);
             this._animate();
         
             this._camera.add(listener)
@@ -429,7 +430,14 @@ _processAnimation() {
                         });
 
                         this._worldOctree.fromGraphNode(map);
+                        new Promise((resolve) => {
                         loadingPage.style.display = 'none'; // 로딩 페이지 숨김
+                        resolve();
+                        }).then(() => {
+                        // 여기에 비동기적으로 실행할 코드를 작성합니다.
+                            welcomeAudio.src = './data/audio/1.mp3';  // 처음 음성 파일 설정
+                            welcomeAudio.play();  // 초기 음성 파일 재생
+                        });
                         if (log_map_tutorial == 'true') {
                             tutorialPage.style.display = ' block';
                         }
@@ -776,7 +784,7 @@ _processAnimation() {
                     }
                     if (child.isMesh && child.name === 'NavMesh') {  // 특정 이름의 Mesh를 찾음
                         // 투명도 설정
-                        // child.visible = false;  // NavMesh를 보이지 않게 함
+                        child.visible = false;  // NavMesh를 보이지 않게 함
                     }
 
                     if(child.name === "Fountain_1") {
@@ -914,7 +922,7 @@ _processAnimation() {
             if (child.isMesh) {
                 child.userData.type = 'park_game';
                 child.userData.anim = animationsMap
-                child.userData.name = '화가'
+                child.userData.name = '그림그리는 아이'
             }
         });
         npc.userData.animationsMap = animationsMap;
@@ -1667,7 +1675,10 @@ _switchScene(index) {
     });
 
     // UI 업데이트
-    document.getElementById("BtnMaps").style.display = "none";
+  document.getElementById("BtnMaps").style.display = "none";
+
+
+
 }
 
 // 씬 내 모든 객체를 삭제하고 메모리 해제하는 함수
@@ -1846,11 +1857,11 @@ _clearScene(scene) {
             var tori_help_p = document.querySelector('.tori_help p')
             var choose_answer
             
-            var message =`대화 상대가 ${npcType.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent},${option2.textContent},${option3.textContent}가 있다.그리고 아이가 고른 선택지는 ${choose_answer}이다.`
+            var message = `대화 상대가 ${npcType.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent},${option2.textContent},${option3.textContent}가 있다.그리고 아이가 고른 선택지는 ${choose_answer}이다.`
             var count = 0;
 
 
-             // _currentNPCAnimations를 사용
+            // _currentNPCAnimations를 사용
             if (this._currentNPCAnimations) {
                 console.log("Animations available:", this._currentNPCAnimations);
             } else {
@@ -1892,7 +1903,7 @@ _clearScene(scene) {
             }
             
             // 페이지 로드 후 음성 목록을 다시 가져오기 (음성 로딩이 비동기적으로 이루어질 수 있음)
-            window.speechSynthesis.onvoiceschanged = function() {
+            window.speechSynthesis.onvoiceschanged = function () {
                 listKoreanVoices();
             };
             function testKoreanVoices() {
@@ -1922,15 +1933,15 @@ _clearScene(scene) {
             }
             
             // 페이지 로드 후 음성 목록을 다시 가져오기 (음성 로딩이 비동기적으로 이루어질 수 있음)
-            window.speechSynthesis.onvoiceschanged = function() {
+            window.speechSynthesis.onvoiceschanged = function () {
                 testKoreanVoices();
             };
             
             
             function speak(text) {
                 if ('speechSynthesis' in window) {
-                        // const utterance = new SpeechSynthesisUtterance(text);
-                        // window.speechSynthesis.speak(utterance);
+                    // const utterance = new SpeechSynthesisUtterance(text);
+                    // window.speechSynthesis.speak(utterance);
                 } else {
                     console.log('TTS 기능이 지원되지 않는 브라우저입니다.');
                 }
@@ -1953,7 +1964,7 @@ _clearScene(scene) {
                             // if (npcType = 'game_friend' || npcType == '할머니' || document.getElementsByClassName('GameBtn').length === 0) {
                                     
                             //     } else recordButton.onclick();
-                        // }
+                            // }
 
                             // 클릭 이벤트 비활성화
                             // this.onclick = null; // 현재 클릭된 요소의 onclick 이벤트 비활성화
@@ -1970,7 +1981,7 @@ _clearScene(scene) {
                 }
             }
 
-        // 처음에 클릭 이벤트를 설정
+            // 처음에 클릭 이벤트를 설정
             setClickEvent();
             document.body.onkeydown = function (event) {
                 if (event.code === "Space") { // 스페이스바 눌렀을 때
@@ -1985,7 +1996,7 @@ _clearScene(scene) {
                 casher.style.display = "none";
                 count = 0;
                 // resetModal();
-                document.querySelectorAll('.choose button').forEach(function(button) {
+                document.querySelectorAll('.choose button').forEach(function (button) {
                     button.classList.remove('active');
                 })
                 this._onDialogClosed();
@@ -1994,7 +2005,7 @@ _clearScene(scene) {
                 casher.style.display = "none";
                 count = 0;
                 // resetModal();
-                document.querySelectorAll('.choose button').forEach(function(button) {
+                document.querySelectorAll('.choose button').forEach(function (button) {
                     button.classList.remove('active');
                 })
                 this._onDialogClosed();
@@ -2013,14 +2024,15 @@ _clearScene(scene) {
             for (var i = 0; i < npc_name.length; i++) {
                 npc_name[i].innerHTML = this._name;
             }
-            speechText.onclick = function () {;
+            speechText.onclick = function () {
+                ;
                 buttonGroup.style.display = "flex";
                 // document.getElementById('next').style.display = 'none'
             }
             dialogText.onclick = function () {
                 buttonGroup.style.display = "flex";
                 // document.getElementById('next').style.display = 'none'
-                };
+            };
 
             if (npcType === 'teacher') {
                 // speak(dialogText.innerHTML);
@@ -2035,12 +2047,12 @@ _clearScene(scene) {
                     option3.innerHTML = "누구세요?";
                     dialogText.style.display = "block";
                     document.getElementById('next').style.display = 'block'
-                    document.querySelectorAll('.choose button').forEach(function(button) {
+                    document.querySelectorAll('.choose button').forEach(function (button) {
                         button.classList.remove('active');
                     })
                 }
                 resetModal();
-                casher.style.display = "block";        
+                casher.style.display = "block";
                 if (getTalkTutorial() === 'true') {
                     document.querySelector('.left').style.display = 'none'
                     document.querySelector('.tori_help').style.display = 'block'
@@ -2050,7 +2062,7 @@ _clearScene(scene) {
                     audioElement.src = './data/audio/10.mp3';  // 10.mp3 파일 경로
                     audioElement.play();  // 10.mp3 파일 재생
 
-                    document.querySelector('.tori_help .next_btn').onclick = function() {
+                    document.querySelector('.tori_help .next_btn').onclick = function () {
                         document.querySelector('.tori_help').style.display = 'none';
                         audioElement.pause();  // 10.mp3 음성 멈춤
                         audioElement.currentTime = 0;  // 음성을 처음부터 다시 재생할 수 있도록 시간 초기화
@@ -2113,10 +2125,10 @@ _clearScene(scene) {
                                 // .play();   // 재생 시작
                                 
                                 idleanAction
-                                .reset()
-                                .setEffectiveWeight(1)
-                                .setLoop(THREE.LoopOnce, 1)
-                                .play();
+                                    .reset()
+                                    .setEffectiveWeight(1)
+                                    .setLoop(THREE.LoopOnce, 1)
+                                    .play();
                                 console.log("Playing animations simultaneously.");
                             } else {
                                 console.error("One or both animations not found in the animationsMap.");
@@ -2144,40 +2156,40 @@ _clearScene(scene) {
                     dialogText.innerHTML = "...";
 
                     const oh1Action = this._currentNPCAnimations['oh1'];
-                            const oh2Action = this._currentNPCAnimations['oh2'];
+                    const oh2Action = this._currentNPCAnimations['oh2'];
                             
-                            if (oh1Action && oh2Action) {
-                                oh1Action
-                                .reset()   // 상태 초기화
-                                .setEffectiveWeight(1) // 동작할 가중치 설정
-                                .setLoop(THREE.LoopOnce, 1) // 1번만 재생
-                                .play();   // 재생 시작
+                    if (oh1Action && oh2Action) {
+                        oh1Action
+                            .reset()   // 상태 초기화
+                            .setEffectiveWeight(1) // 동작할 가중치 설정
+                            .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                            .play();   // 재생 시작
                                 
-                                oh2Action
-                                .reset()
-                                .setEffectiveWeight(1)
-                                .setLoop(THREE.LoopOnce, 1)
-                                .play();
-                                console.log("Playing animations simultaneously.");
-                            } else {
-                                console.error("One or both animations not found in the animationsMap.");
-                            }
+                        oh2Action
+                            .reset()
+                            .setEffectiveWeight(1)
+                            .setLoop(THREE.LoopOnce, 1)
+                            .play();
+                        console.log("Playing animations simultaneously.");
+                    } else {
+                        console.error("One or both animations not found in the animationsMap.");
+                    }
 
                     tori_help.style.display = 'block'
 
                     if (getTalkTutorial() === 'true') {
                         tori_help_p.innerHTML = "음... 방금 네 행동은<br>선생님께 실례되는 행동이야.<br>선생님과 제대로 마주보고, 인사드려야 해.<br>다시 해볼까?"
-                      //오디오넣기
-                    }else {
-                      tori_help_p.innerHTML = "상대방이 인사 했을 때는 너도 인사를 해야해. <br>다른 사람을 대하는 기본적인 예의야. <br><br>다시 해보자.<br><br>"
-                    const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도1.mp3';  // 학습지도1.mp3 파일 경로
-                    audioElement.play();  // 학습지도1.mp3 파일 재생
-                }
+                        //오디오넣기
+                    } else {
+                        tori_help_p.innerHTML = "상대방이 인사 했을 때는 너도 인사를 해야해. <br>다른 사람을 대하는 기본적인 예의야. <br><br>다시 해보자.<br><br>"
+                        const audioElement = document.createElement('audio');
+                        audioElement.src = './data/audio/학습지도1.mp3';  // 학습지도1.mp3 파일 경로
+                        audioElement.play();  // 학습지도1.mp3 파일 재생
+                    }
 
 
                     tori_next.onclick = function () {
-                    tori_help.style.display = 'none'
+                        tori_help.style.display = 'none'
                         score = score - 20;
                         resetModal();
                         audioElement.pause();
@@ -2195,16 +2207,16 @@ _clearScene(scene) {
                     
                     if (oh1Action && oh2Action) {
                         oh1Action
-                        .reset()   // 상태 초기화
-                        .setEffectiveWeight(1) // 동작할 가중치 설정
-                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
-                        .play();   // 재생 시작
+                            .reset()   // 상태 초기화
+                            .setEffectiveWeight(1) // 동작할 가중치 설정
+                            .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                            .play();   // 재생 시작
                         
                         oh2Action
-                        .reset()
-                        .setEffectiveWeight(1)
-                        .setLoop(THREE.LoopOnce, 1)
-                        .play();
+                            .reset()
+                            .setEffectiveWeight(1)
+                            .setLoop(THREE.LoopOnce, 1)
+                            .play();
                         console.log("Playing animations simultaneously.");
                     } else {
                         console.error("One or both animations not found in the animationsMap.");
@@ -2212,19 +2224,19 @@ _clearScene(scene) {
                     //여기까지
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
 
-                        tori_help.style.display = 'block'
-                        if (getTalkTutorial() === 'true') {
-                        tori_help_p.innerHTML = "음... 방금 네 행동은<br>선생님께 실례되는 행동이야.<br>선생님과 제대로 마주보고, 인사드려야 해.<br>다시 해볼까?"
-                          //오디오 넣기
-                    }else{
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = " 다른 사람이 인사를 건넸을 때는<br>먼저 인사를 하고, 그 후에 궁금한 점을 <br>물어보는 것이 자연스럽고 예의바른 <br>대화 방식이야. 다시 해보자."
-                    const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도2.mp3';  // 학습지도2.mp3 파일 경로
-                    audioElement.play();  // 학습지도2.mp3 파일 재생
+                    if (getTalkTutorial() === 'true') {
+                        tori_help_p.innerHTML = "음... 방금 네 행동은<br>선생님께 실례되는 행동이야.<br>선생님과 제대로 마주보고, 인사드려야 해.<br>다시 해볼까?"
+                        //오디오 넣기
+                    } else {
+                        tori_help.style.display = 'block'
+                        tori_help_p.innerHTML = " 다른 사람이 인사를 건넸을 때는<br>먼저 인사를 하고, 그 후에 궁금한 점을 <br>물어보는 것이 자연스럽고 예의바른 <br>대화 방식이야. 다시 해보자."
+                        const audioElement = document.createElement('audio');
+                        audioElement.src = './data/audio/학습지도2.mp3';  // 학습지도2.mp3 파일 경로
+                        audioElement.play();  // 학습지도2.mp3 파일 재생
                     }
                     tori_next.onclick = function () {
-                    tori_help.style.display = 'none'
+                        tori_help.style.display = 'none'
                         score = score - 20;
                         resetModal();
                         audioElement.pause();
@@ -2241,12 +2253,12 @@ _clearScene(scene) {
                     option3.innerHTML = "(그냥 가자)";
                     dialogText.style.display = "block";
                     document.getElementById('next').style.display = 'block'
-                    document.querySelectorAll('.choose button').forEach(function(button) {
+                    document.querySelectorAll('.choose button').forEach(function (button) {
                         button.classList.remove('active');
                     })
                 }
                 resetModal();
-                casher.style.display = "block";        
+                casher.style.display = "block";
 
                 option1.onclick = function () {
                     // dialogText.style.display = "block";
@@ -2257,25 +2269,25 @@ _clearScene(scene) {
                     
                     if (ugh1Action && ugh2Action) {
                         ugh1Action
-                        .reset()   // 상태 초기화
-                        .setEffectiveWeight(1) // 동작할 가중치 설정
-                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
-                        .play();   // 재생 시작
+                            .reset()   // 상태 초기화
+                            .setEffectiveWeight(1) // 동작할 가중치 설정
+                            .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                            .play();   // 재생 시작
                         
                         ugh2Action
-                        .reset()
-                        .setEffectiveWeight(1)
-                        .setLoop(THREE.LoopOnce, 1)
-                        .play();
+                            .reset()
+                            .setEffectiveWeight(1)
+                            .setLoop(THREE.LoopOnce, 1)
+                            .play();
                         console.log("Playing animations simultaneously.");
                     } else {
                         console.error("One or both animations not found in the animationsMap.");
                     }
-                        tori_help.style.display = 'block'
+                    tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "네 앞에 떨어진 공인데, 주워 줘도 좋을 것 같아.<br>친구와 친해 질 수도 있는 기회 일지도 몰라!<br>한번 다시 해볼까?."
                     
                     tori_next.onclick = function () {
-                    tori_help.style.display = 'none'
+                        tori_help.style.display = 'none'
                         score = score - 20;
                         resetModal();
                     }.bind(this);
@@ -2343,32 +2355,32 @@ _clearScene(scene) {
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "저기! 내 말 안들렸어?";
                     //여기부터 애니메이션 예시
-                                        const ugh1Action = this._currentNPCAnimations['ugh1'];
+                    const ugh1Action = this._currentNPCAnimations['ugh1'];
                     const ugh2Action = this._currentNPCAnimations['ugh2'];
                     
                     if (ugh1Action && ugh2Action) {
                         ugh1Action
-                        .reset()   // 상태 초기화
-                        .setEffectiveWeight(1) // 동작할 가중치 설정
-                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
-                        .play();   // 재생 시작
+                            .reset()   // 상태 초기화
+                            .setEffectiveWeight(1) // 동작할 가중치 설정
+                            .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                            .play();   // 재생 시작
                         
                         ugh2Action
-                        .reset()
-                        .setEffectiveWeight(1)
-                        .setLoop(THREE.LoopOnce, 1)
-                        .play();
+                            .reset()
+                            .setEffectiveWeight(1)
+                            .setLoop(THREE.LoopOnce, 1)
+                            .play();
                         console.log("Playing animations simultaneously.");
                     } else {
                         console.error("One or both animations not found in the animationsMap.");
                     }
                     //여기까지
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
-                        tori_help.style.display = 'block'
-                        tori_help_p.innerHTML = " 저 친구가 너를 부르고 있어.<br>그냥 가지말고 다시 가보자!"
+                    tori_help.style.display = 'block'
+                    tori_help_p.innerHTML = " 저 친구가 너를 부르고 있어.<br>그냥 가지말고 다시 가보자!"
 
                     tori_next.onclick = function () {
-                    tori_help.style.display = 'none'
+                        tori_help.style.display = 'none'
                         score = score - 20;
                         resetModal();
                     }.bind(this);
@@ -2384,12 +2396,12 @@ _clearScene(scene) {
                     option3.innerHTML = "(쫓아가서 어깨를 다시 부딪힌다.)";
                     dialogText.style.display = "block";
                     document.getElementById('next').style.display = 'block'
-                    document.querySelectorAll('.choose button').forEach(function(button) {
+                    document.querySelectorAll('.choose button').forEach(function (button) {
                         button.classList.remove('active');
                     })
                 }
                 resetModal();
-                casher.style.display = "block";        
+                casher.style.display = "block";
 
 
                 option1.onclick = function () {
@@ -2403,10 +2415,10 @@ _clearScene(scene) {
                     
                     if (shoutAction) {
                         shoutAction
-                        .reset()   // 상태 초기화
-                        .setEffectiveWeight(1) // 동작할 가중치 설정
-                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
-                        .play();   // 재생 시작
+                            .reset()   // 상태 초기화
+                            .setEffectiveWeight(1) // 동작할 가중치 설정
+                            .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                            .play();   // 재생 시작
                         
                         // idleAction
                         // .reset()
@@ -2426,7 +2438,7 @@ _clearScene(scene) {
                     audioElement.play();  // 학습지도5.mp3 파일 재생
 
                     tori_next.onclick = function () {
-                    tori_help.style.display = 'none'
+                        tori_help.style.display = 'none'
                         score = score - 20;
                         resetModal();
                         audioElement.pause();
@@ -2483,10 +2495,10 @@ _clearScene(scene) {
                     
                     if (shoutAction) {
                         shoutAction
-                        .reset()   // 상태 초기화
-                        .setEffectiveWeight(1) // 동작할 가중치 설정
-                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
-                        .play();   // 재생 시작
+                            .reset()   // 상태 초기화
+                            .setEffectiveWeight(1) // 동작할 가중치 설정
+                            .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                            .play();   // 재생 시작
                         
                         // idleAction
                         // .reset()
@@ -2508,7 +2520,7 @@ _clearScene(scene) {
                     audioElement.play();  // 학습지도5.mp3 파일 재생
 
                     tori_next.onclick = function () {
-                    tori_help.style.display = 'none'
+                        tori_help.style.display = 'none'
                         score = score - 20;
                         resetModal();
                         audioElement.pause();
@@ -2526,12 +2538,12 @@ _clearScene(scene) {
                     option3.innerHTML = "(무시하고 쳐다본다.)";
                     dialogText.style.display = "block";
                     document.getElementById('next').style.display = 'block'
-                    document.querySelectorAll('.choose button').forEach(function(button) {
+                    document.querySelectorAll('.choose button').forEach(function (button) {
                         button.classList.remove('active');
                     })
                 }
                 resetModal();
-                casher.style.display = "block";        
+                casher.style.display = "block";
 
 
                 option1.onclick = function () {
@@ -2545,16 +2557,16 @@ _clearScene(scene) {
                     
                     if (sup1Action && sup2Action) {
                         sup1Action
-                        .reset()   // 상태 초기화
-                        .setEffectiveWeight(1) // 동작할 가중치 설정
-                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
-                        .play();   // 재생 시작
+                            .reset()   // 상태 초기화
+                            .setEffectiveWeight(1) // 동작할 가중치 설정
+                            .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                            .play();   // 재생 시작
                         
                         sup2Action
-                        .reset()
-                        .setEffectiveWeight(1)
-                        .setLoop(THREE.LoopOnce, 1)
-                        .play();
+                            .reset()
+                            .setEffectiveWeight(1)
+                            .setLoop(THREE.LoopOnce, 1)
+                            .play();
                         console.log("Playing animations simultaneously.");
                     } else {
                         console.error("One or both animations not found in the animationsMap.");
@@ -2568,7 +2580,7 @@ _clearScene(scene) {
                     audioElement.play();  // 학습지도3.mp3 파일 재생
 
                     tori_next.onclick = function () {
-                    tori_help.style.display = 'none'
+                        tori_help.style.display = 'none'
                         score = score - 20;
                         resetModal();
                         audioElement.pause();
@@ -2617,16 +2629,16 @@ _clearScene(scene) {
                     
                     if (em1Action && em2Action) {
                         em1Action
-                        .reset()   // 상태 초기화
-                        .setEffectiveWeight(1) // 동작할 가중치 설정
-                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
-                        .play();   // 재생 시작
+                            .reset()   // 상태 초기화
+                            .setEffectiveWeight(1) // 동작할 가중치 설정
+                            .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                            .play();   // 재생 시작
                         
                         em2Action
-                        .reset()
-                        .setEffectiveWeight(1)
-                        .setLoop(THREE.LoopOnce, 1)
-                        .play();
+                            .reset()
+                            .setEffectiveWeight(1)
+                            .setLoop(THREE.LoopOnce, 1)
+                            .play();
                         console.log("Playing animations simultaneously.");
                     } else {
                         console.error("One or both animations not found in the animationsMap.");
@@ -2643,7 +2655,7 @@ _clearScene(scene) {
 
 
                     tori_next.onclick = function () {
-                    tori_help.style.display = 'none'
+                        tori_help.style.display = 'none'
                         score = score - 20;
                         resetModal();
                         audioElement.pause();
@@ -2651,7 +2663,7 @@ _clearScene(scene) {
                     }.bind(this);
                 }.bind(this);
 
-            }else if (npcType == 'friend_hurt') {
+            } else if (npcType == 'friend_hurt') {
                 
                 let score = 100;
                 function resetModal() {
@@ -2661,12 +2673,12 @@ _clearScene(scene) {
                     option3.innerHTML = "(무시하고 지나간다.)";
                     dialogText.style.display = "block";
                     document.getElementById('next').style.display = 'block'
-                    document.querySelectorAll('.choose button').forEach(function(button) {
+                    document.querySelectorAll('.choose button').forEach(function (button) {
                         button.classList.remove('active');
                     })
                 }
                 resetModal();
-                casher.style.display = "block";   
+                casher.style.display = "block";
                 
                 
                 option1.onclick = function () {
@@ -2686,10 +2698,10 @@ _clearScene(scene) {
 
                     if (sadAction) {
                         sadAction
-                        .reset()   // 상태 초기화
-                        .setEffectiveWeight(1) // 동작할 가중치 설정
-                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
-                        .play();   // 재생 시작
+                            .reset()   // 상태 초기화
+                            .setEffectiveWeight(1) // 동작할 가중치 설정
+                            .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                            .play();   // 재생 시작
                         
                         // R2Action
                         // .reset()
@@ -2701,7 +2713,7 @@ _clearScene(scene) {
                         console.error("One or both animations not found in the animationsMap.");
                     }
                     tori_next.onclick = function () {
-                    tori_help.style.display = 'none'
+                        tori_help.style.display = 'none'
                         score = score - 20;
                         resetModal();
                         audioElement.pause();
@@ -2728,16 +2740,16 @@ _clearScene(scene) {
 
                             if (R1Action && R2Action) {
                                 R1Action
-                                .reset()   // 상태 초기화
-                                .setEffectiveWeight(1) // 동작할 가중치 설정
-                                .setLoop(THREE.LoopOnce, 1) // 1번만 재생
-                                .play();   // 재생 시작
+                                    .reset()   // 상태 초기화
+                                    .setEffectiveWeight(1) // 동작할 가중치 설정
+                                    .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                                    .play();   // 재생 시작
                                 
                                 R2Action
-                                .reset()
-                                .setEffectiveWeight(1)
-                                .setLoop(THREE.LoopOnce, 1)
-                                .play();
+                                    .reset()
+                                    .setEffectiveWeight(1)
+                                    .setLoop(THREE.LoopOnce, 1)
+                                    .play();
                                 console.log("Playing animations simultaneously.");
                             } else {
                                 console.error("One or both animations not found in the animationsMap.");
@@ -2773,7 +2785,7 @@ _clearScene(scene) {
                     audioElement.src = './data/audio/학습지도8.mp3';  // 학습지도8.mp3 파일 경로
                     audioElement.play();  // 학습지도8.mp3 파일 재생
                     tori_next.onclick = function () {
-                    tori_help.style.display = 'none'
+                        tori_help.style.display = 'none'
                         score = score - 20;
                         resetModal();
                         audioElement.pause();
@@ -2791,7 +2803,7 @@ _clearScene(scene) {
                     option3.style.display = 'none';  // 세 번째 선택지도 숨김
                     dialogText.style.display = "block";  // 대화창을 보이게 설정
                     document.getElementById('next').style.display = 'block';  // 'next' 버튼 보이기
-                    document.querySelectorAll('.choose button').forEach(function(button) {
+                    document.querySelectorAll('.choose button').forEach(function (button) {
                         button.classList.remove('active');
                     });
                     buttonGroup.style.display = "none";  // 버튼 그룹은 초기엔 숨김
@@ -2804,7 +2816,7 @@ _clearScene(scene) {
 
                 option1.onclick = function () {
                     if (scene1 === 0) {
-                        document.querySelectorAll('.choose button').forEach(function(button) {
+                        document.querySelectorAll('.choose button').forEach(function (button) {
                             button.classList.remove('active');
                         });
                         // 첫 번째 대화 내용과 선택지 변화
@@ -2817,31 +2829,31 @@ _clearScene(scene) {
                         scene1++;  // scene 상태 증가
                     } else {
                         // 두 번째 대화 내용
-                    recordButton.onclick()
-                    talkBtnPromise.then(() => {
-                        let choose_answer = option1.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        recordButton.onclick()
+                        talkBtnPromise.then(() => {
+                            let choose_answer = option1.textContent;
+                            // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
-                        console.log(choose_answer);
-                        console.log(getTalkBtn());
+                            console.log(choose_answer);
+                            console.log(getTalkBtn());
 
-                        if (getTalkBtn() === choose_answer) {
-                            buttonGroup.style.display = "none";
-                            dialogText.innerHTML = "어 그래~ 안녕~";
-                            console.log(score);
-                            
-                            document.getElementById('next').onclick = function () {
-                                casher.style.display = "none";
+                            if (getTalkBtn() === choose_answer) {
                                 buttonGroup.style.display = "none";
-                                resetModal();
-                                this._onDialogClosed();
-                                resetplayerposition.call(this);
-                            }.bind(this);
-                        } else {
-                            option1.onclick();
-                            // 선택이 맞지 않으면 다시 실행
-                        }
-                    });
+                                dialogText.innerHTML = "어 그래~ 안녕~";
+                                console.log(score);
+                            
+                                document.getElementById('next').onclick = function () {
+                                    casher.style.display = "none";
+                                    buttonGroup.style.display = "none";
+                                    resetModal();
+                                    this._onDialogClosed();
+                                    resetplayerposition.call(this);
+                                }.bind(this);
+                            } else {
+                                option1.onclick();
+                                // 선택이 맞지 않으면 다시 실행
+                            }
+                        });
                     }
                 }.bind(this);
 
@@ -2853,7 +2865,7 @@ _clearScene(scene) {
                     option3.style.display = 'block';  // 세 번째 선택지 보이기
                     dialogText.style.display = "block";  // 대화창을 보이게 설정
                     document.getElementById('next').style.display = 'block';  // 'next' 버튼 보이기
-                    document.querySelectorAll('.choose button').forEach(function(button) {
+                    document.querySelectorAll('.choose button').forEach(function (button) {
                         button.classList.remove('active');
                     });
                     // buttonGroup.style.display = "none";  // 버튼 그룹은 초기엔 숨김
@@ -2870,16 +2882,16 @@ _clearScene(scene) {
         
                     if (wrrrrongg1Action && wrrrrongg2Action) {
                         wrrrrongg1Action
-                        .reset()   // 상태 초기화
-                        .setEffectiveWeight(1) // 동작할 가중치 설정
-                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
-                        .play();   // 재생 시작
+                            .reset()   // 상태 초기화
+                            .setEffectiveWeight(1) // 동작할 가중치 설정
+                            .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                            .play();   // 재생 시작
                         
                         wrrrrongg2Action
-                        .reset()   // 상태 초기화
-                        .setEffectiveWeight(1) // 동작할 가중치 설정
-                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
-                        .play();   // 재생 시작
+                            .reset()   // 상태 초기화
+                            .setEffectiveWeight(1) // 동작할 가중치 설정
+                            .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                            .play();   // 재생 시작
                         console.log("Playing animations simultaneously.");
                     } else {
                         console.error("One or both animations not found in the animationsMap.");
@@ -2892,7 +2904,7 @@ _clearScene(scene) {
                     audioElement.src = './data/audio/학습지도15.mp3';  // 학습지도15.mp3 파일 경로
                     audioElement.play();  // 학습지도15.mp3 파일 재생
                     tori_next.onclick = function () {
-                    tori_help.style.display = 'none'
+                        tori_help.style.display = 'none'
                         score = score - 20;
                         resetModal2();
                         audioElement.pause();
@@ -2911,16 +2923,16 @@ _clearScene(scene) {
 
                     if (wrrrrongg1Action && wrrrrongg3Action) {
                         wrrrrongg1Action
-                        .reset()   // 상태 초기화
-                        .setEffectiveWeight(1) // 동작할 가중치 설정
-                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
-                        .play();   // 재생 시작
+                            .reset()   // 상태 초기화
+                            .setEffectiveWeight(1) // 동작할 가중치 설정
+                            .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                            .play();   // 재생 시작
                         
                         wrrrrongg3Action
-                        .reset()   // 상태 초기화
-                        .setEffectiveWeight(1) // 동작할 가중치 설정
-                        .setLoop(THREE.LoopOnce, 1) // 1번만 재생
-                        .play();   // 재생 시작
+                            .reset()   // 상태 초기화
+                            .setEffectiveWeight(1) // 동작할 가중치 설정
+                            .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                            .play();   // 재생 시작
                         console.log("Playing animations simultaneously.");
                     } else {
                         console.error("One or both animations not found in the animationsMap.");
@@ -2933,14 +2945,175 @@ _clearScene(scene) {
                     audioElement.src = './data/audio/학습지도16.mp3';  // 학습지도16.mp3 파일 경로
                     audioElement.play();  // 학습지도16.mp3 파일 재생
                     tori_next.onclick = function () {
-                    tori_help.style.display = 'none'
+                        tori_help.style.display = 'none'
                         score = score - 20;
                         resetModal2();
                         audioElement.pause();
                         audioElement.currentTime = 0;
                     }.bind(this);
                 }.bind(this);
-            } else if (npcType === "library_game") {
+            } else if (npcType === "town_chief") {
+                game_name = "House";
+                var modal = document.getElementById("myModal");
+                var span = document.getElementsByClassName("close")[0];
+                modal.style.display = "block";
+                var gameAButton = document.getElementById("Game");
+                gameAButton.setAttribute('data-path', 'House_fin/index.html'); // data-path 속성 설정
+                var close = document.getElementById('closeGameModal')
+
+                function resetModal() {
+                    document.querySelector('#myModal .Speech1 p').innerHTML = '마을 사람들과의 추억이 담긴 사진들인데 한번 볼래?';
+                    document.querySelector('#myModal .Speech1 #Game').innerHTML = '네, 한번 보고싶어요!';
+                    document.querySelector('#myModal .Speech1 #GameNo').innerHTML = '나중에 보러 올게요.';
+                }
+                resetModal();
+                function resetModalGame() {
+                    document.querySelectorAll('.GameBtn').forEach(function(button) {
+                        button.classList.remove('active');
+                    })
+                }
+                // 닫기 버튼 클릭 시 모달 닫기
+                close.onclick = function () {
+                    modal.style.display = "none";
+                    resetModalGame();
+                    if (getDTTutorial() === 'true') {
+                        document.querySelector('.left').style.display = 'block'
+                        document.querySelector('.left p').innerHTML = '멋진 플레이였어!<br>방금 너의 활약을 마이페이지에서<br>다시 해볼 수 있어!'
+                        
+                        // 26.mp3 재생
+                        const audioElement16 = document.createElement('audio');
+                        audioElement16.src = './data/audio/26.mp3';  // 26.mp3 파일 경로
+                        audioElement16.play();
+
+                        const originalOnClick = document.querySelector('#mypagebtn').onclick;
+                        document.querySelector('#mypagebtn').onclick = function () {
+                            if (originalOnClick) originalOnClick(); // 기존의 기능을 수행
+                            document.querySelector('.left').style.display = 'none'
+                            setTimeout(() => {
+                                document.querySelector('.left').style.display = 'block'
+                                document.getElementById('shadow_mp').style.display = 'flex'
+                                document.querySelector('.left p').innerHTML = '데이터를 눌러 확인해보자!'
+                                document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/225.png')";
+                                
+                                // 26.mp3 중지, 27.mp3 재생
+                                audioElement.pause();
+                                audioElement.currentTime = 0;
+
+                                // 27.mp3 재생
+                                const audioElement = document.createElement('audio');
+                                audioElement.src = './data/audio/27.mp3';  // 27.mp3 파일 경로
+                                audioElement.play();
+
+                                const originalOnClick2 = document.querySelector('#data').onclick;
+                                document.querySelector('#data').onclick = function () {
+                                    if (originalOnClick2) originalOnClick2(); // 기존의 기능을 수행
+                                    document.querySelector('.left').style.display = 'none'
+                                    document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/shadow_bg.png')";
+                                    setTimeout(() => {
+                                        document.querySelector('.tori_help').style.display = 'block'
+                                        document.querySelector('.tori_help p').innerHTML = '데이터는 활동 데이터와<br>대화 데이터 둘로 나뉘어!'
+                                        
+                                        // 27.mp3 중지, 28.mp3 재생
+                                        audioElement.pause();
+                                        audioElement.currentTime = 0;
+
+                                        // 28.mp3 재생
+                                        const audioElement = document.createElement('audio');
+                                        audioElement.src = './data/audio/28.mp3';  // 28.mp3 파일 경로
+                                        audioElement.play();
+
+                                        document.querySelector('.tori_help .next_btn').onclick = function () {
+                                            document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/229.png')";
+                                            document.querySelector('.tori_help p').innerHTML = '방금 획득한 활동 점수는<br>활동데이터에서 볼 수 있고,'
+                                            
+                                            // 28.mp3 중지, 29.mp3 재생
+                                            audioElement.pause();
+                                            audioElement.currentTime = 0;
+
+                                            // 29.mp3 재생
+                                            const audioElement = document.createElement('audio');
+                                            audioElement.src = './data/audio/29.mp3';  // 29.mp3 파일 경로
+                                            audioElement.play();
+                                            
+                                            document.querySelector('.tori_help .next_btn').onclick = function () {
+                                                document.querySelector('.left').style.display = 'block'
+                                                document.querySelector('.tori_help').style.display = 'none'
+                                                document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/227.png')";
+                                                document.querySelector('.left p').innerHTML = '사람들과 나눈 대화는<br>대화 데이터에서 확인할 수 있어!'
+
+                                                // 29.mp3 중지, 30.mp3 재생
+                                                audioElement.pause();
+                                                audioElement.currentTime = 0;
+
+                                                // 30.mp3 재생
+                                                const audioElement = document.createElement('audio');
+                                                audioElement.src = './data/audio/30.mp3';  // 30.mp3 파일 경로
+                                                audioElement.play();
+                                                document.querySelector('.left .next_btn').onclick = function () {
+                                                    document.querySelector('.left p').innerHTML = '보고 싶은 데이터를<br>한번 클릭해봐!'
+
+                                                    // 30.mp3 중지, 31.mp3 재생
+                                                    audioElement16.pause();
+                                                    audioElement16.currentTime = 0;
+
+                                                    // 31.mp3 재생
+                                                    const audioElement = document.createElement('audio');
+                                                    audioElement.src = './data/audio/31.mp3';  // 3.mp3 파일 경로
+                                                    audioElement.play();
+                                                    document.querySelector('.left .next_btn').onclick = function () {
+                                                        document.querySelector('.left').style.display = 'none'
+                                                        document.getElementById('shadow_mp').style.display = 'none'
+                                                        document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/shadow_bg.png')";
+
+                                                        setDTTutorial('false');
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }, 500);
+                                }
+                }, 500); // 0.1초 지연 후 대화창 띄우기 (필요에 따라 
+                        }
+                    }
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    // resetplayerposition.call(this);
+                }.bind(this);
+            
+                // "좋아!" 버튼 클릭 시 동작
+                gameAButton.onclick = function () {
+                    console.log("게임 선택됨");
+                    modal.style.display = "none";
+                    resetModalGame();
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    // resetplayerposition.call(this);
+                }.bind(this);
+            
+                // "다음에 하자" 버튼 클릭 시 모달 닫기
+                document.getElementById("GameNo").onclick = function () {
+                    console.log('close')
+                    modal.style.display = "none";
+                    resetModalGame();
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    // resetplayerposition.call(this);
+                }.bind(this);
+            
+                // 선택지 1 클릭 시 동작
+                document.getElementById("option1").onclick = function () {
+                    console.log("선택지 1 선택됨");
+                    modal.style.display = "none";
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    // resetplayerposition.call(this);
+                }.bind(this);
+            
+                // 모달 창 바깥 영역 클릭 시 모달 닫기
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                        this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                        // resetplayerposition.call(this);
+                    }
+                }.bind(this);
+        } else if (npcType === "library_game") {
                 game_name = "Library";
                 var modal = document.getElementById("myModal");
                 var span = document.getElementsByClassName("close")[0];
@@ -2950,9 +3123,9 @@ _clearScene(scene) {
                 var close = document.getElementById('closeGameModal')
 
                 function resetModal() {
-                    document.querySelector('#myModal .Speech1 p').innerHTML = 'test';
-                    document.querySelector('#myModal .Speech1 #Game').innerHTML = 'test1';
-                    document.querySelector('#myModal .Speech1 #GameNo').innerHTML = 'test2';
+                    document.querySelector('#myModal .Speech1 p').innerHTML = '사람들의 독서 후기를 정리하고 있는데, 도와주지 않을래?';
+                    document.querySelector('#myModal .Speech1 #Game').innerHTML = '네, 도와드릴게요!';
+                    document.querySelector('#myModal .Speech1 #GameNo').innerHTML = '다음에 도와드릴게요.';
                 }
                 resetModal();
                 function resetModalGame() {
@@ -4446,7 +4619,168 @@ _clearScene(scene) {
                     }.bind(this);
                 }.bind(this);
 
-            } 
+            } else if (npcType == 'park_game') {
+                game_name = "Park";
+                var modal = document.getElementById("myModal");
+                var span = document.getElementsByClassName("close")[0];
+                modal.style.display = "block";
+                var gameAButton = document.getElementById("Game");
+                gameAButton.setAttribute('data-path', 'Library_fin/index.html'); // data-path 속성 설정
+                var close = document.getElementById('closeGameModal')
+
+                function resetModal() {
+                    document.querySelector('#myModal .Speech1 p').innerHTML = '지금 사람들의 캐리커쳐를 그리는 중이야. 혹시 캐리커쳐 그리기를 도와줄 수 있니?';
+                    document.querySelector('#myModal .Speech1 #Game').innerHTML = '좋아! 도와줄게!';
+                    document.querySelector('#myModal .Speech1 #GameNo').innerHTML = '나중에 도와줄게.';
+                }
+                resetModal();
+                function resetModalGame() {
+                    document.querySelectorAll('.GameBtn').forEach(function(button) {
+                        button.classList.remove('active');
+                    })
+                }
+                // 닫기 버튼 클릭 시 모달 닫기
+                close.onclick = function () {
+                    modal.style.display = "none";
+                    resetModalGame();
+                    if (getDTTutorial() === 'true') {
+                        document.querySelector('.left').style.display = 'block'
+                        document.querySelector('.left p').innerHTML = '멋진 플레이였어!<br>방금 너의 활약을 마이페이지에서<br>다시 해볼 수 있어!'
+                        
+                        // 26.mp3 재생
+                        const audioElement16 = document.createElement('audio');
+                        audioElement16.src = './data/audio/26.mp3';  // 26.mp3 파일 경로
+                        audioElement16.play();
+
+                        const originalOnClick = document.querySelector('#mypagebtn').onclick;
+                        document.querySelector('#mypagebtn').onclick = function () {
+                            if (originalOnClick) originalOnClick(); // 기존의 기능을 수행
+                            document.querySelector('.left').style.display = 'none'
+                            setTimeout(() => {
+                                document.querySelector('.left').style.display = 'block'
+                                document.getElementById('shadow_mp').style.display = 'flex'
+                                document.querySelector('.left p').innerHTML = '데이터를 눌러 확인해보자!'
+                                document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/225.png')";
+                                
+                                // 26.mp3 중지, 27.mp3 재생
+                                audioElement.pause();
+                                audioElement.currentTime = 0;
+
+                                // 27.mp3 재생
+                                const audioElement = document.createElement('audio');
+                                audioElement.src = './data/audio/27.mp3';  // 27.mp3 파일 경로
+                                audioElement.play();
+
+                                const originalOnClick2 = document.querySelector('#data').onclick;
+                                document.querySelector('#data').onclick = function () {
+                                    if (originalOnClick2) originalOnClick2(); // 기존의 기능을 수행
+                                    document.querySelector('.left').style.display = 'none'
+                                    document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/shadow_bg.png')";
+                                    setTimeout(() => {
+                                        document.querySelector('.tori_help').style.display = 'block'
+                                        document.querySelector('.tori_help p').innerHTML = '데이터는 활동 데이터와<br>대화 데이터 둘로 나뉘어!'
+                                        
+                                        // 27.mp3 중지, 28.mp3 재생
+                                        audioElement.pause();
+                                        audioElement.currentTime = 0;
+
+                                        // 28.mp3 재생
+                                        const audioElement = document.createElement('audio');
+                                        audioElement.src = './data/audio/28.mp3';  // 28.mp3 파일 경로
+                                        audioElement.play();
+
+                                        document.querySelector('.tori_help .next_btn').onclick = function () {
+                                            document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/229.png')";
+                                            document.querySelector('.tori_help p').innerHTML = '방금 획득한 활동 점수는<br>활동데이터에서 볼 수 있고,'
+                                            
+                                            // 28.mp3 중지, 29.mp3 재생
+                                            audioElement.pause();
+                                            audioElement.currentTime = 0;
+
+                                            // 29.mp3 재생
+                                            const audioElement = document.createElement('audio');
+                                            audioElement.src = './data/audio/29.mp3';  // 29.mp3 파일 경로
+                                            audioElement.play();
+                                            
+                                            document.querySelector('.tori_help .next_btn').onclick = function () {
+                                                document.querySelector('.left').style.display = 'block'
+                                                document.querySelector('.tori_help').style.display = 'none'
+                                                document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/dimmed/227.png')";
+                                                document.querySelector('.left p').innerHTML = '사람들과 나눈 대화는<br>대화 데이터에서 확인할 수 있어!'
+
+                                                // 29.mp3 중지, 30.mp3 재생
+                                                audioElement.pause();
+                                                audioElement.currentTime = 0;
+
+                                                // 30.mp3 재생
+                                                const audioElement = document.createElement('audio');
+                                                audioElement.src = './data/audio/30.mp3';  // 30.mp3 파일 경로
+                                                audioElement.play();
+                                                document.querySelector('.left .next_btn').onclick = function () {
+                                                    document.querySelector('.left p').innerHTML = '보고 싶은 데이터를<br>한번 클릭해봐!'
+
+                                                    // 30.mp3 중지, 31.mp3 재생
+                                                    audioElement16.pause();
+                                                    audioElement16.currentTime = 0;
+
+                                                    // 31.mp3 재생
+                                                    const audioElement = document.createElement('audio');
+                                                    audioElement.src = './data/audio/31.mp3';  // 3.mp3 파일 경로
+                                                    audioElement.play();
+                                                    document.querySelector('.left .next_btn').onclick = function () {
+                                                        document.querySelector('.left').style.display = 'none'
+                                                        document.getElementById('shadow_mp').style.display = 'none'
+                                                        document.getElementById('shadow_mp').style.backgroundImage = "url('data/tutorial/shadow_bg.png')";
+
+                                                        setDTTutorial('false');
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }, 500);
+                                }
+                }, 500); // 0.1초 지연 후 대화창 띄우기 (필요에 따라 
+                        }
+                    }
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    // resetplayerposition.call(this);
+                }.bind(this);
+            
+                // "좋아!" 버튼 클릭 시 동작
+                gameAButton.onclick = function () {
+                    console.log("게임 선택됨");
+                    modal.style.display = "none";
+                    resetModalGame();
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    // resetplayerposition.call(this);
+                }.bind(this);
+            
+                // "다음에 하자" 버튼 클릭 시 모달 닫기
+                document.getElementById("GameNo").onclick = function () {
+                    console.log('close')
+                    modal.style.display = "none";
+                    resetModalGame();
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    // resetplayerposition.call(this);
+                }.bind(this);
+            
+                // 선택지 1 클릭 시 동작
+                document.getElementById("option1").onclick = function () {
+                    console.log("선택지 1 선택됨");
+                    modal.style.display = "none";
+                    this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                    // resetplayerposition.call(this);
+                }.bind(this);
+            
+                // 모달 창 바깥 영역 클릭 시 모달 닫기
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                        this._onDialogClosed(); // 모달 닫기 후 카메라 복원
+                        // resetplayerposition.call(this);
+                    }
+                }.bind(this);
+            }
     
             if (npcType === "tp") {
                 // 캐릭터의 새 위치 설정
@@ -4705,12 +5039,6 @@ update(time) {
                 
         for (let i = 0; i < intersectsDown.length; i++) {
             const intersectedObject = intersectsDown[i].object;
-            if (intersectedObject.name === 'NavMesh') {
-                // console.log('NavMesh 탐지')
-                isOnNavMesh = true;
-                lastValidPosition.copy(this._model.position);  // NavMesh 위에 있을 때 위치 저장
-                break;
-            }
             if (intersectedObject.name === 'teleport') {
                 if (this._currentSceneIndex == 4) { //마을회관
                     this._switchScene(1)
@@ -4745,8 +5073,11 @@ update(time) {
                 else collidedWithTeleport = true;
                 break;
             } else if (intersectedObject.name === 'teleport001') {
-                if (this._currentSceneIndex == 1)
+                if (this._currentSceneIndex == 1) {
+                    
                     this._switchScene(4)
+                    console.log('jotbug')
+                }
                 else if (this._currentSceneIndex == 2) {
                     this._switchScene(5)
                 } else
@@ -4755,12 +5086,6 @@ update(time) {
         }
         for (let i = 0; i < intersectsUp.length; i++) {
             const intersectedObject = intersectsUp[i].object;
-            if (intersectedObject.userData.name === 'NavMesh') {
-                // console.log('NavMesh 탐지')
-                isOnNavMesh = true;
-                // lastValidPosition.copy(this._model.position);  // NavMesh 위에 있을 때 위치 저장
-                break;
-            }
             if (intersectedObject.name === 'teleport') {
                 if (this._currentSceneIndex == 4) { //마을회관
                     this._switchScene(1)
@@ -4795,8 +5120,9 @@ update(time) {
                 else collidedWithTeleport = true;
                 break;
             }else if (intersectedObject.name === 'teleport001'){
-                if(this._currentSceneIndex == 1)
+                if (this._currentSceneIndex == 1) {
                     this._switchScene(4)
+                }
                 else if (this._currentSceneIndex == 2){
                     this._switchScene(5)
                 }else
@@ -4955,27 +5281,30 @@ for (let i = 0; i < intersectsUp_wall.length; i++) {
 }
 
 
-// NavMesh 위에 있지 않으면 속도를 0으로 설정
-// if (!isOnNavMesh_wall) {
-//     // 원래 속도를 저장 (한 번만 저장)
-//     if (this._speed !== 0 || this._maxSpeed !== 0 || this._acceleration !== 0) {
-//         originalSpeed = this._speed;
-//         originalMaxSpeed = this._maxSpeed;
-//         originalAcceleration = this._acceleration;
-//     }
-
-//     // 속도를 0으로 설정
-//     this._speed = 0;
-//     this._maxSpeed = 0;
-//     this._acceleration = 0;
-// } else {
-//     // Raycast가 NavMesh를 감지하면 원래 속도를 복원
-//     if (this._speed === 0 && this._maxSpeed === 0 && this._acceleration === 0) {
-//         this._speed = originalSpeed;
-//         this._maxSpeed = originalMaxSpeed;
-//         this._acceleration = originalAcceleration;
-//     }
-// }
+                // NavMesh 위에 있지 않으면 속도를 0으로 설정
+                if (this._currentSceneIndex != 1) {
+                    
+                    if (!isOnNavMesh_wall) {
+                        // 원래 속도를 저장 (한 번만 저장)
+                        if (this._speed !== 0 || this._maxSpeed !== 0 || this._acceleration !== 0) {
+                            originalSpeed = this._speed;
+                            originalMaxSpeed = this._maxSpeed;
+                            originalAcceleration = this._acceleration;
+                        }
+                        
+                        // 속도를 0으로 설정
+                        this._speed = 0;
+                        this._maxSpeed = 0;
+                        this._acceleration = 0;
+                    } else {
+                        // Raycast가 NavMesh를 감지하면 원래 속도를 복원
+                        if (this._speed === 0 && this._maxSpeed === 0 && this._acceleration === 0) {
+                            this._speed = originalSpeed;
+                            this._maxSpeed = originalMaxSpeed;
+                            this._acceleration = originalAcceleration;
+                        }
+                    }
+                }
 
 
 

@@ -1,6 +1,6 @@
 import { game_name } from './metaverse.js';
 import { globalId } from './login.js';
-
+export const welcomeAudio = document.createElement('audio');
 // export var stickerNumber = 0
 
 export function updateSticker(stickerNumber) {
@@ -235,12 +235,12 @@ if (casher && window.getComputedStyle(casher).display === 'none') {
 }
 
 
-export let log_map_tutorial = 'false'
-let talk_tutorial = 'false';
-let sticker_tutorial = 'false'
-let tp_tutorial = 'false'
-let data_tutorial = 'false'
-let final_tutorial = 'false'
+export let log_map_tutorial = 'true'
+let talk_tutorial = 'true';
+let sticker_tutorial = 'true'
+let tp_tutorial = 'true'
+let data_tutorial = 'true'
+let final_tutorial = 'true'
 
 export function getTpTutorial() {
   return tp_tutorial;
@@ -283,7 +283,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const tori_text_box = document.querySelector('.tori_text_box')
   const confirmbtn = document.querySelector('.namebox button')
   // 오디오 요소 생성
-  const welcomeAudio = document.createElement('audio');
   document.body.appendChild(welcomeAudio); // body에 오디오 요소 추가
   if (getSTTutorial() === 'false') {
     document.querySelector('#mypagebtn').style.display = 'block'
