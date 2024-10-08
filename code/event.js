@@ -2,7 +2,7 @@ import { game_name } from './metaverse.js';
 import { globalId } from './login.js';
 export const welcomeAudio = document.createElement('audio');
 // export var stickerNumber = 0
-
+export const audioElement = document.createElement('audio');
 export function updateSticker(stickerNumber) {
     fetch('https://gio.pe.kr:444/updateSticker', {
       method: 'POST',
@@ -283,14 +283,20 @@ document.addEventListener('DOMContentLoaded', function () {
   const tori_text_box = document.querySelector('.tori_text_box')
   const confirmbtn = document.querySelector('.namebox button')
   // 오디오 요소 생성
-  document.body.appendChild(welcomeAudio); // body에 오디오 요소 추가
+
+  document.body.appendChild(audioElement); // body에 오디오 요소 추가
+
   if (getSTTutorial() === 'false') {
     document.querySelector('#mypagebtn').style.display = 'block'
     // 첫 번째 텍스트와 음성 파일 설정
     tori_text.innerHTML = '안녕! GiO 세계에 온걸 환영해!';
-    welcomeAudio.src = './data/audio/1.mp3';  // 처음 음성 파일 설정
-    welcomeAudio.play();  // 초기 음성 파일 재생
-  }
+    audioElement.src = './data/audio/1.mp3';  // 처음 음성 파일 설정
+    audioElement.play();  // 초기 음성 파일 재생  
+  
+  };
+
+  
+
 
 
   if (tuto_btn && tori_text && log_map_tutorial == 'true') {
@@ -300,17 +306,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 첫 번째 클릭 이벤트 리스너
     tuto_btn.addEventListener('click', function () {
-      welcomeAudio.pause();
+      audioElement.pause();
       tori_text.innerHTML = '내 이름은 토리! 너와 함께 GiO를 다니기 위해 찾아왔어!';
 
 
       // 두 번째 음성 파일 설정 및 재생
-      welcomeAudio.src = './data/audio/2.mp3';  // 2.wav 파일로 변경
-      welcomeAudio.play();
+      audioElement.src = './data/audio/2.mp3';  // 2.wav 파일로 변경
+      audioElement.play();
 
       // 두 번째 클릭 이벤트 리스너 (이벤트 중첩)
       tuto_btn.addEventListener('click', function () {
-        welcomeAudio.pause();
+        audioElement.pause();
         tori.style.display = 'none';
         tori_text_box.style.display = 'none';
         document.querySelector('.namebox').style.display = 'flex';
@@ -331,13 +337,13 @@ document.addEventListener('DOMContentLoaded', function () {
           tori_text.innerHTML = `아하? 너의 이름은 ${name}구나! 좋아! GiO 세계에 온 걸 환영해!<br>네가 GiO에 적응할 수 있도록 최선을 다할게. 우선 학교에 가볼까?`;
 
           // 첫 번째 음성 파일 4.mp3 설정 및 재생
-          welcomeAudio.src = './data/audio/4.mp3';
-          welcomeAudio.play();
+          audioElement.src = './data/audio/4.mp3';
+          audioElement.play();
 
           // 4.mp3가 끝난 후 5.mp3 재생
-          welcomeAudio.addEventListener('ended', function () {
-              welcomeAudio.src = './data/audio/5.mp3';
-              welcomeAudio.play();
+          audioElement.addEventListener('ended', function () {
+            audioElement.src = './data/audio/5.mp3';
+            audioElement.play();
           }, { once: true });
 
 
@@ -350,9 +356,9 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('.tori_help').style.display = 'block';
             
             log_map_tutorial = 'false'
-            welcomeAudio.pause(); // 이전에 재생 중인 음성을 멈춤
-            welcomeAudio.src = './data/audio/6.mp3'; // 6.mp3 설정
-            welcomeAudio.play(); // 6.mp3 재생
+            audioElement.pause(); // 이전에 재생 중인 음성을 멈춤
+            audioElement.src = './data/audio/6.mp3'; // 6.mp3 설정
+            audioElement.play(); // 6.mp3 재생
           });
         });
       });
