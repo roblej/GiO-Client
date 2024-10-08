@@ -989,7 +989,7 @@ _processAnimation() {
                     const idleAction = animationsMap['sit'];
                     idleAction.play();
                 }
-                npc.position.set(-909, 10, 10);
+                npc.position.set(-909, 7.5, 10);
                 npc.scale.set(50, 50, 50);
                 const box = (new THREE.Box3).setFromObject(npc);
                 // npc.position.y = (box.max.y - box.min.y) /2;
@@ -1001,7 +1001,7 @@ _processAnimation() {
                     new THREE.Vector3(0, height - diameter / 2, 0),
                     diameter / 2
                 );
-                // npc.rotation.y = Math.PI;
+                npc.rotation.y = Math.PI * 2.5;
                 npcs.push(npc);
                 this._npc = npc;
             });
@@ -1130,7 +1130,7 @@ _processAnimation() {
                         const idleAction = animationsMap['idle'];
                         idleAction.play();
                     }
-                    npc.position.set(-431, 0, 678);
+                    npc.position.set(-431, 20, 678);
                     npc.scale.set(50, 50, 50);
                     const box = (new THREE.Box3).setFromObject(npc);
                     // npc.position.y = (box.max.y - box.min.y) /2;
@@ -1748,6 +1748,10 @@ _clearScene(scene) {
                         teleportPlayer.call(this, new THREE.Vector3(5993, 6.99, -7393));
                         } else if (selectedObject.userData.type === 'library_game') {
                         teleportPlayer.call(this, new THREE.Vector3(602, 7.25, 435.57));
+                        } else if (selectedObject.userData.type === 'grandfather') {
+                        teleportPlayer.call(this, new THREE.Vector3(-388.20, 8.15, -1.67));
+                        } else if (selectedObject.userData.type === 'town_chief') {
+                        teleportPlayer.call(this, new THREE.Vector3(-811.95, 8.15, 818.43));
                         
                     }
                         
@@ -2758,7 +2762,7 @@ _clearScene(scene) {
 
                         if (getTalkBtn() === choose_answer) {
                             buttonGroup.style.display = "none";
-                            dialogText.innerHTML = "정말 미안하구나. 아줌마가 실수했어. 다음에는 조심하도록 하마.";
+                            dialogText.innerHTML = "어 그래~ 안녕~";
                             console.log(score);
                             
                             document.getElementById('next').onclick = function () {
