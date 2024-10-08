@@ -307,6 +307,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 첫 번째 클릭 이벤트 리스너
     tuto_btn.addEventListener('click', function () {
       audioElement.pause();
+      audioElement.currentTime = 0; // 음성을 처음부터 재생하도록 설정
       tori_text.innerHTML = '내 이름은 토리! 너와 함께 GiO를 다니기 위해 찾아왔어!';
 
 
@@ -317,6 +318,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // 두 번째 클릭 이벤트 리스너 (이벤트 중첩)
       tuto_btn.addEventListener('click', function () {
         audioElement.pause();
+        audioElement.currentTime = 0; // 음성을 처음부터 재생하도록 설정
         tori.style.display = 'none';
         tori_text_box.style.display = 'none';
         document.querySelector('.namebox').style.display = 'flex';
@@ -340,14 +342,6 @@ document.addEventListener('DOMContentLoaded', function () {
           audioElement.src = './data/audio/4.mp3';
           audioElement.play();
 
-          // 4.mp3가 끝난 후 5.mp3 재생
-          audioElement.addEventListener('ended', function () {
-            audioElement.src = './data/audio/5.mp3';
-            audioElement.play();
-          }, { once: true });
-
-
-
           // 맵 관련 버튼 표시
           tuto_btn.addEventListener('click', function () {
             document.querySelector('.map_intro').style.display = 'none';
@@ -357,6 +351,7 @@ document.addEventListener('DOMContentLoaded', function () {
             
             log_map_tutorial = 'false'
             audioElement.pause(); // 이전에 재생 중인 음성을 멈춤
+            audioElement.currentTime = 0; // 음성을 처음부터 재생하도록 설정
             audioElement.src = './data/audio/6.mp3'; // 6.mp3 설정
             audioElement.play(); // 6.mp3 재생
           });

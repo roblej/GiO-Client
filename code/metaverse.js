@@ -27,7 +27,6 @@ export function initThreeJS() {
     const loadingPage = document.getElementById('loadingPage');
     const tutorialPage = document.getElementById('tutorial')
     loadingPage.style.display = 'flex';
-    
     class App {
         constructor() {
             console.log("construct complete")
@@ -48,7 +47,7 @@ export function initThreeJS() {
             this._isTutorialShown = false;  // 튜토리얼이 이미 표시되었는지 추적하는 플래그
             this._isTpTutirialShown = false; //맵이동 튜토리얼이 이미 표시되었는지 추적하는 플래그
             this._isTaklTutorialShown = false; //최초 선생님 가까이 갔을때 추적하는 플래그
-
+            this._hasPlayAudio = false;
             const loader = new THREE.TextureLoader();
             
             //this._scene.background = new THREE.Color(0x87CEEB); // 하늘색으로 설정
@@ -435,9 +434,13 @@ _processAnimation() {
                         loadingPage.style.display = 'none'; // 로딩 페이지 숨김
                         resolve();
                         }).then(() => {
-                        // 여기에 비동기적으로 실행할 코드를 작성합니다.
-                            audioElement.src = './data/audio/1.mp3';  // 처음 음성 파일 설정
-                            audioElement.play();  // 초기 음성 파일 재생
+                            // 여기에 비동기적으로 실행할 코드를 작성합니다.
+                            if (!this._hasPlayAudio) {
+                                
+                                audioElement.src = './data/audio/1.mp3';  // 처음 음성 파일 설정
+                                audioElement.play();  // 초기 음성 파일 재생
+                                this._hasPlayAudio = true
+                            }
                         });
                         if (log_map_tutorial == 'true') {
                             tutorialPage.style.display = ' block';
@@ -445,16 +448,16 @@ _processAnimation() {
                         if (log_map_tutorial == 'false' && getTalkTutorial() === 'true') {
                             document.querySelector('.left').style.display = 'block';
                             document.querySelector('.left p').innerHTML = '학교에 도착했어!<br>교문 앞에 계신 선생님께 가보자!'
+                            audioElement.currentTime = 0; // 음성을 처음부터 재생하도록 설정
 
-
-                            const audioElement = document.createElement('audio');
-                            audioElement.src = './data/audio/7.mp3';  // 7.mp3 파일 경로
-                            audioElement.play();  // 7.mp3 파일 재생
+                            const audioElement1 = document.createElement('audio');
+                            audioElement1.src = './data/audio/7.mp3';  // 7.mp3 파일 경로
+                            audioElement1.play();  // 7.mp3 파일 재생
 
                             document.querySelector('.left .next_btn').onclick = function() {
                                 document.querySelector('.left').style.display = 'none';
-                                audioElement.pause();  // 7.mp3 음성 멈춤
-                                audioElement.currentTime = 0;  // 음성을 처음부터 다시 재생할 수 있도록 시간 초기화
+                                audioElement1.pause();  // 7.mp3 음성 멈춤
+                                audioElement1.currentTime = 0;  // 음성을 처음부터 다시 재생할 수 있도록 시간 초기화
                             };
 
                             
@@ -2185,10 +2188,9 @@ _clearScene(scene) {
                     if (getTalkTutorial() === 'true') {
                         tori_help_p.innerHTML = "음... 방금 네 행동은<br>선생님께 실례되는 행동이야.<br>선생님과 제대로 마주보고, 인사드려야 해.<br>다시 해볼까?"
                         // 10.mp3 중지, 11.mp3 재생
-                        audioElement.pause();
-                        audioElement.currentTime = 0;
+                        
 
-                        const audioElement = document.createElement('audio');
+
                         audioElement.src = './data/audio/11.mp3';  // 11.mp3 파일 경로
                         audioElement.play();
 
@@ -2201,6 +2203,8 @@ _clearScene(scene) {
 
 
                     tori_next.onclick = function () {
+                        audioElement.pause();
+                        audioElement.currentTime = 0;
                         tori_help.style.display = 'none'
                         score = score - 20;
                         resetModal();
@@ -2239,15 +2243,15 @@ _clearScene(scene) {
                         if (getTalkTutorial() === 'true') {
                         tori_help_p.innerHTML = "음... 방금 네 행동은<br>선생님께 실례되는 행동이야.<br>선생님과 제대로 마주보고, 인사드려야 해.<br>다시 해볼까?"
                         // 10.mp3 중지, 11.mp3 재생
+
                         audioElement.pause();
                         audioElement.currentTime = 0;
-                        const audioElement = document.createElement('audio');
                         audioElement.src = './data/audio/11.mp3';  // 11.mp3 파일 경로
                         audioElement.play();
                     } else {
                         tori_help.style.display = 'block'
                         tori_help_p.innerHTML = " 다른 사람이 인사를 건넸을 때는<br>먼저 인사를 하고, 그 후에 궁금한 점을 <br>물어보는 것이 자연스럽고 예의바른 <br>대화 방식이야. 다시 해보자."
-                        const audioElement = document.createElement('audio');
+
                         audioElement.src = './data/audio/학습지도2.mp3';  // 학습지도2.mp3 파일 경로
                         audioElement.play();  // 학습지도2.mp3 파일 재생
                     }
