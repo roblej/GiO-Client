@@ -2860,6 +2860,8 @@ _clearScene(scene) {
                                     casher.style.display = "none";
                                     buttonGroup.style.display = "none";
                                     resetModal();
+                                    option2.style.display = 'block';  // 두 번째 선택지는 숨김
+                                    option3.style.display = 'block';  // 세 번째 선택지도 숨김
                                     this._onDialogClosed();
                                     resetplayerposition.call(this);
                                 }.bind(this);
