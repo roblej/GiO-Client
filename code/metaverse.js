@@ -2005,6 +2005,7 @@ _clearScene(scene) {
                 // resetModal();
                 document.querySelectorAll('.choose button').forEach(function (button) {
                     button.classList.remove('active');
+                    document.getElementById('helper').style.display = 'none';
                 })
                 this._onDialogClosed();
             }.bind(this);
@@ -2014,6 +2015,7 @@ _clearScene(scene) {
                 // resetModal();
                 document.querySelectorAll('.choose button').forEach(function (button) {
                     button.classList.remove('active');
+                    document.getElementById('helper').style.display = 'none';
                 })
                 this._onDialogClosed();
             }.bind(this);
@@ -2093,7 +2095,7 @@ _clearScene(scene) {
                     } else recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option1.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        let message = `대화 상대가 ${this._name}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -2115,6 +2117,8 @@ _clearScene(scene) {
                                     audioElement.currentTime = 0;  // 음성을 처음부터 다시 재생할 수 있도록 시간 초기화
                                     setTalkTutorial('false')
                                 }
+                            } else {
+                                // sendMessageToClova(message)
                             }
 
 
@@ -2158,7 +2162,8 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "...";
-
+                    let choose_answer = option2.textContent;
+                        let message = `대화 상대가 ${this._name}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
                     const oh1Action = this._currentNPCAnimations['oh1'];
                     const oh2Action = this._currentNPCAnimations['oh2'];
                             
@@ -2193,7 +2198,8 @@ _clearScene(scene) {
                     }else {
                         tori_help_p.innerHTML = "상대방이 인사 했을 때는 너도 인사를 해야해. <br>다른 사람을 대하는 기본적인 예의야. <br><br>다시 해보자.<br><br>"
                     audioElement.src = './data/audio/학습지도1.mp3';  // 학습지도1.mp3 파일 경로
-                    audioElement.play();  // 학습지도1.mp3 파일 재생
+                        audioElement.play();  // 학습지도1.mp3 파일 재생
+                        // sendMessageToClova(message)
                 }
 
 

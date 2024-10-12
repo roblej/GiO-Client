@@ -193,9 +193,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
-
 export async function sendMessageToClova(message) {
-    const response = await fetch('http://127.0.0.1:5002/clova', {
+    const helperElement = document.getElementById('helper');
+    // const response = await fetch('https://gio.pe.kr:446/clova', {
+    const response = await fetch('http://localhost:5000/clova', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -205,7 +206,8 @@ export async function sendMessageToClova(message) {
 
     const result = await response.json();
     console.log(result.clova_response); // 클로바 챗봇 응답 출력
-    document.getElementById('helper').innerHTML = result.clova_response;
+    document.getElementById('helper_text').innerHTML = result.clova_response;
+    // helperElement.style.display ='block'
 }
 // var question = '대화 상대가 {teacher}이고 질문이 {안녕? 새로 온 학생이니} 일때, 선택지는 {네, 맞아요. 안녕하세요},{(무시하고 갈 길을 간다.)},{누구세요}가 있다. 그리고 아이가 고른 선택지는 {(무시하고 갈 길을 간다.)}이다.'
 // sendMessageToClova(question)
