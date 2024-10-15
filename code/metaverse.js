@@ -1864,7 +1864,7 @@ _clearScene(scene) {
             var tori_help_p = document.querySelector('.tori_help p')
             var choose_answer
             
-            var message = `대화 상대가 ${npcType.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent},${option2.textContent},${option3.textContent}가 있다.그리고 아이가 고른 선택지는 ${choose_answer}이다.`
+            var message = `대화 상대가 ${npcType.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent},${option2.textContent},${option3.textContent}가 있다.그리고 아이가 고른 선택지는 ${choose_answer}이다.`
             var count = 0;
 
 
@@ -2095,7 +2095,7 @@ _clearScene(scene) {
                     } else recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option1.textContent;
-                        let message = `대화 상대가 ${this._name}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -2118,7 +2118,7 @@ _clearScene(scene) {
                                     setTalkTutorial('false')
                                 }
                             } else {
-                                // sendMessageToClova(message)
+                                sendMessageToClova(message)
                             }
 
 
@@ -2161,9 +2161,9 @@ _clearScene(scene) {
                 option2.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
-                    dialogText.innerHTML = "...";
                     let choose_answer = option2.textContent;
-                        let message = `대화 상대가 ${this._name}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    dialogText.innerHTML = "...";
                     const oh1Action = this._currentNPCAnimations['oh1'];
                     const oh2Action = this._currentNPCAnimations['oh2'];
                             
@@ -2199,7 +2199,7 @@ _clearScene(scene) {
                         tori_help_p.innerHTML = "상대방이 인사 했을 때는 너도 인사를 해야해. <br>다른 사람을 대하는 기본적인 예의야. <br><br>다시 해보자.<br><br>"
                     audioElement.src = './data/audio/학습지도1.mp3';  // 학습지도1.mp3 파일 경로
                         audioElement.play();  // 학습지도1.mp3 파일 재생
-                        // sendMessageToClova(message)
+                        sendMessageToClova(message)
                 }
 
 
@@ -2217,6 +2217,10 @@ _clearScene(scene) {
                 option3.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                    let choose_answer = option3.textContent;
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때,
+                    선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     dialogText.innerHTML = "나는 3학년 2반 선생님이란다..";
                     //여기부터 애니메이션 예시
                     const oh1Action = this._currentNPCAnimations['oh1'];
@@ -2249,7 +2253,8 @@ _clearScene(scene) {
                         audioElement.currentTime = 0;
                         audioElement.src = './data/audio/11.mp3';  // 11.mp3 파일 경로
                         audioElement.play();
-                    } else {
+                        } else {
+                            
                         tori_help.style.display = 'block'
                         tori_help_p.innerHTML = " 다른 사람이 인사를 건넸을 때는<br>먼저 인사를 하고, 그 후에 궁금한 점을 <br>물어보는 것이 자연스럽고 예의바른 <br>대화 방식이야. 다시 해보자."
                         audioElement.src = './data/audio/학습지도2.mp3';  // 학습지도2.mp3 파일 경로
@@ -2283,6 +2288,9 @@ _clearScene(scene) {
                 option1.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                                        let choose_answer = option1.textContent;
+                        let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        sendMessageToClova(message)
                     dialogText.innerHTML = "뭐? 말이 좀 심하지 않아?";
                     const ugh1Action = this._currentNPCAnimations['ugh1'];
                     const ugh2Action = this._currentNPCAnimations['ugh2'];
@@ -2316,7 +2324,8 @@ _clearScene(scene) {
                     recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option2.textContent;
-                        let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        sendMessageToClova(message)
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -2373,6 +2382,9 @@ _clearScene(scene) {
                 option3.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                    let choose_answer = option3.textContent;
+                        let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        sendMessageToClova(message)
                     dialogText.innerHTML = "저기! 내 말 안들렸어?";
                     //여기부터 애니메이션 예시
                     const ugh1Action = this._currentNPCAnimations['ugh1'];
@@ -2427,8 +2439,10 @@ _clearScene(scene) {
                 option1.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                    let choose_answer = option1.textContent;
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     dialogText.innerHTML = "몰라! 난 바쁘다고!";
-
                     //여기부터 애니메이션 예시
                     const shoutAction = this._currentNPCAnimations['shout'];
                     // const idleAction = this._currentNPCAnimations['idle'];///
@@ -2470,7 +2484,7 @@ _clearScene(scene) {
                     recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option2.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -2507,8 +2521,10 @@ _clearScene(scene) {
                 option3.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                    let choose_answer = option3.textContent;
+                        let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        sendMessageToClova(message)
                     dialogText.innerHTML = "야! 뭐하는 거야!";
-
                     //여기부터 애니메이션 예시
                     const shoutAction = this._currentNPCAnimations['shout'];
                     // const idleAction = this._currentNPCAnimations['idle'];
@@ -2569,8 +2585,10 @@ _clearScene(scene) {
                 option1.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                    let choose_answer = option1.textContent;
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     dialogText.innerHTML = "뭐..?";
-
                     //여기부터 애니메이션 예시
                     const sup1Action = this._currentNPCAnimations['Surprised01'];
                     const sup2Action = this._currentNPCAnimations['Surprised02'];///
@@ -2612,7 +2630,7 @@ _clearScene(scene) {
                     recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option2.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -2641,8 +2659,10 @@ _clearScene(scene) {
                 option3.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                    let choose_answer = option3.textContent;
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     dialogText.innerHTML = "허허...";
-
                     //여기부터 애니메이션 예시
                     const em1Action = this._currentNPCAnimations['embarrassed01'];
                     const em2Action = this._currentNPCAnimations['embarrassed02'];
@@ -2704,8 +2724,10 @@ _clearScene(scene) {
                 option1.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                    let choose_answer = option1.textContent;
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     dialogText.innerHTML = "그렇게 말하다니, 내 상처는 구경거리가 아니야!";
-
                     tori_help.style.display = 'block'
                     tori_help_p.innerHTML = "아파하는 사람에게 그렇게 말하면<br> 자신을 구경거리로 생각하는것 처럼 보여서<br> 기분 나쁠 수 있어. <br>더 적합한 대처를 다시 생각해보자.<br><br>"
                     // const audioElement = document.createElement('audio');
@@ -2745,7 +2767,7 @@ _clearScene(scene) {
                     recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option2.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -2794,6 +2816,9 @@ _clearScene(scene) {
                 option3.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                    let choose_answer = option3.textContent;
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     dialogText.innerHTML = "아야....";
                     //여기부터 애니메이션 예시
                     
@@ -2852,7 +2877,7 @@ _clearScene(scene) {
                         recordButton.onclick()
                         talkBtnPromise.then(() => {
                             let choose_answer = option1.textContent;
-                            // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                            // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                             console.log(choose_answer);
                             console.log(getTalkBtn());
@@ -3317,7 +3342,7 @@ _clearScene(scene) {
                     recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option1.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -3520,7 +3545,7 @@ _clearScene(scene) {
                     recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option3.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -3622,7 +3647,7 @@ _clearScene(scene) {
                     recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option3.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -3688,7 +3713,7 @@ _clearScene(scene) {
                     recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option1.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -3866,7 +3891,7 @@ _clearScene(scene) {
                     recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option2.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -3977,7 +4002,7 @@ _clearScene(scene) {
                         console.error("One or both animations not found in the animationsMap.");
                     }
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "어른에게 대답할때는 존댓말을 써야지.<br><br>그리고 그 질문에는 <br>더 구체적으로 대답해보는게 어때?<br>"
+                    tori_help_p.innerHTML = "어른에게 대답할때는 존댓말을 써야지.<br><br>그리고 그 상황에는 <br>더 구체적으로 대답해보는게 어때?<br>"
                     // const audioElement = document.createElement('audio');
                     audioElement.src = './data/audio/학습지도19.mp3';  // 학습지도19.mp3 파일 경로
                     audioElement.play();  // 학습지도19.mp3 파일 재생
@@ -3994,7 +4019,7 @@ _clearScene(scene) {
                     recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option2.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -4039,7 +4064,7 @@ _clearScene(scene) {
                     recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option3.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -4165,7 +4190,7 @@ _clearScene(scene) {
                     recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option3.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -4250,7 +4275,7 @@ _clearScene(scene) {
                     recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option2.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -4343,7 +4368,7 @@ _clearScene(scene) {
                     recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option2.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -4414,7 +4439,7 @@ _clearScene(scene) {
                     recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option1.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -4556,7 +4581,7 @@ _clearScene(scene) {
                     recordButton.onclick()
                     talkBtnPromise.then(() => {
                         let choose_answer = option2.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
