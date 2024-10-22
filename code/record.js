@@ -1,3 +1,5 @@
+import config from './config.js';
+
 // 자소 분리 함수
 function decomposeHangul(syllable) {
     const CHO = ["ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"];
@@ -29,7 +31,8 @@ function levenshtein(a, b) {
     const decompA = decomposeString(a);
     const decompB = decomposeString(b);
 
-    const matrix = Array.from({ length: decompA.length + 1 }, (_, i) => Array.from({ length: decompB.length + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0)));
+    const matrix = Array.from({ length: decompA.length + 1 }, (_, i) =>
+        Array.from({ length: decompB.length + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0)));
 
     for (let i = 1; i <= decompA.length; i++) {
         for (let j = 1; j <= decompB.length; j++) {
@@ -158,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData();
         formData.append("file", audioBlob);
 
-        fetch('https://gio.pe.kr:446/recognize', {
+        fetch(`${config.Domain}:446/recognize`, {
             method: 'POST',
             body: formData
         })
@@ -195,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 export async function sendMessageToClova(message) {
     const helperElement = document.getElementById('helper');
-    // const response = await fetch('https://gio.pe.kr:446/clova', {
+    // const response = await fetch(`${config.Domain}:446/clova`, {
     const response = await fetch('http://localhost:5000/clova', {
         method: 'POST',
         headers: {

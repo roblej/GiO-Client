@@ -1,3 +1,5 @@
+import config from './config.js';
+
 export let globalId = "";
 export let gender = "";
 const loginModal = document.getElementById('loginModal');
@@ -98,7 +100,7 @@ loginForm.addEventListener('submit', function(event) {
 
     // Fetch API를 사용하여 서버에 로그인 요청을 보냅니다.
     // fetch('http://localhost:3000/login', {
-    fetch('https://gio.pe.kr:444/login', {
+    fetch(`${config.Domain}:444/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -165,7 +167,7 @@ signupForm.addEventListener('submit', function(event) {
 
     // Fetch API를 사용하여 서버에 회원가입 요청 전송
     // fetch('http://localhost:3000/register', {
-    fetch('https://gio.pe.kr:444/register', {
+    fetch(`${config.Domain}:444/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -195,7 +197,7 @@ signupForm.addEventListener('submit', function(event) {
         document.getElementById('signupComplete').style.display = 'flex';
         
         // 회원가입 성공 후 stickers 테이블에 row 추가
-        return fetch('https://gio.pe.kr:444/addStickerRow', {
+        return fetch(`${config.Domain}:444/addStickerRow`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

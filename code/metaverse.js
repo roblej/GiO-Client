@@ -2501,7 +2501,8 @@ _clearScene(scene) {
                             console.log(score);
 
 
-                            document.getElementById('next_btn').onclick = function () {
+                            document.querySelector(".tori_help .next_btn").onclick = function () {
+                                tori_help.style.display = 'none';
                                 casher.style.display = "none";
                                 buttonGroup.style.display = "none";
                                 resetModal();
