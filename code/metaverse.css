@@ -127,23 +127,23 @@ img {
 }
 .tori_next{
   position: absolute;
-  bottom: 100px ;
+  bottom: 220px ;
   animation: tori_next 2s infinite !important;
   z-index: 99999999999999 !important;
 }
 @keyframes tori_next {
   0% {
-    bottom: 100px;
+    bottom: 215px;
     /* 초기 위치 */
   }
 
   50% {
-    bottom: 105px;
+    bottom: 220px;
     /* 아래로 이동 */
   }
 
   100% {
-    bottom: 100px;
+    bottom: 215px;
     /* 다시 위로 */
   }
 }
@@ -1184,7 +1184,9 @@ z-index: 2;
 }
 .choose button.active{
   background-image: url(data/btn_clicked.png);
-transform: scale(1.2);
+transform: scale(1.1);
+transform-origin: left center;
+  /* x축의 시작점을 유지 */
   /* 버튼을 1.2배 확대 */
 }
 .choose button:hover{
@@ -1226,30 +1228,30 @@ transform: scale(1.2);
   all: unset;
   position: absolute;
   content: '';
-  width: 37px;
-  height: 33px;
+  width: 62px;
+  height: 50px;
   background-image: url(data/next.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  right: 50px;
-  bottom: 60px;
+  right: 40px;
+  bottom: 145px;
   animation: next_move 2s infinite;
   }
   
 @keyframes next_move {
   0% {
-    bottom: 60px;
+    bottom: 145px;
     /* 초기 위치 */
   }
 
   50% {
-    bottom: 65px;
+    bottom: 150px;
     /* 아래로 이동 */
   }
 
   100% {
-    bottom: 60px;
+    bottom: 145px;
     /* 다시 위로 */
   }
 }
