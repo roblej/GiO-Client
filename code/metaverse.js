@@ -2198,7 +2198,7 @@ _clearScene(scene) {
                     }else {
                         tori_help_p.innerHTML = "상대방이 인사 했을 때는 너도 인사를 해야해. <br>다른 사람을 대하는 기본적인 예의야. <br><br>다시 해보자.<br><br>"
                     audioElement.src = './data/audio/학습지도1.mp3';  // 학습지도1.mp3 파일 경로
-                        audioElement.play();  // 학습지도1.mp3 파일 재생
+                        // audioElement.play();  // 학습지도1.mp3 파일 재생
                         sendMessageToClova(message)
                 }
 
