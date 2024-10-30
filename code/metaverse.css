@@ -147,6 +147,10 @@ img {
     /* 다시 위로 */
   }
 }
+.tori_tri{
+  background-image: url(./data/next1.png) !important;
+  width: 32px !importantd;
+}
 .namebox{
   position: absolute;
   width: 960px;
