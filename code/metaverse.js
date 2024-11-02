@@ -2196,6 +2196,7 @@ _clearScene(scene) {
                         // tori_help_p.innerHTML = " 다른 사람이 인사를 건넸을 때는<br>먼저 인사를 하고, 그 후에 궁금한 점을 <br>물어보는 것이 자연스럽고 예의바른 <br>대화 방식이야. 다시 해보자."
                         // audioElement.src = './data/audio/학습지도2.mp3';  // 학습지도2.mp3 파일 경로
                         // audioElement.play();  // 학습지도2.mp3 파일 재생
+                        sendMessageToClova(message)
                     }
                     tori_next.onclick = function () {
                         tori_help.style.display = 'none'
@@ -2408,6 +2409,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도5.mp3';  // 학습지도5.mp3 파일 경로
                     // audioElement.play();  // 학습지도5.mp3 파일 재생
+                    sendMessageToClova(message)
 
                     tori_next.onclick = function () {
                         tori_help.style.display = 'none'
@@ -2436,6 +2438,7 @@ _clearScene(scene) {
                             // const audioElement = document.createElement('audio');
                             // audioElement.src = './data/audio/학습지도6.mp3'; //  학습지도6.mp3 파일 경로
                             // audioElement.play(); //  학습지도6.mp3 재생
+                            sendMessageToClova(message)
 
                             console.log(score);
 
@@ -2495,6 +2498,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도5.mp3';  // 학습지도5.mp3 파일 경로
                     // audioElement.play();  // 학습지도5.mp3 파일 재생
+                    sendMessageToClova(message)
 
                     tori_next.onclick = function () {
                         tori_help.style.display = 'none'
@@ -2558,6 +2562,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도3.mp3';  // 학습지도3.mp3 파일 경로
                     // audioElement.play();  // 학습지도3.mp3 파일 재생
+                    sendMessageToClova(message)
 
                     tori_next.onclick = function () {
                         tori_help.style.display = 'none'
@@ -2635,6 +2640,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도4.mp3';  // 학습지도4.mp3 파일 경로
                     // audioElement.play();  // 학습지도4.mp3 파일 재생
+                    sendMessageToClova(message)
 
 
                     tori_next.onclick = function () {
@@ -2677,6 +2683,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도7.mp3';  // 학습지도7.mp3 파일 경로
                     // audioElement.play();  // 학습지도7.mp3 파일 재생
+                    sendMessageToClova(message)
 
                     
                     const sadAction = this._currentNPCAnimations['sad'];
@@ -2774,6 +2781,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도8.mp3';  // 학습지도8.mp3 파일 경로
                     // audioElement.play();  // 학습지도8.mp3 파일 재생
+                    sendMessageToClova(message)
                     tori_next.onclick = function () {
                         tori_help.style.display = 'none'
                         score = score - 20;
@@ -2896,6 +2904,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도15.mp3';  // 학습지도15.mp3 파일 경로
                     // audioElement.play();  // 학습지도15.mp3 파일 재생
+                    sendMessageToClova(message)
                     tori_next.onclick = function () {
                         tori_help.style.display = 'none'
                         score = score - 20;
@@ -2938,6 +2947,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도16.mp3';  // 학습지도16.mp3 파일 경로
                     // audioElement.play();  // 학습지도16.mp3 파일 재생
+                    sendMessageToClova(message)
                     tori_next.onclick = function () {
                         tori_help.style.display = 'none'
                         score = score - 20;
@@ -3344,6 +3354,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도10.mp3';  // 학습지도10.mp3 파일 경로
                     // audioElement.play();  // 학습지도10.mp3 파일 재생
+                    sendMessageToClova(message)
                     const ag1Action = this._currentNPCAnimations['angry1'];
                     const ag2Action = this._currentNPCAnimations['angry2'];
 
@@ -3442,6 +3453,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도12.mp3';  // 학습지도12.mp3 파일 경로
                     // audioElement.play();  // 학습지도12.mp3 파일 재생
+                    sendMessageToClova(message)
 
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
@@ -3482,6 +3494,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도12.mp3';  // 학습지도12.mp3 파일 경로
                     // audioElement.play();  // 학습지도12.mp3 파일 재생
+                    sendMessageToClova(message)
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -3583,7 +3596,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도9.mp3';  // 학습지도9.mp3 파일 경로
                     // audioElement.play();  // 학습지도9.mp3 파일 재생
-
+                    sendMessageToClova(message)
 
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
@@ -3740,6 +3753,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도13.mp3';  // 학습지도13.mp3 파일 경로
                     // audioElement.play();  // 학습지도13.mp3 파일 재생
+                    sendMessageToClova(message)
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -3779,6 +3793,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도14.mp3';  // 학습지도14.mp3 파일 경로
                     // audioElement.play();  // 학습지도14.mp3 파일 재생
+                    sendMessageToClova(message)
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -3832,6 +3847,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도17.mp3';  // 학습지도17.mp3 파일 경로
                     // audioElement.play();  // 학습지도17.mp3 파일 재생
+                    sendMessageToClova(message)
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -3909,6 +3925,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도18.mp3';  // 학습지도18.mp3 파일 경로
                     // audioElement.play();  // 학습지도18.mp3 파일 재생
+                    sendMessageToClova(message)
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -3962,6 +3979,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도19.mp3';  // 학습지도19.mp3 파일 경로
                     // audioElement.play();  // 학습지도19.mp3 파일 재생
+                    sendMessageToClova(message)
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -4103,6 +4121,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도20.mp3';  // 학습지도20.mp3 파일 경로
                     // audioElement.play();  // 학습지도20.mp3 파일 재생
+                    sendMessageToClova(message)
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -4135,6 +4154,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도21.mp3';  // 학습지도21.mp3 파일 경로
                     // audioElement.play();  // 학습지도21.mp3 파일 재생
+                    sendMessageToClova(message)
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -4221,6 +4241,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도24.mp3';  // 학습지도24.mp3 파일 경로
                     // audioElement.play();  // 학습지도24.mp3 파일 재생
+                    sendMessageToClova(message)
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -4250,6 +4271,7 @@ _clearScene(scene) {
                             // const audioElement = document.createElement('audio');
                             // audioElement.src = './data/audio/학습지도25.mp3';  // 학습지도25.mp3 파일 경로
                             // audioElement.play();  // 학습지도25.mp3 파일 재생
+                            sendMessageToClova(message)
                             
                             document.getElementById('next').onclick = function () {
                                 casher.style.display = "none";
@@ -4277,6 +4299,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도26.mp3';  // 학습지도26.mp3 파일 경로
                     // audioElement.play();  // 학습지도26.mp3 파일 재생
+                    sendMessageToClova(message)
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -4315,7 +4338,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도29.mp3';  // 학습지도29.mp3 파일 경로
                     // audioElement.play();  // 학습지도29.mp3 파일 재생
-
+                    sendMessageToClova(message)
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -4345,7 +4368,7 @@ _clearScene(scene) {
                             // const audioElement = document.createElement('audio');
                             // audioElement.src = './data/audio/학습지도30.mp3';  // 학습지도30.mp3 파일 경로
                             // audioElement.play();  // 학습지도30.mp3 파일 재생
-                            
+                            sendMessageToClova(message)
                             document.getElementById('next').onclick = function () {
                                 casher.style.display = "none";
                                 buttonGroup.style.display = "none";
@@ -4373,6 +4396,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도31.mp3';  // 학습지도31.mp3 파일 경로
                     // audioElement.play();  // 학습지도31.mp3 파일 재생
+                    sendMessageToClova(message)
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -4458,6 +4482,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도22.mp3';  // 학습지도22.mp3 파일 경로
                     // audioElement.play();  // 학습지도22.mp3 파일 재생
+                    sendMessageToClova(message)
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -4478,6 +4503,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도23.mp3';  // 학습지도23.mp3 파일 경로
                     // audioElement.play();  // 학습지도23.mp3 파일 재생
+                    sendMessageToClova(message)
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -4534,6 +4560,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도27.mp3';  // 학습지도27.mp3 파일 경로
                     // audioElement.play();  // 학습지도27.mp3 파일 재생
+                    sendMessageToClova(message)
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -4624,6 +4651,7 @@ _clearScene(scene) {
                     // const audioElement = document.createElement('audio');
                     // audioElement.src = './data/audio/학습지도28.mp3';  // 학습지도28.mp3 파일 경로
                     // audioElement.play();  // 학습지도28.mp3 파일 재생
+                    sendMessageToClova(message)
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
