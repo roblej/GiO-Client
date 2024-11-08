@@ -47,6 +47,7 @@ export function initThreeJS() {
             this._isTutorialShown = false;  // 튜토리얼이 이미 표시되었는지 추적하는 플래그
             this._isTpTutirialShown = false; //맵이동 튜토리얼이 이미 표시되었는지 추적하는 플래그
             this._isTaklTutorialShown = false; //최초 선생님 가까이 갔을때 추적하는 플래그
+            this._clickDistance = false;
             this._hasPlayAudio = false;
             const loader = new THREE.TextureLoader();
             
@@ -107,7 +108,14 @@ export function initThreeJS() {
             this._divContainer.addEventListener('mousemove', (event) => onMouseMove(event, this));
                 
                 // 마우스 클릭 이벤트 리스너 추가
-            this._divContainer.addEventListener('click', this._onMouseClick.bind(this));
+            // this._divContainer.addEventListener('click', this._onMouseClick.bind(this));
+            this._divContainer.addEventListener('click', (event) => {
+                if (this._clickDistance) {
+                    this._onMouseClick(event);
+                } else {
+                    console.log("Click ignored as _clickDistance is not true.");
+                }
+            });
         
             window.onresize = this.resize.bind(this);
             this.resize();
@@ -448,6 +456,7 @@ _processAnimation() {
                         if (log_map_tutorial == 'false' && getTalkTutorial() === 'true') {
                             document.querySelector('.left').style.display = 'block';
                             document.querySelector('.left p').innerHTML = '학교에 도착했어!<br>교문 앞에 계신 선생님께 가보자!'
+                            document.querySelector('.key_tutorial').style.display = 'block'
                             audioElement.currentTime = 0; // 음성을 처음부터 재생하도록 설정
 
                             audioElement.src = './data/audio/7.mp3';  // 7.mp3 파일 경로
@@ -526,6 +535,7 @@ _processAnimation() {
                             console.log(clip.name);
                             animationsMap[clip.name] = mixer.clipAction(clip);
                         });
+                        npc.userData.type = 'friend_hurt'
                         npc.traverse(child => {
                             if (child instanceof THREE.Mesh) {
                                 child.castShadow = true;
@@ -560,7 +570,7 @@ _processAnimation() {
                             diameter / 2
                         );
                         // npc.rotation.y = Math.PI;
-                        // npcs.push(npc);
+                        npcs.push(npc);
                         this._npc = npc;
                     });
                     loader.load("./data/map/School/Character/teacher_Anim.glb", (gltf) => { // 선생님
@@ -1313,6 +1323,7 @@ _processAnimation() {
                console.log(clip.name);
                animationsMap[clip.name] = mixer.clipAction(clip);
            });
+                npc.userData.type = 'library_searching'
            npc.traverse(child => {
                if (child instanceof THREE.Mesh) {
                    child.castShadow = true;
@@ -1345,7 +1356,7 @@ _processAnimation() {
                 diameter / 2
             );
             npc.rotation.y = Math.PI * 1.2;
-            // npcs.push(npc);
+            npcs.push(npc);
             this._npc = npc;
             });
             loader.load("./data/map/Library/Character/Library_student_anim.glb", (gltf) => { // 안경을 떨어트린 학생
@@ -1409,6 +1420,7 @@ _processAnimation() {
                 console.log(clip.name);
                 animationsMap[clip.name] = mixer.clipAction(clip);
             });
+            npc.userData.type = 'read'
             npc.traverse(child => {
                 if (child instanceof THREE.Mesh) {
                     child.castShadow = true;
@@ -1441,7 +1453,7 @@ _processAnimation() {
                 diameter / 2
             );
             npc.rotation.y = Math.PI * 1.4;
-            // npcs.push(npc);
+            npcs.push(npc);
             this._npc = npc;
             });
             loader.load("./data/map/Library/Character/library_gameNPC_idle.glb", (gltf) => { // 도서관 게임 NPC
@@ -1715,7 +1727,7 @@ _clearScene(scene) {
         _onMouseClick(event) {
 
                 console.log('Mouse click event'); // 디버그 로그
-
+            if (!this._clickDistance) return;
                 // 마우스 위치를 정규화된 장치 좌표로 변환
                 this._mouse.x = ( event.clientX / this._divContainer.clientWidth ) * 2 - 1;
                 this._mouse.y = - ( event.clientY / this._divContainer.clientHeight ) * 2 + 1;
@@ -1841,7 +1853,8 @@ _clearScene(scene) {
                             this._showNpcDialog(selectedObject.userData.type);
                         }
                     }
-                }
+            }
+            
         }
         
         _showNpcDialog(npcType) {
@@ -1885,72 +1898,6 @@ _clearScene(scene) {
                     this._model._capsule.start.copy(this.originalPosition);
                     this._model._capsule.end.copy(this.originalPosition).y += this._model._capsule.radius * 2;
                     console.log("캡슐 위치 초기화:", this._model._capsule.start, this._model._capsule.end);
-                }
-            }
-
-
-            function listKoreanVoices() {
-                if ('speechSynthesis' in window) {
-                    // const voices = window.speechSynthesis.getVoices();
-            
-                    // 한국어 음성만 필터링
-                    const koreanVoices = voices.filter(voice => voice.lang === 'ko-KR');
-            
-                    // 한국어 음성 목록 출력
-                    // koreanVoices.forEach((voice, index) => {
-                    //     console.log(`${index + 1}. 이름: ${voice.name}, 언어: ${voice.lang}, 기본 목소리: ${voice.default}`);
-                    // });
-            
-                    if (koreanVoices.length === 0) {
-                        console.log('한국어 음성을 찾을 수 없습니다.');
-                    }
-                } else {
-                    console.log('TTS 기능이 지원되지 않는 브라우저입니다.');
-                }
-            }
-            
-            // 페이지 로드 후 음성 목록을 다시 가져오기 (음성 로딩이 비동기적으로 이루어질 수 있음)
-            window.speechSynthesis.onvoiceschanged = function () {
-                listKoreanVoices();
-            };
-            function testKoreanVoices() {
-                if ('speechSynthesis' in window) {
-                    // const voices = window.speechSynthesis.getVoices();
-            
-                    // 한국어 음성만 필터링
-                    // const koreanVoices = voices.filter(voice => voice.lang === 'ko-KR');
-            
-                    if (koreanVoices.length === 0) {
-                        console.log('한국어 음성을 찾을 수 없습니다.');
-                        return;
-                    }
-            
-                    // 각 음성을 "안녕하세요"로 테스트
-                    // koreanVoices.forEach((voice, index) => {
-                    //     const utterance = new SpeechSynthesisUtterance("안녕하세요");
-                    //     utterance.voice = voice;  // 각 음성을 할당
-                    //     console.log(`${index + 1}. 이름: ${voice.name}, 언어: ${voice.lang}`);
-            
-                    //     // 음성 출력
-                    //     window.speechSynthesis.speak(utterance);
-                    // });
-                } else {
-                    console.log('TTS 기능이 지원되지 않는 브라우저입니다.');
-                }
-            }
-            
-            // 페이지 로드 후 음성 목록을 다시 가져오기 (음성 로딩이 비동기적으로 이루어질 수 있음)
-            window.speechSynthesis.onvoiceschanged = function () {
-                testKoreanVoices();
-            };
-            
-            
-            function speak(text) {
-                if ('speechSynthesis' in window) {
-                    // const utterance = new SpeechSynthesisUtterance(text);
-                    // window.speechSynthesis.speak(utterance);
-                } else {
-                    console.log('TTS 기능이 지원되지 않는 브라우저입니다.');
                 }
             }
 
@@ -2040,7 +1987,7 @@ _clearScene(scene) {
                 buttonGroup.style.display = "flex";
                 // document.getElementById('next').style.display = 'none'
             };
-
+            if(this._clickDistance == true){
             if (npcType === 'teacher') {
                 // speak(dialogText.innerHTML);
                 // listKoreanVoices();
@@ -3521,7 +3468,7 @@ _clearScene(scene) {
 
                         if (getTalkBtn() === choose_answer) {
                             buttonGroup.style.display = "none";
-                            dialogText.innerHTML = "와 정말 감사합니다!";
+                            dialogText.innerHTML = "";
                             console.log(score);
 
                             document.getElementById('next').onclick = function () {
@@ -4808,7 +4755,8 @@ _clearScene(scene) {
                 const heightOffset = (this._model._capsule.end.y - this._model._capsule.start.y) / 2;
                 this._model._capsule.start.set(this._model.position.x, this._model.position.y, this._model.position.z);
                 this._model._capsule.end.set(this._model.position.x, this._model.position.y + heightOffset * 2, this._model.position.z);
-            }
+                }
+                }
         }
             // 플레이어 캐릭터의 y축 아래로 Raycast를 발사하여 teleport 오브젝트와의 충돌을 감지하는 함수
 
@@ -5334,66 +5282,58 @@ for (let i = 0; i < intersectsUp_wall.length; i++) {
                 let meet_teacher = false; // 클래스 밖에 선언하여 상태를 유지
                 let help_shown = false; // tori_help가 이미 보여졌는지 추적
 
-const minDistance = 400; // NPC들이 바라볼 최소 거리 설정
-this._npcs.forEach((npc) => {
-    const distance = npc.position.distanceTo(this._model.position);
-    if (distance < minDistance) {
-            if (!this._isTaklTutorialShown && log_map_tutorial=='false' && getTalkTutorial() === 'true' && getTpTutorial() === 'true') {
+                const minDistance = 400; // NPC들이 바라볼 최소 거리 설정
+                this._npcs.forEach((npc) => {
+                    if (npc.userData.type === 'read') return;
+                    else if (npc.userData.type === 'library_searching') return;
+                    else if (npc.userData.type === 'friend_hurt') return;
+                    
+                const distance = npc.position.distanceTo(this._model.position);
+                if (distance < minDistance) {
 
-            document.querySelector('.left').style.display = 'block';
-            document.querySelector('.left p').innerHTML = '선생님을 마주보고<br>마우스로 클릭해 대화를 나눠보자.';
+                    if (!this._isTaklTutorialShown && log_map_tutorial == 'false' && getTalkTutorial() === 'true' && getTpTutorial() === 'true') {
 
-            // 오디오 요소 생성
-            // const audioElement = document.createElement('audio');
-            audioElement.src = './data/audio/8.mp3';  // 8.mp3 파일 경로
-            audioElement.play();  // 8.mp3 파일 재생
-            this._isTaklTutorialShown = true;  // 튜토리얼이 한 번 표시되면 플래그를 true로 설정
-            document.querySelector('.left .next_btn').onclick = function () {        
-                document.querySelector('.left').style.display = 'none';
-                audioElement.pause();  // 8.mp3 음성 멈춤
-                audioElement.currentTime = 0;  // 음성을 처음부터 다시 재생할 수 있도록 시간 초기화
-            }
-    }
-    //     if (npc.userData.name === 'teacher' && talk_tutorial === 'true' && !help_shown) {
-    //         meet_teacher = true;
-    //         help_shown = true; // 도움말이 표시되었음을 기록
+                        document.querySelector('.left').style.display = 'block';
+                        document.querySelector('.left p').innerHTML = '선생님을 마주보고<br>마우스로 클릭해 대화를 나눠보자.';
 
-    //         console.log('teacher');
-    //         document.querySelector('.tori_help p').innerHTML = '선생님을 마주보고<br>마우스로 클릭해 대화를 나눠보자.';
-    //         document.querySelector('.tori_help').style.display = 'block';
+                        // 오디오 요소 생성
+                        // const audioElement = document.createElement('audio');
+                        audioElement.src = './data/audio/8.mp3';  // 8.mp3 파일 경로
+                        audioElement.play();  // 8.mp3 파일 재생
+                        this._isTaklTutorialShown = true;  // 튜토리얼이 한 번 표시되면 플래그를 true로 설정
+                        document.querySelector('.left .next_btn').onclick = function () {
+                            document.querySelector('.left').style.display = 'none';
+                            audioElement.pause();  // 8.mp3 음성 멈춤
+                            audioElement.currentTime = 0;  // 음성을 처음부터 다시 재생할 수 있도록 시간 초기화
+                        }
+                    }
 
-    //         // 이벤트 리스너가 여러 번 등록되지 않도록 기존 이벤트 제거 후 추가
-    //         const nextBtn = document.querySelector('.tori_help .next_btn');
-    //         nextBtn.onclick = null; // 기존 이벤트 리스너 제거
-    //         nextBtn.onclick = function() {
-    //             console.log('test');
-    //             document.querySelector('.tori_help').style.display = 'none';
-    //             // 이미 도움말이 표시되었으므로 다시 표시되지 않도록 함
-    //             // 필요한 경우 추가 로직을 여기에 작성
-    //     }
-    // }
-        // 목표 방향 설정 (NPC의 높이에 맞춰 y축 고정)
-        const targetPosition = this._model.position.clone();
-        targetPosition.y = npc.position.y;  // NPC의 높이만 고려하여 Y축 회전만 하도록 설정
+                    // 목표 방향 설정 (NPC의 높이에 맞춰 y축 고정)
+                    const targetPosition = this._model.position.clone();
+                    targetPosition.y = npc.position.y;  // NPC의 높이만 고려하여 Y축 회전만 하도록 설정
 
 
-            // NPC의 현재 회전 상태 저장
-            const currentQuaternion = npc.quaternion.clone();
+                    // NPC의 현재 회전 상태 저장
+                    const currentQuaternion = npc.quaternion.clone();
 
-            // NPC가 목표 위치를 바라보도록 설정 (Y축 회전만 적용)
-            npc.lookAt(targetPosition);
+                    // NPC가 목표 위치를 바라보도록 설정 (Y축 회전만 적용)
+                    npc.lookAt(targetPosition);
 
-            // 목표 회전값 저장
-            const targetQuaternion = npc.quaternion.clone();
+                    // 목표 회전값 저장
+                    const targetQuaternion = npc.quaternion.clone();
 
-            // NPC를 원래 회전 상태로 되돌림
-            npc.quaternion.copy(currentQuaternion);
+                    // NPC를 원래 회전 상태로 되돌림
+                    npc.quaternion.copy(currentQuaternion);
 
-            // 선형 보간(SLERP)을 사용하여 부드럽게 회전
-            const slerpFactor = 0.1;  // 회전 속도를 조절하는 값 (0~1 사이 값)
-            npc.quaternion.slerp(targetQuaternion, slerpFactor);
-    }
-});
+                    // 선형 보간(SLERP)을 사용하여 부드럽게 회전
+                    const slerpFactor = 0.1;  // 회전 속도를 조절하는 값 (0~1 사이 값)
+                    npc.quaternion.slerp(targetQuaternion, slerpFactor);
+                }
+            });
+                this._clickDistance = this._npcs.some((npc) => {
+                    const distance = npc.position.distanceTo(this._model.position);
+                    return distance < minDistance;
+                });
 
 
                 // 플레이어와 NPC 간의 사운드 이펙트 또는 추가 이벤트 처리
