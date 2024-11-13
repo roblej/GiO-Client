@@ -239,18 +239,18 @@ document.querySelector('.key_close').addEventListener('click', function() {
   document.querySelector('.key_tutorial').style.display = 'none'
 });
 
-// export let log_map_tutorial = 'true'
-// let talk_tutorial = 'true';
-// let sticker_tutorial = 'true'
-// let tp_tutorial = 'true'
-// let data_tutorial = 'true'
-// let final_tutorial = 'true'
-export let log_map_tutorial = 'false'
-let talk_tutorial = 'false';
-let sticker_tutorial = 'false'
-let tp_tutorial = 'false'
-let data_tutorial = 'false'
-let final_tutorial = 'false'
+export let log_map_tutorial = 'true'
+let talk_tutorial = 'true';
+let sticker_tutorial = 'true'
+let tp_tutorial = 'true'
+let data_tutorial = 'true'
+let final_tutorial = 'true'
+// export let log_map_tutorial = 'false'
+// let talk_tutorial = 'false';
+// let sticker_tutorial = 'false'
+// let tp_tutorial = 'false'
+// let data_tutorial = 'false'
+// let final_tutorial = 'false'
 
 export function getTpTutorial() {
   return tp_tutorial;
