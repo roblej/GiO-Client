@@ -1608,6 +1608,13 @@ _processAnimation() {
         }
 
 _switchScene(index) {
+            if (index == 4 || index == 5) {
+            console.log('실내')
+            document.querySelector('#loadingPage').style.backgroundImage = "url('./data/loginImage/bush_back.png')";
+        } else {
+            console.log('실외')
+            document.querySelector('#loadingPage').style.backgroundImage = "url('./data/loginImage/loading.png')";
+        }
     audioElement.pause();  // 6.mp3 음성 멈춤
     audioElement.currentTime = 0;  // 음성을 처음부터 다시 재생할 수 있도록 시간 초기화
     // 오디오 상태 체크 및 재생 로직
@@ -2428,9 +2435,10 @@ _clearScene(scene) {
                             console.log(score);
 
 
-                            document.getElementById('next_btn').onclick = function () {
+                            document.querySelector('.tori_tri').onclick = function () {
                                 casher.style.display = "none";
                                 buttonGroup.style.display = "none";
+                                document.querySelector('.tori_help').style.display = 'none';
                                 resetModal();
                                 this._onDialogClosed();
                                 resetplayerposition.call(this);
