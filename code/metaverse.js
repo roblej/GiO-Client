@@ -2045,14 +2045,13 @@ _clearScene(scene) {
                             recordButton.onclick()
                         }
                     } else recordButton.onclick()
-                    talkBtnPromise.then(() => {
                         let choose_answer = option1.textContent;
                         // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
-
-                        if (getTalkBtn() === choose_answer) {
+                    setTimeout(() => {
+                        if (true) {
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "그래, 난 이 학교의 선생님이야. 앞으로 잘 지내보자";
                             console.log(score);
@@ -2105,7 +2104,7 @@ _clearScene(scene) {
                             option1.onclick();
                             // 선택이 맞지 않으면 다시 실행
                         }
-                    });
+                                            },5000);
                 }.bind(this)
                 
                 option2.onclick = function () {
@@ -2262,14 +2261,15 @@ _clearScene(scene) {
                 }.bind(this);
                 option2.onclick = function () {
                     recordButton.onclick()
-                    talkBtnPromise.then(() => {
-                        let choose_answer = option2.textContent;
-                        let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
-
-                        console.log(choose_answer);
-                        console.log(getTalkBtn());
-
-                        if (getTalkBtn() === choose_answer) {
+                    
+                    let choose_answer = option2.textContent;
+                    let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    
+                    console.log(choose_answer);
+                    console.log(getTalkBtn());
+                    
+                    setTimeout(() => {
+                        if (true) {
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "오 공 던지는 솜씨가 제법인걸?";
                             console.log(score);
@@ -2313,8 +2313,9 @@ _clearScene(scene) {
                         } else {
                             option2.onclick();
                             // 선택이 맞지 않으면 다시 실행
-                        }
-                    });
+                    }
+                                                 
+                                             },5000);
                 }.bind(this)
                 
         
@@ -2416,14 +2417,15 @@ _clearScene(scene) {
         
                 option2.onclick = function () {
                     recordButton.onclick()
-                    talkBtnPromise.then(() => {
+
                         let choose_answer = option2.textContent;
                         // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
-
-                        if (getTalkBtn() === choose_answer) {
+                    setTimeout(() => {
+                             
+                        if (true) {
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "...";
                             tori_help.style.display = 'block'
@@ -2431,10 +2433,10 @@ _clearScene(scene) {
                             // const audioElement = document.createElement('audio');
                             audioElement.src = './data/audio/학습지도6.mp3'; //  학습지도6.mp3 파일 경로
                             audioElement.play(); //  학습지도6.mp3 재생
-
+                            
                             console.log(score);
-
-
+                            
+                            
                             document.querySelector('.tori_tri').onclick = function () {
                                 casher.style.display = "none";
                                 buttonGroup.style.display = "none";
@@ -2449,7 +2451,7 @@ _clearScene(scene) {
                             option2.onclick();
                             // 선택이 맞지 않으면 다시 실행
                         }
-                    });
+                },5000);
                 }.bind(this)
                 
 
@@ -2559,19 +2561,19 @@ _clearScene(scene) {
         
                 option2.onclick = function () {
                     recordButton.onclick()
-                    talkBtnPromise.then(() => {
                         let choose_answer = option2.textContent;
                         // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
-
-                        if (getTalkBtn() === choose_answer) {
+                    setTimeout(() => {
+                             
+                        if (true) {
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "그래, 좋은 하루 보내렴.";
-    
+                            
                             console.log(score);
-
+                            
                             document.getElementById('next').onclick = function () {
                                 casher.style.display = "none";
                                 buttonGroup.style.display = "none";
@@ -2583,7 +2585,7 @@ _clearScene(scene) {
                             option2.onclick();
                             // 선택이 맞지 않으면 다시 실행
                         }
-                    });
+                },5000);
                 }.bind(this)
                 
 
@@ -2692,38 +2694,37 @@ _clearScene(scene) {
 
                 option2.onclick = function () {
                     recordButton.onclick()
-                    talkBtnPromise.then(() => {
                         let choose_answer = option2.textContent;
                         // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
-
-                        if (getTalkBtn() === choose_answer) {
+                    setTimeout(() => {
+                        if (true) {
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "괜찮아. 혼자 양호실에 갈게. 걱정해줘서 고마워.";
                             console.log(score);
-
+                            
                             const R1Action = this._currentNPCAnimations['rightA1'];
                             const R2Action = this._currentNPCAnimations['rightA2'];
-
+                            
                             if (R1Action && R2Action) {
                                 R1Action
-                                    .reset()   // 상태 초기화
-                                    .setEffectiveWeight(1) // 동작할 가중치 설정
-                                    .setLoop(THREE.LoopOnce, 1) // 1번만 재생
-                                    .play();   // 재생 시작
+                                .reset()   // 상태 초기화
+                                .setEffectiveWeight(1) // 동작할 가중치 설정
+                                .setLoop(THREE.LoopOnce, 1) // 1번만 재생
+                                .play();   // 재생 시작
                                 
                                 R2Action
-                                    .reset()
-                                    .setEffectiveWeight(1)
-                                    .setLoop(THREE.LoopOnce, 1)
-                                    .play();
+                                .reset()
+                                .setEffectiveWeight(1)
+                                .setLoop(THREE.LoopOnce, 1)
+                                .play();
                                 console.log("Playing animations simultaneously.");
                             } else {
                                 console.error("One or both animations not found in the animationsMap.");
                             }
-
+                            
                             document.getElementById('next').onclick = function () {
                                 casher.style.display = "none";
                                 buttonGroup.style.display = "none";
@@ -2735,7 +2736,7 @@ _clearScene(scene) {
                             option2.onclick();
                             // 선택이 맞지 않으면 다시 실행
                         }
-                    });
+                },5000);
                 }.bind(this)
                 
 
@@ -2799,18 +2800,17 @@ _clearScene(scene) {
                     } else {
                         // 두 번째 대화 내용
                         recordButton.onclick()
-                        talkBtnPromise.then(() => {
                             let choose_answer = option1.textContent;
                             // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                             console.log(choose_answer);
                             console.log(getTalkBtn());
-
-                            if (getTalkBtn() === choose_answer) {
+                        setTimeout(() => {
+                            if (true) {
                                 buttonGroup.style.display = "none";
                                 dialogText.innerHTML = "어 그래~ 안녕~";
                                 console.log(score);
-                            
+                                
                                 document.getElementById('next').onclick = function () {
                                     casher.style.display = "none";
                                     buttonGroup.style.display = "none";
@@ -2824,7 +2824,7 @@ _clearScene(scene) {
                                 option1.onclick();
                                 // 선택이 맞지 않으면 다시 실행
                             }
-                        });
+                    },5000);
                     }
                 }.bind(this);
 
@@ -3264,21 +3264,20 @@ _clearScene(scene) {
 
                 option1.onclick = function () {
                     recordButton.onclick()
-                    talkBtnPromise.then(() => {
                         let choose_answer = option1.textContent;
                         // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
-
-                        if (getTalkBtn() === choose_answer) {
+                    setTimeout(() => {
+                        if (true) {
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "와 정말 감사합니다!";
                             console.log(score);
-
+                            
                             const th1Action = this._currentNPCAnimations['thanks1'];
                             const th2Action = this._currentNPCAnimations['thanks2'];
-
+                            
                             if (th1Action && th2Action) {
                                 th1Action
                                 .reset()   // 상태 초기화
@@ -3295,7 +3294,7 @@ _clearScene(scene) {
                             } else {
                                 console.error("One or both animations not found in the animationsMap.");
                             }
-
+                            
                             document.getElementById('next').onclick = function () {
                                 casher.style.display = "none";
                                 buttonGroup.style.display = "none";
@@ -3307,7 +3306,7 @@ _clearScene(scene) {
                             option1.onclick();
                             // 선택이 맞지 않으면 다시 실행
                         }
-                    });
+                },5000);
                 }.bind(this)
                 
                 option2.onclick = function () {
@@ -3467,18 +3466,17 @@ _clearScene(scene) {
 
                 option3.onclick = function () {
                     recordButton.onclick()
-                    talkBtnPromise.then(() => {
                         let choose_answer = option3.textContent;
                         // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
-
-                        if (getTalkBtn() === choose_answer) {
+                    setTimeout(() => {
+                        if (true) {
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "";
                             console.log(score);
-
+                            
                             document.getElementById('next').onclick = function () {
                                 casher.style.display = "none";
                                 buttonGroup.style.display = "none";
@@ -3490,7 +3488,7 @@ _clearScene(scene) {
                             option3.onclick();
                             // 선택이 맞지 않으면 다시 실행
                         }
-                    });
+                },5000);
                 }.bind(this)
             
         
@@ -3569,21 +3567,20 @@ _clearScene(scene) {
 
                 option3.onclick = function () {
                     recordButton.onclick()
-                    talkBtnPromise.then(() => {
                         let choose_answer = option3.textContent;
                         // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
-
-                        if (getTalkBtn() === choose_answer) {
+                    setTimeout(() => {
+                        if (true) {
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "정말 감사합니다!";
                             console.log(score);
-
+                            
                             const rh1Action = this._currentNPCAnimations['rightA1'];
                             const rh2Action = this._currentNPCAnimations['rightA2'];
-        
+                            
                             if (rh1Action && rh2Action) {
                                 rh1Action
                                 .reset()   // 상태 초기화
@@ -3600,8 +3597,8 @@ _clearScene(scene) {
                             } else {
                                 console.error("One or both animations not found in the animationsMap.");
                             }
-                        
-
+                            
+                            
                             document.getElementById('next').onclick = function () {
                                 casher.style.display = "none";
                                 buttonGroup.style.display = "none";
@@ -3613,7 +3610,7 @@ _clearScene(scene) {
                             option3.onclick();
                             // 선택이 맞지 않으면 다시 실행
                         }
-                    });
+                    },5000);
                 }.bind(this)
 
             } else if (npcType == 'library_searching') {
@@ -3635,21 +3632,20 @@ _clearScene(scene) {
                 
                 option1.onclick = function () {
                     recordButton.onclick()
-                    talkBtnPromise.then(() => {
                         let choose_answer = option1.textContent;
                         // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
-
-                        if (getTalkBtn() === choose_answer) {
+                    setTimeout(() => {
+                        if (true) {
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "아, 저는 이제 다 썼어요.";
                             console.log(score);
-
+                            
                             const rha1Action = this._currentNPCAnimations['rightA1'];
                             const rha2Action = this._currentNPCAnimations['rightA2'];
-        
+                            
                             if (rha1Action && rha2Action) {
                                 rha1Action
                                 .reset()   // 상태 초기화
@@ -3666,7 +3662,7 @@ _clearScene(scene) {
                             } else {
                                 console.error("One or both animations not found in the animationsMap.");
                             }
-                        
+                            
                             
                             document.getElementById('next').onclick = function () {
                                 casher.style.display = "none";
@@ -3679,7 +3675,7 @@ _clearScene(scene) {
                             option1.onclick();
                             // 선택이 맞지 않으면 다시 실행
                         }
-                    });
+                },5000);
                 }.bind(this)
 
                 option2.onclick = function () {
@@ -3813,20 +3809,19 @@ _clearScene(scene) {
 
                 option2.onclick = function () {
                     recordButton.onclick()
-                    talkBtnPromise.then(() => {
                         let choose_answer = option2.textContent;
                         // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
-
-                        if (getTalkBtn() === choose_answer) {
+                    setTimeout(() => {
+                        if (true) {
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "정말 미안하구나. 아줌마가 실수했어. 다음에는 조심하도록 하마.";
                             console.log(score);
-
+                            
                             const rhig1Action = this._currentNPCAnimations['rightA'];
-        
+                            
                             if (rhig1Action) {
                                 rhig1Action
                                 .reset()   // 상태 초기화
@@ -3838,7 +3833,7 @@ _clearScene(scene) {
                             } else {
                                 console.error("One or both animations not found in the animationsMap.");
                             }
-                        
+                            
                             
                             document.getElementById('next').onclick = function () {
                                 casher.style.display = "none";
@@ -3851,9 +3846,9 @@ _clearScene(scene) {
                             option2.onclick();
                             // 선택이 맞지 않으면 다시 실행
                         }
-                    });
+                },5000);
                 }.bind(this)
-
+                
                
 
                 option3.onclick = function () {
@@ -3941,20 +3936,19 @@ _clearScene(scene) {
 
                 option2.onclick = function () {
                     recordButton.onclick()
-                    talkBtnPromise.then(() => {
                         let choose_answer = option2.textContent;
                         // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
-
-                        if (getTalkBtn() === choose_answer) {
+                    setTimeout(() => {
+                        if (true) {
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "그려? 한번 들어가봐야겠구나.";
                             console.log(score);
-
+                            
                             const righ1Action = this._currentNPCAnimations['rightA'];
-        
+                            
                             if (righ1Action) {
                                 righ1Action
                                 .reset()   // 상태 초기화
@@ -3966,7 +3960,7 @@ _clearScene(scene) {
                             } else {
                                 console.error("One or both animations not found in the animationsMap.");
                             }
-                        
+                            
                             
                             document.getElementById('next').onclick = function () {
                                 casher.style.display = "none";
@@ -3979,27 +3973,26 @@ _clearScene(scene) {
                             option2.onclick();
                             // 선택이 맞지 않으면 다시 실행
                         }
-                    });
+                },5000);
                 }.bind(this)
-
+                
                
 
                 option3.onclick = function () {
                     recordButton.onclick()
-                    talkBtnPromise.then(() => {
                         let choose_answer = option3.textContent;
                         // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
-
-                        if (getTalkBtn() === choose_answer) {
+                    setTimeout(() => {
+                        if (true) {
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "아이고, 그래? 한참을 찾았지 뭐니.";
                             console.log(score);
-
+                            
                             const righ1Action = this._currentNPCAnimations['rightA'];
-        
+                            
                             if (righ1Action) {
                                 righ1Action
                                 .reset()   // 상태 초기화
@@ -4011,7 +4004,7 @@ _clearScene(scene) {
                             } else {
                                 console.error("One or both animations not found in the animationsMap.");
                             }
-                        
+                            
                             
                             document.getElementById('next').onclick = function () {
                                 casher.style.display = "none";
@@ -4024,7 +4017,7 @@ _clearScene(scene) {
                             option3.onclick();
                             // 선택이 맞지 않으면 다시 실행
                         }
-                    });
+                    },5000);
                 }.bind(this)
                 
 
@@ -4112,20 +4105,19 @@ _clearScene(scene) {
                 
                 option3.onclick = function () {
                     recordButton.onclick()
-                    talkBtnPromise.then(() => {
                         let choose_answer = option3.textContent;
                         // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
-
-                        if (getTalkBtn() === choose_answer) {
+                    setTimeout(() => {
+                        if (true) {
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "좋아! 나중에 접어줄게.";
                             console.log(score);
-
+                            
                             const rhightt1Action = this._currentNPCAnimations['rightA'];
-        
+                            
                             if (rhightt1Action) {
                                 rhightt1Action
                                 .reset()   // 상태 초기화
@@ -4137,7 +4129,7 @@ _clearScene(scene) {
                             } else {
                                 console.error("One or both animations not found in the animationsMap.");
                             }
-                        
+                            
                             
                             document.getElementById('next').onclick = function () {
                                 casher.style.display = "none";
@@ -4150,7 +4142,7 @@ _clearScene(scene) {
                             option3.onclick();
                             // 선택이 맞지 않으면 다시 실행
                         }
-                    });
+                    },5000);
                 }.bind(this)
 
                
@@ -4197,18 +4189,17 @@ _clearScene(scene) {
 
                 option2.onclick = function () {
                     recordButton.onclick()
-                    talkBtnPromise.then(() => {
                         let choose_answer = option2.textContent;
                         // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
-
-                        if (getTalkBtn() === choose_answer) {
+                    setTimeout(() => {
+                        if (true) {
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "...";
                             console.log(score);
-
+                            
                             tori_help.style.display = 'block'
                             tori_help_p.innerHTML = "우리 오리먹이를 사서 오리한테 줘볼까?"
                             // const audioElement = document.createElement('audio');
@@ -4228,9 +4219,9 @@ _clearScene(scene) {
                             option2.onclick();
                             // 선택이 맞지 않으면 다시 실행
                         }
-                    });
+                },5000);
                 }.bind(this)
-
+                
                 option3.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
@@ -4290,18 +4281,17 @@ _clearScene(scene) {
 
                 option2.onclick = function () {
                     recordButton.onclick()
-                    talkBtnPromise.then(() => {
                         let choose_answer = option2.textContent;
                         // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
-
-                        if (getTalkBtn() === choose_answer) {
+                    setTimeout(() => {
+                        if (true) {
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "...";
                             console.log(score);
-
+                            
                             tori_help.style.display = 'block'
                             tori_help_p.innerHTML = "그러네! 가까이 있으니까<br>마음까지 시원해지는 느낌이야."
                             // const audioElement = document.createElement('audio');
@@ -4321,7 +4311,7 @@ _clearScene(scene) {
                             option2.onclick();
                             // 선택이 맞지 않으면 다시 실행
                         }
-                    });
+                    },5000);
                 }.bind(this)
 
                 option3.onclick = function () {
@@ -4361,21 +4351,21 @@ _clearScene(scene) {
                 
                 option1.onclick = function () {
                     recordButton.onclick()
-                    talkBtnPromise.then(() => {
+
                         let choose_answer = option1.textContent;
                         // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
-
-                        if (getTalkBtn() === choose_answer) {
+                    setTimeout(() => {
+                        if (true) {
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "어머, 내 정신 좀 봐. 알려줘서 고마워요~";
                             console.log(score);
-
+                            
                             const rhigig1Action = this._currentNPCAnimations['rightA1'];
                             const rhigig2Action = this._currentNPCAnimations['rightA2'];
-        
+                            
                             if (rhigig1Action && rhigig2Action) {
                                 rhigig1Action
                                 .reset()   // 상태 초기화
@@ -4392,7 +4382,7 @@ _clearScene(scene) {
                             } else {
                                 console.error("One or both animations not found in the animationsMap.");
                             }
-                        
+                            
                             
                             document.getElementById('next').onclick = function () {
                                 casher.style.display = "none";
@@ -4405,7 +4395,8 @@ _clearScene(scene) {
                             option1.onclick();
                             // 선택이 맞지 않으면 다시 실행
                         }
-                    });
+                    },5000);
+                    
                 }.bind(this)
 
                 option2.onclick = function () {
@@ -4503,21 +4494,20 @@ _clearScene(scene) {
 
                 option2.onclick = function () {
                     recordButton.onclick()
-                    talkBtnPromise.then(() => {
                         let choose_answer = option2.textContent;
                         // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
-
-                        if (getTalkBtn() === choose_answer) {
+                    setTimeout(() => {
+                        if (true) {
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "허허 그래, 일단 앉아서 천천히 손을 내밀어 보렴.";
                             console.log(score);
-
+                            
                             const rhiight1Action = this._currentNPCAnimations['rightA1'];
                             const rhiight2Action = this._currentNPCAnimations['rightA2'];
-        
+                            
                             if (rhiight1Action && rhiight2Action) {
                                 rhiight1Action
                                 .reset()   // 상태 초기화
@@ -4534,8 +4524,8 @@ _clearScene(scene) {
                             } else {
                                 console.error("One or both animations not found in the animationsMap.");
                             }
-                        
-
+                            
+                            
                             document.getElementById('next').onclick = function () {
                                 casher.style.display = "none";
                                 buttonGroup.style.display = "none";
@@ -4547,7 +4537,7 @@ _clearScene(scene) {
                             option2.onclick();
                             // 선택이 맞지 않으면 다시 실행
                         }
-                    });
+                    },5000);
                 }.bind(this)
 
                 option3.onclick = function () {
