@@ -1610,7 +1610,7 @@ _processAnimation() {
 _switchScene(index) {
             if (index == 4 || index == 5) {
             console.log('실내')
-            document.querySelector('#loadingPage').style.backgroundImage = "url('./data/loginImage/bush_back.png')";
+            document.querySelector('#loadingPage').style.backgroundImage = "url('./data/loginImage/loading2.png')";
         } else {
             console.log('실외')
             document.querySelector('#loadingPage').style.backgroundImage = "url('./data/loginImage/loading.png')";
