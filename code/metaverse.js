@@ -1632,7 +1632,7 @@ _switchScene(index) {
         this._sound.setBuffer(buffer);
         this._sound.setLoop(true);
         this._sound.setVolume(this._initialVolume); // 초기 볼륨 적용
-        // this._sound.play();
+        this._sound.play();
     });
 
     // 씬이 배열 범위 내에 있는지 확인
@@ -1884,7 +1884,7 @@ _clearScene(scene) {
             var tori_help_p = document.querySelector('.tori_help p')
             var choose_answer
             
-            var message = `대화 상대가 ${npcType.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent},${option2.textContent},${option3.textContent}가 있다.그리고 아이가 고른 선택지는 ${choose_answer}이다.`
+            var message = `대화 상대가 ${npcType.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent},${option2.textContent},${option3.textContent}가 있다.그리고 아이가 고른 선택지는 ${choose_answer}이다.`
             var count = 0;
 
 
@@ -1959,6 +1959,7 @@ _clearScene(scene) {
                 // resetModal();
                 document.querySelectorAll('.choose button').forEach(function (button) {
                     button.classList.remove('active');
+                    document.getElementById('helper').style.display = 'none';
                 })
                 this._onDialogClosed();
             }.bind(this);
@@ -1968,6 +1969,7 @@ _clearScene(scene) {
                 // resetModal();
                 document.querySelectorAll('.choose button').forEach(function (button) {
                     button.classList.remove('active');
+                    document.getElementById('helper').style.display = 'none';
                 })
                 this._onDialogClosed();
             }.bind(this);
@@ -2046,7 +2048,7 @@ _clearScene(scene) {
                         }
                     } else recordButton.onclick()
                         let choose_answer = option1.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -2068,6 +2070,8 @@ _clearScene(scene) {
                                     audioElement.currentTime = 0;  // 음성을 처음부터 다시 재생할 수 있도록 시간 초기화
                                     setTalkTutorial('false')
                                 }
+                            } else {
+                                sendMessageToClova(message)
                             }
 
 
@@ -2110,8 +2114,9 @@ _clearScene(scene) {
                 option2.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                    let choose_answer = option2.textContent;
+                        let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
                     dialogText.innerHTML = "...";
-
                     const oh1Action = this._currentNPCAnimations['oh1'];
                     const oh2Action = this._currentNPCAnimations['oh2'];
                             
@@ -2144,9 +2149,11 @@ _clearScene(scene) {
                         audioElement.play();
 
                     }else {
-                        tori_help_p.innerHTML = "상대방이 인사 했을 때는 너도 인사를 해야해. <br>다른 사람을 대하는 기본적인 예의야. <br><br>다시 해보자.<br><br>"
-                    audioElement.src = './data/audio/학습지도1.mp3';  // 학습지도1.mp3 파일 경로
-                    audioElement.play();  // 학습지도1.mp3 파일 재생
+                        tori_help_p.innerHTML = "분석중..."
+                        // tori_help_p.innerHTML = "상대방이 인사 했을 때는 너도 인사를 해야해. <br>다른 사람을 대하는 기본적인 예의야. <br><br>다시 해보자.<br><br>"
+                    // audioElement.src = './data/audio/학습지도1.mp3';  // 학습지도1.mp3 파일 경로
+                        // audioElement.play();  // 학습지도1.mp3 파일 재생
+                        sendMessageToClova(message)
                 }
 
 
@@ -2164,6 +2171,10 @@ _clearScene(scene) {
                 option3.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                    let choose_answer = option3.textContent;
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때,
+                    선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     dialogText.innerHTML = "나는 3학년 2반 선생님이란다..";
                     //여기부터 애니메이션 예시
                     const oh1Action = this._currentNPCAnimations['oh1'];
@@ -2196,11 +2207,14 @@ _clearScene(scene) {
                         audioElement.currentTime = 0;
                         audioElement.src = './data/audio/11.mp3';  // 11.mp3 파일 경로
                         audioElement.play();
-                    } else {
+                        } else {
+                            
                         tori_help.style.display = 'block'
-                        tori_help_p.innerHTML = " 다른 사람이 인사를 건넸을 때는<br>먼저 인사를 하고, 그 후에 궁금한 점을 <br>물어보는 것이 자연스럽고 예의바른 <br>대화 방식이야. 다시 해보자."
-                        audioElement.src = './data/audio/학습지도2.mp3';  // 학습지도2.mp3 파일 경로
-                        audioElement.play();  // 학습지도2.mp3 파일 재생
+                        tori_help_p.innerHTML = "분석중..."
+                        // tori_help_p.innerHTML = " 다른 사람이 인사를 건넸을 때는<br>먼저 인사를 하고, 그 후에 궁금한 점을 <br>물어보는 것이 자연스럽고 예의바른 <br>대화 방식이야. 다시 해보자."
+                        // audioElement.src = './data/audio/학습지도2.mp3';  // 학습지도2.mp3 파일 경로
+                        // audioElement.play();  // 학습지도2.mp3 파일 재생
+                        sendMessageToClova(message)
                     }
                     tori_next.onclick = function () {
                         tori_help.style.display = 'none'
@@ -2230,6 +2244,9 @@ _clearScene(scene) {
                 option1.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                    let choose_answer = option1.textContent;
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     dialogText.innerHTML = "뭐? 말이 좀 심하지 않아?";
                     const ugh1Action = this._currentNPCAnimations['ugh1'];
                     const ugh2Action = this._currentNPCAnimations['ugh2'];
@@ -2261,15 +2278,16 @@ _clearScene(scene) {
                 }.bind(this);
                 option2.onclick = function () {
                     recordButton.onclick()
-                    
-                    let choose_answer = option2.textContent;
-                    let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
-                    
-                    console.log(choose_answer);
-                    console.log(getTalkBtn());
-                    
-                    setTimeout(() => {
-                        if (true) {
+
+                    talkBtnPromise.then(() => {
+                        let choose_answer = option2.textContent;
+                        // let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+
+                        console.log(choose_answer);
+                        console.log(getTalkBtn());
+
+                        if (getTalkBtn() === choose_answer) {
+
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "오 공 던지는 솜씨가 제법인걸?";
                             console.log(score);
@@ -2322,6 +2340,9 @@ _clearScene(scene) {
                 option3.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                    let choose_answer = option3.textContent;
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     dialogText.innerHTML = "저기! 내 말 안들렸어?";
                     //여기부터 애니메이션 예시
                     const ugh1Action = this._currentNPCAnimations['ugh1'];
@@ -2376,8 +2397,10 @@ _clearScene(scene) {
                 option1.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                    let choose_answer = option1.textContent;
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     dialogText.innerHTML = "몰라! 난 바쁘다고!";
-
                     //여기부터 애니메이션 예시
                     const shoutAction = this._currentNPCAnimations['shout'];
                     // const idleAction = this._currentNPCAnimations['idle'];///
@@ -2401,10 +2424,12 @@ _clearScene(scene) {
                     //여기까지
 
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "가끔은 멋지게 상황을 넘기면 편할 때도 많아.<br> 물론 사과를 받으면 좋겠지만, 크게 다치거나<br>하지 않았으니까 그럴 수도 있지 하고<br>넘기는 것도 필요해. 다시 해보자.<br><br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "가끔은 멋지게 상황을 넘기면 편할 때도 많아.<br> 물론 사과를 받으면 좋겠지만, 크게 다치거나<br>하지 않았으니까 그럴 수도 있지 하고<br>넘기는 것도 필요해. 다시 해보자.<br><br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도5.mp3';  // 학습지도5.mp3 파일 경로
-                    audioElement.play();  // 학습지도5.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도5.mp3';  // 학습지도5.mp3 파일 경로
+                    // audioElement.play();  // 학습지도5.mp3 파일 재생
+
 
                     tori_next.onclick = function () {
                         tori_help.style.display = 'none'
@@ -2419,8 +2444,7 @@ _clearScene(scene) {
                     recordButton.onclick()
 
                         let choose_answer = option2.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
-
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
                         console.log(choose_answer);
                         console.log(getTalkBtn());
                     setTimeout(() => {
@@ -2429,15 +2453,17 @@ _clearScene(scene) {
                             buttonGroup.style.display = "none";
                             dialogText.innerHTML = "...";
                             tori_help.style.display = 'block'
-                            tori_help_p.innerHTML = "어어? 쟤는 먼저 와서 부딪혀 놓고..<br>그나저나 사과 안하는 쟤는 나빴지만,<br>멋지게 참아주었잖아? 대단한걸? <br><br>"
+                            tori_help_p.innerHTML = "분석중..."
+                            // tori_help_p.innerHTML = "어어? 쟤는 먼저 와서 부딪혀 놓고..<br>그나저나 사과 안하는 쟤는 나빴지만,<br>멋지게 참아주었잖아? 대단한걸? <br><br>"
                             // const audioElement = document.createElement('audio');
-                            audioElement.src = './data/audio/학습지도6.mp3'; //  학습지도6.mp3 파일 경로
-                            audioElement.play(); //  학습지도6.mp3 재생
-                            
+                            // audioElement.src = './data/audio/학습지도6.mp3'; //  학습지도6.mp3 파일 경로
+                            // audioElement.play(); //  학습지도6.mp3 재생
+
                             console.log(score);
-                            
-                            
-                            document.querySelector('.tori_tri').onclick = function () {
+
+
+                            document.querySelector(".tori_help .next_btn").onclick = function () {
+                                tori_help.style.display = 'none';
                                 casher.style.display = "none";
                                 buttonGroup.style.display = "none";
                                 document.querySelector('.tori_help').style.display = 'none';
@@ -2458,8 +2484,10 @@ _clearScene(scene) {
                 option3.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                    let choose_answer = option3.textContent;
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     dialogText.innerHTML = "야! 뭐하는 거야!";
-
                     //여기부터 애니메이션 예시
                     const shoutAction = this._currentNPCAnimations['shout'];
                     // const idleAction = this._currentNPCAnimations['idle'];
@@ -2485,10 +2513,12 @@ _clearScene(scene) {
 
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "가끔은 멋지게 상황을 넘기면 편할 때도 많아.<br> 물론 사과를 받으면 좋겠지만, 크게 다치거나<br>하지 않았으니까 그럴 수도 있지 하고<br>넘기는 것도 필요해. 다시 해보자.<br><br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "가끔은 멋지게 상황을 넘기면 편할 때도 많아.<br> 물론 사과를 받으면 좋겠지만, 크게 다치거나<br>하지 않았으니까 그럴 수도 있지 하고<br>넘기는 것도 필요해. 다시 해보자.<br><br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도5.mp3';  // 학습지도5.mp3 파일 경로
-                    audioElement.play();  // 학습지도5.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도5.mp3';  // 학습지도5.mp3 파일 경로
+                    // audioElement.play();  // 학습지도5.mp3 파일 재생
+
 
                     tori_next.onclick = function () {
                         tori_help.style.display = 'none'
@@ -2520,8 +2550,10 @@ _clearScene(scene) {
                 option1.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                    let choose_answer = option1.textContent;
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     dialogText.innerHTML = "뭐..?";
-
                     //여기부터 애니메이션 예시
                     const sup1Action = this._currentNPCAnimations['Surprised01'];
                     const sup2Action = this._currentNPCAnimations['Surprised02'];///
@@ -2545,10 +2577,11 @@ _clearScene(scene) {
                     //여기까지
 
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "사람의 외모에 대해 이야기하는 것은 <br>상대방의 기분을 상하게 할 수 있어. <br><br>다시 해보자.<br><br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "사람의 외모에 대해 이야기하는 것은 <br>상대방의 기분을 상하게 할 수 있어. <br><br>다시 해보자.<br><br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도3.mp3';  // 학습지도3.mp3 파일 경로
-                    audioElement.play();  // 학습지도3.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도3.mp3';  // 학습지도3.mp3 파일 경로
+                    // audioElement.play();  // 학습지도3.mp3 파일 재생
 
                     tori_next.onclick = function () {
                         tori_help.style.display = 'none'
@@ -2562,7 +2595,7 @@ _clearScene(scene) {
                 option2.onclick = function () {
                     recordButton.onclick()
                         let choose_answer = option2.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -2592,8 +2625,10 @@ _clearScene(scene) {
                 option3.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                    let choose_answer = option3.textContent;
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     dialogText.innerHTML = "허허...";
-
                     //여기부터 애니메이션 예시
                     const em1Action = this._currentNPCAnimations['embarrassed01'];
                     const em2Action = this._currentNPCAnimations['embarrassed02'];
@@ -2619,10 +2654,12 @@ _clearScene(scene) {
 
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "상대방이 인사 했을 때는 너도 인사를 해야해. <br>다른 사람을 대하는 기본적인 예의야.<br><br>다시 해보자."
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "상대방이 인사 했을 때는 너도 인사를 해야해. <br>다른 사람을 대하는 기본적인 예의야.<br><br>다시 해보자."
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도4.mp3';  // 학습지도4.mp3 파일 경로
-                    audioElement.play();  // 학습지도4.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도4.mp3';  // 학습지도4.mp3 파일 경로
+                    // audioElement.play();  // 학습지도4.mp3 파일 재생
+                    
 
 
                     tori_next.onclick = function () {
@@ -2655,13 +2692,17 @@ _clearScene(scene) {
                 option1.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                    let choose_answer = option1.textContent;
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     dialogText.innerHTML = "그렇게 말하다니, 내 상처는 구경거리가 아니야!";
-
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "아파하는 사람에게 그렇게 말하면<br> 자신을 구경거리로 생각하는것 처럼 보여서<br> 기분 나쁠 수 있어. <br>더 적합한 대처를 다시 생각해보자.<br><br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "아파하는 사람에게 그렇게 말하면<br> 자신을 구경거리로 생각하는것 처럼 보여서<br> 기분 나쁠 수 있어. <br>더 적합한 대처를 다시 생각해보자.<br><br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도7.mp3';  // 학습지도7.mp3 파일 경로
-                    audioElement.play();  // 학습지도7.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도7.mp3';  // 학습지도7.mp3 파일 경로
+                    // audioElement.play();  // 학습지도7.mp3 파일 재생
+                    
 
                     
                     const sadAction = this._currentNPCAnimations['sad'];
@@ -2695,7 +2736,7 @@ _clearScene(scene) {
                 option2.onclick = function () {
                     recordButton.onclick()
                         let choose_answer = option2.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -2744,16 +2785,20 @@ _clearScene(scene) {
                 option3.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                    let choose_answer = option3.textContent;
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     dialogText.innerHTML = "아야....";
                     //여기부터 애니메이션 예시
                     
                     //여기까지
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "다친 친구를 바로 앞에서 마주쳤는데, <br>그냥 지나가기보다는<br>다른 행동을 하는 것이 좋을 것 같아. <br><br>다시 해보자.<br><br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "다친 친구를 바로 앞에서 마주쳤는데, <br>그냥 지나가기보다는<br>다른 행동을 하는 것이 좋을 것 같아. <br><br>다시 해보자.<br><br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도8.mp3';  // 학습지도8.mp3 파일 경로
-                    audioElement.play();  // 학습지도8.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도8.mp3';  // 학습지도8.mp3 파일 경로
+                    // audioElement.play();  // 학습지도8.mp3 파일 재생
                     tori_next.onclick = function () {
                         tori_help.style.display = 'none'
                         score = score - 20;
@@ -2801,7 +2846,7 @@ _clearScene(scene) {
                         // 두 번째 대화 내용
                         recordButton.onclick()
                             let choose_answer = option1.textContent;
-                            // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                            // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                             console.log(choose_answer);
                             console.log(getTalkBtn());
@@ -2846,6 +2891,8 @@ _clearScene(scene) {
                 option2.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     dialogText.innerHTML = "으응? 뭐라고?";
                     //여기부터 애니메이션 예시
                     const wrrrrongg1Action = this._currentNPCAnimations['wrongA1'];
@@ -2870,10 +2917,11 @@ _clearScene(scene) {
                     //여기까지
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "귀가 안좋으시다고 그런식으로 말하면<br>예의에 어긋나는 말이야.<br><br>다시 해보자."
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "귀가 안좋으시다고 그런식으로 말하면<br>예의에 어긋나는 말이야.<br><br>다시 해보자."
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도15.mp3';  // 학습지도15.mp3 파일 경로
-                    audioElement.play();  // 학습지도15.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도15.mp3';  // 학습지도15.mp3 파일 경로
+                    // audioElement.play();  // 학습지도15.mp3 파일 재생
                     tori_next.onclick = function () {
                         tori_help.style.display = 'none'
                         score = score - 20;
@@ -2887,6 +2935,8 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "아이쿠 녀석, 그래 안녕~";
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     //여기부터 애니메이션 예시
 
                     const wrrrrongg1Action = this._currentNPCAnimations['wrongA1'];
@@ -2911,10 +2961,11 @@ _clearScene(scene) {
                     //여기까지
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "어르신분들께 예의를 갖추어야 해. <br>소리를 잘 못 들으신다고 타박하듯이 <br>이야기하면 상대방이 곤란해할 수 있어. <br><br>다시 해보자.<br><br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "어르신분들께 예의를 갖추어야 해. <br>소리를 잘 못 들으신다고 타박하듯이 <br>이야기하면 상대방이 곤란해할 수 있어. <br><br>다시 해보자.<br><br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도16.mp3';  // 학습지도16.mp3 파일 경로
-                    audioElement.play();  // 학습지도16.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도16.mp3';  // 학습지도16.mp3 파일 경로
+                    // audioElement.play();  // 학습지도16.mp3 파일 재생
                     tori_next.onclick = function () {
                         tori_help.style.display = 'none'
                         score = score - 20;
@@ -3265,7 +3316,7 @@ _clearScene(scene) {
                 option1.onclick = function () {
                     recordButton.onclick()
                         let choose_answer = option1.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -3313,12 +3364,15 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "...";
-
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "상황에 따라 상대방에게 건넬 수 있는 말이<br>다르다는 것을 이해해야 해! <br>갑자기 남의 신체를 이야기하는 것은 <br>자연스럽지 못한 것 같아. <br>다시 해보자.<br><br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "상황에 따라 상대방에게 건넬 수 있는 말이<br>다르다는 것을 이해해야 해! <br>갑자기 남의 신체를 이야기하는 것은 <br>자연스럽지 못한 것 같아. <br>다시 해보자.<br><br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도10.mp3';  // 학습지도10.mp3 파일 경로
-                    audioElement.play();  // 학습지도10.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도10.mp3';  // 학습지도10.mp3 파일 경로
+                    // audioElement.play();  // 학습지도10.mp3 파일 재생
+
                     const ag1Action = this._currentNPCAnimations['angry1'];
                     const ag2Action = this._currentNPCAnimations['angry2'];
 
@@ -3352,14 +3406,16 @@ _clearScene(scene) {
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "...";
                     //여기부터 애니메이션 예시
-                    
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     //여기까지
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "저 친구가 책을 꺼내기 힘들어하는 것 같아.<br>우리가 도울 수 있을 것 같지 않니?<br><br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "저 친구가 책을 꺼내기 힘들어하는 것 같아.<br>우리가 도울 수 있을 것 같지 않니?<br><br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도11.mp3';  // 학습지도11.mp3 파일 경로
-                    audioElement.play();  // 학습지도11.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도11.mp3';  // 학습지도11.mp3 파일 경로
+                    // audioElement.play();  // 학습지도11.mp3 파일 재생
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -3389,6 +3445,8 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "네? 아직 제가 읽고 있는 걸요? 그리고 이 책은 저쪽 책장에 가면 더 있어요...";
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     //여기부터 애니메이션 예시
                     const wg1Action = this._currentNPCAnimations['wrongA1'];
                     const wg2Action = this._currentNPCAnimations['wrongA2'];
@@ -3412,10 +3470,10 @@ _clearScene(scene) {
                     //여기까지
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "읽고 있는 책이 네 것도 아닌데 <br>그렇게 말하면 안돼.<br><br>더 좋은 방법을 생각해 보자.<br><br>"
+                    tori_help_p.innerHTML = "분석중..."
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도12.mp3';  // 학습지도12.mp3 파일 경로
-                    audioElement.play();  // 학습지도12.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도12.mp3';  // 학습지도12.mp3 파일 경로
+                    // audioElement.play();  // 학습지도12.mp3 파일 재생
 
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
@@ -3430,6 +3488,8 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "네? 아..이 책과 같은 책은 저쪽에 가면 찾을 수 있어요..";
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
 
                     const wg1Action = this._currentNPCAnimations['wrongA1'];
                     const wg2Action = this._currentNPCAnimations['wrongA2'];
@@ -3451,10 +3511,11 @@ _clearScene(scene) {
                         console.error("One or both animations not found in the animationsMap.");
                     }
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "읽고 있는 책이 네 것도 아닌데 <br>달라고 하면 안돼. <br><br>더 좋은 방법을 생각해 보자. <br><br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "읽고 있는 책이 네 것도 아닌데 <br>달라고 하면 안돼. <br><br>더 좋은 방법을 생각해 보자. <br><br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도12.mp3';  // 학습지도12.mp3 파일 경로
-                    audioElement.play();  // 학습지도12.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도12.mp3';  // 학습지도12.mp3 파일 경로
+                    // audioElement.play();  // 학습지도12.mp3 파일 재생
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -3467,7 +3528,7 @@ _clearScene(scene) {
                 option3.onclick = function () {
                     recordButton.onclick()
                         let choose_answer = option3.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -3514,7 +3575,7 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "...";
-
+                    
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     
                     tori_next.onclick = function () {
@@ -3528,6 +3589,8 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "감사합니다.";
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
 
                   
                     const rh1Action = this._currentNPCAnimations['rightA1'];
@@ -3550,11 +3613,11 @@ _clearScene(scene) {
                         console.error("One or both animations not found in the animationsMap.");
                     }
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "안경을 주워준건 정말 좋은 행동이야. <br>하지만 안경뿐만 아니라 떨어진 다른 물건도 <br>같이 주워서 도와주는건 어떨까?<br><br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "안경을 주워준건 정말 좋은 행동이야. <br>하지만 안경뿐만 아니라 떨어진 다른 물건도 <br>같이 주워서 도와주는건 어떨까?<br><br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도9.mp3';  // 학습지도9.mp3 파일 경로
-                    audioElement.play();  // 학습지도9.mp3 파일 재생
-
+                    // audioElement.src = './data/audio/학습지도9.mp3';  // 학습지도9.mp3 파일 경로
+                    // audioElement.play();  // 학습지도9.mp3 파일 재생
 
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
@@ -3568,7 +3631,7 @@ _clearScene(scene) {
                 option3.onclick = function () {
                     recordButton.onclick()
                         let choose_answer = option3.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -3633,7 +3696,7 @@ _clearScene(scene) {
                 option1.onclick = function () {
                     recordButton.onclick()
                         let choose_answer = option1.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -3682,7 +3745,8 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "네? 잠시만요..허...";
-
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     const wro1Action = this._currentNPCAnimations['wrongA1'];
                     const wro2Action = this._currentNPCAnimations['wrongA2'];
@@ -3704,10 +3768,11 @@ _clearScene(scene) {
                         console.error("One or both animations not found in the animationsMap.");
                     }
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "저 분이 먼저 와서 이용하고 있는 건데 <br>재촉하는 것은 상대방의 기분을 상하게 해. <br><br>다르게 행동해보자.<br><br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "저 분이 먼저 와서 이용하고 있는 건데 <br>재촉하는 것은 상대방의 기분을 상하게 해. <br><br>다르게 행동해보자.<br><br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도13.mp3';  // 학습지도13.mp3 파일 경로
-                    audioElement.play();  // 학습지도13.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도13.mp3';  // 학습지도13.mp3 파일 경로
+                    // audioElement.play();  // 학습지도13.mp3 파일 재생
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -3721,7 +3786,8 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "예? 금방해요. 잠시만요.";
-
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     const wro1Action = this._currentNPCAnimations['wrongA1'];
                     const wro2Action = this._currentNPCAnimations['wrongA2'];
 
@@ -3742,10 +3808,11 @@ _clearScene(scene) {
                         console.error("One or both animations not found in the animationsMap.");
                     }
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "저 분이 먼저 와서 이용하고 있는 건데, <br>타당한 이유도 없이 먼저 쓰게 <br>해달라고 하면 안돼. <br><br>다르게 행동해보자.<br><br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "저 분이 먼저 와서 이용하고 있는 건데, <br>타당한 이유도 없이 먼저 쓰게 <br>해달라고 하면 안돼. <br><br>다르게 행동해보자.<br><br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도14.mp3';  // 학습지도14.mp3 파일 경로
-                    audioElement.play();  // 학습지도14.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도14.mp3';  // 학습지도14.mp3 파일 경로
+                    // audioElement.play();  // 학습지도14.mp3 파일 재생
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -3778,7 +3845,8 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "어어.. 미안하구나. 물이 옷에 많이 묻었니?";
-
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     const wron1Action = this._currentNPCAnimations['wrongA'];
 
@@ -3794,10 +3862,11 @@ _clearScene(scene) {
                         console.error("One or both animations not found in the animationsMap.");
                     }
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "상대방도 실수를 저질러 당황했을 거야.<br>그렇기 때문에 우리는 상대방의 작은 실수는 <br>너그럽게 받아들일 줄도 알아야 해.<br><br>다시 해보자.<br><br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "상대방도 실수를 저질러 당황했을 거야.<br>그렇기 때문에 우리는 상대방의 작은 실수는 <br>너그럽게 받아들일 줄도 알아야 해.<br><br>다시 해보자.<br><br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도17.mp3';  // 학습지도17.mp3 파일 경로
-                    audioElement.play();  // 학습지도17.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도17.mp3';  // 학습지도17.mp3 파일 경로
+                    // audioElement.play();  // 학습지도17.mp3 파일 재생
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -3810,7 +3879,7 @@ _clearScene(scene) {
                 option2.onclick = function () {
                     recordButton.onclick()
                         let choose_answer = option2.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -3855,7 +3924,8 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "어어.. 미안하구나. 물이 옷에 많이 묻었니?";
-
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     const wron1Action = this._currentNPCAnimations['wrongA'];
 
                     if (wron1Action) {
@@ -3869,10 +3939,11 @@ _clearScene(scene) {
                         console.error("One or both animations not found in the animationsMap.");
                     }
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "상대방의 작은 실수에 크게 화를 내면<br>상대방과의 사이가 멀어질 수 있어.<br>상대방의 작은 실수도 너그럽게<br> 받아들일 줄도 알아야 해. 다시 해보자.<br><br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "상대방의 작은 실수에 크게 화를 내면<br>상대방과의 사이가 멀어질 수 있어.<br>상대방의 작은 실수도 너그럽게<br> 받아들일 줄도 알아야 해. 다시 해보자.<br><br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도18.mp3';  // 학습지도18.mp3 파일 경로
-                    audioElement.play();  // 학습지도18.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도18.mp3';  // 학습지도18.mp3 파일 경로
+                    // audioElement.play();  // 학습지도18.mp3 파일 재생
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -3900,7 +3971,8 @@ _clearScene(scene) {
                 }
                 resetModal();
                 casher.style.display = "block";  
-
+                let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                sendMessageToClova(message)
                 option1.onclick = function () {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
@@ -3921,10 +3993,11 @@ _clearScene(scene) {
                         console.error("One or both animations not found in the animationsMap.");
                     }
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "어른에게 대답할때는 존댓말을 써야지.<br><br>그리고 그 질문에는 <br>더 구체적으로 대답해보는게 어때?<br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "어른에게 대답할때는 존댓말을 써야지.<br><br>그리고 그 상황에는 <br>더 구체적으로 대답해보는게 어때?<br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도19.mp3';  // 학습지도19.mp3 파일 경로
-                    audioElement.play();  // 학습지도19.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도19.mp3';  // 학습지도19.mp3 파일 경로
+                    // audioElement.play();  // 학습지도19.mp3 파일 재생
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -3937,7 +4010,7 @@ _clearScene(scene) {
                 option2.onclick = function () {
                     recordButton.onclick()
                         let choose_answer = option2.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -3981,7 +4054,7 @@ _clearScene(scene) {
                 option3.onclick = function () {
                     recordButton.onclick()
                         let choose_answer = option3.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -4043,7 +4116,8 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "뭐? 그치만 열심히 접었는데..";
-
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     const wronng1Action = this._currentNPCAnimations['wrongA'];
 
@@ -4059,10 +4133,11 @@ _clearScene(scene) {
                         console.error("One or both animations not found in the animationsMap.");
                     }
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "다름 사람이 열심히 한 결과물에<br>잘못된 점을 먼저 짚는 것은<br>상대방을 기분 상하게 할 수 있어.<br><br>다르게 대답해보자.<br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "다름 사람이 열심히 한 결과물에<br>잘못된 점을 먼저 짚는 것은<br>상대방을 기분 상하게 할 수 있어.<br><br>다르게 대답해보자.<br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도20.mp3';  // 학습지도20.mp3 파일 경로
-                    audioElement.play();  // 학습지도20.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도20.mp3';  // 학습지도20.mp3 파일 경로
+                    // audioElement.play();  // 학습지도20.mp3 파일 재생
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -4076,7 +4151,8 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "앗, 내가 접은건데!";
-
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     const wronng1Action = this._currentNPCAnimations['wrongA'];
 
                     if (wronng1Action) {
@@ -4090,10 +4166,11 @@ _clearScene(scene) {
                         console.error("One or both animations not found in the animationsMap.");
                     }
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "다른 사람의 물건을 동의도 없이<br> 가져가도 안되고 네가 잘할 수 있다고 해서<br>부탁도 없이 나서는건 좋지 않아.<br><br>다시 해보자.<br><br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "다른 사람의 물건을 동의도 없이<br> 가져가도 안되고 네가 잘할 수 있다고 해서<br>부탁도 없이 나서는건 좋지 않아.<br><br>다시 해보자.<br><br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도21.mp3';  // 학습지도21.mp3 파일 경로
-                    audioElement.play();  // 학습지도21.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도21.mp3';  // 학습지도21.mp3 파일 경로
+                    // audioElement.play();  // 학습지도21.mp3 파일 재생
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -4106,7 +4183,7 @@ _clearScene(scene) {
                 option3.onclick = function () {
                     recordButton.onclick()
                         let choose_answer = option3.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -4170,14 +4247,16 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "...";
-
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "오리는 100원을 먹을 수 없어!<br><br>다시 생각해보자.<br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "오리는 100원을 먹을 수 없어!<br><br>다시 생각해보자.<br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도24.mp3';  // 학습지도24.mp3 파일 경로
-                    audioElement.play();  // 학습지도24.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도24.mp3';  // 학습지도24.mp3 파일 경로
+                    // audioElement.play();  // 학습지도24.mp3 파일 재생
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -4190,7 +4269,7 @@ _clearScene(scene) {
                 option2.onclick = function () {
                     recordButton.onclick()
                         let choose_answer = option2.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -4202,9 +4281,11 @@ _clearScene(scene) {
                             
                             tori_help.style.display = 'block'
                             tori_help_p.innerHTML = "우리 오리먹이를 사서 오리한테 줘볼까?"
+                            tori_help_p.innerHTML = "분석중..."
                             // const audioElement = document.createElement('audio');
-                            audioElement.src = './data/audio/학습지도25.mp3';  // 학습지도25.mp3 파일 경로
-                            audioElement.play();  // 학습지도25.mp3 파일 재생
+                            // audioElement.src = './data/audio/학습지도25.mp3';  // 학습지도25.mp3 파일 경로
+                            // audioElement.play();  // 학습지도25.mp3 파일 재생
+                            sendMessageToClova(message)
                             
                             document.getElementById('next').onclick = function () {
                                 casher.style.display = "none";
@@ -4226,12 +4307,13 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "...";
-
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "공원의 잔디는 함부로 뜯으면 안돼!<br>식물을 훼손하는 짓은 좋은 행동이 아니야."
+                    tori_help_p.innerHTML = "분석중..."
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도26.mp3';  // 학습지도26.mp3 파일 경로
-                    audioElement.play();  // 학습지도26.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도26.mp3';  // 학습지도26.mp3 파일 경로
+                    // audioElement.play();  // 학습지도26.mp3 파일 재생
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -4261,15 +4343,16 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "...";
-
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "이 분수대는 조경용이지<br>안에서 놀라고 만들어진 곳이 아니야. <br>공공 시설에서는 규칙을 지켜야해.<br> 다시 생각해보자.<br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "이 분수대는 조경용이지<br>안에서 놀라고 만들어진 곳이 아니야. <br>공공 시설에서는 규칙을 지켜야해.<br> 다시 생각해보자.<br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도29.mp3';  // 학습지도29.mp3 파일 경로
-                    audioElement.play();  // 학습지도29.mp3 파일 재생
-
+                    // audioElement.src = './data/audio/학습지도29.mp3';  // 학습지도29.mp3 파일 경로
+                    // audioElement.play();  // 학습지도29.mp3 파일 재생
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -4282,7 +4365,7 @@ _clearScene(scene) {
                 option2.onclick = function () {
                     recordButton.onclick()
                         let choose_answer = option2.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -4293,11 +4376,12 @@ _clearScene(scene) {
                             console.log(score);
                             
                             tori_help.style.display = 'block'
-                            tori_help_p.innerHTML = "그러네! 가까이 있으니까<br>마음까지 시원해지는 느낌이야."
+                            tori_help_p.innerHTML = "분석중"
+                            // tori_help_p.innerHTML = "그러네! 가까이 있으니까<br>마음까지 시원해지는 느낌이야."
                             // const audioElement = document.createElement('audio');
-                            audioElement.src = './data/audio/학습지도30.mp3';  // 학습지도30.mp3 파일 경로
-                            audioElement.play();  // 학습지도30.mp3 파일 재생
-                            
+                            // audioElement.src = './data/audio/학습지도30.mp3';  // 학습지도30.mp3 파일 경로
+                            // audioElement.play();  // 학습지도30.mp3 파일 재생
+                            sendMessageToClova(message)
                             document.getElementById('next').onclick = function () {
                                 casher.style.display = "none";
                                 buttonGroup.style.display = "none";
@@ -4318,12 +4402,14 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "...";
-
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "안돼!<br>여기 표지판에 동전을 던지지 말라고 했지만,<br>다른 물건도 던지면 안돼. <br><br>다르게 행동해보자."
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "안돼!<br>여기 표지판에 동전을 던지지 말라고 했지만,<br>다른 물건도 던지면 안돼. <br><br>다르게 행동해보자."
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도31.mp3';  // 학습지도31.mp3 파일 경로
-                    audioElement.play();  // 학습지도31.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도31.mp3';  // 학습지도31.mp3 파일 경로
+                    // audioElement.play();  // 학습지도31.mp3 파일 재생
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -4353,7 +4439,7 @@ _clearScene(scene) {
                     recordButton.onclick()
 
                         let choose_answer = option1.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -4403,12 +4489,14 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "...";
-
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = " 잠깐, 잠깐! 상대방이 떨어트린 물건을<br>멋대로 가져가는 것은 옳지 못한 행동이야! <br><br>자, 어떻게 해야할까?<br><br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = " 잠깐, 잠깐! 상대방이 떨어트린 물건을<br>멋대로 가져가는 것은 옳지 못한 행동이야! <br><br>자, 어떻게 해야할까?<br><br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도22.mp3';  // 학습지도22.mp3 파일 경로
-                    audioElement.play();  // 학습지도22.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도22.mp3';  // 학습지도22.mp3 파일 경로
+                    // audioElement.play();  // 학습지도22.mp3 파일 재생
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -4422,12 +4510,14 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "...";
-
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "지갑이 떨어진 걸 보고도 모른 체하다니!<br>지갑을 잃어버려서 당황해 할 사람을 생각해봐.<br>속상해 할거야. <br><br>어떻게 해야할까?<br><br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "지갑이 떨어진 걸 보고도 모른 체하다니!<br>지갑을 잃어버려서 당황해 할 사람을 생각해봐.<br>속상해 할거야. <br><br>어떻게 해야할까?<br><br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도23.mp3';  // 학습지도23.mp3 파일 경로
-                    audioElement.play();  // 학습지도23.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도23.mp3';  // 학습지도23.mp3 파일 경로
+                    // audioElement.play();  // 학습지도23.mp3 파일 재생
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -4456,7 +4546,8 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "...";
-
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                     // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                     const wrrrong1Action = this._currentNPCAnimations['wrongA1'];
                     const wrrrong2Action = this._currentNPCAnimations['wrongA2'];
@@ -4479,10 +4570,11 @@ _clearScene(scene) {
                     }
 
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "강아지에게 갑자기 달려가면<br>놀란 강아지에게 물릴 수도 있어서 위험해. <br><br>다시 생각 해보자<br><br>"
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "강아지에게 갑자기 달려가면<br>놀란 강아지에게 물릴 수도 있어서 위험해. <br><br>다시 생각 해보자<br><br>"
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도27.mp3';  // 학습지도27.mp3 파일 경로
-                    audioElement.play();  // 학습지도27.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도27.mp3';  // 학습지도27.mp3 파일 경로
+                    // audioElement.play();  // 학습지도27.mp3 파일 재생
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;
@@ -4495,7 +4587,7 @@ _clearScene(scene) {
                 option2.onclick = function () {
                     recordButton.onclick()
                         let choose_answer = option2.textContent;
-                        // let message = `대화 상대가 ${npc_name.textContent}이고 질문이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                        // let message = `대화 상대가 ${npc_name.textContent}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
 
                         console.log(choose_answer);
                         console.log(getTalkBtn());
@@ -4544,7 +4636,8 @@ _clearScene(scene) {
                     // dialogText.style.display = "block";
                     // buttonGroup.style.display = "none";
                     dialogText.innerHTML = "아이고, 손을 그렇게 뻗으면 강아지가 놀란단다.";
-
+                    let message = `대화 상대가 ${this._name}이고 상황이 ${dialogText.textContent} 일때, 선택지는 ${option1.textContent}, ${option2.textContent}, ${option3.textContent}가 있다. 그리고 아이가 고른 선택지는 ${choose_answer}이다.`;
+                    sendMessageToClova(message)
                   
                    // 일정 시간 후 talk_btn 값이 설정되었을 때 비교
                    const wrrrong1Action = this._currentNPCAnimations['wrongA1'];
@@ -4567,10 +4660,11 @@ _clearScene(scene) {
                        console.error("One or both animations not found in the animationsMap.");
                    }
                     tori_help.style.display = 'block'
-                    tori_help_p.innerHTML = "갑자기 만지려고 하면 놀란 강아지에게<br>물릴 수도 있어서 위험해.<br><br>다시 생각 해보자."
+                    tori_help_p.innerHTML = "분석중..."
+                    // tori_help_p.innerHTML = "갑자기 만지려고 하면 놀란 강아지에게<br>물릴 수도 있어서 위험해.<br><br>다시 생각 해보자."
                     // const audioElement = document.createElement('audio');
-                    audioElement.src = './data/audio/학습지도28.mp3';  // 학습지도28.mp3 파일 경로
-                    audioElement.play();  // 학습지도28.mp3 파일 재생
+                    // audioElement.src = './data/audio/학습지도28.mp3';  // 학습지도28.mp3 파일 경로
+                    // audioElement.play();  // 학습지도28.mp3 파일 재생
                     tori_next.onclick = function () {
                     tori_help.style.display = 'none'
                         score = score - 20;

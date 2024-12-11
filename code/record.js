@@ -1,3 +1,5 @@
+import config from './config.js';
+
 // 자소 분리 함수
 function decomposeHangul(syllable) {
     const CHO = ["ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"];
@@ -29,7 +31,8 @@ function levenshtein(a, b) {
     const decompA = decomposeString(a);
     const decompB = decomposeString(b);
 
-    const matrix = Array.from({ length: decompA.length + 1 }, (_, i) => Array.from({ length: decompB.length + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0)));
+    const matrix = Array.from({ length: decompA.length + 1 }, (_, i) =>
+        Array.from({ length: decompB.length + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0)));
 
     for (let i = 1; i <= decompA.length; i++) {
         for (let j = 1; j <= decompB.length; j++) {
@@ -162,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData();
         formData.append("file", audioBlob);
 
-        fetch('https://gio.pe.kr:446/recognize', {
+        fetch(`${config.Domain}:446/recognize`, {
             method: 'POST',
             body: formData
         })
@@ -197,9 +200,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
-
 export async function sendMessageToClova(message) {
-    const response = await fetch('http://127.0.0.1:5002/clova', {
+    const helperElement = document.getElementById('helper');
+    // const response = await fetch(`${config.Domain}:446/clova`, {
+    const response = await fetch('http://localhost:5000/clova', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -209,7 +213,26 @@ export async function sendMessageToClova(message) {
 
     const result = await response.json();
     console.log(result.clova_response); // 클로바 챗봇 응답 출력
-    document.getElementById('helper').innerHTML = result.clova_response;
+    // document.getElementById('helper_text').innerHTML = result.clova_response;
+    document.querySelector('.tori_help p').innerHTML = result.clova_response;
+    getTTS(result.clova_response)
 }
-// var question = '대화 상대가 {teacher}이고 질문이 {안녕? 새로 온 학생이니} 일때, 선택지는 {네, 맞아요. 안녕하세요},{(무시하고 갈 길을 간다.)},{누구세요}가 있다. 그리고 아이가 고른 선택지는 {(무시하고 갈 길을 간다.)}이다.'
-// sendMessageToClova(question)
+
+async function getTTS(text) {
+    const response = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${config.API_KEY}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            input: { text },
+            voice: { languageCode: 'ko-KR', name: 'ko-KR-Wavenet-A' },
+            audioConfig: { audioEncoding: 'MP3' },
+        }),
+    });
+
+    const data = await response.json();
+    const audioSrc = `data:audio/mp3;base64,${data.audioContent}`;
+    const audio = new Audio(audioSrc);
+    audio.play();
+}

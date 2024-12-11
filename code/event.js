@@ -1,10 +1,11 @@
 import { game_name } from './metaverse.js';
 import { globalId } from './login.js';
+import config from './config.js';
 export const welcomeAudio = document.createElement('audio');
 // export var stickerNumber = 0
 export const audioElement = document.createElement('audio');
 export function updateSticker(stickerNumber) {
-    fetch('https://gio.pe.kr:444/updateSticker', {
+    fetch(`${config.Domain}:444/updateSticker`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -32,7 +33,7 @@ export function updateSticker(stickerNumber) {
   }
 
   export function getSticker(id) {
-    fetch(`https://gio.pe.kr:444/getSticker/${id}`, {
+    fetch(`${config.Domain}:444/getSticker/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -112,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const eventHandler = () => {
         console.log(globalId)
         console.log(game_name)
-        fetch(`https://gio.pe.kr:444/api/gamescore?id=${globalId}&game_name=${game_name}`)
+        fetch(`${config.Domain}:444/api/gamescore?id=${globalId}&game_name=${game_name}`)
         // fetch(`http://127.0.0.1:3000/api/gamescore?id=${globalId}&game_name=${game_name}`)
             .then(response => response.json())
             .then(data => console.log(data))
@@ -130,7 +131,7 @@ document.getElementById('Game').addEventListener('click', function() {
     var gamePath = this.getAttribute('data-path');
 
     // Unity WebGL 게임 로드
-    unityGame.src = `https://gio.pe.kr:447/${gamePath}`;
+    unityGame.src = `${config.Domain}:447/${gamePath}`;
     gameModal.style.display = 'block'; // 게임 모달을 표시
     textmodal.style.display = "none";
 });
@@ -172,7 +173,7 @@ window.addEventListener('message', function(event) {
         
         // fetch 함수를 사용하여 POST 요청 보내기
         // fetch('http://127.0.0.1:3000/api/gamescore', requestOptions)
-        fetch('https://gio.pe.kr:444/api/gamescore', requestOptions)
+        fetch(`${config.Domain}:444/api/gamescore`, requestOptions)
             .then(response => response.json())
             .then(data => console.log(data)) // 응답 데이터 처리
             .catch(error => console.error('Error:', error)); // 에러 처리
@@ -239,18 +240,18 @@ document.querySelector('.key_close').addEventListener('click', function() {
   document.querySelector('.key_tutorial').style.display = 'none'
 });
 
-export let log_map_tutorial = 'true'
-let talk_tutorial = 'true';
-let sticker_tutorial = 'true'
-let tp_tutorial = 'true'
-let data_tutorial = 'true'
-let final_tutorial = 'true'
-// export let log_map_tutorial = 'false'
-// let talk_tutorial = 'false';
-// let sticker_tutorial = 'false'
-// let tp_tutorial = 'false'
-// let data_tutorial = 'false'
-// let final_tutorial = 'false'
+// export let log_map_tutorial = 'true'
+// let talk_tutorial = 'true';
+// let sticker_tutorial = 'true'
+// let tp_tutorial = 'true'
+// let data_tutorial = 'true'
+// let final_tutorial = 'true'
+export let log_map_tutorial = 'false'
+let talk_tutorial = 'false';
+let sticker_tutorial = 'false'
+let tp_tutorial = 'false'
+let data_tutorial = 'false'
+let final_tutorial = 'false'
 
 export function getTpTutorial() {
   return tp_tutorial;
