@@ -127,25 +127,29 @@ img {
 }
 .tori_next{
   position: absolute;
-  bottom: 100px ;
+  bottom: 220px ;
   animation: tori_next 2s infinite !important;
   z-index: 99999999999999 !important;
 }
 @keyframes tori_next {
   0% {
-    bottom: 100px;
+    bottom: 215px;
     /* 초기 위치 */
   }
 
   50% {
-    bottom: 105px;
+    bottom: 220px;
     /* 아래로 이동 */
   }
 
   100% {
-    bottom: 100px;
+    bottom: 215px;
     /* 다시 위로 */
   }
+}
+.tori_tri{
+  background-image: url(./data/next1.png) !important;
+  width: 32px !important;
 }
 .namebox{
   position: absolute;
@@ -531,7 +535,7 @@ animation: map_next_left 2s infinite !important;
   display: block;
   position: relative;
   top:20%;
-  left: -15%;
+  left: -20%;
   z-index: 10000;
   animation: fade 2s infinite; /* 애니메이션 적용 */
 }
@@ -1069,7 +1073,7 @@ input[type="radio"]:checked+.genderbutton {
   position: absolute;
   right: 50px;
   z-index: 99999999999;
-  display: none;
+  /* display: none; */
 }
 #game-content{
 /* width: 1786.667px; */
@@ -1185,7 +1189,9 @@ z-index: 2;
 }
 .choose button.active{
   background-image: url(data/btn_clicked.png);
-transform: scale(1.2);
+transform: scale(1.1);
+transform-origin: left center;
+  /* x축의 시작점을 유지 */
   /* 버튼을 1.2배 확대 */
 }
 .choose button:hover{
@@ -1227,30 +1233,30 @@ transform: scale(1.2);
   all: unset;
   position: absolute;
   content: '';
-  width: 37px;
-  height: 33px;
+  width: 62px;
+  height: 50px;
   background-image: url(data/next.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  right: 50px;
-  bottom: 60px;
+  right: 40px;
+  bottom: 145px;
   animation: next_move 2s infinite;
   }
   
 @keyframes next_move {
   0% {
-    bottom: 60px;
+    bottom: 145px;
     /* 초기 위치 */
   }
 
   50% {
-    bottom: 65px;
+    bottom: 150px;
     /* 아래로 이동 */
   }
 
   100% {
-    bottom: 60px;
+    bottom: 145px;
     /* 다시 위로 */
   }
 }
@@ -2073,4 +2079,27 @@ input[type="range"]::-moz-range-thumb {
   z-index: 999;
   pointer-events: none;
   background-position-y: -95px;
+}
+
+.key_tutorial{
+  background-image: url(./data/key_tutorial.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 423px;
+  height: 250px;
+  top:25px;
+  position: absolute;
+  z-index: 99999999999999999;
+  display: none;
+}
+
+.key_close{
+  background-image: url(./data/key_close.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: relative;
+  right: -415px;
+  top: 48px;
+  width: 70px;
+  height: 40px;
 }

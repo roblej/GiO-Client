@@ -235,6 +235,10 @@ if (casher && window.getComputedStyle(casher).display === 'none') {
   });
 }
 
+// 모달 닫기 버튼 이벤트 리스너 추가
+document.querySelector('.key_close').addEventListener('click', function() {
+  document.querySelector('.key_tutorial').style.display = 'none'
+});
 
 // export let log_map_tutorial = 'true'
 // let talk_tutorial = 'true';
